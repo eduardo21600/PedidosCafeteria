@@ -17,31 +17,128 @@ import java.util.ListIterator;
 public class ControladorBD extends SQLiteOpenHelper {
 
     private static final String nombreBD = "cafeteriaUES.s3db";
+    private static final int VERSION = 1;
     private SQLiteDatabase db;
-    //campos de las bases
-    private static final String[] camposUsuario = {"", "", "", "", "", ""};
+
 
 
     public ControladorBD(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+        super(context, nombreBD,null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
-        db.execSQL("");
+        db.execSQL("create table ACCESOUSUARIO \n" +
+                "(\n" +
+                "   IDUSUARIO            INTEGER              not null,\n" +
+                "   ID_OPCION            CHAR(3)              not null,\n" +
+                "   IDACCESOUSUARIO      INTEGER              not null,\n" +
+                "   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, ID_OPCION, IDACCESOUSUARIO)\n" +
+                ");");
+        db.execSQL("create table DETALLEPEDIDO\n" +
+                "(\n" +
+                "   CANTIDAD             smallint not null,\n" +
+                "   SUBTOTAL             real not null,\n" +
+                "   IDDETALLEPEDIDO      int not null,\n" +
+                "   IDMENU               int not null,\n" +
+                "   primary key (IDDETALLEPEDIDO)\n" +
+                ");\n");
+        db.execSQL("create table ESTADPEDIDO\n" +
+                "(\n" +
+                "   IDESTADOPEDIDO       char(2) not null,\n" +
+                "   DESCESTADOPEDIDO     varchar(30) not null,\n" +
+                "   primary key (IDESTADOPEDIDO)\n" +
+                ");");
+        db.execSQL("create table FACULTAD\n" +
+                "(\n" +
+                "   IDFACULTAD           char(2) not null,\n" +
+                "   NOMFACULTAD          varchar(30) not null,\n" +
+                "   primary key (IDFACULTAD)\n" +
+                ");");
+        db.execSQL("create table LOCAL\n" +
+                "(\n" +
+                "   IDLOCAL              int not null,\n" +
+                "   IDUSUARIO            int,\n" +
+                "   NOMBRELOCAL          varchar(50) not null,\n" +
+                "   primary key (IDLOCAL)\n" +
+                ");");
+        db.execSQL("create table MENU\n" +
+                "(\n" +
+                "   IDMENU               int not null,\n" +
+                "   IDPRODUCTO           int not null,\n" +
+                "   IDLOCAL              int,\n" +
+                "   PRECIOMENU           numeric(12,2) not null,\n" +
+                "   FECHADESDEMENU       date not null,\n" +
+                "   FECHAHASTAMENU       date not null,\n" +
+                "   NOMMENU              varchar(50) not null,\n" +
+                "   primary key (IDMENU)\n" +
+                ");");
+        db.execSQL("create table OPCIONCRUD\n" +
+                "(\n" +
+                "   ID_OPCION            char(3) not null,\n" +
+                "   DESOPCION            varchar(30) not null,\n" +
+                "   NUMCRUD              int not null,\n" +
+                "   primary key (ID_OPCION)\n" +
+                ");");
+        db.execSQL("create table PEDIDO\n" +
+                "(\n" +
+                "   IDPEDIDO             int not null,\n" +
+                "   IDDETALLEPEDIDO      int,\n" +
+                "   IDESTADOPEDIDO       char(2),\n" +
+                "   IDLOCAL              int,\n" +
+                "   IDUBICACION          int not null,\n" +
+                "   FECHAPEDIDO          time not null,\n" +
+                "   TOTALPEDIDO          real not null,\n" +
+                "   primary key (IDPEDIDO)\n" +
+                ");");
+        db.execSQL("create table PEDIDOREALIZADO\n" +
+                "(\n" +
+                "   IDPEDIDO             int not null,\n" +
+                "   IDUSUARIO            int not null,\n" +
+                "   IDPEDIDOREALIZADO    int not null,\n" +
+                "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOREALIZADO)\n" +
+                ");");
+        db.execSQL("create table PEDIDOSASIGNADOS\n" +
+                "(\n" +
+                "   IDPEDIDO             int not null,\n" +
+                "   IDUSUARIO            int not null,\n" +
+                "   IDPEDIDOASIGNADO     int not null,\n" +
+                "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOASIGNADO)\n" +
+                ");");
+        db.execSQL("create table PRODUCTO\n" +
+                "(\n" +
+                "   IDPRODUCTO           int not null,\n" +
+                "   NOMBREPRODUCTO       varchar(50) not null,\n" +
+                "   PRECIOUNITARIO       real not null,\n" +
+                "   DESCPRODUCTO         varchar(50),\n" +
+                "   primary key (IDPRODUCTO)\n" +
+                ");");
+        db.execSQL("create table TIPOUSUARIO\n" +
+                "(\n" +
+                "   IDTIPOUSUARIO        int not null,\n" +
+                "   NOMTIPOUSUARIO       char(10) not null,\n" +
+                "   primary key (IDTIPOUSUARIO)\n" +
+                ");");
+        db.execSQL("create table UBICACION\n" +
+                "(\n" +
+                "   IDUBICACION          int not null,\n" +
+                "   IDFACULTAD           char(2),\n" +
+                "   IDPEDIDO             int not null,\n" +
+                "   DIRECUBICACION       varchar(100) not null,\n" +
+                "   NOMUBICACION         varchar(30) not null,\n" +
+                "   PUNTOREFUBICACION    varchar(50) not null,\n" +
+                "   primary key (IDUBICACION)\n" +
+                ");");
+        db.execSQL("create table USUARIO\n" +
+                "(\n" +
+                "   IDUSUARIO            int not null,\n" +
+                "   IDTIPOUSUARIO        int,\n" +
+                "   CONTRASENA           varchar(10) not null,\n" +
+                "   NOMBREUSUARIO        varchar(30) not null,\n" +
+                "   TELEUSUARIO          varchar(9),\n" +
+                "   APELLIDOUSUARIO      varchar(30) not null,\n" +
+                "   primary key (IDUSUARIO)\n" +
+                ");");
 
     }
 
@@ -59,7 +156,7 @@ public class ControladorBD extends SQLiteOpenHelper {
         String resultado = "Usuario creado, bienvenido " + usuario;
         long comprobador = 0;
         ContentValues usu = new ContentValues();
-        usu.put("idUsuario", usuario.getIdUsuario());
+        usu.put("IDUSUARIO", usuario.getIdUsuario());
         usu.put("idTipoUsuario", usuario.getIdTipoUsuario());
         usu.put("nombreUsuario", usuario.getNombreUsuario());
         usu.put("apellidoUsuario", usuario.getApellidoUsuario());

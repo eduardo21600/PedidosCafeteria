@@ -451,7 +451,109 @@ public class ControladorBD extends SQLiteOpenHelper {
     }
 
     //CRUD MENU
+    public String CrearMenu(Menu menu) {
+        String resultado = "Menu creado ";
+        ContentValues uwu = new ContentValues();
+        uwu.put("idMenu", menu.getIdMenu());
+        uwu.put("idProducto", menu.getIdProducto());
+        uwu.put("idLocal", menu.getIdLocal());
+        uwu.put("PrecioMenu", menu.getPrecioMenu());
+        uwu.put("fechaDesdeMenu", menu.getFechaDesdeMenu());
+        uwu.put("fechaHastaMenu", menu.getFechaHastaMenu());
+        uwu.put("nomMenu", menu.getNomMenu());
 
+
+        long comprobador = 0;
+        comprobador = db.insert("Menu", null, uwu);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe un Menu con ese codigo ): ";
+        }
+        return resultado;
+    }
+
+    public Menu ConsultaMenu(String idMenu) {
+        String[] id = {idMenu};
+        Cursor cur = db.rawQuery("select * from Menu where idMenu =" + idMenu, null);
+        if (cur.moveToFirst()) {
+            Menu uwu = new Menu();
+            uwu.setIdMenu((cur.getInt(0)));
+            uwu.setIdProducto((cur.getInt(1)));
+            uwu.setIdLocal((cur.getInt(2)));
+            uwu.setPrecioMenu((cur.getInt(3)));
+            uwu.setFechaDesdeMenu((cur.getString(4)));
+            uwu.setFechaHastaMenu((cur.getString(5)));
+            uwu.setNomMenu((cur.getString(6)));
+            return uwu;
+        } else {
+            return null;
+        }
+
+
+    }
+
+    public List<Menu> ConsultaMenus() {
+        Cursor cur = db.rawQuery("SELECT * FROM Menu", null);
+        List<Menu> uwu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2),
+                        cur.getInt(3),
+                        cur.getString(4),
+                        cur.getString(5),
+                        cur.getString(6)));
+            } while (cur.moveToNext());
+
+
+        }
+        return uwu;
+    }
+
+    public String ActualizarMenu(Menu menu) {
+        String resultado = "Menu actualizado";
+        String[] id = {String.valueOf(menu.getIdMenu())};
+        Cursor cur = db.query("Menu", null, "idMenu = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues uwu = new ContentValues();
+            uwu.put("idMenu", menu.getIdMenu());
+            uwu.put("idProducto", menu.getIdProducto());
+            uwu.put("idLocal", menu.getIdLocal());
+            uwu.put("precioMenu", menu.getPrecioMenu());
+            uwu.put("fechaDesdeMenu", menu.getFechaDesdeMenu());
+            uwu.put("fechaHastaMenu", menu.getFechaHastaMenu());
+            uwu.put("nomMenu", menu.getNomMenu());
+
+
+            db.update("Menu", uwu, "idMenu=?", id);
+
+        } else {
+            resultado = "Ese menu no existente ";
+        }
+
+        return resultado;
+    }
+
+
+    public String eliminarMenu(Menu menu) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " Menu eliminados ";
+        String[] id = {String.valueOf(menu.getIdMenu())};
+        Cursor cur = db.query("Menu", null, "idMenu = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("DetallePedido", null, "idMenu", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("DetallePedido", "idMenu =" + menu.getIdMenu(), null);
+                comprobador = db.delete("Menu", "idMenu =" + menu.getIdMenu(), null);
+                resultado = resultado + ", " + cont + " Detalles eliminados con este producto";
+            }
+        } else {
+            resultado = "Ese Menu no existe";
+        }
+        return resultado;
+    }
 
 
 

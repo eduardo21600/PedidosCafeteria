@@ -657,6 +657,103 @@ public class ControladorBD extends SQLiteOpenHelper {
 
             //CRUD LOCAL
 
+    public String CrearLocal(Local local) {
+        String resultado = "Local creado ";
+        ContentValues lokxti = new ContentValues();
+        lokxti.put("idLocal", local.getIdLocal());
+        lokxti.put("idUsuario", local.getIdUsuario());
+        lokxti.put("nombreLocal", local.getNombreLocal());
+
+
+        long comprobador = 0;
+        comprobador = db.insert("Local", null, lokxti);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe un local con ese codigo ): ";
+        }
+        return resultado;
+    }
+
+    public Local ConsultaLocal(String idLocal) {
+        String[] id = {idLocal};
+        Cursor cur = db.rawQuery("select * from Local where idLocal =" + idLocal, null);
+        if (cur.moveToFirst()) {
+            Local lokxti = new Local();
+            lokxti.setIdLocal((cur.getInt(0)));
+            lokxti.setIdUsuario((cur.getInt(1)));
+            lokxti.setNombreLocal((cur.getString(2)));
+
+
+            return lokxti;
+
+        } else {
+            return null;
+        }
+
+
+    }
+
+    public List<Local> ConsultaLocales() {
+        Cursor cur = db.rawQuery("SELECT * FROM Local", null);
+        List<Local> lokxti = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                lokxti.add(new Local(cur.getInt(0),cur.getInt(1), cur.getString(2)));
+            } while (cur.moveToNext());
+
+
+        }
+        return lokxti;
+    }
+
+    public String ActualizarLocal(Local local) {
+        String resultado = "local actualizado";
+        String[] id = {String.valueOf(local.getIdLocal())};
+        Cursor cur = db.query("Local", null, "idLocal = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues lokxti = new ContentValues();
+            lokxti.put("idLocal", local.getIdLocal());
+            lokxti.put("idTipoUsuario", local.getIdUsuario());
+            lokxti.put("nombreLocal", local.getNombreLocal());
+
+
+            db.update("Local", lokxti, "idLocal=?", id);
+
+        } else {
+            resultado = "Local no existente ";
+        }
+
+        return resultado;
+    }
+
+
+    public String eliminarLocal(Local local) {
+        int comprobador = 0;
+        int cont = 0;
+        int cont1 = 0;
+        String resultado = comprobador + " locales eliminados ";
+        String[] id = {String.valueOf(local.getIdLocal())};
+        Cursor cur = db.query("Local", null, "idLocal = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("Menu", null, "idLocal", id, null, null, null);
+            Cursor p = db.query("Pedido", null, "idLocal", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("Menu", "idLocal =" + local.getIdLocal(), null);
+                resultado = resultado + ", " + cont + " Menus eliminados de el local " + local.getNombreLocal();
+            }
+            if (p.moveToFirst())
+            {
+                cont1 = db.delete("Pedido", "idLocal =" + local.getIdLocal(), null);
+                resultado = resultado + ", " + cont1 + " pedidos eliminados de este local ";
+            }
+
+            comprobador = db.delete("Local", "idLocal =" + local.getIdLocal(), null);
+        } else {
+            resultado = "Ese local no existe";
+        }
+        return resultado;
+    }
+
 
 
 

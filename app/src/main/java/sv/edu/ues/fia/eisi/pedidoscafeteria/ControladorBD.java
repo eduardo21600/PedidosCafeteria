@@ -2,10 +2,8 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +19,8 @@ public class ControladorBD extends SQLiteOpenHelper {
     private static final String nombreBD = "cafeteriaUES.s3db";
     private SQLiteDatabase db;
     //campos de las bases
-
     private static final String[] camposUsuario = {"", "", "", "", "", ""};
-    private static final String[] camposTabla = {"","","","","",""};
-    private static final String[] camposDetallePedido = {"","","","","",""};
-    private static final String[] camposMenu = {"","","","","",""};
-    private static final String[] camposProducto = {"","","","","",""};
-    private static final String[] camposUbicacion = {"","","","","",""};
+
 
     public ControladorBD(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -150,7 +143,7 @@ public class ControladorBD extends SQLiteOpenHelper {
                usuact.put("nombreUsuario",usuario.getNombreUsuario());
                usuact.put("teleUsuario",usuario.getTeleUsuario());
                usuact.put("apellidoUsuario",usuario.getApellidoUsuario());
-               db.update("Usuario",usuact,"idUsuario=?",id);
+               db.update("Usuario",usuact,"idUsiario=?",id);
 
            }else
            {
@@ -206,137 +199,10 @@ public class ControladorBD extends SQLiteOpenHelper {
 
         //Preguntar a Vane si esta parte del código falla o hay dudas
 
-    //CRUD Ubicacion
-    public String insertar(Ubicacion ubicacion){
-        String resultado="Se guardó correctamente su ubicación" + ubicacion;
-        long contador=0;
-         //verificando Integridad
-        // verificar que existe ubicacion
-        if (verificarIntegridad(ubicacion, 1)) {
-            //se encontro ubicacion
-            resultado="Esta ubicacion ya existe. Registro Duplicado, ERROR";
-        } else if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3)){ //verificando que exista idPedido en pedido e idFacultad en facultad para insertar en ubicacion
-            ContentValues ubic = new ContentValues();
-            ubic.put("", ubicacion.getIdUbicacion());
-            ubic.put("", ubicacion.getIdFacultad());
-            ubic.put("", ubicacion.getIdPedido());
-            ubic.put("", ubicacion.getDirecUbicacion());
-            ubic.put("", ubicacion.getNomUbicacion());
-            ubic.put("", ubicacion.getPuntoRefUbicacion());
-            contador=db.insert("Ubicacion", null, ubic);
-        }
-        else {
-            resultado="Facultad y Pedido no existen";
-        }
-        return resultado;
-    }
+        //Aquí termina la parte de Vane
 
-    public Ubicacion consultarUbicacion(String idubicacion){
-        String [] id = {idubicacion};
-        Cursor cursor = db.query("Ubicacion", camposUbicacion,"idUbicacion= ?", id,null,null,null);
-        //si existe ubicacion
-        if(cursor.moveToFirst())
-        {
-            Ubicacion ubicacion = new Ubicacion();
-            ubicacion.setIdUbicacion(cursor.getInt(0));
-            ubicacion.setIdFacultad(cursor.getString(1));
-            ubicacion.setIdPedido(cursor.getInt(2));
-            ubicacion.setDirecUbicacion(cursor.getString(3));
-            ubicacion.setNomUbicacion(cursor.getString(4));
-            ubicacion.setPuntoRefUbicacion(cursor.getString(5));
-            return ubicacion;
-        }
-        else {
-            return null;
-        }
-    }
-
-    public String actualizar(Ubicacion ubicacion){
-        //verificando que exista ubicacion
-        if(verificarIntegridad(ubicacion, 1)){
-            if(verificarIntegridad(ubicacion,2) || verificarIntegridad(ubicacion,3)){
-                String[] idU = {String.valueOf(ubicacion.getIdUbicacion())};
-                ContentValues cv = new ContentValues();
-                cv.put("",ubicacion.getIdUbicacion());
-                cv.put("",ubicacion.getIdPedido());
-                cv.put("",ubicacion.getIdFacultad());
-                cv.put("",ubicacion.getNomUbicacion());
-                cv.put("",ubicacion.getDirecUbicacion());
-                cv.put("",ubicacion.getPuntoRefUbicacion());
-                db.update("Ubicacion", cv, "idUbicacion = ?", idU);
-                return "Registro de Ubicacion Actualizado Correctamente";
-            }
-            else{
-                return "El codigo de facultad o pedido no existe";
-            }
-        }else{
-            return "Registro con codigo " + ubicacion.getIdUbicacion() + " no existe";
-        }
-    }
-    public String eliminar(Ubicacion ubicacion){
-        String resultado = "Se elimino la ubicacion: " + ubicacion.getIdUbicacion();
-        int contadorF = 0;
-        int contadorP=0;
-        int contadorU=0;
-        //verificar que exista ubicacion
-        if(verificarIntegridad(ubicacion,1)){
-            //verificar que exista facultad y pedido para eliminar en cascada
-            if(verificarIntegridad(ubicacion,2)){
-                contadorF+=db.delete("Facultad","idFacultad= '"+ubicacion.getIdFacultad()+"'",null);
-                resultado+= resultado + " Se elimino el/los " + contadorF + " registros de Facultad";
-            }
-            if(verificarIntegridad(ubicacion,3)){
-                contadorP+=db.delete("Pedido", "idPedido= '"+ubicacion.getIdPedido()+"'",null);
-                resultado+= resultado + " Se elimino el/los "+ contadorP+" registros de Pedido";
-            }
-            contadorU+=db.delete("Ubicacion","idUbicacion= '"+ubicacion.getIdUbicacion()+"'",null);
-        }else {
-            resultado= "La ubicacion no existe";
-        }
-        return resultado;
-    }
-    //Aquí termina la parte de Vane
 
         //Integridad
         //fin integridad
-
-    //Integridad
-    private boolean verificarIntegridad(Object dato, int relacion) throws SQLException {
-        switch (relacion) {
-            case 1: {
-                //verificar que exista ubicacion
-                Ubicacion ubicacion = (Ubicacion) dato;
-                String[] ub = {String.valueOf(ubicacion.getIdUbicacion())};
-                Cursor c1 = db.query("Ubicacion", null, "idUbicacion = ?", ub, null, null, null);
-                if (c1.moveToFirst()) {
-                    //Se encontro ubicacion
-                    return true;
-                }
-                return false;
-            }
-            case 2: {
-                //verificar que en ubicacion exista facultad
-                Ubicacion ubicacion1 = (Ubicacion) dato;
-                Cursor c1 = db.query(true, "Facultad", new String[]{"idFacultad"}, "idFacultad= '" + ubicacion1.getIdFacultad() + "'", null, null, null, null, null);
-                if (c1.moveToFirst())
-                    return true;
-                else
-                    return false;
-            }
-            case 3: {
-                //verificar que en ubicacion exista pedido
-                Ubicacion ubicacion2 = (Ubicacion) dato;
-                Cursor c1 = db.query(true, "Pedido", new String[]{"idPedido"}, "idPedido= '" + ubicacion2.getIdPedido() + "'", null, null, null, null, null);
-                if (c1.moveToFirst())
-                    return true;
-                else
-                    return false;
-
-            }
-            default:
-                return false;
-        }
-        //fin integridad
-    }
 
 }

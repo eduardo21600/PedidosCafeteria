@@ -1,18 +1,20 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
-public class DetalleProducto {
-    private int idDetallePedido;
-    private int idMenu;
+public class DetallePedido {
     private int cantidad;
     private int subtotal;
+    private int idDetallePedido;
+    private int idMenu;
 
-    public DetalleProducto(){}
 
-    public DetalleProducto(int idDetallePedido, int idMenu, int cantidad, int subtotal) {
-        this.idDetallePedido = idDetallePedido;
-        this.idMenu = idMenu;
+
+    public DetallePedido(){}
+
+    public DetallePedido(int cantidad, int subtotal, int idDetallePedido, int idMenu) {
         this.cantidad = cantidad;
         this.subtotal = subtotal;
+        this.idDetallePedido = idDetallePedido;
+        this.idMenu = idMenu;
     }
 
     public int getIdDetallePedido() {
@@ -47,4 +49,3 @@ public class DetalleProducto {
         this.subtotal = subtotal;
     }
 }
-

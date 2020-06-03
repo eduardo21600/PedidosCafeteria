@@ -262,9 +262,9 @@ public class ControladorBD extends SQLiteOpenHelper {
             Cursor k = db.query("Usuario", null, "idTipoUsuario", id, null, null, null);
             if (k.moveToFirst()) {
                 cont = db.delete("Usuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
-                comprobador = db.delete("TipoUsuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
                 resultado = resultado + ", " + cont + " Usuarios eliminados con ese código";
             }
+            comprobador = db.delete("TipoUsuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
         } else {
             resultado = "Ese tipo de usuario no existe";
         }
@@ -347,9 +347,9 @@ public class ControladorBD extends SQLiteOpenHelper {
             Cursor k = db.query("Pedido", null, "idEstadoPedido", id, null, null, null);
             if (k.moveToFirst()) {
                 cont = db.delete("Pedido", "idEstadoPedido =" + estadopedido.getIdEstadoPedido(), null);
-                comprobador = db.delete("EstadoPedido", "idEstadoPedido =" + estadopedido.getIdEstadoPedido(), null);
                 resultado = resultado + ", " + cont + " Pedidos eliminados con ese estado";
             }
+            comprobador = db.delete("EstadoPedido", "idEstadoPedido =" + estadopedido.getIdEstadoPedido(), null);
         } else {
             resultado = "Ese estado no existe";
         }
@@ -441,9 +441,10 @@ public class ControladorBD extends SQLiteOpenHelper {
             Cursor k = db.query("Menu", null, "idProducto", id, null, null, null);
             if (k.moveToFirst()) {
                 cont = db.delete("Menu", "idProducto =" + producto.getIdProduto(), null);
-                comprobador = db.delete("Producto", "idProducto =" + producto.getIdProduto(), null);
+
                 resultado = resultado + ", " + cont + " Menus eliminados con ese producto";
             }
+            comprobador = db.delete("Producto", "idProducto =" + producto.getIdProduto(), null);
         } else {
             resultado = "Ese Producto no existe";
         }
@@ -546,14 +547,121 @@ public class ControladorBD extends SQLiteOpenHelper {
             Cursor k = db.query("DetallePedido", null, "idMenu", id, null, null, null);
             if (k.moveToFirst()) {
                 cont = db.delete("DetallePedido", "idMenu =" + menu.getIdMenu(), null);
-                comprobador = db.delete("Menu", "idMenu =" + menu.getIdMenu(), null);
+
                 resultado = resultado + ", " + cont + " Detalles eliminados con este producto";
             }
+            comprobador = db.delete("Menu", "idMenu =" + menu.getIdMenu(), null);
         } else {
             resultado = "Ese Menu no existe";
         }
         return resultado;
     }
+
+        //CRUD DETALLE PEDIDO
+        public String Crear(DetallePedido detallepedido) {
+            String resultado = "detalle de pedido creado ";
+            ContentValues depe = new ContentValues();
+            depe.put("cantidad", detallepedido.getCantidad());
+            depe.put("subtotal", detallepedido.getSubtotal());
+            depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
+            depe.put("idMenu", detallepedido.getIdMenu());
+
+
+            long comprobador = 0;
+            comprobador = db.insert("DetallePedido", null, depe);
+            if (comprobador == -1 || comprobador == 0) {
+                resultado = "oh, oh ya existe un DetallePedido con ese codigo ): ";
+            }
+            return resultado;
+        }
+
+    public DetallePedido ConsultaDetallePedido(String iddetallePedido) {
+        String[] id = {iddetallePedido};
+        Cursor cur = db.rawQuery("select * from DetallePedido where idDetallePedido =" + iddetallePedido, null);
+        if (cur.moveToFirst()) {
+            DetallePedido depe = new DetallePedido();
+            depe.setCantidad((cur.getInt(0)));
+            depe.setSubtotal((cur.getInt(1)));
+            depe.setIdDetallePedido((cur.getInt(2)));
+            depe.setIdMenu((cur.getInt(3)));
+
+
+            return depe;
+
+        } else {
+            return null;
+        }
+
+
+    }
+
+    public List<DetallePedido> ConsultaDetallePedidos() {
+        Cursor cur = db.rawQuery("SELECT * FROM DetallePedido", null);
+        List<DetallePedido> depe = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                depe.add(new DetallePedido(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2),
+                        cur.getInt(3)));
+            } while (cur.moveToNext());
+
+
+        }
+        return depe;
+    }
+
+    public String ActualizarDetallePedido(DetallePedido detallepedido) {
+        String resultado = "Detalle de pedido actualizado";
+        String[] id = {String.valueOf(detallepedido.getIdDetallePedido())};
+        Cursor cur = db.query("DetallePedido", null, "idDetallePedido = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues depe = new ContentValues();
+            depe.put("cantidad", detallepedido.getCantidad());
+            depe.put("subtotal", detallepedido.getSubtotal());
+            depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
+            depe.put("idMenu", detallepedido.getIdMenu());
+
+
+            db.update("DetallePedido", depe, "idDetallePedido=?", id);
+
+        } else {
+            resultado = "no existe ese detalle de pedido";
+        }
+
+        return resultado;
+    }
+
+
+    public String eliminarDetallePedido(DetallePedido detallepedido) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " detalle de pedidos eliminados ";
+        String[] id = {String.valueOf(detallepedido.getIdDetallePedido())};
+        Cursor cur = db.query("DetallePedido", null, "idDetallePedido = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("Pedido", null, "idDetallePedido", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("Pedido", "idDetallePedido =" + detallepedido.getIdDetallePedido(), null);
+                resultado = resultado + ", " + cont + "  pedidos con ese código";
+            }
+            comprobador = db.delete("DetallePedido", "idDetallePedido =" + detallepedido.getIdDetallePedido(), null);
+        } else {
+            resultado = "Ese detalle de pedido no existe";
+        }
+        return resultado;
+    }
+
+
+
+            //CRUD LOCAL
+
+
+
+
+
+
 
 
 

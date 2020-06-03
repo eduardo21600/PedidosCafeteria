@@ -206,9 +206,6 @@ public class ControladorBD extends SQLiteOpenHelper {
 
         //Preguntar a Vane si esta parte del código falla o hay dudas
 
-        //Aquí termina la parte de Vane
-
-
     //CRUD Ubicacion
     public String insertar(Ubicacion ubicacion){
         String resultado="Se guardó correctamente su ubicación" + ubicacion;

@@ -125,34 +125,30 @@ public class ControladorBD extends SQLiteOpenHelper {
         }
         return usus;
     }
-    public String actualizarUsuario(Usuario usuario)
-    {
+
+    public String actualizarUsuario(Usuario usuario) {
         String resultado = "datos actualizados";
         String[] id = {String.valueOf(usuario.getIdUsuario())};
-        Cursor cur = db.query("Usuario",null,"idUsuario = ?",id,null,null,null);
-        if(cur.moveToFirst())
-        {
+        Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
             String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};
-            Cursor k = db.query("TipoUsuario",null,"idTipoUsuario = ?", idTU,null,null,null);
-           if(k.moveToFirst())
-           {
-               ContentValues usuact = new ContentValues();
-               usuact.put("idUsuario",usuario.getIdUsuario());
-               usuact.put("idTipoUsuario",usuario.getIdTipoUsuario());
-               usuact.put("contrasena",usuario.getContrasena());
-               usuact.put("nombreUsuario",usuario.getNombreUsuario());
-               usuact.put("teleUsuario",usuario.getTeleUsuario());
-               usuact.put("apellidoUsuario",usuario.getApellidoUsuario());
-               db.update("Usuario",usuact,"idUsiario=?",id);
+            Cursor k = db.query("TipoUsuario", null, "idTipoUsuario = ?", idTU, null, null, null);
+            if (k.moveToFirst()) {
+                ContentValues usuact = new ContentValues();
+                usuact.put("idUsuario", usuario.getIdUsuario());
+                usuact.put("idTipoUsuario", usuario.getIdTipoUsuario());
+                usuact.put("contrasena", usuario.getContrasena());
+                usuact.put("nombreUsuario", usuario.getNombreUsuario());
+                usuact.put("teleUsuario", usuario.getTeleUsuario());
+                usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                db.update("Usuario", usuact, "idUsuario=?", id);
 
-           }else
-           {
-               resultado= "el tipo de usuario no existe, pruebe con uno existente";
-           }
+            } else {
+                resultado = "el tipo de usuario no existe, pruebe con uno existente";
+            }
 
-        }
-        else {
-            resultado= "no hay registros de usuario con el código "+id;
+        } else {
+            resultado = "no hay registros de usuario con el código " + id;
         }
         return resultado;
     }
@@ -166,33 +162,152 @@ public class ControladorBD extends SQLiteOpenHelper {
             https://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
             bien loco
 
-             */
-    {   String resultado = "se ha eliminado el usuario " + usuario.getIdUsuario();
+             */ {
+        String resultado = "se ha eliminado el usuario " + usuario.getIdUsuario();
         String[] id = {String.valueOf(usuario.getIdTipoUsuario())};
-        Cursor cur = db.query("Usuario",null,"idUsuario = ?",id,null,null,null);
-        if(cur.moveToFirst())
-        {
-            Cursor k = db.query("PedidoRealizado",null,"idUsuario = ?",id,null,null,null);
-            Cursor m = db.query("Local",null,"idUsuario = ?",id,null,null,null);
-            if (k.moveToFirst())
-            {
-            int cantPR = db.delete("PedidoRealizado","idUsuario="+ usuario.getIdUsuario(),null);
-                resultado= resultado+ " y el/los " +cantPR +" pedidos de este usuario ";
+        Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("PedidoRealizado", null, "idUsuario = ?", id, null, null, null);
+            Cursor m = db.query("Local", null, "idUsuario = ?", id, null, null, null);
+            if (k.moveToFirst()) {
+                int cantPR = db.delete("PedidoRealizado", "idUsuario=" + usuario.getIdUsuario(), null);
+                resultado = resultado + " y el/los " + cantPR + " pedidos de este usuario ";
             }
-            if (m.moveToFirst())
-            {
-                int cantL = db.delete("Local","idUsuario ="+usuario.getIdUsuario(),null);
-                resultado = resultado + " y el/los "+ cantL  +" locales de los que era propietario  ";
+            if (m.moveToFirst()) {
+                int cantL = db.delete("Local", "idUsuario =" + usuario.getIdUsuario(), null);
+                resultado = resultado + " y el/los " + cantL + " locales de los que era propietario  ";
             }
-            int cantU = db.delete("Usuario","idUsuario ="+usuario.getIdUsuario(),null);
+            int cantU = db.delete("Usuario", "idUsuario =" + usuario.getIdUsuario(), null);
 
-        }else
-        {
-            resultado= "el usuario no existe";
+        } else {
+            resultado = "el usuario no existe";
         }
         return null;
 
     }
+    //CRUD tipoUsuario
+
+    public String CrearTipoUsuario(TipoUsuario tipousuario) {
+        String resultado = "Tipo de usuario creado ";
+        ContentValues tusu = new ContentValues();
+        tusu.put("idUsuario", tipousuario.getIdTipoUsuario());
+        tusu.put("idTipoUsuario", tipousuario.getNomTipoUsuario());
+
+        long comprobador = 0;
+        comprobador = db.insert("TipoUsuario", null, tusu);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe un tipo de usuario con ese codigo ): ";
+        }
+        return resultado;
+    }
+
+    public TipoUsuario ConsultaTipoUsuario(String idTipoUsuario) {
+        String[] id = {idTipoUsuario};
+        Cursor cur = db.rawQuery("select * from TipoUsuario where idTipoUsuario =" + idTipoUsuario, null);
+        if (cur.moveToFirst()) {
+            TipoUsuario tusu1 = new TipoUsuario();
+            tusu1.setIdTipoUsuario((cur.getInt(0)));
+            tusu1.setNomTipoUsuario((cur.getString(1)));
+
+
+            return tusu1;
+
+        } else {
+            return null;
+        }
+
+
+    }
+
+    public List<TipoUsuario> ConsultaTiposUsuario() {
+        Cursor cur = db.rawQuery("SELECT * FROM TipoUsuario", null);
+        List<TipoUsuario> tusus = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                tusus.add(new TipoUsuario(cur.getInt(0), cur.getString(1)));
+            } while (cur.moveToNext());
+
+
+        }
+        return tusus;
+    }
+
+    public String ActualizarTipoUsuario(TipoUsuario tipousuario) {
+        String resultado = "tipo de dato actualizado";
+        String[] id = {String.valueOf(tipousuario.getIdTipoUsuario())};
+        Cursor cur = db.query("TipoUsuario", null, "idTipoUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues tusuact = new ContentValues();
+            tusuact.put("idTipoUsuario", tipousuario.getIdTipoUsuario());
+            tusuact.put("nombreUsuario", tipousuario.getNomTipoUsuario());
+
+            db.update("TipoUsuario", tusuact, "idTipoUsuario=?", id);
+
+        } else {
+            resultado = "dato no existente ";
+        }
+
+        return resultado;
+    }
+
+
+    public String eliminarTipoUsuario(TipoUsuario tipousuario) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " tipos de datos eliminados ";
+        String[] id = {String.valueOf(tipousuario.getIdTipoUsuario())};
+        Cursor cur = db.query("TipoUsuario", null, "idTipoUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("Usuario", null, "idTipoUsuario", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("Usuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
+                comprobador = db.delete("TipoUsuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
+                resultado = resultado + ", " + cont + " Usuarios eliminados con ese código";
+            }
+        } else {
+            resultado = "Ese tipo de usuario no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD estadopedido
+
+    public String CrearEstadoPedido(EstadoPedido estadopedido) {
+        String resultado = "nuevo estado creado ";
+        ContentValues esta7u7 = new ContentValues();
+        esta7u7.put("idEstadoPedido", estadopedido.getIdEstadoPedido());
+        esta7u7.put("descEstadoPedido", estadopedido.getDescEstadoPedido());
+
+        long comprobador = 0;
+        comprobador = db.insert("EstadoPedido", null, esta7u7);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe un estado de pedido con el codigo :( ";
+        }
+        return resultado;
+
+    }
+
+    public EstadoPedido ConsultaEstadoPedido(String idEstadoPedido)
+    {
+
+        String[] id = {idEstadoPedido};
+        Cursor cur = db.rawQuery("select * from EstadoPedido where idEstadoPedido =" + id, null);
+        if (cur.moveToFirst()) {
+            EstadoPedido esta7u7 = new EstadoPedido();
+            esta7u7.setIdEstadoPedido((cur.getInt(0)));
+            esta7u7.setDescEstadoPedido((cur.getString(1)));
+
+
+            return esta7u7;
+
+        } else {
+            return null;
+        }
+
+
+    }
+
 
 
         //Aquí termina la ayuda de tu vecino el hombre araña

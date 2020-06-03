@@ -307,6 +307,153 @@ public class ControladorBD extends SQLiteOpenHelper {
 
 
     }
+    public List<EstadoPedido> ConsultaEstadosPedido() {
+        Cursor cur = db.rawQuery("SELECT * FROM EstadoPedido", null);
+        List<EstadoPedido> esta7u7 = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                esta7u7.add(new EstadoPedido(cur.getInt(0), cur.getString(1)));
+            } while (cur.moveToNext());
+
+
+        }
+        return esta7u7;
+    }
+    public String ActualizarEstadoPedido(EstadoPedido estadopedido) {
+        String resultado = "tipo de dato actualizado";
+        String[] id = {String.valueOf(estadopedido.getIdEstadoPedido())};
+        Cursor cur = db.query("EstadoPedido", null, "idEstadoPedido = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues esta7u7 = new ContentValues();
+            esta7u7.put("idEstadoPedido", estadopedido.getIdEstadoPedido());
+            esta7u7.put("descEstadoPedido", estadopedido.getDescEstadoPedido());
+
+            db.update("EstadoPedido", esta7u7, "idEstadoPedido=?", id);
+
+        } else {
+            resultado = "dato no existente ";
+        }
+
+        return resultado;
+    }
+    public String eliminarEstadoPedido(EstadoPedido estadopedido) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " estados  eliminados ";
+        String[] id = {String.valueOf(estadopedido.getIdEstadoPedido())};
+        Cursor cur = db.query("EstadoPedido", null, "idEstadoPedido = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("Pedido", null, "idEstadoPedido", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("Pedido", "idEstadoPedido =" + estadopedido.getIdEstadoPedido(), null);
+                comprobador = db.delete("EstadoPedido", "idEstadoPedido =" + estadopedido.getIdEstadoPedido(), null);
+                resultado = resultado + ", " + cont + " Pedidos eliminados con ese estado";
+            }
+        } else {
+            resultado = "Ese estado no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD PRODUCTO
+    public String CrearProducto(Producto producto) {
+        String resultado = "producto creado ";
+        ContentValues pro777 = new ContentValues();
+        pro777.put("idProducto", producto.getIdProduto());
+        pro777.put("NombreProducto", producto.getNombreProducto());
+        pro777.put("precioUnitario", producto.getPrecioUnitario());
+        pro777.put("descProducto", producto.getDescProducto());
+
+
+
+        long comprobador = 0;
+        comprobador = db.insert("Producto", null, pro777);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe un producto con ese codigo ): ";
+        }
+        return resultado;
+    }
+
+    public Producto ConsultaProducto(String idProducto) {
+        String[] id = {idProducto};
+        Cursor cur = db.rawQuery("select * from Producto where idProducto =" + idProducto, null);
+        if (cur.moveToFirst()) {
+            Producto pro777 = new Producto();
+            pro777.setIdProduto((cur.getInt(0)));
+            pro777.setNombreProducto((cur.getString(1)));
+            pro777.setPrecioUnitario((cur.getInt(2)));
+            pro777.setDescProducto((cur.getString(3)));
+
+
+
+            return pro777;
+
+        } else {
+            return null;
+        }
+
+
+    }
+
+    public List<Producto> ConsultaProductos() {
+        Cursor cur = db.rawQuery("SELECT * FROM Producto", null);
+        List<Producto> pro777 = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getInt(2),cur.getString(3)));
+            } while (cur.moveToNext());
+
+
+        }
+        return pro777;
+    }
+
+    public String ActualizarProducto(Producto producto) {
+        String resultado = "producto actualizado";
+        String[] id = {String.valueOf(producto.getIdProduto())};
+        Cursor cur = db.query("Producto", null, "idProducto = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            ContentValues pro777 = new ContentValues();
+            pro777.put("idProducto", producto.getIdProduto());
+            pro777.put("nombreProducto", producto.getNombreProducto());
+            pro777.put("precioUnitario", producto.getPrecioUnitario());
+            pro777.put("descProducto", producto.getDescProducto());
+
+            db.update("Producto", pro777, "idProducto=?", id);
+
+        } else {
+            resultado = "dato no existente ";
+        }
+
+        return resultado;
+    }
+
+
+    public String eliminarProducto(Producto producto) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " productos eliminados ";
+        String[] id = {String.valueOf(producto.getIdProduto())};
+        Cursor cur = db.query("Producto", null, "idProducto = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            Cursor k = db.query("Menu", null, "idProducto", id, null, null, null);
+            if (k.moveToFirst()) {
+                cont = db.delete("Menu", "idProducto =" + producto.getIdProduto(), null);
+                comprobador = db.delete("Producto", "idProducto =" + producto.getIdProduto(), null);
+                resultado = resultado + ", " + cont + " Menus eliminados con ese producto";
+            }
+        } else {
+            resultado = "Ese Producto no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD MENU
+
+
+
 
 
 

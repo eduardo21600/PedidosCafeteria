@@ -9,19 +9,21 @@ public class Pedido {
     private String idEstadoPedido;
     private int idLocal;
     private int idUbicacion;
-    private Date fechaPedido;
+    private String fechaPedido;
+    private float totalPedido;
 
     public Pedido(){
 
     }
 
-    public Pedido(int idPedido, int idDetallePedido, String idEstadoPedido, int idLocal, int idUbicacion, Date fechaPedido) {
+    public Pedido(int idPedido, int idDetallePedido, String idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, float totalPedido) {
         this.idPedido = idPedido;
         this.idDetallePedido = idDetallePedido;
         this.idEstadoPedido = idEstadoPedido;
         this.idLocal = idLocal;
         this.idUbicacion = idUbicacion;
         this.fechaPedido = fechaPedido;
+        this.totalPedido= totalPedido;
     }
 
     public int getIdPedido() {
@@ -64,11 +66,19 @@ public class Pedido {
         this.idUbicacion = idUbicacion;
     }
 
-    public Date getFechaPedido() {
+    public String getFechaPedido() {
         return fechaPedido;
     }
 
-    public void setFechaPedido(Date fechaPedido) {
+    public void setFechaPedido(String fechaPedido) {
         this.fechaPedido = fechaPedido;
     }
+    public float getTotalPedido() {
+        return totalPedido;
+    }
+
+    public void setTotalPedido(float totalPedido) {
+        this.totalPedido = totalPedido;
+    }
+
 }

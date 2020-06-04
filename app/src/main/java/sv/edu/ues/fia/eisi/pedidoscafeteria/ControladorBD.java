@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.database.SQLException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -198,11 +198,387 @@ public class ControladorBD extends SQLiteOpenHelper {
         //Aquí termina la ayuda de tu vecino el hombre araña
 
         //Preguntar a Vane si esta parte del código falla o hay dudas
+//Preguntar a Vane si esta parte del código falla o hay dudas
+
+    //CRUD Ubicacion
+    public String insertar(Ubicacion ubicacion){
+        String resultado="Se guardó correctamente su ubicación" + ubicacion;
+        long contador=0;
+        //verificando Integridad
+        // verificar que existe ubicacion
+        if (verificarIntegridad(ubicacion, 1)) {
+            //se encontro ubicacion
+            resultado="Esta ubicacion ya existe. Registro Duplicado, ERROR";
+        } else if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3)){ //verificando que exista idPedido en pedido e idFacultad en facultad para insertar en ubicacion
+            ContentValues ubic = new ContentValues();
+            ubic.put("idUbicacion", ubicacion.getIdUbicacion());
+            ubic.put("idFacultad", ubicacion.getIdFacultad());
+            ubic.put("idPedido", ubicacion.getIdPedido());
+            ubic.put("direcUbicacion", ubicacion.getDirecUbicacion());
+            ubic.put("nomUbicacion", ubicacion.getNomUbicacion());
+            ubic.put("puntoRefUbicacion", ubicacion.getPuntoRefUbicacion());
+            contador=db.insert("Ubicacion", null, ubic);
+        }
+        else {
+            resultado="Facultad y Pedido no existen";
+        }
+        return resultado;
+    }
+
+    public Ubicacion consultarUbicacion(String idubicacion){
+        Cursor cursor = db.rawQuery("select * from Ubicacion where idUbicacion =" + idubicacion, null);
+        //si existe ubicacion
+        if(cursor.moveToFirst())
+        {
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion.setIdUbicacion(cursor.getInt(0));
+            ubicacion.setIdFacultad(cursor.getString(1));
+            ubicacion.setIdPedido(cursor.getInt(2));
+            ubicacion.setDirecUbicacion(cursor.getString(3));
+            ubicacion.setNomUbicacion(cursor.getString(4));
+            ubicacion.setPuntoRefUbicacion(cursor.getString(5));
+            return ubicacion;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(Ubicacion ubicacion){
+        //verificando que exista ubicacion
+        if(verificarIntegridad(ubicacion, 1)){
+            if(verificarIntegridad(ubicacion,2) || verificarIntegridad(ubicacion,3)){
+                String[] idU = {String.valueOf(ubicacion.getIdUbicacion())};
+                ContentValues cv = new ContentValues();
+                cv.put("idUbicacion",ubicacion.getIdUbicacion());
+                cv.put("idPedido",ubicacion.getIdPedido());
+                cv.put("idFacultad",ubicacion.getIdFacultad());
+                cv.put("nomUbicacion",ubicacion.getNomUbicacion());
+                cv.put("direcUbicacion",ubicacion.getDirecUbicacion());
+                cv.put("puntoRefUbicacion",ubicacion.getPuntoRefUbicacion());
+                db.update("Ubicacion", cv, "idUbicacion = ?", idU);
+                return "Registro de Ubicacion Actualizado Correctamente";
+            }
+            else{
+                return "El codigo de facultad o pedido no existe";
+            }
+        }else{
+            return "Registro con codigo " + ubicacion.getIdUbicacion() + " no existe";
+        }
+    }
+    public String eliminar(Ubicacion ubicacion){
+        String resultado = "Se elimino la ubicacion: " + ubicacion.getIdUbicacion();
+        int contadorF = 0;
+        int contadorP=0;
+        int contadorU=0;
+        //verificar que exista ubicacion
+        if(verificarIntegridad(ubicacion,1)){
+            //verificar que exista pedido para eliminar en cascada
+            if(verificarIntegridad(ubicacion,3)){
+                contadorP+=db.delete("Pedido", "idPedido= '"+ubicacion.getIdPedido()+"'",null);
+                resultado+= resultado + " Se elimino el/los "+ contadorP+" registros de Pedido";
+            }
+            contadorU+=db.delete("Ubicacion","idUbicacion= '"+ubicacion.getIdUbicacion()+"'",null);
+        }else {
+            resultado= "La ubicacion no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD Pedido
+    public String insertar(Pedido pedido){
+        String resultado="Se guardó correctamente nuevo pedido " + pedido;
+        long contador=0;
+        //verificando Integridad
+        // verificar que existe Pedido
+        if (verificarIntegridad(pedido, 4)) {
+            //se encontro pedido
+            resultado="Este pedido ya existe. Registro Duplicado, ERROR";
+        } else if(verificarIntegridad(pedido,5) && verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7) && verificarIntegridad(pedido,8)){ //verificando que exista idDetallePedido en DetallePedido e idEstadoPedido en EstadPedido e idLocal en Local e idUbicacion en Ubicacion para insertar en pedido
+            ContentValues pedi = new ContentValues();
+            pedi.put("idPedido", pedido.getIdPedido());
+            pedi.put("idDetallePedido",pedido.getIdDetallePedido());
+            pedi.put("idEstadoPedido",pedido.getIdEstadoPedido());
+            pedi.put("idLocal",pedido.getIdLocal());
+            pedi.put("idUbicacion",pedido.getIdUbicacion());
+            pedi.put("fechaPedido",pedido.getFechaPedido());
+            pedi.put("totalPedido",pedido.getTotalPedido());
+            contador=db.insert("Pedido", null, pedi);
+        }
+        else {
+            resultado="DetallePedido,EstadoPedido,Local y Ubicacion no existen";
+        }
+        return resultado;
+    }
+
+    public Pedido consultarPedido(String idPedido){
+        Cursor cursor = db.rawQuery("select * from Pedido where idPedido =" + idPedido, null);
+        //si existe pedido
+        if(cursor.moveToFirst())
+        {
+            Pedido pedido = new Pedido();
+            pedido.setIdPedido(cursor.getInt(0));
+            pedido.setIdDetallePedido(cursor.getInt(1));
+            pedido.setIdEstadoPedido(cursor.getString(2));
+            pedido.setIdLocal(cursor.getInt(3));
+            pedido.setIdUbicacion(cursor.getInt(4));
+            pedido.setFechaPedido(cursor.getString(5));
+            pedido.setTotalPedido(cursor.getFloat(6));
+            return pedido;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(Pedido pedido){
+        //verificando que exista pedido
+        if(verificarIntegridad(pedido, 4)){
+            if(verificarIntegridad(pedido,5) && verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7)&& verificarIntegridad(pedido,8)){
+                String[] idP = {String.valueOf(pedido.getIdPedido())};
+                ContentValues cv = new ContentValues();
+                cv.put("idPedido",pedido.getIdPedido());
+                cv.put("idDetallePedido",pedido.getIdDetallePedido());
+                cv.put("idEstadoPedido",pedido.getIdEstadoPedido());
+                cv.put("idLocal",pedido.getIdLocal());
+                cv.put("idUbicacion",pedido.getIdUbicacion());
+                cv.put("fechaPedido",pedido.getFechaPedido());
+                cv.put("totalPedido",pedido.getTotalPedido());
+                db.update("Pedido", cv, "idPedido = ?", idP);
+                return "Registro de Pedido Actualizado Correctamente";
+            }
+            else{
+                return "El codigo de DetallePedido o EstadPedido o Local o Ubicacion no existe";
+            }
+        }else{
+            return "Registro con codigo " + pedido.getIdPedido() + " no existe";
+        }
+    }
+    public String eliminar(Pedido pedido){
+        String resultado = "Se elimino el pedido: " + pedido.getIdPedido();
+        int contadorPR = 0;
+        int contadorPA=0;
+        int contadorU=0;
+        //verificar que exista Pedido
+        if(verificarIntegridad(pedido,4)){
+            //verificar que exista PedidoAsignado y PedidoRealizado y Ubicacion para eliminar en cascada
+            if(verificarIntegridad(pedido,10)){
+                contadorPR+=db.delete("PedidoRealizado","idPedido= '"+pedido.getIdPedido()+"'",null);
+                resultado+= resultado + " Se elimino el/los " + contadorPR + " registros de DetallePedido";
+            }
+            if(verificarIntegridad(pedido,11)){
+                contadorPA+=db.delete("PedidoAsignado", "idPedido= '"+pedido.getIdPedido()+"'",null);
+                resultado+= resultado + " Se elimino el/los "+ contadorPA+" registros de EstadoPedido";
+            }
+            if(verificarIntegridad(pedido,8)){
+                contadorU+=db.delete("Ubicacion", "idUbicacion= '"+pedido.getIdUbicacion()+"'",null);
+                resultado+= resultado + " Se elimino el/los "+ contadorU+" registros de Ubicacion";
+            }
+            contadorU+=db.delete("Pedido","idPedido= '"+pedido.getIdPedido()+"'",null);
+        }else {
+            resultado= "El pedido no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD Facultad
+    public String insertar(Facultad facultad){
+        String resultado="Se guardó correctamente la nueva facultad " + facultad;
+        long contador=0;
+        //verificando Integridad
+        // verificar que existe Facultad
+        if (verificarIntegridad(facultad, 9)) {
+            //se encontro facultad
+            resultado="Esta facultad ya existe. Registro Duplicado, ERROR";
+        } else {
+            ContentValues facu = new ContentValues();
+            facu.put("idFacultad", facultad.getIdFacultad());
+            facu.put("nomFacultad",facultad.getNomFacultad());
+            contador=db.insert("Facultad", null, facu);
+        }
+        return resultado;
+    }
+
+    public Facultad consultarFacultad(String idFacultad){
+        Cursor cursor = db.rawQuery("select * from Facultad where idFacultad =" + idFacultad, null);
+        //si existe facultad
+        if(cursor.moveToFirst())
+        {
+            Facultad facultad = new Facultad();
+            facultad.setIdFacultad(cursor.getString(0));
+            facultad.setNomFacultad(cursor.getString(1));
+            return facultad;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(Facultad facultad){
+        //verificando que exista facultad
+        if(verificarIntegridad(facultad, 9)){
+            String[] idF = {facultad.getIdFacultad()};
+            ContentValues cv = new ContentValues();
+            cv.put("idFacultad",facultad.getIdFacultad());
+            cv.put("nomFacultad",facultad.getNomFacultad());
+            db.update("Facultad", cv, "idFacultad = ?", idF);
+            return "Registro de Facultad Actualizado Correctamente";
+        }else{
+            return "Registro con codigo " + facultad.getIdFacultad()+ " no existe";
+        }
+    }
+    public String eliminar(Facultad facultad){
+        String resultado = "Se elimino facultad: " + facultad.getIdFacultad();
+        int contadorU=0;
+        //verificar que exista Facultad
+        if(verificarIntegridad(facultad,9)){
+            //verificar que exista en Ubicacion para eliminar en cascada
+            if(verificarIntegridad(facultad,12)){
+                contadorU+=db.delete("Ubicacion", "idFacultad= '"+facultad.getIdFacultad()+"'",null);
+                resultado+= resultado + " Se elimino el/los "+ contadorU+" registros de Ubicacion";
+            }
+            contadorU+=db.delete("Facultad","idFacultad= '"+facultad.getIdFacultad()+"'",null);
+        }else {
+            resultado= "Facultad no existe";
+        }
+        return resultado;
+    }
+    //Aquí termina la parte de Vane
+
+    //Integridad
+    //fin integridad
+
+    //Integridad
+    private boolean verificarIntegridad(Object dato, int relacion) throws SQLException {
+        switch (relacion) {
+            case 1: {
+                //verificar que exista ubicacion
+                Ubicacion ubicacion = (Ubicacion) dato;
+                String[] ub = {String.valueOf(ubicacion.getIdUbicacion())};
+                Cursor c1 = db.query("Ubicacion", null, "idUbicacion = ?", ub, null, null, null);
+                if (c1.moveToFirst()) {
+                    //Se encontro ubicacion
+                    return true;
+                }
+                return false;
+            }
+            case 2: {
+                //verificar que en ubicacion exista facultad
+                Ubicacion ubicacion1 = (Ubicacion) dato;
+                Cursor c1 = db.query(true, "Facultad", new String[]{"idFacultad"}, "idFacultad= '" + ubicacion1.getIdFacultad() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 3: {
+                //verificar que en ubicacion exista pedido
+                Ubicacion ubicacion2 = (Ubicacion) dato;
+                Cursor c1 = db.query(true, "Pedido", new String[]{"idPedido"}, "idPedido= '" + ubicacion2.getIdPedido() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+
+            }
+            case 4: {
+                //verificar que exista Pedido
+                Pedido pedido = (Pedido) dato;
+                String[] ped = {String.valueOf(pedido.getIdPedido())};
+                Cursor c1 = db.query("Pedido", null, "idPedido = ?", ped, null, null, null);
+                if (c1.moveToFirst()) {
+                    //Se encontro pedido
+                    return true;
+                }
+                return false;
+            }
+            case 5: {
+                //verificar que en pedido exista DetallePedido
+                Pedido pedido2 = (Pedido) dato;
+                Cursor c1 = db.query(true, "DetallePedido", new String[]{"idDetallePedido"}, "idDetallePedido= '" + pedido2.getIdDetallePedido() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 6: {
+                //verificar que en pedido exista idEstadoPedido
+                Pedido pedido3 = (Pedido) dato;
+                Cursor c1 = db.query(true, "EstadPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 7: {
+                //verificar que en pedido exista idLocal
+                Pedido pedido4 = (Pedido) dato;
+                Cursor c1 = db.query(true, "Local", new String[]{"idLocal"}, "idLocal= '" + pedido4.getIdLocal() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 8: {
+                //verificar que en pedido exista idUbicacion
+                Pedido pedido5 = (Pedido) dato;
+                Cursor c1 = db.query(true, "Ubicacion", new String[]{"idUbicacion"}, "idUbicacion= '" + pedido5.getIdUbicacion() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 9: {
+                //verificar que exista Facultad
+                Facultad facultad = (Facultad) dato;
+                String[] fac = {facultad.getIdFacultad()};
+                Cursor c1 = db.query("Facultad", null, "idFacultad = ?", fac, null, null, null);
+                if (c1.moveToFirst()) {
+                    //Se encontro pedido
+                    return true;
+                }
+                return false;
+            }
+            case 10: {
+                //verificar que idPedido este en PedidosRealizados
+                Pedido pedido6 = (Pedido) dato;
+                Cursor c1 = db.query(true, "PedidoRealizado", new String[]{"idPedido"}, "idPedido= '" + pedido6.getIdPedido() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 11: {
+                //verificar que idPedido este en PedidosAsignados
+                Pedido pedido7 = (Pedido) dato;
+                Cursor c1 = db.query(true, "PedidoAsignado", new String[]{"idPedido"}, "idPedido= '" + pedido7.getIdPedido() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+
+            }
+            case 12: {
+                //verificar que idFacultad este en Ubicacion
+                Facultad facultad2 = (Facultad) dato;
+                Cursor c1 = db.query(true, "Ubicacion", new String[]{"idFacultad"}, "idFacultad= '" + facultad2.getIdFacultad() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+
+            default:
+                return false;
+        }
+        //fin integridad
+
+        //Aquí termina la parte de Vane
 
         //Aquí termina la parte de Vane
 
 
         //Integridad
         //fin integridad
-
+    }
 }

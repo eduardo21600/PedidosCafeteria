@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PedidosCafeteria</string>
+
+    <string name="bienvenido">"Cafeterías UES"</string>
+    <string name="login">Inicia sesión</string>
+    <string name="nombreUsuario">Nombre de usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="nuevaCuenta">¿No tienes una cuenta?</string>
+    <string name="registrarse">Registrate</string>
+    <string name="entrar">Ingresar</string>
 </resources>

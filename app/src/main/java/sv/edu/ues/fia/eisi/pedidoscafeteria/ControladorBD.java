@@ -540,6 +540,267 @@ public class ControladorBD extends SQLiteOpenHelper {
         }
         return resultado;
     }
+    //CRUD PedidoAsignado
+    public String insertar(PedidoAsignado pedidoAsignado){
+        String resultado="Se guardó correctamente pedidoAsignado N°: ";
+        long contador=0;
+        //verificando Integridad
+        if (verificarIntegridad(pedidoAsignado, 13)) {
+            ContentValues pasig = new ContentValues();
+            pasig.put("idPedidoAsignado", pedidoAsignado.getIdPedidoAsignado());
+            pasig.put("idPedido", pedidoAsignado.getIdPedido());
+            pasig.put("idUsuario", pedidoAsignado.getIdUsuario());
+            contador=db.insert("PedidoAsignado", null, pasig);
+        } if(contador==-1 || contador==0)
+        {
+            resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
+        }
+        else {
+            resultado+=resultado+contador;
+        }
+        return resultado;
+    }
+
+    public PedidoAsignado consultarPedAsig(String idPedidoAsignado, String idPedido, String idUsuario){
+        String[] id = {idPedidoAsignado,idPedido,idUsuario};
+        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedidoAsignado = ? and idPedido = ? and idUsuario = ?" + id, null);
+        //si existe pedidoAsignado
+        if(cursor.moveToFirst())
+        {
+            PedidoAsignado pedidoAsignado = new PedidoAsignado();
+            pedidoAsignado.setIdPedidoAsignado(cursor.getInt(0));
+            pedidoAsignado.setIdPedido(cursor.getInt(1));
+            pedidoAsignado.setIdUsuario(cursor.getInt(2));
+            return pedidoAsignado;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(PedidoAsignado pedidoAsignado){
+        //verificando integridad
+        if(verificarIntegridad(pedidoAsignado, 14)){
+            String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),String.valueOf(pedidoAsignado.getIdUsuario())};
+            ContentValues cv = new ContentValues();
+            cv.put("idPedidoAsignado",pedidoAsignado.getIdPedidoAsignado());
+            cv.put("idPedido",pedidoAsignado.getIdPedido());
+            cv.put("idUsuario",pedidoAsignado.getIdUsuario());
+            db.update("PedidoAsignado", cv, "idPedidoAsignado = ? and idPedido= ? and idUsuario= ?", idPA);
+            return "Registro de PedidoAsignado Actualizado Correctamente";
+        }else{
+            return "Registro con codigo no existe";
+        }
+    }
+    public String eliminar(PedidoAsignado pedidoAsignado){
+        String resultado = "Se elimino pedidoAsignado: " + pedidoAsignado.getIdPedidoAsignado();
+        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),String.valueOf(pedidoAsignado.getIdUsuario())};
+        int contadorPA=0;
+        //verificar que exista pedidoAsignado
+        if(verificarIntegridad(pedidoAsignado,14)){
+            contadorPA+=db.delete("PedidoAsignado","idPedidoAsignado= ? and idPedido = ? and idUsuario = ? '"+ idPA +"'",null);
+        }else {
+            resultado= "El pedido Asignado no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD PedidoRealizado
+    public String insertar(PedidoRealizado pedidoRealizado){
+        String resultado="Se guardó correctamente pedidoRealizado N°: ";
+        long contador=0;
+        //verificando Integridad
+        if (verificarIntegridad(pedidoRealizado, 15)) {
+            ContentValues preal = new ContentValues();
+            preal.put("idPedidoRealizado", pedidoRealizado.getIdPedidoRealizado());
+            preal.put("idPedido", pedidoRealizado.getIdPedido());
+            preal.put("idUsuario", pedidoRealizado.getIdUsuario());
+            contador=db.insert("PedidoRealizado", null, preal);
+        } if(contador==-1 || contador==0)
+        {
+            resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
+        }
+        else {
+            resultado+=resultado+contador;
+        }
+        return resultado;
+    }
+
+    public PedidoRealizado consultarPedReal(String idPedidoRealizado, String idPedido, String idUsuario){
+        String[] id = {idPedidoRealizado,idPedido,idUsuario};
+        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedidoRealizado = ? and idPedido = ? and idUsuario = ?" + id, null);
+        //si existe pedidoRealizado
+        if(cursor.moveToFirst())
+        {
+            PedidoRealizado pedidoRealizado = new PedidoRealizado();
+            pedidoRealizado.setIdPedidoRealizado(cursor.getInt(0));
+            pedidoRealizado.setIdPedido(cursor.getInt(1));
+            pedidoRealizado.setIdUsuario(cursor.getInt(2));
+            return pedidoRealizado;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(PedidoRealizado pedidoRealizado){
+        //verificando integridad
+        if(verificarIntegridad(pedidoRealizado, 16)){
+            String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),String.valueOf(pedidoRealizado.getIdUsuario())};
+            ContentValues cv = new ContentValues();
+            cv.put("idPedidoRealizado",pedidoRealizado.getIdPedidoRealizado());
+            cv.put("idPedido",pedidoRealizado.getIdPedido());
+            cv.put("idUsuario",pedidoRealizado.getIdUsuario());
+            db.update("PedidoRealizado", cv, "idPedidoRealizado = ? and idPedido= ? and idUsuario= ?", idPR);
+            return "Registro de PedidoRealizado Actualizado Correctamente";
+        }else{
+            return "Registro con codigo no existe";
+        }
+    }
+    public String eliminar(PedidoRealizado pedidoRealizado){
+        String resultado = "Se elimino pedidoRealizado: " + pedidoRealizado.getIdPedidoRealizado();
+        String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),String.valueOf(pedidoRealizado.getIdUsuario())};
+        int contadorPR=0;
+        //verificar que exista pedidoRealizado
+        if(verificarIntegridad(pedidoRealizado,16)){
+            contadorPR+=db.delete("PedidoRealizado","idPedidoRealizado= ? and idPedido = ? and idUsuario = ? '"+ idPR +"'",null);
+        }else {
+            resultado= "El pedido Realizado no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD AccesoUsuario
+    public String insertar(AccesoUsuario accesoUsuario){
+        String resultado="Se guardó correctamente AccesoUsuario N°: ";
+        long contador=0;
+        //verificando Integridad
+        if (verificarIntegridad(accesoUsuario, 17)) {
+            ContentValues accus = new ContentValues();
+            accus.put("idAccesoUsuario", accesoUsuario.getIdAccesoUsuario());
+            accus.put("id_Opcion", accesoUsuario.getIdOpcion());
+            accus.put("idUsuario", accesoUsuario.getIdUsuario());
+            contador=db.insert("AccesoUsuario", null, accus);
+        } if(contador==-1 || contador==0)
+        {
+            resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
+        }
+        else {
+            resultado+=resultado+contador;
+        }
+        return resultado;
+    }
+
+    public AccesoUsuario consultarAccesoUsuario(String idAccesoUsuario, String idOpcion, String idUsuario){
+        String[] id = {idAccesoUsuario,idOpcion,idUsuario};
+        Cursor cursor = db.rawQuery("select * from AccesoUsuario where idAccesoUsuario = ? and id_Opcion = ? and idUsuario = ?" + id, null);
+        //si existe AccesoUsuario
+        if(cursor.moveToFirst())
+        {
+            AccesoUsuario accesoUsuario = new AccesoUsuario();
+            accesoUsuario.setIdAccesoUsuario(cursor.getInt(0));
+            accesoUsuario.setIdOpcion(cursor.getString(1));
+            accesoUsuario.setIdUsuario(cursor.getInt(2));
+            return accesoUsuario;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(AccesoUsuario accesoUsuario){
+        //verificando integridad
+        if(verificarIntegridad(accesoUsuario, 18)){
+            String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),String.valueOf(accesoUsuario.getIdUsuario())};
+            ContentValues cv = new ContentValues();
+            cv.put("idAccesoUsuario",accesoUsuario.getIdAccesoUsuario());
+            cv.put("id_Opcion",accesoUsuario.getIdOpcion());
+            cv.put("idUsuario",accesoUsuario.getIdUsuario());
+            db.update("AccesoUsuario", cv, "idAccesoUsuario= ? and id_Opcion= ? and idUsuario= ?", idAU);
+            return "Registro de AccesoUsuario Actualizado Correctamente";
+        }else{
+            return "Registro no existe";
+        }
+    }
+    public String eliminar(AccesoUsuario accesoUsuario){
+        String resultado = "Se elimino accesoUsuario: " + accesoUsuario.getIdAccesoUsuario();
+        String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),String.valueOf(accesoUsuario.getIdUsuario())};
+        int contadorAU=0;
+        //verificar que exista accesoUsuario
+        if(verificarIntegridad(accesoUsuario,18)){
+            contadorAU+=db.delete("AccesoUsuario","idAccesoUsuario= ? and id_Opcion = ? and idUsuario = ? '"+ idAU +"'",null);
+        }else {
+            resultado= "El AccesoUsuario no existe";
+        }
+        return resultado;
+    }
+
+    //CRUD OpcionCrud
+    public String insertar(OpcionCrud opcionCrud){
+        String resultado="Se guardó correctamente la opcionCrud " + opcionCrud;
+        long contador=0;
+        //verificando Integridad
+        // verificar que existe opcionCrud
+        if (verificarIntegridad(opcionCrud, 19)) {
+            //se encontro opcionCrud
+            resultado="Esta opcionCrud ya existe. Registro Duplicado, ERROR";
+        } else {
+            ContentValues opCrud = new ContentValues();
+            opCrud.put("id_Opcion", opcionCrud.getIdOpcion());
+            opCrud.put("desOpcion",opcionCrud.getDescOpcion());
+            opCrud.put("numCrud", opcionCrud.getNumCrud());
+            contador=db.insert("OpcionCrud", null, opCrud);
+        }
+        return resultado;
+    }
+
+    public OpcionCrud consultarOpcionCrud(String idOpcionCrud){
+        Cursor cursor = db.rawQuery("select * from OpcionCrud where id_Opcion =" + idOpcionCrud, null);
+        //si existe opcionCrud
+        if(cursor.moveToFirst())
+        {
+            OpcionCrud opcionCrud = new OpcionCrud();
+            opcionCrud.setIdOpcion(cursor.getString(0));
+            opcionCrud.setDescOpcion(cursor.getString(1));
+            opcionCrud.setNumCrud(cursor.getInt(2));
+            return opcionCrud;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String actualizar(OpcionCrud opcionCrud){
+        //verificando que exista opcionCrud
+        if(verificarIntegridad(opcionCrud, 19)){
+            String[] idOC = {opcionCrud.getIdOpcion()};
+            ContentValues cv = new ContentValues();
+            cv.put("id_Opcion",opcionCrud.getIdOpcion());
+            cv.put("desOpcion",opcionCrud.getDescOpcion());
+            cv.put("numCrud", opcionCrud.getNumCrud());
+            db.update("OpcionCrud", cv, "id_Opcion = ?", idOC);
+            return "Registro de OpcionCrud Actualizado Correctamente";
+        }else{
+            return "Registro con codigo " + opcionCrud.getIdOpcion() + " no existe";
+        }
+    }
+    public String eliminar(OpcionCrud opcionCrud){
+        String resultado = "Se elimino opcionCrud: " + opcionCrud.getIdOpcion();
+        int contadorOC=0;
+        //verificar que exista OpcionCrud
+        if(verificarIntegridad(opcionCrud,19)){
+            //verificar que exista en AccesoUsuario para eliminar en cascada
+            if(verificarIntegridad(opcionCrud,20)){
+                contadorOC+=db.delete("AccesoUsuario", "id_Opcion= '"+opcionCrud.getIdOpcion()+"'",null);
+                resultado+= resultado + " Se elimino el/los "+ contadorOC+" registros de AccesoUsuario";
+            }
+            contadorOC+=db.delete("OpcionCrud","id_Opcion= '" +opcionCrud.getIdOpcion()+"'",null);
+        }else {
+            resultado= "OpcionCrud no existe";
+        }
+        return resultado;
+    }
+
     //Aquí termina la parte de Vane
 
     //Integridad
@@ -631,7 +892,7 @@ public class ControladorBD extends SQLiteOpenHelper {
                 String[] fac = {facultad.getIdFacultad()};
                 Cursor c1 = db.query("Facultad", null, "idFacultad = ?", fac, null, null, null);
                 if (c1.moveToFirst()) {
-                    //Se encontro pedido
+                    //Se encontro facultad
                     return true;
                 }
                 return false;
@@ -664,7 +925,110 @@ public class ControladorBD extends SQLiteOpenHelper {
                 else
                     return false;
             }
+            case 13: {
+                //verificar que al insertar pedidoAsignado exista idPedido e idUsuario
+                PedidoAsignado pedidoAsignado = (PedidoAsignado) dato;
+                String[] id1 = {String.valueOf(pedidoAsignado.getIdPedido())};
+                String[] id2 = {String.valueOf(pedidoAsignado.getIdUsuario())};
+                Cursor cursor1 = db.query("Pedido", null, "idPedido = ?", id1, null,
+                        null, null);
+                Cursor cursor2 = db.query("Usuario", null, "idUsuario = ?", id2,
+                        null, null, null);
+                if(cursor1.moveToFirst() && cursor2.moveToFirst()){
+//Se encontraron datos
+                    return true;
+                }
+                return false;
 
+            }
+            case 14:{
+//verificar que al modificar o eliminar pedidoAsignado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
+                PedidoAsignado pedidoAsignado1=(PedidoAsignado) dato;
+                String[] ids = {String.valueOf(pedidoAsignado1.getIdPedidoAsignado()), String.valueOf(pedidoAsignado1.getIdPedido()),
+                            String.valueOf(pedidoAsignado1.getIdUsuario())};
+                Cursor c = db.query("PEDIDOASIGNADO", null, "IDPEDIDOASIGNADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
+                    if(c.moveToFirst()){
+//Se encontraron datos
+                        return true;
+                    }
+                    return false;
+                }
+            case 15: {
+                //verificar que al insertar pedidoRealizado exista idPedido e idUsuario
+                PedidoRealizado pedidoRealizado = (PedidoRealizado) dato;
+                String[] id1 = {String.valueOf(pedidoRealizado.getIdPedido())};
+                String[] id2 = {String.valueOf(pedidoRealizado.getIdUsuario())};
+                Cursor cursor1 = db.query("Pedido", null, "idPedido = ?", id1, null,
+                        null, null);
+                Cursor cursor2 = db.query("Usuario", null, "idUsuario = ?", id2,
+                        null, null, null);
+                if(cursor1.moveToFirst() && cursor2.moveToFirst()){
+//Se encontraron datos
+                    return true;
+                }
+                return false;
+
+            }
+            case 16:{
+//verificar que al modificar o eliminar pedidoRealizado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
+                PedidoRealizado pedidoRealizado1 = (PedidoRealizado) dato;
+                String[] ids = {String.valueOf(pedidoRealizado1.getIdPedidoRealizado()), String.valueOf(pedidoRealizado1.getIdPedido()),
+                        String.valueOf(pedidoRealizado1.getIdUsuario())};
+                Cursor c = db.query("PEDIDOREALIZADO", null, "IDPEDIDOREALIZADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
+                if(c.moveToFirst()){
+//Se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 17: {
+                //verificar que al insertar AccesoUsuario exista idUsuario e idOpcion
+                AccesoUsuario accesoUsuario = (AccesoUsuario) dato;
+                String[] id1 = {String.valueOf(accesoUsuario.getIdUsuario())};
+                String[] id2 = {accesoUsuario.getIdOpcion()};
+                Cursor cursor1 = db.query("Usuario", null, "idUsuario = ?", id1, null,
+                        null, null);
+                Cursor cursor2 = db.query("OpcionCrud", null, "id_opcion = ?", id2,
+                        null, null, null);
+                if(cursor1.moveToFirst() && cursor2.moveToFirst()){
+//Se encontraron datos
+                    return true;
+                }
+                return false;
+
+            }
+            case 18:{
+//verificar que al modificar o eliminar AccesoUsuario exista idOpcion de OpcionCrud, idUsuario y el idAccesoUsuario
+                AccesoUsuario accesoUsuario1 = (AccesoUsuario) dato;
+                String[] ids = {String.valueOf(accesoUsuario1.getIdAccesoUsuario()), accesoUsuario1.getIdOpcion(),
+                        String.valueOf(accesoUsuario1.getIdUsuario())};
+                Cursor c = db.query("ACCESOUSUARIO", null, "IDACCESOUSUARIO= ? AND ID_OPCION = ? AND IDUSUARIO= ?", ids, null, null, null);
+                if(c.moveToFirst()){
+//Se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 19: {
+                //verificar que exista opcionCrud
+                OpcionCrud opcionCrud = (OpcionCrud) dato;
+                String[] opCrud = {opcionCrud.getIdOpcion()};
+                Cursor c1 = db.query("OpcionCrud", null, "id_Opcion = ?", opCrud, null, null, null);
+                if (c1.moveToFirst()) {
+                    //Se encontro opcionCrud
+                    return true;
+                }
+                return false;
+            }
+            case 20: {
+                //verificar que idOpcion este en AccesoUsuario
+                OpcionCrud opcionCrud1 = (OpcionCrud) dato;
+                Cursor c1 = db.query(true, "AccesoUsuario", new String[]{"id_Opcion"}, "id_Opcion= '" + opcionCrud1.getIdOpcion() + "'", null, null, null, null, null);
+                if (c1.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
             default:
                 return false;
         }

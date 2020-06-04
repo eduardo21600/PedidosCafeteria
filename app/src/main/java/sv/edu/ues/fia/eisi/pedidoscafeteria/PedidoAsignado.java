@@ -11,6 +11,10 @@ public class PedidoAsignado {
         this.idPedidoAsignado = idPedidoAsignado;
     }
 
+    public PedidoAsignado() {
+
+    }
+
     public int getIdPedido() {
         return idPedido;
     }

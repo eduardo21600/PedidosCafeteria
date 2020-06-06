@@ -210,7 +210,7 @@ public class ControladorBD extends SQLiteOpenHelper {
         if (cur.moveToFirst()) {
 
             do {
-                usus.add(new Usuario(cur.getInt(0)
+                        usus.add(new Usuario(cur.getInt(0)
                         , cur.getInt(1)
                         , cur.getString(2)
                         , cur.getString(3)

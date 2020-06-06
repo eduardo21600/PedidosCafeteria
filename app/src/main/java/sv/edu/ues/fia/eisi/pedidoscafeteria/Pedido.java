@@ -12,6 +12,7 @@ public class Pedido {
     private String fechaPedido;
     private float totalPedido;
 
+
     public Pedido(){
 
     }
@@ -24,6 +25,7 @@ public class Pedido {
         this.idUbicacion = idUbicacion;
         this.fechaPedido = fechaPedido;
         this.totalPedido= totalPedido;
+
     }
 
     public int getIdPedido() {

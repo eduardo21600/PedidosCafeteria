@@ -15,8 +15,10 @@ import java.util.List;
 //le falta estetica
 
 public class PedidosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    ControladorBD Helper;
     private ListView LV;
     List<Pedido> pps = new ArrayList<>();
+    List<Pedido> ppx = new ArrayList<>();
     AdaptadorPedidos mlP;
 
 
@@ -25,11 +27,12 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedidos);
         LV = (ListView)findViewById(R.id.lista);
+
         LV.setOnItemClickListener(this);
-        pps.add(new Pedido(1,2,"Pendiente",4,5,"martes 4 de enero",7));
-        pps.add(new Pedido(2,2,"Pendiente",4,5,"martes 4 de enero",7));
-        pps.add(new Pedido(3,2,"Pendiente",4,5,"martes 4 de enero",7));
-        pps.add(new Pedido(4,2,"Pendiente",4,5,"martes 4 de enero",7));
+        Helper.abrir();
+        //pps = Helper.consultarPedidos();
+        pps = ppx;
+        Helper.cerrar();
         mlP = new AdaptadorPedidos(this,R.layout.pedidos_items,pps);
         LV.setAdapter(mlP);
     }

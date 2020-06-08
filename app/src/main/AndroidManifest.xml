@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PedidosActivity"></activity>
+        <activity android:name=".detallePedidoEnc"></activity>
+        <activity
+            android:name=".drawerEncar"
+            android:label="@string/title_activity_drawer_encar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".verPedidosE" />
+        <activity android:name=".cambiarCrede" />
+        <activity android:name=".confCliente" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login">
             <intent-filter>

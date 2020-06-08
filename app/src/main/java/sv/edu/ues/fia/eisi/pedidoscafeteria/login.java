@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.home.HomeFragment;
+
 public class login extends AppCompatActivity {
 
     EditText usuario, contrasena;
@@ -22,7 +24,7 @@ public class login extends AppCompatActivity {
 
     public void entrar(View view){
         // Validaciones aqui:v
-        Intent intent = new Intent (getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
         startActivity(intent);
     }
 }

@@ -8,13 +8,4 @@
     <string name="nuevaCuenta">¿No tienes una cuenta?</string>
     <string name="registrarse">Registrate</string>
     <string name="entrar">Ingresar</string>
-    <string name="descDetallePedido">Descripción</string>
-    <string name="nomCliente">Cliente</string>
-    <string name="totalPedido">Total</string>
-    <string name="direccion">Dirección</string>
-    <string name="pedidoEntregado">Marcar como entregado</string>
-    <string name="txtDetallePedido">Detalle del Pedido</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

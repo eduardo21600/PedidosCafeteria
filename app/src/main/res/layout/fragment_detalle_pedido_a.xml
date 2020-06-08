@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="30dip"
+    android:stretchColumns="1" >
+    <TableRow>
+
+        <TextView
+            android:text="@string/txtDetallePedido"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/descDetallePedido"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editDescripcion"
+            android:inputType="text"
+            android:maxLength="50"
+            android:focusable="false"
+            android:longClickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:text="@string/nomCliente"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editCliente"
+            android:inputType="text"
+            android:maxLength="30"
+            android:focusable="false"
+            android:longClickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:text="@string/totalPedido"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editTotal"
+            android:inputType="text"
+            android:maxLength="30"
+            android:focusable="false"
+            android:longClickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:text="@string/direccion"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="text"
+            android:longClickable="false"
+            android:maxLength="1" />
+    </TableRow>
+    <TableRow>
+
+        <Button
+            android:layout_margin="100dp"
+            android:background="@color/design_default_color_secondary"
+            android:onClick="marcarEntregado"
+            android:text="@string/pedidoEntregado" />
+    </TableRow>
+</TableLayout>

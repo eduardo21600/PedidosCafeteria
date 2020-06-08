@@ -19,6 +19,12 @@ public class Usuario {
         this.apellidoUsuario = apellidoUsuario;
     }
 
+    public Usuario(int idUsuario, String nombreUsuario, String teleUsuario) {
+        this.idUsuario = idUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.teleUsuario = teleUsuario;
+    }
+
     public int getIdUsuario() {
         return idUsuario;
     }

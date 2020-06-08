@@ -32,9 +32,9 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPedidos.PedidosViewHolder holder, int position) {
-        holder.tvIdPedido.setText(String.valueOf(datos.get(position).getIdPedido()));
-        holder.tvCliente.setText(datos.get(position).getNomCliente());
-        holder.tvTipo.setText(datos.get(position).getTipo());
+        holder.tvIdPedido.setText("Id: "+String.valueOf(datos.get(position).getIdPedido()));
+        holder.tvCliente.setText("Cliente: "+datos.get(position).getNomCliente());
+        holder.tvTipo.setText("Entrega: "+datos.get(position).getTipo());
     }
 
     @Override

@@ -23,7 +23,7 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 
 public class SlideshowFragment extends Fragment {
 
-    View v;
+
     private RecyclerView recyclerView;
     private List<PedidoModelo> lstPedidos;
 

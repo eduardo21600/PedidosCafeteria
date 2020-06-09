@@ -1,8 +1,6 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
-import java.util.Date;
-
-public class Pedido {
+public class Pedido{
 
     private int idPedido;
     private int idDetallePedido;

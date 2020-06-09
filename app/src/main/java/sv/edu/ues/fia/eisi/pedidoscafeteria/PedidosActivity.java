@@ -21,7 +21,6 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     List<Pedido> ppx = new ArrayList<>();
     AdaptadorPedidos mlP;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +37,10 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
         //imaginemos que Vane ya hizo su activity v: no lo ha hecho, pero imaginemos que si
-       // Intent intx = new Intent(this,Detalle_del_pedido_uwu.class);
-        //intx.putExtra("idpedido",String.valueOf(mLP.getItem(i).getIdPedido()));
-//        startActivity(intx);
-
-
+        Intent intx = new Intent(this,DetallePedidoAFragment.class);
+        intx.putExtra("idpedido",String.valueOf(mlP.getItem(i).getIdPedido()));
+        startActivity(intx);
     }
 }

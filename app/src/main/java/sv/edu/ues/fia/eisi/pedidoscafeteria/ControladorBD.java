@@ -886,7 +886,6 @@ public class ControladorBD {
 
         //Aquí termina la ayuda de tu vecino el hombre araña
 
-        //Preguntar a Vane si esta parte del código falla o hay dudas
 //Preguntar a Vane si esta parte del código falla o hay dudas
 
     //CRUD Ubicacion
@@ -931,6 +930,22 @@ public class ControladorBD {
         else {
             return null;
         }
+    }
+
+    public List<Ubicacion> ConsultaUbicaciones() {
+        Cursor cur = db.rawQuery("SELECT * FROM Ubicacion", null);
+        List<Ubicacion> ubic = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                ubic.add(new Ubicacion(cur.getInt(0),
+                        cur.getString(1),
+                        cur.getInt(2),
+                        cur.getString(3),
+                        cur.getString(4),
+                        cur.getString(5)));
+            } while (cur.moveToNext());
+        }
+        return ubic;
     }
 
     public String actualizar(Ubicacion ubicacion){
@@ -1020,6 +1035,23 @@ public class ControladorBD {
         }
     }
 
+    public List<Pedido> ConsultaPedidos() {
+        Cursor cur = db.rawQuery("SELECT * FROM Pedido", null);
+        List<Pedido> pedido = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                pedido.add(new Pedido(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getString(2),
+                        cur.getInt(3),
+                        cur.getInt(4),
+                        cur.getString(5),
+                        cur.getFloat(6)));
+            } while (cur.moveToNext());
+        }
+        return pedido;
+    }
+
     public String actualizar(Pedido pedido){
         //verificando que exista pedido
         if(verificarIntegridad(pedido, 4)){
@@ -1103,6 +1135,20 @@ public class ControladorBD {
         }
     }
 
+    public List<Facultad> ConsultaFacultades() {
+        Cursor cur = db.rawQuery("SELECT * FROM Facultad", null);
+        List<Facultad> facu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                facu.add(new Facultad(cur.getString(0),
+                        cur.getString(1)));
+            } while (cur.moveToNext());
+
+        }
+        return facu;
+    }
+
     public String actualizar(Facultad facultad){
         //verificando que exista facultad
         if(verificarIntegridad(facultad, 9)){
@@ -1170,6 +1216,21 @@ public class ControladorBD {
         }
     }
 
+    public List<PedidoAsignado> ConsultaPedidosAsignados() {
+        Cursor cur = db.rawQuery("SELECT * FROM PedidoAsignado", null);
+        List<PedidoAsignado> peasig = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                peasig.add(new PedidoAsignado(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2)));
+            } while (cur.moveToNext());
+
+        }
+        return peasig;
+    }
+
     public String actualizar(PedidoAsignado pedidoAsignado){
         //verificando integridad
         if(verificarIntegridad(pedidoAsignado, 14)){
@@ -1233,6 +1294,21 @@ public class ControladorBD {
         else {
             return null;
         }
+    }
+
+    public List<PedidoRealizado> ConsultaPedidosRealizados() {
+        Cursor cur = db.rawQuery("SELECT * FROM PedidoRealizado", null);
+        List<PedidoRealizado> pedreal = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                pedreal.add(new PedidoRealizado(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2)));
+            } while (cur.moveToNext());
+
+        }
+        return pedreal;
     }
 
     public String actualizar(PedidoRealizado pedidoRealizado){
@@ -1300,6 +1376,21 @@ public class ControladorBD {
         }
     }
 
+    public List<AccesoUsuario> ConsultaAccesoUsuarios() {
+        Cursor cur = db.rawQuery("SELECT * FROM AccesoUsuario", null);
+        List<AccesoUsuario> accusu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                accusu.add(new AccesoUsuario(cur.getInt(0),
+                        cur.getString(1),
+                        cur.getInt(2)));
+            } while (cur.moveToNext());
+
+        }
+        return accusu;
+    }
+
     public String actualizar(AccesoUsuario accesoUsuario){
         //verificando integridad
         if(verificarIntegridad(accesoUsuario, 18)){
@@ -1360,6 +1451,21 @@ public class ControladorBD {
         else {
             return null;
         }
+    }
+
+    public List<OpcionCrud> ConsultaOpcionesCrud() {
+        Cursor cur = db.rawQuery("SELECT * FROM OpcionCrud", null);
+        List<OpcionCrud> opcrud = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                opcrud.add(new OpcionCrud(cur.getString(0),
+                        cur.getString(1),
+                        cur.getInt(2)));
+            } while (cur.moveToNext());
+
+        }
+        return opcrud;
     }
 
     public String actualizar(OpcionCrud opcionCrud){

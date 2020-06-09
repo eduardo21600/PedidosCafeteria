@@ -26,8 +26,8 @@ public class drawerEncar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("validacion",0);
-        String tipo =sharedPreferences.getString("tipoUsuario","2");
-        if(tipo.equals("1")){//para cliente
+        String tipo =sharedPreferences.getString("tipoUsuario",null);
+        if(tipo!=null){//para cliente
             setContentView(R.layout.activity_drawer_cliente);
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);

@@ -40,7 +40,7 @@ public class ControladorBD {
             try {
                 db.execSQL("create table ACCESOUSUARIO \n" +
                         "(\n" +
-                        "   IDUSUARIO            INTEGER              not null,\n" +
+                        "   IDUSUARIO            varchar(20)              not null,\n" +
                         "   ID_OPCION            CHAR(3)              not null,\n" +
                         "   IDACCESOUSUARIO      INTEGER              not null,\n" +
                         "   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, ID_OPCION, IDACCESOUSUARIO)\n" +
@@ -68,7 +68,7 @@ public class ControladorBD {
                 db.execSQL("create table LOCAL\n" +
                         "(\n" +
                         "   IDLOCAL              int not null,\n" +
-                        "   IDUSUARIO            int,\n" +
+                        "   IDUSUARIO            varchar(20),\n" +
                         "   NOMBRELOCAL          varchar(50) not null,\n" +
                         "   primary key (IDLOCAL)\n" +
                         ");");
@@ -104,14 +104,14 @@ public class ControladorBD {
                 db.execSQL("create table PEDIDOREALIZADO\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(20) not null,\n" +
                         "   IDPEDIDOREALIZADO    int not null,\n" +
                         "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOREALIZADO)\n" +
                         ");");
                 db.execSQL("create table PEDIDOSASIGNADOS\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(20) not null,\n" +
                         "   IDPEDIDOASIGNADO     int not null,\n" +
                         "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOASIGNADO)\n" +
                         ");");
@@ -141,7 +141,7 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table USUARIO\n" +
                         "(\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(20) not null,\n" +
                         "   IDTIPOUSUARIO        int,\n" +
                         "   CONTRASENA           varchar(10) not null,\n" +
                         "   NOMBREUSUARIO        varchar(30) not null,\n" +
@@ -176,6 +176,43 @@ public class ControladorBD {
         DBHelper.close();
     }
 
+    //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
+    public String llenarUsuario(){
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
+        final String [] idUsus =new String[]{"1","2","3","4"};
+        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
+
+        final int [] idTipos =new int[] {1,2,3};
+        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+
+        abrir();
+        db.execSQL("DELETE FROM USUARIO");
+        db.execSQL("DELETE FROM TIPOUSUARIO");
+
+        TipoUsuario t = new TipoUsuario();
+        for (int i = 0; i <3 ; i++) {
+            t.setIdTipoUsuario(idTipos[i]);
+            t.setNomTipoUsuario(nomTipos[i]);
+            CrearTipoUsuario(t);
+        }
+
+
+        Usuario u = new Usuario();
+        for (int i = 0; i <4 ; i++) {
+            u.setIdUsuario(contras[i]);
+            u.setNombreUsuario(nomUsuario[i]);
+            u.setApellidoUsuario(apeUsuario[i]);
+            u.setContrasena(idUsus[i]);
+            u.setTeleUsuario(telefono[i]);
+            u.setIdTipoUsuario(idTipoUsus[i]);
+            insertar(u);
+        }
+            cerrar();
+            return "Guardado";
+    }
 
 
 
@@ -218,10 +255,31 @@ public class ControladorBD {
 
     public Usuario ConsultaUsuario(String idUsuario) {
         String[] id = {idUsuario};
-        Cursor cur = db.rawQuery("select * from Usuario where idUsuario =" + idUsuario, null);
+        Cursor cur = db.rawQuery("select * from Usuario where idUsuario = '" + idUsuario+"'", null);
         if (cur.moveToFirst()) {
             Usuario usu1 = new Usuario();
-            usu1.setIdUsuario((cur.getInt(0)));
+            usu1.setIdUsuario((cur.getString(0)));
+            usu1.setIdTipoUsuario((cur.getInt(1)));
+            usu1.setContrasena(cur.getString(2));
+            usu1.setNombreUsuario(cur.getString(3));
+            usu1.setTeleUsuario(cur.getString(4));
+            usu1.setApellidoUsuario(cur.getString(5));
+
+            return usu1;
+
+        } else {
+            return null;
+        }
+
+    }
+
+    //agrego un metodo más para buscar por nombre de usuario
+    public Usuario ConsultaNomUsuario(String nomUsuario) {
+        String[] id = {nomUsuario};
+        Cursor cur = db.rawQuery("select * from USUARIO where NOMBREUSUARIO = '"+nomUsuario+"'", null);
+        if (cur.moveToFirst()) {
+            Usuario usu1 = new Usuario();
+            usu1.setIdUsuario((cur.getString(0)));
             usu1.setIdTipoUsuario((cur.getInt(1)));
             usu1.setContrasena(cur.getString(2));
             usu1.setNombreUsuario(cur.getString(3));
@@ -242,7 +300,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                        usus.add(new Usuario(cur.getInt(0)
+                        usus.add(new Usuario(cur.getString(0)
                         , cur.getInt(1)
                         , cur.getString(2)
                         , cur.getString(3)
@@ -319,8 +377,8 @@ public class ControladorBD {
     public String CrearTipoUsuario(TipoUsuario tipousuario) {
         String resultado = "Tipo de usuario creado ";
         ContentValues tusu = new ContentValues();
-        tusu.put("idUsuario", tipousuario.getIdTipoUsuario());
-        tusu.put("idTipoUsuario", tipousuario.getNomTipoUsuario());
+        tusu.put("IDTIPOUSUARIO", tipousuario.getIdTipoUsuario());
+        tusu.put("NOMTIPOUSUARIO", tipousuario.getNomTipoUsuario());
 
         long comprobador = 0;
         comprobador = db.insert("TipoUsuario", null, tusu);
@@ -1208,7 +1266,7 @@ public class ControladorBD {
             PedidoAsignado pedidoAsignado = new PedidoAsignado();
             pedidoAsignado.setIdPedidoAsignado(cursor.getInt(0));
             pedidoAsignado.setIdPedido(cursor.getInt(1));
-            pedidoAsignado.setIdUsuario(cursor.getInt(2));
+            pedidoAsignado.setIdUsuario(cursor.getString(2));
             return pedidoAsignado;
         }
         else {
@@ -1223,7 +1281,7 @@ public class ControladorBD {
 
             do {
                 peasig.add(new PedidoAsignado(cur.getInt(0),
-                        cur.getInt(1),
+                        cur.getString(1),
                         cur.getInt(2)));
             } while (cur.moveToNext());
 
@@ -1288,7 +1346,7 @@ public class ControladorBD {
             PedidoRealizado pedidoRealizado = new PedidoRealizado();
             pedidoRealizado.setIdPedidoRealizado(cursor.getInt(0));
             pedidoRealizado.setIdPedido(cursor.getInt(1));
-            pedidoRealizado.setIdUsuario(cursor.getInt(2));
+            pedidoRealizado.setIdUsuario(cursor.getString(2));
             return pedidoRealizado;
         }
         else {
@@ -1303,7 +1361,7 @@ public class ControladorBD {
 
             do {
                 pedreal.add(new PedidoRealizado(cur.getInt(0),
-                        cur.getInt(1),
+                        cur.getString(1),
                         cur.getInt(2)));
             } while (cur.moveToNext());
 
@@ -1368,7 +1426,7 @@ public class ControladorBD {
             AccesoUsuario accesoUsuario = new AccesoUsuario();
             accesoUsuario.setIdAccesoUsuario(cursor.getInt(0));
             accesoUsuario.setIdOpcion(cursor.getString(1));
-            accesoUsuario.setIdUsuario(cursor.getInt(2));
+            accesoUsuario.setIdUsuario(cursor.getString(2));
             return accesoUsuario;
         }
         else {
@@ -1382,7 +1440,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                accusu.add(new AccesoUsuario(cur.getInt(0),
+                accusu.add(new AccesoUsuario(cur.getString(0),
                         cur.getString(1),
                         cur.getInt(2)));
             } while (cur.moveToNext());

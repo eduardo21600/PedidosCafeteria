@@ -55,8 +55,8 @@ public class fragmentReparEnc extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstRepa = new ArrayList<>();
-        lstRepa.add(new Usuario(1,"Pablo","22577777"));
-        lstRepa.add(new Usuario(2,"Pablo","22577777"));
-        lstRepa.add(new Usuario(3,"Pablo","22577777"));
+        lstRepa.add(new Usuario("1","Pablo","22577777"));
+        lstRepa.add(new Usuario("2","Pablo","22577777"));
+        lstRepa.add(new Usuario("3","Pablo","22577777"));
     }
 }

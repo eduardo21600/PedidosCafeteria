@@ -27,6 +27,7 @@ public class login extends AppCompatActivity {
         // Validaciones aqui:v
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0); // 0 - for private mode
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
         editor.putString("tipoUsuario",String.valueOf(usuario.getText()));
         editor.apply();
         Intent intent = new Intent (getApplicationContext(), drawerEncar.class);

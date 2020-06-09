@@ -11,6 +11,13 @@ public class PedidoRealizado {
 
     }
 
+    public PedidoRealizado(int idPedido, int idUsuario, int idPedidoRealizado) {
+        this.idPedido = idPedido;
+        this.idUsuario = idUsuario;
+        this.idPedidoRealizado = idPedidoRealizado;
+        this.tipo = tipo;
+    }
+
     public PedidoRealizado(int idPedido, int idUsuario, int idPedidoRealizado, String tipo) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;

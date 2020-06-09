@@ -7,7 +7,7 @@
     <TableRow>
 
         <TextView
-            android:text="@string/txtDetallePedido"
+            android:text="@string/detallePedidos"
             android:textColor="@color/design_default_color_on_secondary"
             android:textSize="24sp"
             android:textAlignment="center"
@@ -29,7 +29,7 @@
     <TableRow>
 
         <TextView
-            android:text="@string/nomCliente"
+            android:text="@string/nombre"
             android:textSize="18sp" />
         <EditText
             android:id="@+id/editCliente"
@@ -43,7 +43,7 @@
     <TableRow>
 
         <TextView
-            android:text="@string/totalPedido"
+            android:text="@string/total"
             android:textSize="18sp" />
         <EditText
             android:id="@+id/editTotal"
@@ -57,7 +57,7 @@
     <TableRow>
 
         <TextView
-            android:text="@string/direccion"
+            android:text="@string/ubicación"
             android:textSize="18sp" />
 
         <EditText

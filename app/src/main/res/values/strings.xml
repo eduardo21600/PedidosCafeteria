@@ -36,9 +36,16 @@
     <string name="marcar">Marcar como entregado</string>
     <string name="repartidor">Repartidores</string>
     <string name="agregar">Agregar Nuevo</string>
+    <string name="crear">Crear</string>
 
     <string name="nombreMenu">Nombre Menu</string>
     <string name="tipo">Tipo</string>
+    <string name="local">Local</string>
+    <string name="nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Teléfono">Teléfono</string>
+
+    <string name="crearRepartidor">Agregar nuevo repartidor</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -48,5 +55,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

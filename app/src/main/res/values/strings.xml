@@ -58,4 +58,10 @@
     <string name="descDetallePedido">Detalle Pedido</string>
     <string name="pedidoEntregado">Pedido Entregado</string>
 
+
+    <!-- Inicio Strings Pablo -->
+    <string name="title_Local_Cliente">Locales Disponibles</string>
+
+    <!-- Fin Strings Pablo-->
+
 </resources>

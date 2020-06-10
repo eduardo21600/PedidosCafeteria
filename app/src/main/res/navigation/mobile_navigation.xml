@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -50,4 +50,9 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.confCliente.fragmentConfig"
         android:label="@string/Configuraciones"
         tools:layout="@layout/fragment_config" />
+    <fragment
+        android:id="@+id/nav_local_cliente"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.localCliente.fragmentLocalCliente"
+        android:label="@string/title_Local_Cliente"
+        tools:layout="@layout/fragment_local_cliente" />
 </navigation>

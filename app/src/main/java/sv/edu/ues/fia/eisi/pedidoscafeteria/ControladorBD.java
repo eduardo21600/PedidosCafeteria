@@ -313,9 +313,9 @@ public class ControladorBD {
         return usus;
     }
 
-    public String actualizarUsuario(Usuario usuario) {
+    public String actualizarUsuario(Usuario usuario,String idUsu) {
         String resultado = "datos actualizados";
-        String[] id = {String.valueOf(usuario.getIdUsuario())};
+        String[] id = {idUsu};
         Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
         if (cur.moveToFirst()) {
             String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};

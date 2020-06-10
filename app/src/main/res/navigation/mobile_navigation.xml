@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
+            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"/>
+            <!--app:destination="@id/nav_home_second"-->
     </fragment>
-    <fragment
+    <!--<fragment
         android:id="@+id/nav_home_second"
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.home.HomeSecondFragment"
         android:label="@string/home_second"
@@ -27,7 +27,7 @@
         <argument
             android:name="myArg"
             app:argType="string" />
-    </fragment>
+    </fragment>-->
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -45,4 +45,19 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.RepartidoresEncargado.fragmentReparEnc"
         android:label="@string/repartidor"
         tools:layout="@layout/fragment_repar_enc" />
+    <fragment
+        android:id="@+id/nav_config"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.confCliente.fragmentConfig"
+        android:label="@string/Configuraciones"
+        tools:layout="@layout/fragment_config" />
+    <fragment
+        android:id="@+id/nav_local_cliente"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.localCliente.fragmentLocalCliente"
+        android:label="@string/title_Local_Cliente"
+        tools:layout="@layout/fragment_local_cliente" />
+    <activity
+        android:id="@+id/menusLocal"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.MenusLocal"
+        android:label="@string/menu_local"
+        tools:layout="@layout/activity_menus_local" />
 </navigation>

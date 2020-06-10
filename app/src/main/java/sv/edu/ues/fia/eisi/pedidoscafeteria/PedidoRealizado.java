@@ -3,7 +3,7 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 public class PedidoRealizado {
 
     private int idPedido;
-    private int idUsuario;
+    private String idUsuario;
     private int idPedidoRealizado;
     private String tipo;
 
@@ -11,7 +11,14 @@ public class PedidoRealizado {
 
     }
 
-    public PedidoRealizado(int idPedido, int idUsuario, int idPedidoRealizado, String tipo) {
+    public PedidoRealizado(int idPedido, String idUsuario, int idPedidoRealizado) {
+        this.idPedido = idPedido;
+        this.idUsuario = idUsuario;
+        this.idPedidoRealizado = idPedidoRealizado;
+        this.tipo = tipo;
+    }
+
+    public PedidoRealizado(int idPedido, String idUsuario, int idPedidoRealizado, String tipo) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;
         this.idPedidoRealizado = idPedidoRealizado;
@@ -34,11 +41,11 @@ public class PedidoRealizado {
         this.idPedido = idPedido;
     }
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

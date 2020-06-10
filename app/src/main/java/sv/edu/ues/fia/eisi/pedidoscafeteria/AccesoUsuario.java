@@ -1,7 +1,7 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 public class AccesoUsuario {
-    private int idUsuario;
+    private String idUsuario;
     private String idOpcion;
     private int idAccesoUsuario;
 
@@ -9,17 +9,17 @@ public class AccesoUsuario {
 
     }
 
-    public AccesoUsuario(int idUsuario, String idOpcion, int idAccesoUsuario) {
+    public AccesoUsuario(String idUsuario, String idOpcion, int idAccesoUsuario) {
         this.idUsuario = idUsuario;
         this.idOpcion = idOpcion;
         this.idAccesoUsuario = idAccesoUsuario;
     }
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

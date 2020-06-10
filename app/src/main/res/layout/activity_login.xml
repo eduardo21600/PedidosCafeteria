@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
         android:gravity="center_horizontal"
         android:text="@string/bienvenido"
@@ -20,7 +20,8 @@
         app:layout_constraintBottom_toTopOf="@+id/Maestro"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.59000003" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/Maestro"
@@ -31,8 +32,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.24000001">
+        app:layout_constraintTop_toTopOf="@+id/guideline6">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/login"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
             </androidx.cardview.widget.CardView>
 
             <EditText
@@ -75,7 +75,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/contraseña"
@@ -94,7 +94,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/entrar"
@@ -110,7 +110,7 @@
                 android:onClick="entrar"
                 android:text="@string/entrar"
                 android:textColor="#ffffff"
-                android:textSize="12sp" />
+                android:textSize="18sp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -121,13 +121,13 @@
         android:fontFamily="@font/allerta"
         android:text="@string/nuevaCuenta"
         android:textColor="#0C1E43"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/Maestro"
-        app:layout_constraintVertical_bias="0.06999999" />
+        app:layout_constraintVertical_bias="0.29000002" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -136,8 +136,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.95"
+        app:layout_constraintGuide_percent="0.69"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,7 +147,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="20dp"
         app:layout_constraintGuide_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -160,7 +158,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="20dp"
         app:layout_constraintGuide_percent="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -172,7 +169,6 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="20dp"
         app:layout_constraintGuide_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -185,13 +181,12 @@
         android:fontFamily="@font/allerta"
         android:text="@string/registrarse"
         android:textColor="#FBFBFB"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/registro"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toEndOf="@+id/registro"
-        app:layout_constraintTop_toBottomOf="@+id/Maestro"
-        app:layout_constraintVertical_bias="0.01999998" />
+        app:layout_constraintTop_toTopOf="@+id/registro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

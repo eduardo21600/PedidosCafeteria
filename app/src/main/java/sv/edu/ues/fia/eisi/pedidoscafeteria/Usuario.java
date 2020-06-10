@@ -1,7 +1,7 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 public class Usuario {
-    private int idUsuario;
+    private String idUsuario;
     private int idTipoUsuario;
     private String contrasena;
     private String nombreUsuario;
@@ -10,7 +10,7 @@ public class Usuario {
 
     public Usuario(){}
 
-    public Usuario(int idUsuario, int idTipoUsuario, String contrasena, String nombreUsuario, String teleUsuario, String apellidoUsuario) {
+    public Usuario(String idUsuario, int idTipoUsuario, String contrasena, String nombreUsuario, String teleUsuario, String apellidoUsuario) {
         this.idUsuario = idUsuario;
         this.idTipoUsuario = idTipoUsuario;
         this.contrasena = contrasena;
@@ -19,17 +19,17 @@ public class Usuario {
         this.apellidoUsuario = apellidoUsuario;
     }
 
-    public Usuario(int idUsuario, String nombreUsuario, String teleUsuario) {
+    public Usuario(String idUsuario, String nombreUsuario, String teleUsuario) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.teleUsuario = teleUsuario;
     }
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

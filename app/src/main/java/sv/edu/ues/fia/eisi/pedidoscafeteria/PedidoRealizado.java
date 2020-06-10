@@ -11,13 +11,6 @@ public class PedidoRealizado {
 
     }
 
-    public PedidoRealizado(int idPedido, String idUsuario, int idPedidoRealizado) {
-        this.idPedido = idPedido;
-        this.idUsuario = idUsuario;
-        this.idPedidoRealizado = idPedidoRealizado;
-        this.tipo = tipo;
-    }
-
     public PedidoRealizado(int idPedido, String idUsuario, int idPedidoRealizado, String tipo) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;

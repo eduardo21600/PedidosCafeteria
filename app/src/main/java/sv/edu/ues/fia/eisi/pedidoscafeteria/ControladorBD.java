@@ -38,12 +38,18 @@ public class ControladorBD {
         public void onCreate(SQLiteDatabase db) {
 
             try {
-                db.execSQL("create table ACCESOUSUARIO \n" +
+                db.execSQL("create table ACCESOUSUARIO\n" +
                         "(\n" +
-                        "   IDUSUARIO            INTEGER              not null,\n" +
-                        "   ID_OPCION            CHAR(3)              not null,\n" +
-                        "   IDACCESOUSUARIO      INTEGER              not null,\n" +
-                        "   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, ID_OPCION, IDACCESOUSUARIO)\n" +
+                        "   IDUSUARIO            varchar(30) not null,\n" +
+                        "   ID_OPCION            char(3) not null,\n" +
+                        "   IDACCESOUSUARIO      int not null,\n" +
+                        "   primary key (IDUSUARIO, ID_OPCION, IDACCESOUSUARIO)\n" +
+                        ");");
+                db.execSQL("create table ASIGNAPRODUCTO\n" +
+                        "(\n" +
+                        "   IDMENU               int not null,\n" +
+                        "   IDPRODUCTO           int not null,\n" +
+                        "   primary key (IDMENU, IDPRODUCTO)\n" +
                         ");");
                 db.execSQL("create table DETALLEPEDIDO\n" +
                         "(\n" +
@@ -52,7 +58,7 @@ public class ControladorBD {
                         "   IDDETALLEPEDIDO      int not null,\n" +
                         "   IDMENU               int not null,\n" +
                         "   primary key (IDDETALLEPEDIDO)\n" +
-                        ");\n");
+                        ");");
                 db.execSQL("create table ESTADPEDIDO\n" +
                         "(\n" +
                         "   IDESTADOPEDIDO       char(2) not null,\n" +
@@ -68,14 +74,13 @@ public class ControladorBD {
                 db.execSQL("create table LOCAL\n" +
                         "(\n" +
                         "   IDLOCAL              int not null,\n" +
-                        "   IDUSUARIO            int,\n" +
+                        "   IDUSUARIO            varchar(30),\n" +
                         "   NOMBRELOCAL          varchar(50) not null,\n" +
                         "   primary key (IDLOCAL)\n" +
                         ");");
                 db.execSQL("create table MENU\n" +
                         "(\n" +
                         "   IDMENU               int not null,\n" +
-                        "   IDPRODUCTO           int not null,\n" +
                         "   IDLOCAL              int,\n" +
                         "   PRECIOMENU           numeric(12,2) not null,\n" +
                         "   FECHADESDEMENU       date not null,\n" +
@@ -104,14 +109,15 @@ public class ControladorBD {
                 db.execSQL("create table PEDIDOREALIZADO\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(30) not null,\n" +
                         "   IDPEDIDOREALIZADO    int not null,\n" +
+                        "   TIPOPEDREALIZADO     varchar(30) not null,\n" +
                         "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOREALIZADO)\n" +
                         ");");
                 db.execSQL("create table PEDIDOSASIGNADOS\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(30) not null,\n" +
                         "   IDPEDIDOASIGNADO     int not null,\n" +
                         "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOASIGNADO)\n" +
                         ");");
@@ -126,7 +132,7 @@ public class ControladorBD {
                 db.execSQL("create table TIPOUSUARIO\n" +
                         "(\n" +
                         "   IDTIPOUSUARIO        int not null,\n" +
-                        "   NOMTIPOUSUARIO       char(10) not null,\n" +
+                        "   NOMTIPOUSUARIO       varchar(30) not null,\n" +
                         "   primary key (IDTIPOUSUARIO)\n" +
                         ");");
                 db.execSQL("create table UBICACION\n" +
@@ -141,12 +147,13 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table USUARIO\n" +
                         "(\n" +
-                        "   IDUSUARIO            int not null,\n" +
+                        "   IDUSUARIO            varchar(30) not null,\n" +
                         "   IDTIPOUSUARIO        int,\n" +
                         "   CONTRASENA           varchar(10) not null,\n" +
                         "   NOMBREUSUARIO        varchar(30) not null,\n" +
                         "   TELEUSUARIO          varchar(9),\n" +
                         "   APELLIDOUSUARIO      varchar(30) not null,\n" +
+                        "   ESTDISPONREPARTIDOR  varchar(20),\n" +
                         "   primary key (IDUSUARIO)\n" +
                         ");");
 
@@ -221,7 +228,7 @@ public class ControladorBD {
         Cursor cur = db.rawQuery("select * from Usuario where idUsuario =" + idUsuario, null);
         if (cur.moveToFirst()) {
             Usuario usu1 = new Usuario();
-            usu1.setIdUsuario((cur.getInt(0)));
+            usu1.setIdUsuario((cur.getString(0)));
             usu1.setIdTipoUsuario((cur.getInt(1)));
             usu1.setContrasena(cur.getString(2));
             usu1.setNombreUsuario(cur.getString(3));
@@ -242,7 +249,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                        usus.add(new Usuario(cur.getInt(0)
+                        usus.add(new Usuario(cur.getString(0)
                         , cur.getInt(1)
                         , cur.getString(2)
                         , cur.getString(3)
@@ -1199,8 +1206,8 @@ public class ControladorBD {
         return resultado;
     }
 
-    public PedidoAsignado consultarPedAsig(String idPedidoAsignado, String idPedido, String idUsuario){
-        String[] id = {idPedidoAsignado,idPedido,idUsuario};
+    public PedidoAsignado consultarPedAsig(int idPedidoAsignado, int idPedido, String idUsuario){
+        String[] id = {String.valueOf(idPedidoAsignado),String.valueOf(idPedido),idUsuario};
         Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedidoAsignado = ? and idPedido = ? and idUsuario = ?" + id, null);
         //si existe pedidoAsignado
         if(cursor.moveToFirst())
@@ -1208,7 +1215,7 @@ public class ControladorBD {
             PedidoAsignado pedidoAsignado = new PedidoAsignado();
             pedidoAsignado.setIdPedidoAsignado(cursor.getInt(0));
             pedidoAsignado.setIdPedido(cursor.getInt(1));
-            pedidoAsignado.setIdUsuario(cursor.getInt(2));
+            pedidoAsignado.setIdUsuario(cursor.getString(2));
             return pedidoAsignado;
         }
         else {
@@ -1223,7 +1230,7 @@ public class ControladorBD {
 
             do {
                 peasig.add(new PedidoAsignado(cur.getInt(0),
-                        cur.getInt(1),
+                        cur.getString(1),
                         cur.getInt(2)));
             } while (cur.moveToNext());
 
@@ -1234,7 +1241,7 @@ public class ControladorBD {
     public String actualizar(PedidoAsignado pedidoAsignado){
         //verificando integridad
         if(verificarIntegridad(pedidoAsignado, 14)){
-            String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),String.valueOf(pedidoAsignado.getIdUsuario())};
+            String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
             ContentValues cv = new ContentValues();
             cv.put("idPedidoAsignado",pedidoAsignado.getIdPedidoAsignado());
             cv.put("idPedido",pedidoAsignado.getIdPedido());
@@ -1247,7 +1254,7 @@ public class ControladorBD {
     }
     public String eliminar(PedidoAsignado pedidoAsignado){
         String resultado = "Se elimino pedidoAsignado: " + pedidoAsignado.getIdPedidoAsignado();
-        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),String.valueOf(pedidoAsignado.getIdUsuario())};
+        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
         int contadorPA=0;
         //verificar que exista pedidoAsignado
         if(verificarIntegridad(pedidoAsignado,14)){
@@ -1268,6 +1275,7 @@ public class ControladorBD {
             preal.put("idPedidoRealizado", pedidoRealizado.getIdPedidoRealizado());
             preal.put("idPedido", pedidoRealizado.getIdPedido());
             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
+            preal.put("tipoPedRealizado",pedidoRealizado.getIdPedidoRealizado());
             contador=db.insert("PedidoRealizado", null, preal);
         } if(contador==-1 || contador==0)
         {
@@ -1279,8 +1287,8 @@ public class ControladorBD {
         return resultado;
     }
 
-    public PedidoRealizado consultarPedReal(String idPedidoRealizado, String idPedido, String idUsuario){
-        String[] id = {idPedidoRealizado,idPedido,idUsuario};
+    public PedidoRealizado consultarPedReal(int idPedidoRealizado, int idPedido, String idUsuario){
+        String[] id = {String.valueOf(idPedidoRealizado),String.valueOf(idPedido),idUsuario};
         Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedidoRealizado = ? and idPedido = ? and idUsuario = ?" + id, null);
         //si existe pedidoRealizado
         if(cursor.moveToFirst())
@@ -1288,7 +1296,8 @@ public class ControladorBD {
             PedidoRealizado pedidoRealizado = new PedidoRealizado();
             pedidoRealizado.setIdPedidoRealizado(cursor.getInt(0));
             pedidoRealizado.setIdPedido(cursor.getInt(1));
-            pedidoRealizado.setIdUsuario(cursor.getInt(2));
+            pedidoRealizado.setIdUsuario(cursor.getString(2));
+            pedidoRealizado.setTipo(cursor.getString(3));
             return pedidoRealizado;
         }
         else {
@@ -1303,8 +1312,9 @@ public class ControladorBD {
 
             do {
                 pedreal.add(new PedidoRealizado(cur.getInt(0),
-                        cur.getInt(1),
-                        cur.getInt(2)));
+                        cur.getString(1),
+                        cur.getInt(2),
+                        cur.getString(3)));
             } while (cur.moveToNext());
 
         }
@@ -1314,11 +1324,12 @@ public class ControladorBD {
     public String actualizar(PedidoRealizado pedidoRealizado){
         //verificando integridad
         if(verificarIntegridad(pedidoRealizado, 16)){
-            String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),String.valueOf(pedidoRealizado.getIdUsuario())};
+            String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),pedidoRealizado.getIdUsuario()};
             ContentValues cv = new ContentValues();
             cv.put("idPedidoRealizado",pedidoRealizado.getIdPedidoRealizado());
             cv.put("idPedido",pedidoRealizado.getIdPedido());
             cv.put("idUsuario",pedidoRealizado.getIdUsuario());
+            cv.put("tipoPedRealizado",pedidoRealizado.getIdPedidoRealizado());
             db.update("PedidoRealizado", cv, "idPedidoRealizado = ? and idPedido= ? and idUsuario= ?", idPR);
             return "Registro de PedidoRealizado Actualizado Correctamente";
         }else{
@@ -1327,7 +1338,7 @@ public class ControladorBD {
     }
     public String eliminar(PedidoRealizado pedidoRealizado){
         String resultado = "Se elimino pedidoRealizado: " + pedidoRealizado.getIdPedidoRealizado();
-        String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),String.valueOf(pedidoRealizado.getIdUsuario())};
+        String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),pedidoRealizado.getIdUsuario()};
         int contadorPR=0;
         //verificar que exista pedidoRealizado
         if(verificarIntegridad(pedidoRealizado,16)){
@@ -1359,8 +1370,8 @@ public class ControladorBD {
         return resultado;
     }
 
-    public AccesoUsuario consultarAccesoUsuario(String idAccesoUsuario, String idOpcion, String idUsuario){
-        String[] id = {idAccesoUsuario,idOpcion,idUsuario};
+    public AccesoUsuario consultarAccesoUsuario(int idAccesoUsuario, String idOpcion, String idUsuario){
+        String[] id = {String.valueOf(idAccesoUsuario),idOpcion,idUsuario};
         Cursor cursor = db.rawQuery("select * from AccesoUsuario where idAccesoUsuario = ? and id_Opcion = ? and idUsuario = ?" + id, null);
         //si existe AccesoUsuario
         if(cursor.moveToFirst())
@@ -1368,7 +1379,7 @@ public class ControladorBD {
             AccesoUsuario accesoUsuario = new AccesoUsuario();
             accesoUsuario.setIdAccesoUsuario(cursor.getInt(0));
             accesoUsuario.setIdOpcion(cursor.getString(1));
-            accesoUsuario.setIdUsuario(cursor.getInt(2));
+            accesoUsuario.setIdUsuario(cursor.getString(2));
             return accesoUsuario;
         }
         else {
@@ -1382,7 +1393,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                accusu.add(new AccesoUsuario(cur.getInt(0),
+                accusu.add(new AccesoUsuario(cur.getString(0),
                         cur.getString(1),
                         cur.getInt(2)));
             } while (cur.moveToNext());
@@ -1394,7 +1405,7 @@ public class ControladorBD {
     public String actualizar(AccesoUsuario accesoUsuario){
         //verificando integridad
         if(verificarIntegridad(accesoUsuario, 18)){
-            String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),String.valueOf(accesoUsuario.getIdUsuario())};
+            String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
             ContentValues cv = new ContentValues();
             cv.put("idAccesoUsuario",accesoUsuario.getIdAccesoUsuario());
             cv.put("id_Opcion",accesoUsuario.getIdOpcion());
@@ -1407,7 +1418,7 @@ public class ControladorBD {
     }
     public String eliminar(AccesoUsuario accesoUsuario){
         String resultado = "Se elimino accesoUsuario: " + accesoUsuario.getIdAccesoUsuario();
-        String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),String.valueOf(accesoUsuario.getIdUsuario())};
+        String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
         int contadorAU=0;
         //verificar que exista accesoUsuario
         if(verificarIntegridad(accesoUsuario,18)){
@@ -1627,7 +1638,7 @@ public class ControladorBD {
                 //verificar que al insertar pedidoAsignado exista idPedido e idUsuario
                 PedidoAsignado pedidoAsignado = (PedidoAsignado) dato;
                 String[] id1 = {String.valueOf(pedidoAsignado.getIdPedido())};
-                String[] id2 = {String.valueOf(pedidoAsignado.getIdUsuario())};
+                String[] id2 = {pedidoAsignado.getIdUsuario()};
                 Cursor cursor1 = db.query("Pedido", null, "idPedido = ?", id1, null,
                         null, null);
                 Cursor cursor2 = db.query("Usuario", null, "idUsuario = ?", id2,
@@ -1643,7 +1654,7 @@ public class ControladorBD {
 //verificar que al modificar o eliminar pedidoAsignado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
                 PedidoAsignado pedidoAsignado1=(PedidoAsignado) dato;
                 String[] ids = {String.valueOf(pedidoAsignado1.getIdPedidoAsignado()), String.valueOf(pedidoAsignado1.getIdPedido()),
-                            String.valueOf(pedidoAsignado1.getIdUsuario())};
+                            pedidoAsignado1.getIdUsuario()};
                 Cursor c = db.query("PEDIDOASIGNADO", null, "IDPEDIDOASIGNADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
                     if(c.moveToFirst()){
 //Se encontraron datos
@@ -1655,7 +1666,7 @@ public class ControladorBD {
                 //verificar que al insertar pedidoRealizado exista idPedido e idUsuario
                 PedidoRealizado pedidoRealizado = (PedidoRealizado) dato;
                 String[] id1 = {String.valueOf(pedidoRealizado.getIdPedido())};
-                String[] id2 = {String.valueOf(pedidoRealizado.getIdUsuario())};
+                String[] id2 = {pedidoRealizado.getIdUsuario()};
                 Cursor cursor1 = db.query("Pedido", null, "idPedido = ?", id1, null,
                         null, null);
                 Cursor cursor2 = db.query("Usuario", null, "idUsuario = ?", id2,
@@ -1671,7 +1682,7 @@ public class ControladorBD {
 //verificar que al modificar o eliminar pedidoRealizado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
                 PedidoRealizado pedidoRealizado1 = (PedidoRealizado) dato;
                 String[] ids = {String.valueOf(pedidoRealizado1.getIdPedidoRealizado()), String.valueOf(pedidoRealizado1.getIdPedido()),
-                        String.valueOf(pedidoRealizado1.getIdUsuario())};
+                        pedidoRealizado1.getIdUsuario()};
                 Cursor c = db.query("PEDIDOREALIZADO", null, "IDPEDIDOREALIZADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
                 if(c.moveToFirst()){
 //Se encontraron datos
@@ -1682,7 +1693,7 @@ public class ControladorBD {
             case 17: {
                 //verificar que al insertar AccesoUsuario exista idUsuario e idOpcion
                 AccesoUsuario accesoUsuario = (AccesoUsuario) dato;
-                String[] id1 = {String.valueOf(accesoUsuario.getIdUsuario())};
+                String[] id1 = {accesoUsuario.getIdUsuario()};
                 String[] id2 = {accesoUsuario.getIdOpcion()};
                 Cursor cursor1 = db.query("Usuario", null, "idUsuario = ?", id1, null,
                         null, null);
@@ -1699,7 +1710,7 @@ public class ControladorBD {
 //verificar que al modificar o eliminar AccesoUsuario exista idOpcion de OpcionCrud, idUsuario y el idAccesoUsuario
                 AccesoUsuario accesoUsuario1 = (AccesoUsuario) dato;
                 String[] ids = {String.valueOf(accesoUsuario1.getIdAccesoUsuario()), accesoUsuario1.getIdOpcion(),
-                        String.valueOf(accesoUsuario1.getIdUsuario())};
+                        accesoUsuario1.getIdUsuario()};
                 Cursor c = db.query("ACCESOUSUARIO", null, "IDACCESOUSUARIO= ? AND ID_OPCION = ? AND IDUSUARIO= ?", ids, null, null, null);
                 if(c.moveToFirst()){
 //Se encontraron datos

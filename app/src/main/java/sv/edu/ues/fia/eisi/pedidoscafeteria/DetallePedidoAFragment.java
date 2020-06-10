@@ -32,12 +32,6 @@ public class DetallePedidoAFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalle_pedido_a,container,false);
-        descPedido=view.findViewById(R.id.editDescripcion);
-        nomCliente=view.findViewById(R.id.editCliente);
-        totPedido=view.findViewById(R.id.editTotal);
-        direccion=view.findViewById(R.id.editDireccion);
-
-        String codigo = getArguments().getString("idpedido");
 
         return view;
     }

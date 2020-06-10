@@ -1268,6 +1268,7 @@ public class ControladorBD {
             preal.put("idPedidoRealizado", pedidoRealizado.getIdPedidoRealizado());
             preal.put("idPedido", pedidoRealizado.getIdPedido());
             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
+            preal.put("tipo", pedidoRealizado.getTipo());
             contador=db.insert("PedidoRealizado", null, preal);
         } if(contador==-1 || contador==0)
         {
@@ -1289,6 +1290,7 @@ public class ControladorBD {
             pedidoRealizado.setIdPedidoRealizado(cursor.getInt(0));
             pedidoRealizado.setIdPedido(cursor.getInt(1));
             pedidoRealizado.setIdUsuario(cursor.getInt(2));
+            pedidoRealizado.setTipo(cursor.getString(3));
             return pedidoRealizado;
         }
         else {
@@ -1304,7 +1306,8 @@ public class ControladorBD {
             do {
                 pedreal.add(new PedidoRealizado(cur.getInt(0),
                         cur.getInt(1),
-                        cur.getInt(2)));
+                        cur.getInt(2),
+                        cur.getString(3)));
             } while (cur.moveToNext());
 
         }
@@ -1319,6 +1322,7 @@ public class ControladorBD {
             cv.put("idPedidoRealizado",pedidoRealizado.getIdPedidoRealizado());
             cv.put("idPedido",pedidoRealizado.getIdPedido());
             cv.put("idUsuario",pedidoRealizado.getIdUsuario());
+            cv.put("tipo", pedidoRealizado.getTipo());
             db.update("PedidoRealizado", cv, "idPedidoRealizado = ? and idPedido= ? and idUsuario= ?", idPR);
             return "Registro de PedidoRealizado Actualizado Correctamente";
         }else{

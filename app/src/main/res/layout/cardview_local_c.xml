@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="#2F64C7CA">
+    android:background="#2F64C7CA"
+    android:id="@+id/local_card">
 
     <ImageView
         android:id="@+id/imagen_local_c"

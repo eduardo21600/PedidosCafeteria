@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".crearRepartidor"></activity>
+        <activity android:name=".ui.menuCliente.MenusLocal"></activity>
+        <activity android:name=".crearRepartidor" />
         <activity android:name=".detallePedidoEnc" />
         <activity
             android:name=".drawerEncar"

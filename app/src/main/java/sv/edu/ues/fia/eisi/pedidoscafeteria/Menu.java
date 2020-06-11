@@ -1,9 +1,11 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import java.util.List;
+
 public class Menu
 {
     private  int idMenu;
-    private int idProducto;
+    private List<Producto> productos;
     private int idLocal;
     private double precioMenu;
     private String fechaDesdeMenu; //van string porque sqlite no tiene formato para fechas
@@ -12,10 +14,9 @@ public class Menu
 
     public Menu(){}
 
-
-    public Menu(int idMenu, int idProducto, int idLocal, double precioMenu, String fechaDesdeMenu, String fechaHastaMenu, String nomMenu) {
+    public Menu(int idMenu, List<Producto> productos, int idLocal, double precioMenu, String fechaDesdeMenu, String fechaHastaMenu, String nomMenu) {
         this.idMenu = idMenu;
-        this.idProducto = idProducto;
+        this.productos = productos;
         this.idLocal = idLocal;
         this.precioMenu = precioMenu;
         this.fechaDesdeMenu = fechaDesdeMenu;
@@ -31,12 +32,12 @@ public class Menu
         this.idMenu = idMenu;
     }
 
-    public int getIdProducto() {
-        return idProducto;
+    public List<Producto> getProductos() {
+        return productos;
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 
     public int getIdLocal() {

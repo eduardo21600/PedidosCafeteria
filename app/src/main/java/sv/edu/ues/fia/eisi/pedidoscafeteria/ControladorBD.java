@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;
+
 public class ControladorBD {
     private SQLiteDatabase db;
     private DataBaseHelper DBHelper;
@@ -574,11 +576,12 @@ public class ControladorBD {
         String[] id = {String.valueOf(producto.getIdProduto())};
         Cursor cur = db.query("Producto", null, "idProducto = ?", id, null, null, null);
         if (cur.moveToFirst()) {
-            Cursor k = db.query("Menu", null, "idProducto", id, null, null, null);
-            if (k.moveToFirst()) {
-                cont = db.delete("Menu", "idProducto =" + producto.getIdProduto(), null);
 
-                resultado = resultado + ", " + cont + " Menus eliminados con ese producto";
+            Cursor m = db.query("ASIGNARPRODUCTO", null, "IDPRODCUTO", id, null, null, null);
+            if (m.moveToFirst()) {
+                cont = db.delete("ASIGNARPRODUCTO", "IDPRODUCTO =" + producto.getIdProduto(), null);
+
+                resultado = resultado + ", " + cont + " Productos eliminados de menús";
             }
             comprobador = db.delete("Producto", "idProducto =" + producto.getIdProduto(), null);
         } else {
@@ -590,9 +593,13 @@ public class ControladorBD {
     //CRUD MENU
     public String CrearMenu(Menu menu) {
         String resultado = "Menu creado ";
+
         ContentValues uwu = new ContentValues();
+        ContentValues proMenu = new ContentValues();
+
+
+
         uwu.put("idMenu", menu.getIdMenu());
-        uwu.put("idProducto", menu.getIdProducto());
         uwu.put("idLocal", menu.getIdLocal());
         uwu.put("PrecioMenu", menu.getPrecioMenu());
         uwu.put("fechaDesdeMenu", menu.getFechaDesdeMenu());
@@ -600,26 +607,53 @@ public class ControladorBD {
         uwu.put("nomMenu", menu.getNomMenu());
 
 
+
         long comprobador = 0;
         comprobador = db.insert("Menu", null, uwu);
         if (comprobador == -1 || comprobador == 0) {
             resultado = "oh, oh ya existe un Menu con ese codigo ): ";
+        }
+        List<Producto> Productos =  menu.getProductos();
+        for (int i=0;i<Productos.size();i++)
+        {
+            proMenu.put("IDMENU",menu.getIdMenu());
+            proMenu.put("IDPRODUCTO", Productos.get(i).getIdProduto());
+            comprobador = db.insert("ASIGNARPRODUCTO",null,proMenu);
+            if (comprobador ==-1 || comprobador ==0)
+            {
+                resultado =resultado + "no se pudo insertar el producto del id "+Productos.get(i).getIdProduto();
+            }
         }
         return resultado;
     }
 
     public Menu ConsultaMenu(String idMenu) {
         String[] id = {idMenu};
+        List<AsignarProducto> productosMenu = null;
+        List<Producto> productos = new ArrayList<>();
         Cursor cur = db.rawQuery("select * from Menu where idMenu =" + idMenu, null);
         if (cur.moveToFirst()) {
+            Cursor k = db.rawQuery("select * from PRODUCTOASIGNADO where idMenu =" + idMenu, null);
+            if(k.moveToFirst())
+            {
+                do {
+                        productosMenu.add(new AsignarProducto(k.getInt(0),k.getInt(1)));
+                }while(k.moveToNext());
+                for(int i=0;i<productosMenu.size();i++)
+                {Cursor m = db.rawQuery("select * from PRODUCTO where idProducto =" + productosMenu.get(i).getIDPRODUCTO(), null);
+                    productos.add(new Producto(m.getInt(0),m.getString(1),m.getInt(2),m.getString(3)));
+                }
+
+            }
+
             Menu uwu = new Menu();
             uwu.setIdMenu((cur.getInt(0)));
-            uwu.setIdProducto((cur.getInt(1)));
-            uwu.setIdLocal((cur.getInt(2)));
-            uwu.setPrecioMenu((cur.getInt(3)));
-            uwu.setFechaDesdeMenu((cur.getString(4)));
-            uwu.setFechaHastaMenu((cur.getString(5)));
-            uwu.setNomMenu((cur.getString(6)));
+            uwu.setIdLocal((cur.getInt(1)));
+            uwu.setPrecioMenu((cur.getInt(2)));
+            uwu.setFechaDesdeMenu((cur.getString(3)));
+            uwu.setFechaHastaMenu((cur.getString(4)));
+            uwu.setNomMenu((cur.getString(5)));
+            uwu.setProductos(productos);
             return uwu;
         } else {
             return null;
@@ -631,11 +665,29 @@ public class ControladorBD {
     public List<Menu> ConsultaMenus() {
         Cursor cur = db.rawQuery("SELECT * FROM Menu", null);
         List<Menu> uwu = new ArrayList<>();
+        List<AsignarProducto> proMenu = new ArrayList<>();
+        List<Producto> producto = new ArrayList<>();
         if (cur.moveToFirst()) {
 
             do {
+                String[] idMenu = {String.valueOf(cur.getInt(0))};
+                Cursor m = db.rawQuery("SELECT * FROM PRODUCTOASIGNADO WHERE =?"+idMenu,null);
+                if(m.moveToFirst())
+                {
+                    proMenu.add(new AsignarProducto(m.getInt(0),m.getInt(1)));
+                }
+                for(int i=0;i<proMenu.size();i++)
+                {
+                    Cursor k = db.rawQuery("SELECT * FROM PRODUCTO WHERE =?"+proMenu.get(i).getIDPRODUCTO(),null);
+                    if(k.moveToFirst())
+                    {
+                        producto.add(new Producto(k.getInt(0),k.getString(1),k.getInt(2),k.getString(3)));
+                    }
+                }
+
+
                 uwu.add(new Menu(cur.getInt(0),
-                        cur.getInt(1),
+                        producto,
                         cur.getInt(2),
                         cur.getInt(3),
                         cur.getString(4),
@@ -655,7 +707,6 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
             ContentValues uwu = new ContentValues();
             uwu.put("idMenu", menu.getIdMenu());
-            uwu.put("idProducto", menu.getIdProducto());
             uwu.put("idLocal", menu.getIdLocal());
             uwu.put("precioMenu", menu.getPrecioMenu());
             uwu.put("fechaDesdeMenu", menu.getFechaDesdeMenu());
@@ -676,6 +727,7 @@ public class ControladorBD {
     public String eliminarMenu(Menu menu) {
         int comprobador = 0;
         int cont = 0;
+        int cont1 =0;
         String resultado = comprobador + " Menu eliminados ";
         String[] id = {String.valueOf(menu.getIdMenu())};
         Cursor cur = db.query("Menu", null, "idMenu = ?", id, null, null, null);
@@ -684,11 +736,49 @@ public class ControladorBD {
             if (k.moveToFirst()) {
                 cont = db.delete("DetallePedido", "idMenu =" + menu.getIdMenu(), null);
 
-                resultado = resultado + ", " + cont + " Detalles eliminados con este producto";
+                resultado = resultado + ", " + cont + " Detalles eliminados con este Menu";
+            }
+            Cursor m = db.query("ASIGNARPRODUCTO", null, "IDMENU", id, null, null, null);
+            if (m.moveToFirst()) {
+                cont = db.delete("ASIGNARPRODUCTO", "IDMENU =" + menu.getIdMenu(), null);
+
+                resultado = resultado + ", " + cont1 + " Productos eliminados del menú";
             }
             comprobador = db.delete("Menu", "idMenu =" + menu.getIdMenu(), null);
         } else {
             resultado = "Ese Menu no existe";
+        }
+        return resultado;
+    }
+
+
+    //CD de una asignación de productos a menú
+
+    public String AsignarProtoMenu(AsignarProducto asigP) {
+        String resultado = "producto agregado amenu";
+        ContentValues prodM = new ContentValues();
+        prodM.put("IDMENU", asigP.getIDMENU());
+        prodM.put("IDPRODUCTO", asigP.getIDPRODUCTO());
+
+        long comprobador = 0;
+        comprobador = db.insert("ASIGNARPRODUCTO", null, prodM);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh este Menú ya tiene este producto ): ";
+        }
+        return resultado;
+    }
+    public  String QuitarProducto(AsignarProducto asigP)
+    {int cont = 0;
+     String resultado = "pedido retirado del menú";
+     String[]datos = {String.valueOf(asigP.getIDMENU()),String.valueOf(asigP.getIDPRODUCTO())};
+        Cursor cursor = db.query("ASIGNARPRODUCTO",null,"IDMENU =? AND IDPRODUCTO=?",datos,null,null,null);
+        if(cursor.moveToFirst())
+        {
+            cont = db.delete("ASIGNARPRODUCTO","WHERE IDMENU=? AND IDPEDIDO=?",datos);
+        }
+        if(cont == -1 || cont == 0)
+        {
+            resultado= "oh,oh parece que este pedido no está en el producto";
         }
         return resultado;
     }

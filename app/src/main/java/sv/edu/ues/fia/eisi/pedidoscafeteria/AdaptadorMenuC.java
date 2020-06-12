@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +36,12 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         v = LayoutInflater.from(mContext).inflate(R.layout.cardview_menu_c, parent, false);
         final AdaptadorMenuC.viewHolder vHolder = new AdaptadorMenuC.viewHolder(v);
 
+        vHolder.agregarPedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Men: " + vHolder.tv_nombre.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return vHolder;
     }
@@ -59,6 +67,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         private TextView tv_desc;
         private TextView tv_precio;
         private ImageView iv_imagen;
+        private Button agregarPedido;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,7 +76,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
             tv_desc = (TextView) itemView.findViewById(R.id.descripcion_menu_c);
             tv_precio = (TextView) itemView.findViewById(R.id.precio_menu_c);
             iv_imagen = (ImageView) itemView.findViewById(R.id.imagen_menu_c);
-
+            agregarPedido = (Button) itemView.findViewById(R.id.agregar_pedido);
         }
     }
 }

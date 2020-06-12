@@ -44,6 +44,7 @@
         android:layout_marginTop="5sp"/>
 
         <Button
+            android:id="@+id/agregar_pedido"
             android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:text="Añadir al pedido"

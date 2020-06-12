@@ -60,4 +60,9 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.MenusLocal"
         android:label="@string/menu_local"
         tools:layout="@layout/activity_menus_local" />
+    <fragment
+        android:id="@+id/nav_pedido_cliente"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.pedidosCliente.fragmentPedidosCliente"
+        android:label="@string/Pedidos"
+        tools:layout="@layout/fragment_pedidos_cliente" />
 </navigation>

@@ -1203,7 +1203,7 @@ public class ControladorBD {
             if(k.moveToFirst())
             {
                 do {
-                    detallePedidos.add(new DetallePedido(k.getInt(0),k.getInt(1),k.getInt(2),k.getInt(3)));
+                    detallePedidos.add(new DetallePedido(k.getInt(0),k.getInt(1),k.getInt(2)));
                 }while(k.moveToNext());
             }
             Pedido pedido = new Pedido();
@@ -1230,7 +1230,7 @@ public class ControladorBD {
             do {
                 Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE =?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
-                    detallePedidos.add(new DetallePedido(m.getInt(0), m.getInt(1), m.getInt(2), m.getInt(3)));
+                    detallePedidos.add(new DetallePedido(m.getInt(0), m.getInt(1), m.getInt(2)));
                 }
                 pedido.add(new Pedido(cur.getInt(0),
                         detallePedidos,

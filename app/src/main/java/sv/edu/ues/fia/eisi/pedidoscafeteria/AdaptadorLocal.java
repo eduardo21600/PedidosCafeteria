@@ -42,6 +42,7 @@ public class AdaptadorLocal extends RecyclerView.Adapter<AdaptadorLocal.viewHold
             public void onClick(View v)
             {
                 Intent intent = new Intent(mContext,MenusLocal.class);
+                intent.putExtra("Local",vHolder.idlocal);
                 mContext.startActivity(intent);
             }
         });
@@ -53,7 +54,8 @@ public class AdaptadorLocal extends RecyclerView.Adapter<AdaptadorLocal.viewHold
     public void onBindViewHolder(@NonNull viewHolder holder, int position)
     {
         holder.tv_nombre.setText(mLocal.get(position).getNombreLocal());
-        holder.iv_imagen.setImageResource(mLocal.get(position).getIdUsuario());
+        holder.iv_imagen.setImageResource(mLocal.get(position).getIdLocal());
+        holder.idlocal = mLocal.get(position).getIdLocal();
     }
 
     @Override
@@ -66,6 +68,7 @@ public class AdaptadorLocal extends RecyclerView.Adapter<AdaptadorLocal.viewHold
         private LinearLayout ly_local;
         private TextView tv_nombre;
         private ImageView iv_imagen;
+        private int idlocal;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

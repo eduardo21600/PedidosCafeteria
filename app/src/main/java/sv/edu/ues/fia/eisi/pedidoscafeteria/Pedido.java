@@ -1,29 +1,29 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import java.util.ArrayList;
+
 public class Pedido{
 
     private int idPedido;
-    private int idDetallePedido;
+    private ArrayList<DetallePedido> detallePedidos;
     private String idEstadoPedido;
     private int idLocal;
     private int idUbicacion;
     private String fechaPedido;
     private float totalPedido;
 
-
     public Pedido(){
 
     }
 
-    public Pedido(int idPedido, int idDetallePedido, String idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, float totalPedido) {
+    public Pedido(int idPedido, ArrayList<DetallePedido> detallePedidos, String idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, float totalPedido) {
         this.idPedido = idPedido;
-        this.idDetallePedido = idDetallePedido;
+        this.detallePedidos = detallePedidos;
         this.idEstadoPedido = idEstadoPedido;
         this.idLocal = idLocal;
         this.idUbicacion = idUbicacion;
         this.fechaPedido = fechaPedido;
-        this.totalPedido= totalPedido;
-
+        this.totalPedido = totalPedido;
     }
 
     public int getIdPedido() {
@@ -34,12 +34,12 @@ public class Pedido{
         this.idPedido = idPedido;
     }
 
-    public int getIdDetallePedido() {
-        return idDetallePedido;
+    public ArrayList<DetallePedido> getDetallePedidos() {
+        return detallePedidos;
     }
 
-    public void setIdDetallePedido(int idDetallePedido) {
-        this.idDetallePedido = idDetallePedido;
+    public void setDetallePedidos(ArrayList<DetallePedido> detallePedidos) {
+        this.detallePedidos = detallePedidos;
     }
 
     public String getIdEstadoPedido() {

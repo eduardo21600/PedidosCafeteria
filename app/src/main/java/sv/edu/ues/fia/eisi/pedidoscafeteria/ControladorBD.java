@@ -905,7 +905,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
             Local lokxti = new Local();
             lokxti.setIdLocal((cur.getInt(0)));
-            lokxti.setIdUsuario((cur.getInt(1)));
+            lokxti.setIdUsuario((cur.getString(1)));
             lokxti.setNombreLocal((cur.getString(2)));
 
 
@@ -924,7 +924,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                lokxti.add(new Local(cur.getInt(0),cur.getInt(1), cur.getString(2)));
+                lokxti.add(new Local(cur.getInt(0),cur.getString(1), cur.getString(2)));
             } while (cur.moveToNext());
 
 

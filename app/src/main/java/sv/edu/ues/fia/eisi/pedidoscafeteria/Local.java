@@ -2,13 +2,13 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 public class Local {
     private int idLocal;
-    private int idUsuario;
+    private String idUsuario;
     private String nombreLocal; // 50
 
 
     public Local(){}
 
-    public Local(int idLocal,int idUsuario, String nombreLocal) {
+    public Local(int idLocal,String idUsuario, String nombreLocal) {
         this.idLocal = idLocal;
         this.nombreLocal = nombreLocal;
         this.idUsuario = idUsuario;
@@ -16,11 +16,11 @@ public class Local {
 
 
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

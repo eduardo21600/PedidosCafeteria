@@ -4,17 +4,17 @@ public class DetallePedido {
     private int cantidad;
     private int subtotal;
     private int idDetallePedido;
-    private int idMenu;
+
 
 
 
     public DetallePedido(){}
 
-    public DetallePedido(int cantidad, int subtotal, int idDetallePedido, int idMenu) {
+    public DetallePedido(int cantidad, int subtotal, int idDetallePedido) {
         this.cantidad = cantidad;
         this.subtotal = subtotal;
         this.idDetallePedido = idDetallePedido;
-        this.idMenu = idMenu;
+
     }
 
     public int getIdDetallePedido() {
@@ -25,13 +25,9 @@ public class DetallePedido {
         this.idDetallePedido = idDetallePedido;
     }
 
-    public int getIdMenu() {
-        return idMenu;
-    }
 
-    public void setIdMenu(int idMenu) {
-        this.idMenu = idMenu;
-    }
+
+
 
     public int getCantidad() {
         return cantidad;

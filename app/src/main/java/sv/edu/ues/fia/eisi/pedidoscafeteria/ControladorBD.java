@@ -749,7 +749,8 @@ public class ControladorBD {
             resultado = "Ese Menu no existe";
         }
         return resultado;
-    }
+
+}
 
 
     //CD de una asignación de productos a menú
@@ -759,6 +760,7 @@ public class ControladorBD {
         ContentValues prodM = new ContentValues();
         prodM.put("IDMENU", asigP.getIDMENU());
         prodM.put("IDPRODUCTO", asigP.getIDPRODUCTO());
+
 
         long comprobador = 0;
         comprobador = db.insert("ASIGNARPRODUCTO", null, prodM);
@@ -790,7 +792,7 @@ public class ControladorBD {
         depe.put("cantidad", detallepedido.getCantidad());
         depe.put("subtotal", detallepedido.getSubtotal());
         depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
-        depe.put("idMenu", detallepedido.getIdMenu());
+
 
 
         long comprobador = 0;
@@ -809,7 +811,7 @@ public class ControladorBD {
             depe.setCantidad((cur.getInt(0)));
             depe.setSubtotal((cur.getInt(1)));
             depe.setIdDetallePedido((cur.getInt(2)));
-            depe.setIdMenu((cur.getInt(3)));
+
 
 
             return depe;
@@ -829,8 +831,8 @@ public class ControladorBD {
             do {
                 depe.add(new DetallePedido(cur.getInt(0),
                         cur.getInt(1),
-                        cur.getInt(2),
-                        cur.getInt(3)));
+                        cur.getInt(2)
+                        ));
             } while (cur.moveToNext());
 
 
@@ -847,7 +849,7 @@ public class ControladorBD {
             depe.put("cantidad", detallepedido.getCantidad());
             depe.put("subtotal", detallepedido.getSubtotal());
             depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
-            depe.put("idMenu", detallepedido.getIdMenu());
+
 
 
             db.update("DetallePedido", depe, "idDetallePedido=?", id);

@@ -185,7 +185,43 @@ public class ControladorBD {
         DBHelper.close();
     }
 
+    //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
+    public String llenarUsuario(){
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
+        final String [] idUsus =new String[]{"1","2","3","4"};
+        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
 
+        final int [] idTipos =new int[] {1,2,3};
+        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+
+        abrir();
+        db.execSQL("DELETE FROM USUARIO");
+        db.execSQL("DELETE FROM TIPOUSUARIO");
+
+        TipoUsuario t = new TipoUsuario();
+        for (int i = 0; i <3 ; i++) {
+            t.setIdTipoUsuario(idTipos[i]);
+            t.setNomTipoUsuario(nomTipos[i]);
+            CrearTipoUsuario(t);
+        }
+
+
+        Usuario u = new Usuario();
+        for (int i = 0; i <4 ; i++) {
+            u.setIdUsuario(contras[i]);
+            u.setNombreUsuario(nomUsuario[i]);
+            u.setApellidoUsuario(apeUsuario[i]);
+            u.setContrasena(idUsus[i]);
+            u.setTeleUsuario(telefono[i]);
+            u.setIdTipoUsuario(idTipoUsus[i]);
+            insertar(u);
+        }
+        cerrar();
+        return "Guardado";
+    }
 
 
 
@@ -267,6 +303,33 @@ public class ControladorBD {
     public String actualizarUsuario(Usuario usuario) {
         String resultado = "datos actualizados";
         String[] id = {String.valueOf(usuario.getIdUsuario())};
+        Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};
+            Cursor k = db.query("TipoUsuario", null, "idTipoUsuario = ?", idTU, null, null, null);
+            if (k.moveToFirst()) {
+                ContentValues usuact = new ContentValues();
+                usuact.put("idUsuario", usuario.getIdUsuario());
+                usuact.put("idTipoUsuario", usuario.getIdTipoUsuario());
+                usuact.put("contrasena", usuario.getContrasena());
+                usuact.put("nombreUsuario", usuario.getNombreUsuario());
+                usuact.put("teleUsuario", usuario.getTeleUsuario());
+                usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                db.update("Usuario", usuact, "idUsuario=?", id);
+
+            } else {
+                resultado = "el tipo de usuario no existe, pruebe con uno existente";
+            }
+
+        } else {
+            resultado = "no hay registros de usuario con el código " + id;
+        }
+        return resultado;
+    }
+
+    public String actualizarUsuario2(Usuario usuario,String idUsuario) {
+        String resultado = "datos actualizados";
+        String[] id = {idUsuario};
         Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
         if (cur.moveToFirst()) {
             String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};

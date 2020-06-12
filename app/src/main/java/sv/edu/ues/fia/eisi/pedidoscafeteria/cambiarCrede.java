@@ -39,7 +39,7 @@ public class cambiarCrede extends AppCompatActivity {
 
         controlador.abrir();
         usuario = controlador.ConsultaUsuario(nombre);
-        controlador.cerrar();
+
         if(usuario!=null){
             nombreU.setText(usuario.getIdUsuario());
             original = usuario.getIdUsuario();
@@ -50,6 +50,7 @@ public class cambiarCrede extends AppCompatActivity {
 
         //Verificando que el nuevo nombre de usuario no este tomado
         nombreU.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -62,6 +63,7 @@ public class cambiarCrede extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //controlador.abrir();
                 if(!(nombreU.getText().toString().isEmpty())){
                     if(!(controlador.ConsultaUsuario(nombreU.getText().toString())==null)){
                         //Toast.makeText(getApplicationContext(),"El nombre de usuario ya esta tomado",Toast.LENGTH_LONG).show();
@@ -160,15 +162,16 @@ public class cambiarCrede extends AppCompatActivity {
                    case 0:
                        if(!(repeContra.getText().toString().isEmpty())&&!(contra.getText().toString().isEmpty())){
                            if(contra.getText().toString().equals(repeContra.getText().toString())){
-                               controlador.abrir();
+                               //controlador.abrir();
                                usuario.setIdUsuario(nomU);
                                usuario.setContrasena(verContra);
                                usuario.setTeleUsuario(tel);
-                               controlador.actualizarUsuario(usuario,original);
+                               controlador.actualizarUsuario2(usuario,original);
+                               original = nomU;
                                SharedPreferences.Editor editor = sharedPreferences.edit();
                                editor.putString("nombreUsuario",nomU);
                                editor.apply();
-                               controlador.cerrar();
+                               //controlador.cerrar();
                                FancyToast.makeText(getApplicationContext(),"Se han guardado los cambios",2,FancyToast.SUCCESS,true).show();
                                break;
                            }
@@ -211,6 +214,12 @@ public class cambiarCrede extends AppCompatActivity {
     public void llenar (View v){
         //LLENADO PARA PRUEBAS RECUERDA QUITAR ESTO LUEGO!
         controlador.llenarUsuario();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controlador.cerrar();
     }
 }
 

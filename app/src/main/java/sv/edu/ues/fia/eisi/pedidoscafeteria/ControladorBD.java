@@ -185,7 +185,43 @@ public class ControladorBD {
         DBHelper.close();
     }
 
+    //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
+    public String llenarUsuario(){
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
+        final String [] idUsus =new String[]{"1","2","3","4"};
+        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
 
+        final int [] idTipos =new int[] {1,2,3};
+        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+
+        abrir();
+        db.execSQL("DELETE FROM USUARIO");
+        db.execSQL("DELETE FROM TIPOUSUARIO");
+
+        TipoUsuario t = new TipoUsuario();
+        for (int i = 0; i <3 ; i++) {
+            t.setIdTipoUsuario(idTipos[i]);
+            t.setNomTipoUsuario(nomTipos[i]);
+            CrearTipoUsuario(t);
+        }
+
+
+        Usuario u = new Usuario();
+        for (int i = 0; i <4 ; i++) {
+            u.setIdUsuario(contras[i]);
+            u.setNombreUsuario(nomUsuario[i]);
+            u.setApellidoUsuario(apeUsuario[i]);
+            u.setContrasena(idUsus[i]);
+            u.setTeleUsuario(telefono[i]);
+            u.setIdTipoUsuario(idTipoUsus[i]);
+            insertar(u);
+        }
+        cerrar();
+        return "Guardado";
+    }
 
 
 
@@ -267,6 +303,33 @@ public class ControladorBD {
     public String actualizarUsuario(Usuario usuario) {
         String resultado = "datos actualizados";
         String[] id = {String.valueOf(usuario.getIdUsuario())};
+        Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};
+            Cursor k = db.query("TipoUsuario", null, "idTipoUsuario = ?", idTU, null, null, null);
+            if (k.moveToFirst()) {
+                ContentValues usuact = new ContentValues();
+                usuact.put("idUsuario", usuario.getIdUsuario());
+                usuact.put("idTipoUsuario", usuario.getIdTipoUsuario());
+                usuact.put("contrasena", usuario.getContrasena());
+                usuact.put("nombreUsuario", usuario.getNombreUsuario());
+                usuact.put("teleUsuario", usuario.getTeleUsuario());
+                usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                db.update("Usuario", usuact, "idUsuario=?", id);
+
+            } else {
+                resultado = "el tipo de usuario no existe, pruebe con uno existente";
+            }
+
+        } else {
+            resultado = "no hay registros de usuario con el código " + id;
+        }
+        return resultado;
+    }
+
+    public String actualizarUsuario2(Usuario usuario,String idUsuario) {
+        String resultado = "datos actualizados";
+        String[] id = {idUsuario};
         Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
         if (cur.moveToFirst()) {
             String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};
@@ -1097,10 +1160,9 @@ public class ControladorBD {
         if (verificarIntegridad(pedido, 4)) {
             //se encontro pedido
             resultado="Este pedido ya existe. Registro Duplicado, ERROR";
-        } else if(verificarIntegridad(pedido,5) && verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7) && verificarIntegridad(pedido,8)){ //verificando que exista idDetallePedido en DetallePedido e idEstadoPedido en EstadPedido e idLocal en Local e idUbicacion en Ubicacion para insertar en pedido
+        } else if(verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7) && verificarIntegridad(pedido,8)){ //verificando que exista idEstadoPedido en EstadPedido e idLocal en Local e idUbicacion en Ubicacion para insertar en pedido
             ContentValues pedi = new ContentValues();
             pedi.put("idPedido", pedido.getIdPedido());
-            pedi.put("idDetallePedido",pedido.getIdDetallePedido());
             pedi.put("idEstadoPedido",pedido.getIdEstadoPedido());
             pedi.put("idLocal",pedido.getIdLocal());
             pedi.put("idUbicacion",pedido.getIdUbicacion());
@@ -1109,27 +1171,52 @@ public class ControladorBD {
             contador=db.insert("Pedido", null, pedi);
         }
         else {
-            resultado="DetallePedido,EstadoPedido,Local y Ubicacion no existen";
+            resultado="EstadoPedido,Local y Ubicacion no existen";
+        }
+        return resultado;
+    }
+//Para insertar los detalles de Pedido en Pedido
+    public String insertarDetalleEnPedido(Pedido pedido){
+        String resultado = "Se creó pedido correctamente";
+        long contador = 0;
+        ContentValues ped = new ContentValues();
+        List<DetallePedido> detallePedidos = pedido.getDetallePedidos();
+
+        for (int i = 0; i < detallePedidos.size(); i++){
+            if(verificarIntegridad(pedido,5)){
+                ped.put("idPedido", pedido.getIdPedido());
+                ped.put("idDetallePedido", detallePedidos.get(i).getIdDetallePedido());
+                contador = db.insert("PEDIDO",null,ped);
+            }
+            else {
+                resultado = "no se pudo insertar el detallePedido con id " + detallePedidos.get(i).getIdDetallePedido();
+            }
         }
         return resultado;
     }
 
     public Pedido consultarPedido(String idPedido){
+        ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         Cursor cursor = db.rawQuery("select * from Pedido where idPedido =" + idPedido, null);
-        //si existe pedido
-        if(cursor.moveToFirst())
-        {
+        if (cursor.moveToFirst()) {
+            Cursor k = db.rawQuery("select * from DETALLEPEDIDO where idDetallePedido =" + cursor.getString(1), null);
+            if(k.moveToFirst())
+            {
+                do {
+                    detallePedidos.add(new DetallePedido(k.getInt(0),k.getInt(1),k.getInt(2),k.getInt(3)));
+                }while(k.moveToNext());
+            }
             Pedido pedido = new Pedido();
             pedido.setIdPedido(cursor.getInt(0));
-            pedido.setIdDetallePedido(cursor.getInt(1));
+            pedido.setDetallePedidos(detallePedidos);
             pedido.setIdEstadoPedido(cursor.getString(2));
             pedido.setIdLocal(cursor.getInt(3));
             pedido.setIdUbicacion(cursor.getInt(4));
             pedido.setFechaPedido(cursor.getString(5));
             pedido.setTotalPedido(cursor.getFloat(6));
+
             return pedido;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -1137,10 +1224,16 @@ public class ControladorBD {
     public List<Pedido> ConsultaPedidos() {
         Cursor cur = db.rawQuery("SELECT * FROM Pedido", null);
         List<Pedido> pedido = new ArrayList<>();
+        ArrayList<DetallePedido> detallePedidos;
+        detallePedidos = pedido.get(pedido.size()).getDetallePedidos();
         if (cur.moveToFirst()) {
             do {
+                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE =?" + cur.getString(1), null);
+                if (m.moveToFirst()) {
+                    detallePedidos.add(new DetallePedido(m.getInt(0), m.getInt(1), m.getInt(2), m.getInt(3)));
+                }
                 pedido.add(new Pedido(cur.getInt(0),
-                        cur.getInt(1),
+                        detallePedidos,
                         cur.getString(2),
                         cur.getInt(3),
                         cur.getInt(4),
@@ -1154,11 +1247,10 @@ public class ControladorBD {
     public String actualizar(Pedido pedido){
         //verificando que exista pedido
         if(verificarIntegridad(pedido, 4)){
-            if(verificarIntegridad(pedido,5) && verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7)&& verificarIntegridad(pedido,8)){
+            if(verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7)&& verificarIntegridad(pedido,8)){
                 String[] idP = {String.valueOf(pedido.getIdPedido())};
                 ContentValues cv = new ContentValues();
                 cv.put("idPedido",pedido.getIdPedido());
-                cv.put("idDetallePedido",pedido.getIdDetallePedido());
                 cv.put("idEstadoPedido",pedido.getIdEstadoPedido());
                 cv.put("idLocal",pedido.getIdLocal());
                 cv.put("idUbicacion",pedido.getIdUbicacion());
@@ -1168,12 +1260,13 @@ public class ControladorBD {
                 return "Registro de Pedido Actualizado Correctamente";
             }
             else{
-                return "El codigo de DetallePedido o EstadPedido o Local o Ubicacion no existe";
+                return "El codigo de EstadPedido o Local o Ubicacion no existe";
             }
         }else{
             return "Registro con codigo " + pedido.getIdPedido() + " no existe";
         }
     }
+
     public String eliminar(Pedido pedido){
         String resultado = "Se elimino el pedido: " + pedido.getIdPedido();
         int contadorPR = 0;
@@ -1200,6 +1293,23 @@ public class ControladorBD {
         }
         return resultado;
     }
+    //para quitar los detalle de pedido de un pedido en especifico
+    public  String QuitarDetallePedido(DetallePedido detallePedido)
+    {
+        int contador = 0;
+        String resultado = "detalle de pedido eliminado de Pedido";
+        String[] dato = {String.valueOf(detallePedido.getIdDetallePedido())};
+        Cursor cursor = db.query("DETALLEPEDIDO",null,"IDDETALLEPEDIDO =?",dato,null,null,null);
+        if(cursor.moveToFirst())
+        {
+            contador= db.delete("DETALLEPEDIDO","WHERE IDDETALLEPEDIDO=?",dato);
+        }
+        if(contador == -1 || contador == 0)
+        {
+            resultado= "Este detalle de pedido no esta en la tabla pedido";
+        }
+        return resultado;
+    }
 
     //CRUD Facultad
     public String insertar(Facultad facultad){
@@ -1220,7 +1330,7 @@ public class ControladorBD {
     }
 
     public Facultad consultarFacultad(String idFacultad){
-        Cursor cursor = db.rawQuery("select * from Facultad where idFacultad =" + idFacultad, null);
+        Cursor cursor = db.rawQuery("select * from Facultad where idFacultad =?" + idFacultad, null);
         //si existe facultad
         if(cursor.moveToFirst())
         {
@@ -1652,16 +1762,19 @@ public class ControladorBD {
                 return false;
             }
             case 5: {
-                //verificar que en pedido exista DetallePedido
+                //verificar que en DetallePedido exista idDetallePedido
                 Pedido pedido2 = (Pedido) dato;
-                Cursor c1 = db.query(true, "DetallePedido", new String[]{"idDetallePedido"}, "idDetallePedido= '" + pedido2.getIdDetallePedido() + "'", null, null, null, null, null);
-                if (c1.moveToFirst())
-                    return true;
-                else
-                    return false;
+                List<DetallePedido> detallePedidos = pedido2.getDetallePedidos();
+                for (int i=0; i< detallePedidos.size();i++){
+                    Cursor c1 = db.query(true, "DetallePedido", new String[]{"idDetallePedido"}, "idDetallePedido= '" + detallePedidos.get(i).getIdDetallePedido()+ "'", null, null, null, null, null);
+                    if (c1.moveToFirst())
+                        return true;
+                    else
+                        return false;
+                }
             }
             case 6: {
-                //verificar que en pedido exista idEstadoPedido
+                //verificar que en EstadPedido exista idEstadoPedido
                 Pedido pedido3 = (Pedido) dato;
                 Cursor c1 = db.query(true, "EstadPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
                 if (c1.moveToFirst())

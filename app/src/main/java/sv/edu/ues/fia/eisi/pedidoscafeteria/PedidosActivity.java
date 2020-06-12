@@ -18,7 +18,7 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     ControladorBD Helper;
     private ListView LV;
     List<Pedido> pps = new ArrayList<>();
-    List<Pedido> ppx = new ArrayList<>();
+
     AdaptadorPedidos mlP;
 
     @Override
@@ -29,8 +29,8 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
 
         LV.setOnItemClickListener(this);
         Helper.abrir();
-        //pps = Helper.consultarPedidos();
-        pps = ppx;
+        pps = Helper.ConsultaPedidos();
+
         Helper.cerrar();
         mlP = new AdaptadorPedidos(this,R.layout.pedidos_items,pps);
         LV.setAdapter(mlP);
@@ -38,7 +38,7 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-        //imaginemos que Vane ya hizo su activity v: no lo ha hecho, pero imaginemos que si
+
         Intent intx = new Intent(this,DetallePedidoAFragment.class);
         intx.putExtra("idpedido",String.valueOf(mlP.getItem(i).getIdPedido()));
         startActivity(intx);

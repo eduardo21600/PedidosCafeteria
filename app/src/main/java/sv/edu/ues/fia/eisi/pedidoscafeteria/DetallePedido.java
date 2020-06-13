@@ -2,7 +2,7 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 public class DetallePedido {
     private int cantidad;
-    private int subtotal;
+    private double subtotal;
     private int idDetallePedido;
 
 
@@ -37,11 +37,11 @@ public class DetallePedido {
         this.cantidad = cantidad;
     }
 
-    public int getSubtotal() {
+    public double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(int subtotal) {
+    public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
 }

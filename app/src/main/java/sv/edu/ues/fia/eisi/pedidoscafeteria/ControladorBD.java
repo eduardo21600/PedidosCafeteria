@@ -1155,6 +1155,9 @@ public class ControladorBD {
     public String insertar(Pedido pedido){
         String resultado="Se guardó correctamente nuevo pedido " + pedido;
         long contador=0;
+        long cont = 0;
+        ArrayList <DetallePedido> detallePedido = pedido.getDetallePedidos();
+        DetallePedido det = new DetallePedido();
         //verificando Integridad
         // verificar que existe Pedido
         if (verificarIntegridad(pedido, 4)) {
@@ -1169,28 +1172,22 @@ public class ControladorBD {
             pedi.put("fechaPedido",pedido.getFechaPedido());
             pedi.put("totalPedido",pedido.getTotalPedido());
             contador=db.insert("Pedido", null, pedi);
+
+            for(int i= 0; i < detallePedido.size(); i++){
+                det.setIdDetallePedido(detallePedido.get(i).getIdDetallePedido());
+                det.setCantidad(detallePedido.get(i).getCantidad());
+                det.setSubtotal(detallePedido.get(i).getSubtotal());
+                Crear(det);
+                pedi.put("idDetallePedido", detallePedido.get(i).getIdDetallePedido());
+                cont = db.insert("Pedido", null, pedi);
+                if(cont == -1 || cont == 0)
+                {
+                   resultado = resultado + "no se pudo insertar el detallePedido con el id "+ detallePedido.get(i).getIdDetallePedido();
+                }
+            }
         }
         else {
             resultado="EstadoPedido,Local y Ubicacion no existen";
-        }
-        return resultado;
-    }
-//Para insertar los detalles de Pedido en Pedido
-    public String insertarDetalleEnPedido(Pedido pedido){
-        String resultado = "Se creó pedido correctamente";
-        long contador = 0;
-        ContentValues ped = new ContentValues();
-        List<DetallePedido> detallePedidos = pedido.getDetallePedidos();
-
-        for (int i = 0; i < detallePedidos.size(); i++){
-            if(verificarIntegridad(pedido,5)){
-                ped.put("idPedido", pedido.getIdPedido());
-                ped.put("idDetallePedido", detallePedidos.get(i).getIdDetallePedido());
-                contador = db.insert("PEDIDO",null,ped);
-            }
-            else {
-                resultado = "no se pudo insertar el detallePedido con id " + detallePedidos.get(i).getIdDetallePedido();
-            }
         }
         return resultado;
     }
@@ -1203,7 +1200,7 @@ public class ControladorBD {
             if(k.moveToFirst())
             {
                 do {
-                    detallePedidos.add(new DetallePedido(k.getInt(0),k.getInt(1),k.getInt(2)));
+                    detallePedidos.add(new DetallePedido(k.getInt(1),k.getInt(2),k.getInt(3)));
                 }while(k.moveToNext());
             }
             Pedido pedido = new Pedido();
@@ -1230,7 +1227,7 @@ public class ControladorBD {
             do {
                 Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE =?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
-                    detallePedidos.add(new DetallePedido(m.getInt(0), m.getInt(1), m.getInt(2)));
+                    detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3)));
                 }
                 pedido.add(new Pedido(cur.getInt(0),
                         detallePedidos,
@@ -1272,6 +1269,8 @@ public class ControladorBD {
         int contadorPR = 0;
         int contadorPA=0;
         int contadorU=0;
+        int cont1 = 0;
+        ArrayList<DetallePedido> detallePedidos = pedido.getDetallePedidos();
         //verificar que exista Pedido
         if(verificarIntegridad(pedido,4)){
             //verificar que exista PedidoAsignado y PedidoRealizado y Ubicacion para eliminar en cascada
@@ -1287,26 +1286,18 @@ public class ControladorBD {
                 contadorU+=db.delete("Ubicacion", "idUbicacion= '"+pedido.getIdUbicacion()+"'",null);
                 resultado+= resultado + " Se elimino el/los "+ contadorU+" registros de Ubicacion";
             }
+            for (int i = 0; i < detallePedidos.size();i++)
+            {
+                Cursor m = db.query(true, "DetallePedido", new String[]{"idDetallePedido"}, "idDetallePedido= '" + detallePedidos.get(i).getIdDetallePedido()+ "'", null, null, null, null, null);
+                if (m.moveToFirst()) {
+                    cont1 = db.delete("DETALLEPEDIDO", "IDDETALLEPEDIDO =" + detallePedidos.get(i).getIdDetallePedido(), null);
+
+                    resultado = resultado + ", " + cont1 + " Detalles de pedido eliminados de pedido";
+                }
+            }
             contadorU+=db.delete("Pedido","idPedido= '"+pedido.getIdPedido()+"'",null);
         }else {
             resultado= "El pedido no existe";
-        }
-        return resultado;
-    }
-    //para quitar los detalle de pedido de un pedido en especifico
-    public  String QuitarDetallePedido(DetallePedido detallePedido)
-    {
-        int contador = 0;
-        String resultado = "detalle de pedido eliminado de Pedido";
-        String[] dato = {String.valueOf(detallePedido.getIdDetallePedido())};
-        Cursor cursor = db.query("DETALLEPEDIDO",null,"IDDETALLEPEDIDO =?",dato,null,null,null);
-        if(cursor.moveToFirst())
-        {
-            contador= db.delete("DETALLEPEDIDO","WHERE IDDETALLEPEDIDO=?",dato);
-        }
-        if(contador == -1 || contador == 0)
-        {
-            resultado= "Este detalle de pedido no esta en la tabla pedido";
         }
         return resultado;
     }

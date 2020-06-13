@@ -26,6 +26,9 @@ public class Pedido{
         this.totalPedido = totalPedido;
     }
 
+    public Pedido(String idPedido, String idDetallePedido) {
+    }
+
     public int getIdPedido() {
         return idPedido;
     }

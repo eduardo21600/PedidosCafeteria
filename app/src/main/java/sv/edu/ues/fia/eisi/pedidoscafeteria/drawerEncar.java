@@ -44,7 +44,7 @@ public class drawerEncar extends AppCompatActivity {
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home,R.id.nav_local_cliente, R.id.nav_pedido_cliente, R.id.nav_config)
+                    R.id.nav_home,R.id.nav_local_cliente, R.id.nav_pedidos_c, R.id.nav_config)
                     .setDrawerLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

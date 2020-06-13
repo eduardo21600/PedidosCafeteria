@@ -32,7 +32,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     public AdaptadorDetallePedidoC.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v;
-        v = LayoutInflater.from(mContext).inflate(R.layout.cardview_menu_c, parent, false);
+        v = LayoutInflater.from(mContext).inflate(R.layout.cardview_pedido_c, parent, false);
         final AdaptadorDetallePedidoC.viewHolder vHolder = new AdaptadorDetallePedidoC.viewHolder(v);
 
 
@@ -42,8 +42,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     @Override
     public void onBindViewHolder(@NonNull AdaptadorDetallePedidoC.viewHolder holder, int position)
     {
-
-        holder.tv_cantidad.setText(mDet.get(position).getCantidad());
+        holder.tv_cantidad.setText(String.valueOf(mDet.get(position).getCantidad()));
         holder.tv_subtotal.setText(String.valueOf(mDet.get(position).getSubtotal()));
         holder.iv_imagen.setImageResource(R.drawable.food);
     }

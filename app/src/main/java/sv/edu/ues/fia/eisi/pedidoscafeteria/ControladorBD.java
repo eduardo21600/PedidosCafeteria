@@ -1210,7 +1210,7 @@ public class ControladorBD {
             pedido.setIdLocal(cursor.getInt(3));
             pedido.setIdUbicacion(cursor.getInt(4));
             pedido.setFechaPedido(cursor.getString(5));
-            pedido.setTotalPedido(cursor.getFloat(6));
+            pedido.setTotalPedido(cursor.getDouble(6));
 
             return pedido;
         } else {
@@ -1235,7 +1235,7 @@ public class ControladorBD {
                         cur.getInt(3),
                         cur.getInt(4),
                         cur.getString(5),
-                        cur.getFloat(6)));
+                        cur.getDouble(6)));
             } while (cur.moveToNext());
         }
         return pedido;

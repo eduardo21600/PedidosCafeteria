@@ -74,7 +74,47 @@ public class ControladorServicios {
     String URLAEstado= "";
     String URLBUEstado= "";
 
+    String URLBFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_query.php?IDFACULTAD=";
+    String URLETFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_delete.php";
+    String URLCFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_insert.php";
+    String URLAFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_update.php";
+    String URLBFacultades = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultades_query.php";
 
+    String URLBUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_query.php?IDUBICACION=";
+    String URLETUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_delete.php";
+    String URLCUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_insert.php";
+    String URLAUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_update.php";
+    String URLBUbicaciones = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicaciones_query.php";
+
+    String URLBPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_query.php?IDPEDIDO=";
+    String URLETPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_delete.php";
+    String URLCPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_insert.php";
+    String URLAPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_update.php";
+    String URLBPedidos = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidos_query.php";
+
+    String URLBPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_query.php?IDPEDIDO=?&IDUSUARIO=?&IDPEDIDOASIGNADO=?";
+    String URLETPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_delete.php";
+    String URLCPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_insert.php";
+    String URLAPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_update.php";
+    String URLBPedidoAsignados = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidosasignados_query.php";
+
+    String URLBPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_query.php?IDPEDIDO=?&IDUSUARIO=?&IDPEDIDOREALIZADO=?";
+    String URLETPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_delete.php";
+    String URLCPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_insert.php";
+    String URLAPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_update.php";
+    String URLBPedidoRealizados = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidosrealizados_query.php";
+
+    String URLBAccesoUsuario = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_query.php?IDUSUARIO=?&ID_OPCION=?&IDACCESOUSUARIO=?";
+    String URLETAccesoUsuario = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_accesousuario_delete.php";
+    String URLCAccesoUsuario = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_accesousuario_insert.php";
+    String URLAAccesoUsuario = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_accesousuario_update.php";
+    String URLBAccesoUsuarios = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_accesousuarios_query.php";
+
+    String URLBOpcionCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcioncrud_query.php?ID_OPCION=";
+    String URLETOpcionCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcioncrud_delete.php";
+    String URLCOpcionCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcioncrud_insert.php";
+    String URLAOpcionCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcioncrud_update.php";
+    String URLBOpcionesCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcionescrud_query.php";
 
     String resultado="";
 
@@ -1188,14 +1228,991 @@ public class ControladorServicios {
         };
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
+        return resultado;
+    }
+//aquí terminan los erroes del señor de las tinieblas
+//CRUD facultad
+private String CrearAct(final Facultad facultad, Context context, boolean accion) {
+    String url;
+    if (accion) {
+        url = URLCFacultad;
+    } else {
+        url = URLAFacultad;
+    }
+    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+
+            resultado = "CONEXIÓN EXITOSA";
+
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            resultado = error.toString();
+
+        }
+    }) {
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            Map<String, String> parametros = new HashMap<String, String>();
+            parametros.put("IDFACULTAD", facultad.getIdFacultad());
+            parametros.put("NOMFACULTAD", facultad.getNomFacultad());
+
+            return parametros;
+        }
+    };
+    requestQueue = Volley.newRequestQueue(context);
+    requestQueue.add(stringRequest);
+    return resultado;
+}
+
+    private List<Facultad> BuscarFacultades(Context context) {
+        final List<Facultad> facultad = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultades, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        facultad.add(new Facultad(
+                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getString("NOMFACULTAD")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return facultad;
+    }
+
+    private List<Facultad> BuscarFacultad(int IDFACULTAD, Context context) {
+        final List<Facultad> facultad = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultad + String.valueOf(IDFACULTAD), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        facultad.add(new Facultad(
+                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getString("NOMFACULTAD")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return facultad;
+    }
+
+    private String Eliminar(final Facultad facultad, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETFacultad, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDFACULTAD", facultad.getIdFacultad());
+
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    //CRUD Ubicacion
+    private String CrearAct(final Ubicacion ubicacion, Context context, boolean accion) {
+        String url;
+        if (accion) {
+            url = URLCUbicacion;
+        } else {
+            url = URLAUbicacion;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDUBICACION", String.valueOf(ubicacion.getIdUbicacion()));
+                parametros.put("IDFACULTAD", ubicacion.getIdFacultad());
+                parametros.put("IDPEDIDO", String.valueOf(ubicacion.getIdPedido()));
+                parametros.put("DIRECUBICACION", ubicacion.getDirecUbicacion());
+                parametros.put("NOMUBICACION", ubicacion.getNomUbicacion());
+                parametros.put("PUNTOREFUBICACION", ubicacion.getPuntoRefUbicacion());
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    private List<Ubicacion> BuscarUbicaciones(Context context) {
+        final List<Ubicacion> ubicacion = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicaciones, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        ubicacion.add(new Ubicacion(
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("DIRECUBICACION"),
+                                jsonObject.getString("NOMUBICACION"),
+                                jsonObject.getString("PUNTOREFUBICACION")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return ubicacion;
+    }
+
+    private List<Ubicacion> BuscarUbicacion(int IDUBICACION, Context context) {
+        final List<Ubicacion> ubicacion = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicacion + String.valueOf(IDUBICACION), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        ubicacion.add(new Ubicacion(
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("DIRECUBICACION"),
+                                jsonObject.getString("NOMUBICACION"),
+                                jsonObject.getString("PUNTOREFUBICACION")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return ubicacion;
+    }
+
+    private String Eliminar(final Ubicacion ubicacion, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETUbicacion, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDUBICACION", String.valueOf(ubicacion.getIdUbicacion()));
+
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    //CRUD PedidoAsignado
+    private String CrearAct(final PedidoAsignado pedidoAsignado, Context context, boolean accion) {
+        String url;
+        if (accion) {
+            url = URLCPedidoAsignado;
+        } else {
+            url = URLAPedidoAsignado;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDPEDIDO", String.valueOf(pedidoAsignado.getIdPedido()));
+                parametros.put("IDUSUARIO", pedidoAsignado.getIdUsuario());
+                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoAsignado.getIdPedidoAsignado()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    private List<PedidoAsignado> BuscarPedidosAsignados(Context context) {
+        final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignados, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        pedidoAsignados.add(new PedidoAsignado(
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getInt("IDPEDIDOASIGNADO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedidoAsignados;
+    }
+
+    private List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOASIGNADO, Context context) {
+        final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOASIGNADO), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        pedidoAsignados.add(new PedidoAsignado(
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getInt("IDPEDIDOASIGNADO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedidoAsignados;
+    }
+
+    private String Eliminar(final PedidoAsignado pedidoAsignado, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETPedidoAsignado, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDPEDIDO", String.valueOf(pedidoAsignado.getIdPedido()));
+                parametros.put("IDUSUARIO", pedidoAsignado.getIdUsuario());
+                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoAsignado.getIdPedidoAsignado()));
+
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+    //CRUD PedidoRealizado
+    private String CrearAct(final PedidoRealizado pedidoRealizado, Context context, boolean accion) {
+        String url;
+        if (accion) {
+            url = URLCPedidoRealizado;
+        } else {
+            url = URLAPedidoRealizado;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDPEDIDO", String.valueOf(pedidoRealizado.getIdPedido()));
+                parametros.put("IDUSUARIO", pedidoRealizado.getIdUsuario());
+                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoRealizado.getIdPedidoRealizado()));
+                parametros.put("TIPOPEDREALIZADO", pedidoRealizado.getTipo());
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    private List<PedidoRealizado> BuscarPedidosRealizados(Context context) {
+        final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizados, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        pedidoRealizados.add(new PedidoRealizado(
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getInt("IDPEDIDOREALIZADO"),
+                                jsonObject.getString("TIPOPEDREALIZADO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedidoRealizados;
+    }
+
+    private List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOREALIZADO, Context context) {
+        final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOREALIZADO), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        pedidoRealizados.add(new PedidoRealizado(
+                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getInt("IDPEDIDOREALIZADO"),
+                                jsonObject.getString("TIPOPEDREALIZADO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedidoRealizados;
+    }
+
+    private String Eliminar(final PedidoRealizado pedidoRealizado, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETPedidoRealizado, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDPEDIDO", String.valueOf(pedidoRealizado.getIdPedido()));
+                parametros.put("IDUSUARIO", pedidoRealizado.getIdUsuario());
+                parametros.put("IDPEDIDOREALIZADO", String.valueOf(pedidoRealizado.getIdPedidoRealizado()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    //CRUD AccesoUsuario
+    private String CrearAct(final AccesoUsuario accesoUsuario, Context context, boolean accion) {
+        String url;
+        if (accion) {
+            url = URLCAccesoUsuario;
+        } else {
+            url = URLAAccesoUsuario;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDUSUARIO", accesoUsuario.getIdUsuario());
+                parametros.put("ID_OPCION",accesoUsuario.getIdOpcion());
+                parametros.put("IDACCESOUSUARIO", String.valueOf(accesoUsuario.getIdAccesoUsuario()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    private List<AccesoUsuario> BuscarAccesoUsuarios(Context context) {
+        final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuarios, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        accesoUsuarios.add(new AccesoUsuario(
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getInt("IDACCESOUSUARIO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return accesoUsuarios;
+    }
+
+    private List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, int IDACCESOUSUARIO, Context context) {
+        final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION + String.valueOf(IDACCESOUSUARIO), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        accesoUsuarios.add(new AccesoUsuario(
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getInt("IDACCESOUSUARIO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return accesoUsuarios;
+    }
+
+    private String Eliminar(final AccesoUsuario accesoUsuario, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETAccesoUsuario, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("IDUSUARIO", accesoUsuario.getIdUsuario());
+                parametros.put("ID_OPCION", accesoUsuario.getIdOpcion());
+                parametros.put("IDACCESOUSUARIO", String.valueOf(accesoUsuario.getIdAccesoUsuario()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    //CRUD OpcionCrud
+    private String CrearAct(final OpcionCrud opcionCrud, Context context, boolean accion) {
+        String url;
+        if (accion) {
+            url = URLCOpcionCrud;
+        } else {
+            url = URLAOpcionCrud;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("ID_OPCION", opcionCrud.getIdOpcion());
+                parametros.put("DESOPCION",opcionCrud.getDescOpcion());
+                parametros.put("NUMCRUD", String.valueOf(opcionCrud.getNumCrud()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    private List<OpcionCrud> BuscarOpcionesCrud(Context context) {
+        final List<OpcionCrud> opcionesCrud = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionesCrud, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        opcionesCrud.add(new OpcionCrud(
+                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getString("DESOPCION"),
+                                jsonObject.getInt("NUMCRUD")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return opcionesCrud;
+    }
+
+    private List<OpcionCrud> BuscarOpcionCrud(String IDOPCION, Context context) {
+        final List<OpcionCrud> opcionCrud = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionCrud + IDOPCION, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        opcionCrud.add(new OpcionCrud(
+                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getString("DESOPCION"),
+                                jsonObject.getInt("NUMCRUD")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return opcionCrud;
+    }
+
+    private String Eliminar(final OpcionCrud opcionCrud, Context context) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETOpcionCrud, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado = "CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("ID_OPCION", opcionCrud.getIdOpcion());
+                parametros.put("DESOPCION", opcionCrud.getDescOpcion());
+                parametros.put("NUMCRUD", String.valueOf(opcionCrud.getNumCrud()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
+    //CRUD pedido
+    private String CrearAct(final Pedido pedido, final Context context, final boolean accion)
+    {String url;
+
+        url = URLCPedido;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado ="CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> parametros =new HashMap<String,String>();
+                parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
+                parametros.put("IDESTADOPEDIDO", pedido.getIdEstadoPedido());
+                parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
+                parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));
+                parametros.put("FECHAPEDIDO",pedido.getFechaPedido());
+                parametros.put("TOTALPEDIDO",String.valueOf(pedido.getTotalPedido()));
+
+                for(int i=0;i<pedido.getDetallePedidos().size();i++)
+                {
+                    DetallePedido detallePedido = new DetallePedido();
+                    detallePedido.setIdDetallePedido(pedido.getDetallePedidos().get(i).getIdDetallePedido());
+                    detallePedido.setCantidad(pedido.getDetallePedidos().get(i).getCantidad());
+                    detallePedido.setSubtotal(pedido.getDetallePedidos().get(i).getSubtotal());
+                    String r = CrearAct(detallePedido,context,accion);
+                }
+
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;}
+
+    private String Act(final Pedido pedido, final Context context)
+    {
+        String url;
+
+        url = URLAPedido;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado ="CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> parametros =new HashMap<String,String>();
+                parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
+                parametros.put("IDESTADOPEDIDO", pedido.getIdEstadoPedido());
+                parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
+                parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));
+                parametros.put("FECHAPEDIDO",pedido.getFechaPedido());
+                parametros.put("TOTALPEDIDO",String.valueOf(pedido.getTotalPedido()));
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
         return resultado;}
 
 
+    private List<Pedido> BuscarPedidos(final Context context)
+    {
+        final List<Pedido> pedido = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidos, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+
+                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+                        pedido.add(new Pedido(
+                                jsonObject.getInt("IDPEDIDO"),
+                                detallePedidos,
+                                jsonObject.getString("IDESTADOPEDIDO"),
+                                jsonObject.getInt("IDLOCAL"),
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getString("FECHAPEDIDO"),
+                                jsonObject.getDouble("TOTALPEDIDO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedido;}
 
 
+    private List<Pedido> BuscarPedido(int IDPEDIDO, final Context context)
+    {
+        final List<Pedido> pedidos = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedido+String.valueOf(IDPEDIDO), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+                        pedidos.add(new Pedido(
+                                jsonObject.getInt("IDPEDIDO"),
+                                detallePedidos,
+                                jsonObject.getString("IDESTADOPEDIDO"),
+                                jsonObject.getInt("IDLOCAL"),
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getString("FECHAPEDIDO"),
+                                jsonObject.getDouble("TOTALPEDIDO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }
 
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedidos;
+    }
+    private String Eliminar(final Pedido pedido, final Context context)
+    {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETPedido, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                resultado ="CONEXIÓN EXITOSA";
+
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> parametros =new HashMap<String,String>();
+                String r = Eliminar(pedido.getIdPedido(),context);
+                parametros.put("IDPEDIDO", String.valueOf(pedido.getIdPedido()));
+
+                return parametros;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
 
 }
 
-//aquí terminan los erroes del señor de las tinieblas
+

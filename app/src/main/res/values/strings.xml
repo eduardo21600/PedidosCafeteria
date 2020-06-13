@@ -8,4 +8,64 @@
     <string name="nuevaCuenta">¿No tienes una cuenta?</string>
     <string name="registrarse">Registrate</string>
     <string name="entrar">Ingresar</string>
+
+    <string name="Configuraciones">Configuración</string>
+    <string name="CambiarCrede">Cambiar Credenciales</string>
+    <string name="Ayuda">Ayuda</string>
+    <string name="CerrarSesion">Cerrar Sesion</string>
+
+    <string name="repetircontra">Repetir Contraseña</string>
+    <string name="telefono">No. de teléfono</string>
+    <string name="Guardar">Guardar Cambios</string>
+    <string name="title_activity_drawer_encar">drawerEncar</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="Pedidos">Pedidos</string>
+    <string name="detallePedidos">Detalle del pedido</string>
+    <string name="cliente">Nombre del cliente</string>
+    <string name="productos">Productos</string>
+    <string name="total">Total a pagar</string>
+    <string name="ubicación">Ubicación</string>
+    <string name="idPedido">Código</string>
+    <string name="Asignar">Asignar Repartidor</string>
+    <string name="marcar">Marcar como entregado</string>
+    <string name="repartidor">Repartidores</string>
+    <string name="agregar">Agregar Nuevo</string>
+    <string name="crear">Crear</string>
+
+    <string name="nombreMenu">Nombre Menu</string>
+    <string name="tipo">Tipo</string>
+    <string name="local">Local</string>
+    <string name="nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Teléfono">Teléfono</string>
+
+    <string name="crearRepartidor">Agregar nuevo repartidor</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="descDetallePedido">Detalle Pedido</string>
+    <string name="pedidoEntregado">Pedido Entregado</string>
+
+
+    <!-- Inicio Strings Pablo -->
+    <string name="title_Local_Cliente">Locales Disponibles</string>
+    <string name="menu_local">Menú</string>
+    <string name="txtDetallePedido">Detalle Pedido</string>
+    <string name="nomCliente">Nombre</string>
+    <string name="totalPedido">Total</string>
+    <string name="direccion">Direccion</string>
+    <!-- Fin Strings Pablo-->
+
 </resources>

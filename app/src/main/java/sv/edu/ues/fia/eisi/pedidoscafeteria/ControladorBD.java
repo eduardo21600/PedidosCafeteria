@@ -1113,7 +1113,7 @@ public class ControladorBD {
     public String actualizar(Ubicacion ubicacion){
         //verificando que exista ubicacion
         if(verificarIntegridad(ubicacion, 1)){
-            if(verificarIntegridad(ubicacion,2) || verificarIntegridad(ubicacion,3)){
+            if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3)){
                 String[] idU = {String.valueOf(ubicacion.getIdUbicacion())};
                 ContentValues cv = new ContentValues();
                 cv.put("idUbicacion",ubicacion.getIdUbicacion());
@@ -1187,7 +1187,7 @@ public class ControladorBD {
             }
         }
         else {
-            resultado="EstadoPedido,Local y Ubicacion no existen";
+            resultado="EstadoPedido,Local o Ubicacion no existen";
         }
         return resultado;
     }

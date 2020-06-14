@@ -196,6 +196,7 @@ public class ControladorBD {
 
         final int [] idTipos =new int[] {1,2,3};
         final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+        String res="No paso nada";
 
         abrir();
         db.execSQL("DELETE FROM USUARIO");
@@ -217,10 +218,10 @@ public class ControladorBD {
             u.setContrasena(idUsus[i]);
             u.setTeleUsuario(telefono[i]);
             u.setIdTipoUsuario(idTipoUsus[i]);
-            insertar(u);
+            res = insertar(u);
         }
         cerrar();
-        return "Guardado";
+        return res;
     }
 
 
@@ -263,7 +264,7 @@ public class ControladorBD {
 
     public Usuario ConsultaUsuario(String idUsuario) {
         String[] id = {idUsuario};
-        Cursor cur = db.rawQuery("select * from Usuario where idUsuario =" + idUsuario, null);
+        Cursor cur = db.rawQuery("select * from Usuario where idUsuario = '" +idUsuario+"'", null);
         if (cur.moveToFirst()) {
             Usuario usu1 = new Usuario();
             usu1.setIdUsuario((cur.getString(0)));
@@ -391,8 +392,8 @@ public class ControladorBD {
     public String CrearTipoUsuario(TipoUsuario tipousuario) {
         String resultado = "Tipo de usuario creado ";
         ContentValues tusu = new ContentValues();
-        tusu.put("idUsuario", tipousuario.getIdTipoUsuario());
-        tusu.put("idTipoUsuario", tipousuario.getNomTipoUsuario());
+        tusu.put("idTipoUsuario", tipousuario.getIdTipoUsuario());
+        tusu.put("nomTipoUsuario", tipousuario.getNomTipoUsuario());
 
         long comprobador = 0;
         comprobador = db.insert("TipoUsuario", null, tusu);

@@ -29,50 +29,51 @@ public class ControladorServicios {
     //aquí comienzan los erroes de fernando el señor poderoso que obviamente no ha dejado eic115
     RequestQueue requestQueue;
     //aquí los URL de los servicios php para que se vea más ordenado
-    String URLBUsu = "";
-    String URLEUsu = "";
-    String URLCUsu = "";
-    String URLAUsu = "";
-    String URLBUsus= "";
+    String URLBUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_consulta.php?IDUSUARIO=";
+    String URLEUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_eliminar.php";
+    String URLCUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_insertar.php";
+    String URLAUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_actualizar.php";
+    String URLBUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuarios_consulta.php";
 
-    String URLBLocal = "";
-    String URLELocal = "";
-    String URLCLocal = "";
-    String URLALocal = "";
-    String URLBLocals= "";
+    String URLBLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_consulta.php?IDLOCAL=";
+    String URLELocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_eliminar.php";
+    String URLCLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_insertar.php";
+    String URLALocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_actualizar.php";
+    String URLBLocals= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/locals_consulta.php";
 
-    String URLBProducto = "";
-    String URLEProducto = "";
-    String URLCProducto = "";
-    String URLAProducto = "";
-    String URLBProductos= "";
+    String URLBProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_consulta.php?IDPRODUCTO=";
+    String URLEProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_eliminar.php";
+    String URLCProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_insertar.php";
+    String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/productos_actualizar.php";
+    String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/productos_consulta.php";
 
-    String URLBTUsu = "";
-    String URLETUsu = "";
-    String URLCTUsu = "";
-    String URLATUsu = "";
-    String URLBUTsus= "";
+    String URLBTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_consulta.php?IDTIPOUSUARIO=";
+    String URLETUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_eliminar.php";
+    String URLCTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_insertar.php";
+    String URLATUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_actualizar.php";
+    String URLBTUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuarios_consulta.php";
 
-    String URLBMenu = "";
-    String URLETMenu = "";
-    String URLCMenu = "";
-    String URLAMenu= "";
-    String URLBUMenu= "";
-    String URLCAsigM="";
-    String URLDAsig="";
-    String URLBAsig="";
+    String URLBMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_consulta.php?IDMENU=";
+    String URLEMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_eliminar.php";
+    String URLCMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_insertar.php";
+    String URLAMenu= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_actualizar.php";
+    String URLBMenus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menus_consulta.php";
+    String URLCAsigM="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarP_insertar.php";
+    String URLEAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarP_eliminar.php";
+    String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarPs_conosulta.php?IDMENU=";
 
-    String URLBDetaPedido = "";
-    String URLETDetaPedido = "";
-    String URLCDetaPedido = "";
-    String URLADetaPedido= "";
-    String URLBUDetaPedido= "";
+    String URLBDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_consulta.php?IDDETALLEPEDIDO=";
+    String URLEDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_eliminar.php";
+    String URLCDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_insertar.php";
+    String URLADetaPedido= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_actualizar.php";
+    String URLBDetaPedidos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detallePs_consulta.php";
 
-    String URLBEstado = "";
-    String URLETEstado = "";
-    String URLCEstado = "";
-    String URLAEstado= "";
-    String URLBUEstado= "";
+    String URLBEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_consulta.php?IDESTADOPEDIDO=";
+    String URLEEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_eliminar.php";
+    String URLCEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_insertar.php";
+    String URLAEstado= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_actualizar.php";
+    String URLBEstados= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPes_consulta";
+
 
     String URLBFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_query.php?IDFACULTAD=";
     String URLETFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_delete.php";
@@ -136,12 +137,12 @@ public class ControladorServicios {
 
             }
         }, new Response.ErrorListener(){
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            resultado=error.toString();
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
 
-        }
-    }) {
+            }
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
@@ -156,7 +157,7 @@ public class ControladorServicios {
         };
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-     return resultado;}
+        return resultado;}
 
 
     private List<Usuario> BuscarUsuarios(Context context)
@@ -301,7 +302,7 @@ public class ControladorServicios {
     private List<Local> BuscarLocales(Context context)
     {
         final List<Local> local = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsus, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocals, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -335,7 +336,7 @@ public class ControladorServicios {
     private List<Local> BuscarLocal(int IDLOCAL,Context context)
     {
         final List<Local> local = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+String.valueOf(IDLOCAL), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocal+String.valueOf(IDLOCAL), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -368,7 +369,7 @@ public class ControladorServicios {
     private String Eliminar(final Local local, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLELocal, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -426,8 +427,8 @@ public class ControladorServicios {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IPRODUCTO",String.valueOf(producto.getIdProduto()));
                 parametros.put("NOMBREPRODUCTO",producto.getNombreProducto());
-                parametros.put("NOMBRELOCAL",String.valueOf(producto.getPrecioUnitario()));
-                parametros.put("NOMBRELOCAL",producto.getDescProducto());
+                parametros.put("PRECIOUNITARIO",String.valueOf(producto.getPrecioUnitario()));
+                parametros.put("DESCPRODUCTO",producto.getDescProducto());
 
                 return parametros;
             }
@@ -508,7 +509,7 @@ public class ControladorServicios {
     private String Eliminar(final Producto producto, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEProducto, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -576,7 +577,7 @@ public class ControladorServicios {
     private List<TipoUsuario> BuscarTiposU(Context context)
     {
         final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUTsus, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsus, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -586,7 +587,7 @@ public class ControladorServicios {
                         jsonObject = response.getJSONObject(i);
                         tipoUsuarios.add(new TipoUsuario(
                                 jsonObject.getInt("IDTIPOUSUARIO"),
-                                jsonObject.getString("IDNOMSUARIO")
+                                jsonObject.getString("NOMTIPOUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -609,7 +610,7 @@ public class ControladorServicios {
     private List<TipoUsuario> BuscarTipoU(int IDTIPOUSUARIO,Context context)
     {
         final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+String.valueOf(IDTIPOUSUARIO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsu+String.valueOf(IDTIPOUSUARIO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -619,7 +620,7 @@ public class ControladorServicios {
                         jsonObject = response.getJSONObject(i);
                         tipoUsuarios.add(new TipoUsuario(
                                 jsonObject.getInt("IDTIPOUSUARIO"),
-                                jsonObject.getString("IDNOMSUARIO")
+                                jsonObject.getString("NOMTIPOUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -641,7 +642,7 @@ public class ControladorServicios {
     private String Eliminar(final TipoUsuario tipoUsuario, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETUsu, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -741,7 +742,7 @@ public class ControladorServicios {
     private String Eliminar(final int IDMENU, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETMenu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEAsig, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -775,7 +776,7 @@ public class ControladorServicios {
     private String CrearAct(final Menu menu, final Context context, boolean accion)
     {String url;
 
-            url = URLCMenu;
+        url = URLCMenu;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -796,12 +797,13 @@ public class ControladorServicios {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IDMENU",String.valueOf(menu.getIdMenu()));
                 parametros.put("IDLOCAL", String.valueOf(menu.getIdLocal()));
-                parametros.put("NOMBRELOCAL", String.valueOf(menu.getPrecioMenu()));
+                parametros.put("PRECIOMENU", String.valueOf(menu.getPrecioMenu()));
                 parametros.put("FECHADESDEMENU",menu.getFechaDesdeMenu());
-                parametros.put("NOMBRELOCAL",menu.getFechaHastaMenu());
+                parametros.put("FECHAHASTAMENU",menu.getFechaHastaMenu());
+                parametros.put("NOMMENU",menu.getNomMenu());
                 for(int i=0;i<menu.getProductos().size();i++)
                 {
-                 String r = Crear(menu.getIdMenu(),menu.getProductos().get(i).getIdProduto(),context);
+                    String r = Crear(menu.getIdMenu(),menu.getProductos().get(i).getIdProduto(),context);
                 }
 
                 return parametros;
@@ -815,7 +817,7 @@ public class ControladorServicios {
     {String url;
 
 
-            url = URLAMenu;
+        url = URLAMenu;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -836,9 +838,10 @@ public class ControladorServicios {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IDMENU",String.valueOf(menu.getIdMenu()));
                 parametros.put("IDLOCAL", String.valueOf(menu.getIdLocal()));
-                parametros.put("NOMBRELOCAL", String.valueOf(menu.getPrecioMenu()));
+                parametros.put("PRECIOMENU", String.valueOf(menu.getPrecioMenu()));
                 parametros.put("FECHADESDEMENU",menu.getFechaDesdeMenu());
-                parametros.put("NOMBRELOCAL",menu.getFechaHastaMenu());
+                parametros.put("FECHAHASTAMENU",menu.getFechaHastaMenu());
+                parametros.put("NOMMENU",menu.getNomMenu());
                 return parametros;
             }
         };
@@ -851,7 +854,7 @@ public class ControladorServicios {
     private List<Menu> BuscarMenus(final Context context)
     {
         final List<Menu> menu = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUMenu, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenus, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -931,7 +934,7 @@ public class ControladorServicios {
     private String Eliminar(final Menu menu, final Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETMenu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEMenu, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -949,7 +952,7 @@ public class ControladorServicios {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
                 String r = Eliminar(menu.getIdMenu(),context);
-                parametros.put("IDLOCAL", String.valueOf(menu.getIdMenu()));
+                parametros.put("IDMENU", String.valueOf(menu.getIdMenu()));
 
                 return parametros;
             }
@@ -961,7 +964,7 @@ public class ControladorServicios {
 
 
 
-
+    //CRUD detallePedido
     private String CrearAct(final DetallePedido detallePedido, Context context,boolean accion)
     {String url;
         if(accion)
@@ -987,8 +990,8 @@ public class ControladorServicios {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
-                parametros.put("IDCANTIDAD",String.valueOf(detallePedido.getCantidad()));
-                parametros.put("subtotal", String.valueOf(detallePedido.getSubtotal()));
+                parametros.put("CANTIDAD",String.valueOf(detallePedido.getCantidad()));
+                parametros.put("SUBTOTAL", String.valueOf(detallePedido.getSubtotal()));
                 parametros.put("IDDETALLEPEDIDO", String.valueOf(detallePedido.getIdDetallePedido()));
 
 
@@ -999,10 +1002,10 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<DetallePedido> BuscarDetallePedido(Context context)
+    private List<DetallePedido> BuscarDetallePedidos(Context context)
     {
         final List<DetallePedido> detallePedidos = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsus, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedidos, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1036,7 +1039,7 @@ public class ControladorServicios {
     private List<DetallePedido> BuscarDetallePedido(int IDDETALLEPEDIDO,Context context)
     {
         final List<DetallePedido> detallePedidos= new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+String.valueOf(IDDETALLEPEDIDO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedido+String.valueOf(IDDETALLEPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1070,7 +1073,7 @@ public class ControladorServicios {
     private String Eliminar(final DetallePedido detallePedido, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEDetaPedido, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -1095,6 +1098,9 @@ public class ControladorServicios {
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
         return resultado;}
+
+
+    //CRUD estado pedido
 
 
     private String CrearAct(final EstadoPedido estadoPedido, Context context,boolean accion)
@@ -1136,7 +1142,7 @@ public class ControladorServicios {
     private List<EstadoPedido> BuscarEstados(Context context)
     {
         final List<EstadoPedido> estadoPedidos = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsus, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstados, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1169,7 +1175,7 @@ public class ControladorServicios {
     private List<EstadoPedido> BuscarEstadoPedido(int IDESTADOPEDIDO,Context context)
     {
         final List<EstadoPedido> estadoPedidos = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+String.valueOf(IDESTADOPEDIDO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstado+String.valueOf(IDESTADOPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1204,7 +1210,7 @@ public class ControladorServicios {
     private String Eliminar(final EstadoPedido estadoPedido, Context context)
     {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEEstado, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -1228,8 +1234,7 @@ public class ControladorServicios {
         };
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-        return resultado;
-    }
+        return resultado;}
 //aquí terminan los erroes del señor de las tinieblas
 //CRUD facultad
 private String CrearAct(final Facultad facultad, Context context, boolean accion) {

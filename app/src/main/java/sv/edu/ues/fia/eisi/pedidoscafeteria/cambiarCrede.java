@@ -213,7 +213,8 @@ public class cambiarCrede extends AppCompatActivity {
 
     public void llenar (View v){
         //LLENADO PARA PRUEBAS RECUERDA QUITAR ESTO LUEGO!
-        controlador.llenarUsuario();
+        String res = controlador.llenarUsuario();
+        FancyToast.makeText(getApplicationContext(),res,FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
     }
 
     @Override

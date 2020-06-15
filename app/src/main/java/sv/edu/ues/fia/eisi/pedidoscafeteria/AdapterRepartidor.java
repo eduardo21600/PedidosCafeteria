@@ -1,14 +1,21 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.List;
 
@@ -16,6 +23,7 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
 
     Context mContext;
     List<Usuario> datos;
+
     public AdapterRepartidor(Context mContext,List<Usuario> datos){
         this.mContext =mContext;
         this.datos =datos;
@@ -24,17 +32,53 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
     @NonNull
     @Override
     public RepartidorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_pedidos_e,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_repa_e,parent,false);
         AdapterRepartidor.RepartidorViewHolder vHolder = new AdapterRepartidor.RepartidorViewHolder(v);
+        vHolder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return  vHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RepartidorViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RepartidorViewHolder holder, final int position) {
         holder.imageView.setImageResource(R.drawable.job);
         holder.tvIdRepa.setText(String.valueOf(datos.get(position).getIdUsuario()));
         holder.tvNombre.setText(datos.get(position).getNombreUsuario());
         holder.tvTelefono.setText(datos.get(position).getTeleUsuario());
+
+        holder.btnELi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
+                        .setTitle("Eliminar")
+                        .setAnimation(R.raw.delete)
+                        .setMessage("¿Está seguro que quiere eliminar este repartidor?")
+                        .setCancelable(false)
+                        .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                // Delete Operation
+                                datos.remove(position);
+                                notifyItemRemoved(position);
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                mDialog.show();
+            }
+        });
+
     }
 
     @Override
@@ -43,14 +87,17 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
     }
 
     public class RepartidorViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
+        private LinearLayout card;
+        private ImageView imageView,btnELi;
         private TextView tvIdRepa, tvNombre, tvTelefono;
         public RepartidorViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView =(ImageView)itemView.findViewById(R.id.imageView4);
-            tvIdRepa = (TextView)itemView.findViewById(R.id.tvIdPedido);
-            tvNombre = (TextView)itemView.findViewById(R.id.tvCliente);
-            tvTelefono = (TextView)itemView.findViewById(R.id.tvTipo);
+            card = (LinearLayout)itemView.findViewById(R.id.card_repa);
+            imageView =(ImageView)itemView.findViewById(R.id.imageView5);
+            btnELi = (ImageView)itemView.findViewById(R.id.btnEli);
+            tvIdRepa = (TextView)itemView.findViewById(R.id.tvIdRepa);
+            tvNombre = (TextView)itemView.findViewById(R.id.tvNomRepa);
+            tvTelefono = (TextView)itemView.findViewById(R.id.tvNumRepa);
         }
     }
 }

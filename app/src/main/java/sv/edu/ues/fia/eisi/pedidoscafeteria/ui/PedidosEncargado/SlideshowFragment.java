@@ -27,6 +27,7 @@ public class SlideshowFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<PedidoModelo> lstPedidos;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         /*slideshowViewModel =

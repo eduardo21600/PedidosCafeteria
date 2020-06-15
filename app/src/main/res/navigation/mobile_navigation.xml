@@ -65,4 +65,9 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.pedidosCliente.fragmentPedidosCliente"
         android:label="Pedidos"
         tools:layout="@layout/fragment_pedidos_cliente" />
+    <fragment
+        android:id="@+id/nav_ubicaciones"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.fragmentUbicacion"
+        android:label="Mis Ubicaciones"
+        tools:layout="@layout/fragment_ubicacion_c" />
 </navigation>

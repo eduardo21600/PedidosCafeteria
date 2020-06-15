@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ubicacion_card"
+    android:background="#2F64C7CA"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_baseline_location_on_24"
+        android:layout_gravity="center"
+        android:id="@+id/imagen_ubicacion_c"/>
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imagen_ubicacion_c"
+            android:layout_toLeftOf="@id/eliminar_ubicacion_c">
+
+            <TextView
+                android:id="@+id/nombre_ubicacion_c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10sp"
+                android:text="Nombre Direccion"/>
+
+            <TextView
+                android:id="@+id/dir_ubicacion_c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10sp"
+                android:text="Direccion"/>
+
+            <TextView
+                android:id="@+id/punto_ubicacion_c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                android:text="Punto de referencia"/>
+        </TableLayout>
+
+    <ImageButton
+        android:id="@+id/eliminar_ubicacion_c"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/delete"
+
+        android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+</LinearLayout>

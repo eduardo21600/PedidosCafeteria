@@ -856,8 +856,7 @@ public class ControladorBD {
         depe.put("cantidad", detallepedido.getCantidad());
         depe.put("subtotal", detallepedido.getSubtotal());
         depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
-
-
+        depe.put("idMenu", detallepedido.getIdMenu());
 
         long comprobador = 0;
         comprobador = db.insert("DetallePedido", null, depe);
@@ -875,9 +874,7 @@ public class ControladorBD {
             depe.setCantidad((cur.getInt(0)));
             depe.setSubtotal((cur.getInt(1)));
             depe.setIdDetallePedido((cur.getInt(2)));
-
-
-
+            depe.setIdMenu(cur.getInt(3));
             return depe;
 
         } else {
@@ -895,7 +892,8 @@ public class ControladorBD {
             do {
                 depe.add(new DetallePedido(cur.getInt(0),
                         cur.getInt(1),
-                        cur.getInt(2)
+                        cur.getInt(2),
+                        cur.getInt(3)
                         ));
             } while (cur.moveToNext());
 
@@ -1201,13 +1199,13 @@ public class ControladorBD {
             if(k.moveToFirst())
             {
                 do {
-                    detallePedidos.add(new DetallePedido(k.getInt(1),k.getInt(2),k.getInt(3)));
+                    detallePedidos.add(new DetallePedido(k.getInt(1),k.getInt(2),k.getInt(3),k.getInt(4)));
                 }while(k.moveToNext());
             }
             Pedido pedido = new Pedido();
             pedido.setIdPedido(cursor.getInt(0));
             pedido.setDetallePedidos(detallePedidos);
-            pedido.setIdEstadoPedido(cursor.getString(2));
+            pedido.setIdEstadoPedido(cursor.getInt(2));
             pedido.setIdLocal(cursor.getInt(3));
             pedido.setIdUbicacion(cursor.getInt(4));
             pedido.setFechaPedido(cursor.getString(5));
@@ -1226,13 +1224,36 @@ public class ControladorBD {
         detallePedidos = pedido.get(pedido.size()).getDetallePedidos();
         if (cur.moveToFirst()) {
             do {
-                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE =?" + cur.getString(1), null);
+                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
-                    detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3)));
+                    detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
                 }
                 pedido.add(new Pedido(cur.getInt(0),
                         detallePedidos,
-                        cur.getString(2),
+                        cur.getInt(2),
+                        cur.getInt(3),
+                        cur.getInt(4),
+                        cur.getString(5),
+                        cur.getDouble(6)));
+            } while (cur.moveToNext());
+        }
+        return pedido;
+    }
+
+    public List<Pedido> ConsultaPedidosLocal(int idLocal) {
+        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=?" + idLocal, null);
+        List<Pedido> pedido = new ArrayList<>();
+        ArrayList<DetallePedido> detallePedidos;
+        detallePedidos = pedido.get(pedido.size()).getDetallePedidos();
+        if (cur.moveToFirst()) {
+            do {
+                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
+                if (m.moveToFirst()) {
+                    detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
+                }
+                pedido.add(new Pedido(cur.getInt(0),
+                        detallePedidos,
+                        cur.getInt(2),
                         cur.getInt(3),
                         cur.getInt(4),
                         cur.getString(5),

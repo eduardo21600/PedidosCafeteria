@@ -68,4 +68,6 @@
     <string name="direccion">Direccion</string>
     <!-- Fin Strings Pablo-->
 
+    <string name="descPedido">Descripción</string>
+
 </resources>

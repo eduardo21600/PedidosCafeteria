@@ -92,6 +92,7 @@ public class ControladorServicios {
     String URLCPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_insert.php";
     String URLAPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedido_update.php";
     String URLBPedidos = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidos_query.php";
+    String URLBPedidosLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoslocal_query.php?idLocal=";
 
     String URLBPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_query.php?IDPEDIDO=?&IDUSUARIO=?&IDPEDIDOASIGNADO=?";
     String URLETPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_delete.php";
@@ -1016,7 +1017,8 @@ public class ControladorServicios {
                         detallePedidos.add(new DetallePedido(
                                 jsonObject.getInt("CANTIDAD"),
                                 jsonObject.getInt("SUBTUTOAL"),
-                                jsonObject.getInt("IDDETALLEPEDIDO")
+                                jsonObject.getInt("IDDETALLEPEDIDO"),
+                                jsonObject.getInt("IDMENU")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1050,7 +1052,8 @@ public class ControladorServicios {
                         detallePedidos.add(new DetallePedido(
                                 jsonObject.getInt("CANTIDAD"),
                                 jsonObject.getInt("SUBTUTOAL"),
-                                jsonObject.getInt("IDDETALLEPEDIDO")
+                                jsonObject.getInt("IDDETALLEPEDIDO"),
+                                jsonObject.getInt("IDMENU")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2048,7 +2051,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
-                parametros.put("IDESTADOPEDIDO", pedido.getIdEstadoPedido());
+                parametros.put("IDESTADOPEDIDO", String.valueOf(pedido.getIdEstadoPedido()));
                 parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
                 parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));
                 parametros.put("FECHAPEDIDO",pedido.getFechaPedido());
@@ -2094,7 +2097,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
-                parametros.put("IDESTADOPEDIDO", pedido.getIdEstadoPedido());
+                parametros.put("IDESTADOPEDIDO", String.valueOf(pedido.getIdEstadoPedido()));
                 parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
                 parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));
                 parametros.put("FECHAPEDIDO",pedido.getFechaPedido());
@@ -2123,7 +2126,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
                         pedido.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
                                 detallePedidos,
-                                jsonObject.getString("IDESTADOPEDIDO"),
+                                jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
                                 jsonObject.getString("FECHAPEDIDO"),
@@ -2133,6 +2136,45 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
                         e.printStackTrace();
                     }
 
+                }
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return pedido;}
+
+    private List<Pedido> BuscarPedidosLocal(final Context context)
+    {
+        final List<Pedido> pedido = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+
+                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+                        pedido.add(new Pedido(
+                                jsonObject.getInt("IDPEDIDO"),
+                                detallePedidos,
+                                jsonObject.getInt("IDESTADOPEDIDO"),
+                                jsonObject.getInt("IDLOCAL"),
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getString("FECHAPEDIDO"),
+                                jsonObject.getDouble("TOTALPEDIDO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -2163,7 +2205,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
                         pedidos.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
                                 detallePedidos,
-                                jsonObject.getString("IDESTADOPEDIDO"),
+                                jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
                                 jsonObject.getString("FECHAPEDIDO"),

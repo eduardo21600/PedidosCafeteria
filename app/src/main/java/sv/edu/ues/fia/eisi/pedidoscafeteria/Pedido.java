@@ -6,7 +6,7 @@ public class Pedido{
 
     private int idPedido;
     private ArrayList<DetallePedido> detallePedidos;
-    private String idEstadoPedido;
+    private int idEstadoPedido;
     private int idLocal;
     private int idUbicacion;
     private String fechaPedido;
@@ -16,7 +16,7 @@ public class Pedido{
 
     }
 
-    public Pedido(int idPedido, ArrayList<DetallePedido> detallePedidos, String idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, double totalPedido) {
+    public Pedido(int idPedido, ArrayList<DetallePedido> detallePedidos, int idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, double totalPedido) {
         this.idPedido = idPedido;
         this.detallePedidos = detallePedidos;
         this.idEstadoPedido = idEstadoPedido;
@@ -45,11 +45,11 @@ public class Pedido{
         this.detallePedidos = detallePedidos;
     }
 
-    public String getIdEstadoPedido() {
+    public int getIdEstadoPedido() {
         return idEstadoPedido;
     }
 
-    public void setIdEstadoPedido(String idEstadoPedido) {
+    public void setIdEstadoPedido(int idEstadoPedido) {
         this.idEstadoPedido = idEstadoPedido;
     }
 

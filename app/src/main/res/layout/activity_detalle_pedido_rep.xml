@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradiente_fondo"
-    tools:context=".detallePedidoEnc">
+    tools:context=".DetallePedidoRep">
 
     <TextView
         android:id="@+id/textViewTi"
@@ -19,9 +19,10 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.04000002" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -58,7 +59,7 @@
             android:id="@+id/textViewDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/productos"
+            android:text="@string/descPedido"
             android:textColor="#FAF8F8"
             android:textSize="20sp"
             android:textStyle="bold"/>
@@ -147,20 +148,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bordes_redondos"
-            android:text="@string/Asignar"
+            android:text="@string/marcar"
             android:textColor="#F8F8F8"
             android:textStyle="bold" />
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@android:drawable/checkbox_off_background"
-            android:gravity="start|center_vertical"
-            android:textColor="#403D3D"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            tools:text="@string/marcar" />
 
     </LinearLayout>
 

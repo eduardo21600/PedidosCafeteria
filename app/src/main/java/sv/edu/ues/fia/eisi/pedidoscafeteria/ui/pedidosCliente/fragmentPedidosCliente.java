@@ -52,8 +52,8 @@ public class fragmentPedidosCliente extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listDP = new ArrayList<DetallePedido>();
-        listDP.add(new DetallePedido(20, 20, 1));
-        listDP.add(new DetallePedido(20,20,2));
-        listDP.add(new DetallePedido(20,20,3));
+        listDP.add(new DetallePedido(20, 20, 1,0));
+        listDP.add(new DetallePedido(20,20,2,1));
+        listDP.add(new DetallePedido(20,20,3,2));
     }
 }

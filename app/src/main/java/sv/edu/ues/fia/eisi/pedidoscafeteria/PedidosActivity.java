@@ -39,8 +39,8 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
-        Intent intx = new Intent(this,DetallePedidoAFragment.class);
+      /* Intent intx = new Intent(this,DetallePedidoAFragment.class);
         intx.putExtra("idpedido",String.valueOf(mlP.getItem(i).getIdPedido()));
-        startActivity(intx);
+        startActivity(intx); */
     }
 }

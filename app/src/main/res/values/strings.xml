@@ -66,6 +66,8 @@
     <string name="nomCliente">Nombre</string>
     <string name="totalPedido">Total</string>
     <string name="direccion">Direccion</string>
+    <string name="agregar_ubicacion">Agregar</string>
+    <string name="Ubicaciones">Mis Ubicaciones</string>
     <!-- Fin Strings Pablo-->
 
     <string name="descPedido">Descripción</string>

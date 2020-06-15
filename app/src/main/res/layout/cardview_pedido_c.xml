@@ -6,18 +6,23 @@
     android:background="#2F64C7CA"
     android:id="@+id/pedido_card">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/imagen_pedido_c"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/user"
-        android:layout_margin="20sp"
-        android:layout_gravity="center_vertical"/>
+        android:layout_margin="20dp"
+        android:layout_alignParentLeft="true"/>
 
     <TableLayout
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp">
+        android:layout_marginBottom="10sp"
+        android:layout_toRightOf="@id/imagen_pedido_c"
+        android:layout_toLeftOf="@id/eliminar_pedido_c">
 
         <TextView
             android:id="@+id/nombre_pedido_c"
@@ -50,7 +55,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/cancelar"
-        android:layout_gravity="center_vertical"/>
-
+        android:layout_margin="20dp"
+        android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -71,5 +71,6 @@
     <!-- Fin Strings Pablo-->
 
     <string name="descPedido">Descripción</string>
+    <string name="estadoPedido">Pedido entregado</string>
 
 </resources>

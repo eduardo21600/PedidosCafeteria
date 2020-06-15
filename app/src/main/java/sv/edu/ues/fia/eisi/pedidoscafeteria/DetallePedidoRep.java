@@ -61,15 +61,21 @@ public class DetallePedidoRep extends AppCompatActivity {
     }
 
     public void marcarEntregado(View view){
-        EstadoPedido estadoPedido = new EstadoPedido();
-        estadoPedido.setIdEstadoPedido(ped.getIdEstadoPedido());
-        estadoPedido.setDescEstadoPedido("ENTREGADO");
 
-        bd.abrir();
-        bd.ActualizarEstadoPedido(estadoPedido);
-        bd.cerrar();
-        if(estadoPedido.getDescEstadoPedido() == "ENTREGADO"){
-            marcar.setText("PEDIDO ENTREGADO");
+        if(ped.getIdEstadoPedido()==0){
+            ped.setIdEstadoPedido(1);
+            marcar.setText(R.string.estadoPedido);
+            bd.abrir();
+            bd.actualizar(ped);
+            bd.cerrar();
+        }
+        else if(ped.getIdEstadoPedido()==1)
+        {
+            ped.setIdEstadoPedido(0);
+            marcar.setText(R.string.marcar);
+            bd.abrir();
+            bd.actualizar(ped);
+            bd.cerrar();
         }
     }
 }

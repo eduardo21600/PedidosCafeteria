@@ -148,6 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bordes_redondos"
+            android:onClick="marcarEntregado"
             android:text="@string/marcar"
             android:textColor="#F8F8F8"
             android:textStyle="bold" />

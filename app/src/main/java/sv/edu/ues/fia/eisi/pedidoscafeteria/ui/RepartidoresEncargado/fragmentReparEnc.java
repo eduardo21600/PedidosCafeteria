@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,8 @@ public class fragmentReparEnc extends Fragment {
 
     private RecyclerView recyclerView;
     private List<Usuario> lstRepa;
+    private ImageView btnEliminar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +45,8 @@ public class fragmentReparEnc extends Fragment {
         AdapterRepartidor adapter = new AdapterRepartidor(getContext(),lstRepa);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        btnEliminar = (ImageView)root.findViewById(R.id.btnEli);
+
         Button crear = (Button)root.findViewById(R.id.btnAgregarR);
         crear.setOnClickListener(new View.OnClickListener() {
             @Override

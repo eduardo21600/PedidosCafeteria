@@ -54,11 +54,16 @@
                 android:layout_gravity="left"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/allerta"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:paddingLeft="10dp"
                 android:text="@string/CambiarCrede"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:backgroundTint="#00FFFFFF"
+                app:elevation="0dp"
+                app:iconTint="#00FFFFFF" />
         </TableRow>
 
         <TableRow
@@ -81,10 +86,16 @@
                 android:background="@android:color/transparent"
 
                 android:fontFamily="@font/allerta"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:text="@string/Ayuda"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:backgroundTint="#00FFFFFF"
+                app:elevation="0dp"
+                app:iconTint="#00FFFFFF"
+                app:rippleColor="#02FFFFFF" />
 
         </TableRow>
 

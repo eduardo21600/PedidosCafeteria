@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "sv.edu.ues.fia.eisi.pedidoscafeteria"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -41,5 +41,13 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'com.github.Shashank02051997:FancyToast-Android:0.1.6'
+    // Material Dialog Library
+    implementation 'com.shreyaspatil:MaterialDialog:2.1'
+
+    // Material Design Library
+    implementation 'com.google.android.material:material:1.0.0'
+
+    // Lottie Animation Library
+    implementation 'com.airbnb.android:lottie:3.4.1'
 
 }

@@ -8,7 +8,7 @@
     tools:context=".detallePedidoEnc">
 
     <TextView
-        android:id="@+id/textViewTi"
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
@@ -23,146 +23,147 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6"
         app:layout_constraintVertical_bias="0.04000002" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.100000024">
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
 
-        <TextView
-            android:id="@+id/textViewC"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/idPedido"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edtCodigo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="number"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/idPedido"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewDes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/productos"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etCodigo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="number"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtDescripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/productos"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewNom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cliente"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etProducto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtCliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cliente"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewTot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/total"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtTotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/total"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewUbic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:text="@string/ubicación"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtUbicacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="@string/ubicación"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/buttonMarcar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/bordes_redondos"
-            android:text="@string/Asignar"
-            android:textColor="#F8F8F8"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@android:drawable/checkbox_off_background"
-            android:gravity="start|center_vertical"
-            android:textColor="#403D3D"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            tools:text="@string/marcar" />
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes_redondos"
+                android:text="@string/Asignar"
+                android:textColor="#F8F8F8"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/marcar"
+                android:textOff="En curso"
+                android:textOn="Finalizado" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -177,8 +178,8 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,29 +5,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
-
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
 
 public class agregarDireccion extends AppCompatActivity {
 
     Button obtenerDireccion, agregarDireccion;
     EditText nombreUbicacion, dirUbicacion, facUbicacion, puntoUbicacion;
-    int PLACEPICKER_REQUEST = 1;
+    ControladorServicios controladorServicios;
+    boolean ACTUALIZAR = true, INSERTAR = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_direccion);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         obtenerDireccion = (Button) findViewById(R.id.obtener_direccion);
         agregarDireccion = (Button) findViewById(R.id.agregar_direccion);
@@ -40,27 +42,19 @@ public class agregarDireccion extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(intentBuilder.build(agregarDireccion.this), PLACEPICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
 
             }
         });
+
+        agregarDireccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Ubicacion ubicacion = new Ubicacion(1,
+                        facUbicacion.getText().toString(), 1, dirUbicacion.getText().toString(), nombreUbicacion.getText().toString(), puntoUbicacion.getText().toString());
+                controladorServicios.CrearAct(ubicacion, getApplicationContext(), INSERTAR);
+            }
+        });
+
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACEPICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this, data);
-                dirUbicacion.setText(place.getAddress());
-            }
-        }
-    }
 }

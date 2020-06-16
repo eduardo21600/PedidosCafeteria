@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sv.edu.ues.fia.eisi.pedidoscafeteria">
 
-    <uses-permission android:name="android.permision.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".DetallePedidoRep"></activity>
+        <activity android:name=".ui.nuevaDIreccion.agregarDireccion"/>
         <activity android:name=".ui.menuCliente.MenusLocal" />
         <activity android:name=".crearRepartidor" />
         <activity android:name=".detallePedidoEnc" />

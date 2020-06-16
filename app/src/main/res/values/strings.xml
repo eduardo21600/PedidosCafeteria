@@ -68,6 +68,16 @@
     <string name="direccion">Direccion</string>
     <string name="agregar_ubicacion">Agregar</string>
     <string name="Ubicaciones">Mis Ubicaciones</string>
+    <string name="obtener_ubicacion">Obtener Ubicacion</string>
+    <string name="nombre_ubicacion">Nombre:</string>
+    <string name="et_nombre_ubicacion">ej: Mi casa</string>
+    <string name="dir_ubicacion">Dirección:</string>
+    <string name="et_dir_ubicacion">Pais/Ciudad/calle/casa</string>
+    <string name="facultad_ubicacion">Facultad:</string>
+    <string name="et_facultad_ubicacion">Su facultad (opcional)</string>
+    <string name="punto_ubicacion">Referencia:</string>
+    <string name="et_punto_ubicacion">Punto de referencia</string>
+    <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
     <!-- Fin Strings Pablo-->
 
     <string name="descPedido">Descripción</string>

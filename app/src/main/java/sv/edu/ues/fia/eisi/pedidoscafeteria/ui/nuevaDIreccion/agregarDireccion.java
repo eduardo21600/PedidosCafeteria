@@ -53,6 +53,11 @@ public class agregarDireccion extends AppCompatActivity {
         agregarDireccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (nombreUbicacion.getText().toString().isEmpty() || dirUbicacion.getText().toString().isEmpty() || facUbicacion.getText().toString().isEmpty() || puntoUbicacion.getText().toString().isEmpty())
+                {
+
+                }
                 Ubicacion ubicacion = new Ubicacion(1, facUbicacion.getText().toString(), 1, dirUbicacion.getText().toString(), nombreUbicacion.getText().toString(), puntoUbicacion.getText().toString());
                 resultado = controladorServicios.CrearAct(ubicacion, getApplicationContext(), INSERTAR);
 

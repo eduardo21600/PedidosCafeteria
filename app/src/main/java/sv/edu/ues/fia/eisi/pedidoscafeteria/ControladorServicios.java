@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -23,9 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.ubicacionCallback;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;
 
 public class ControladorServicios {
+
+    public ControladorServicios() {
+    }
+
     //aquí comienzan los erroes de fernando el señor poderoso que obviamente no ha dejado eic115
     RequestQueue requestQueue;
     //aquí los URL de los servicios php para que se vea más ordenado
@@ -1397,19 +1403,30 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
+    //inventos de Pablo no tocar
+
+    ubicacionCallback callback;
+
+    public ControladorServicios (ubicacionCallback callback)
+    {
+        this.callback = callback;
+    }
+
+    List<Ubicacion> ubicacion = new ArrayList<>();
     public List<Ubicacion> BuscarUbicaciones(Context context) {
-        final List<Ubicacion> ubicacion = new ArrayList<>();
+
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicaciones, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
                                 jsonObject.getString("IDFACULTAD"),
-                                jsonObject.getInt("IDPEDIDO"),
+                                1,
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
                                 jsonObject.getString("PUNTOREFUBICACION")
@@ -1418,7 +1435,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.VolleyResponse(ubicacion);
             }
+
 
         }, new Response.ErrorListener() {
             @Override
@@ -1433,7 +1452,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
     }
 
     public List<Ubicacion> BuscarUbicacion(int IDUBICACION, Context context) {
-        final List<Ubicacion> ubicacion = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicacion + String.valueOf(IDUBICACION), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

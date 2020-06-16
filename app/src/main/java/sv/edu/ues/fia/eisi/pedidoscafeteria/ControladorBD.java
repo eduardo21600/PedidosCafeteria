@@ -114,7 +114,7 @@ public class ControladorBD {
                         "   TIPOPEDREALIZADO     varchar(30) not null,\n" +
                         "   primary key (IDPEDIDO, IDUSUARIO)\n" +
                         ");");
-                db.execSQL("create table PEDIDOSASIGNADOS\n" +
+                db.execSQL("create table PEDIDOASIGNADO\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
                         "   IDUSUARIO            varchar(30) not null,\n" +

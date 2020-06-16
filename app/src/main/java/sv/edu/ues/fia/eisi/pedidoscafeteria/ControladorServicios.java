@@ -2030,7 +2030,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
-                parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
                 parametros.put("IDESTADOPEDIDO", String.valueOf(pedido.getIdEstadoPedido()));
                 parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
                 parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));

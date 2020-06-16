@@ -44,8 +44,7 @@ public class ControladorBD {
                         "(\n" +
                         "   IDUSUARIO            varchar(30) not null,\n" +
                         "   ID_OPCION            char(3) not null,\n" +
-                        "   IDACCESOUSUARIO      int not null,\n" +
-                        "   primary key (IDUSUARIO, ID_OPCION, IDACCESOUSUARIO)\n" +
+                        "   primary key (IDUSUARIO, ID_OPCION)\n" +
                         ");");
                 db.execSQL("create table ASIGNAPRODUCTO\n" +
                         "(\n" +
@@ -63,13 +62,13 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table ESTADPEDIDO\n" +
                         "(\n" +
-                        "   IDESTADOPEDIDO       char(2) not null,\n" +
+                        "   IDESTADOPEDIDO       int not null,\n" +
                         "   DESCESTADOPEDIDO     varchar(30) not null,\n" +
                         "   primary key (IDESTADOPEDIDO)\n" +
                         ");");
                 db.execSQL("create table FACULTAD\n" +
                         "(\n" +
-                        "   IDFACULTAD           char(2) not null,\n" +
+                        "   IDFACULTAD           int not null,\n" +
                         "   NOMFACULTAD          varchar(30) not null,\n" +
                         "   primary key (IDFACULTAD)\n" +
                         ");");
@@ -101,7 +100,7 @@ public class ControladorBD {
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
                         "   IDDETALLEPEDIDO      int,\n" +
-                        "   IDESTADOPEDIDO       char(2),\n" +
+                        "   IDESTADOPEDIDO       int,\n" +
                         "   IDLOCAL              int,\n" +
                         "   IDUBICACION          int not null,\n" +
                         "   FECHAPEDIDO          time not null,\n" +
@@ -112,16 +111,14 @@ public class ControladorBD {
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
                         "   IDUSUARIO            varchar(30) not null,\n" +
-                        "   IDPEDIDOREALIZADO    int not null,\n" +
                         "   TIPOPEDREALIZADO     varchar(30) not null,\n" +
-                        "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOREALIZADO)\n" +
+                        "   primary key (IDPEDIDO, IDUSUARIO)\n" +
                         ");");
-                db.execSQL("create table PEDIDOSASIGNADOS\n" +
+                db.execSQL("create table PEDIDOASIGNADO\n" +
                         "(\n" +
                         "   IDPEDIDO             int not null,\n" +
                         "   IDUSUARIO            varchar(30) not null,\n" +
-                        "   IDPEDIDOASIGNADO     int not null,\n" +
-                        "   primary key (IDPEDIDO, IDUSUARIO, IDPEDIDOASIGNADO)\n" +
+                        "   primary key (IDPEDIDO, IDUSUARIO)\n" +
                         ");");
                 db.execSQL("create table PRODUCTO\n" +
                         "(\n" +
@@ -140,7 +137,7 @@ public class ControladorBD {
                 db.execSQL("create table UBICACION\n" +
                         "(\n" +
                         "   IDUBICACION          int not null,\n" +
-                        "   IDFACULTAD           char(2),\n" +
+                        "   IDFACULTAD           int,\n" +
                         "   IDPEDIDO             int not null,\n" +
                         "   DIRECUBICACION       varchar(100) not null,\n" +
                         "   NOMUBICACION         varchar(30) not null,\n" +
@@ -1060,7 +1057,6 @@ public class ControladorBD {
             resultado="Esta ubicacion ya existe. Registro Duplicado, ERROR";
         } else if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3)){ //verificando que exista idPedido en pedido e idFacultad en facultad para insertar en ubicacion
             ContentValues ubic = new ContentValues();
-            ubic.put("idUbicacion", ubicacion.getIdUbicacion());
             ubic.put("idFacultad", ubicacion.getIdFacultad());
             ubic.put("idPedido", ubicacion.getIdPedido());
             ubic.put("direcUbicacion", ubicacion.getDirecUbicacion());
@@ -1081,7 +1077,7 @@ public class ControladorBD {
         {
             Ubicacion ubicacion = new Ubicacion();
             ubicacion.setIdUbicacion(cursor.getInt(0));
-            ubicacion.setIdFacultad(cursor.getString(1));
+            ubicacion.setIdFacultad(cursor.getInt(1));
             ubicacion.setIdPedido(cursor.getInt(2));
             ubicacion.setDirecUbicacion(cursor.getString(3));
             ubicacion.setNomUbicacion(cursor.getString(4));
@@ -1099,7 +1095,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
             do {
                 ubic.add(new Ubicacion(cur.getInt(0),
-                        cur.getString(1),
+                        cur.getInt(1),
                         cur.getInt(2),
                         cur.getString(3),
                         cur.getString(4),
@@ -1164,7 +1160,6 @@ public class ControladorBD {
             resultado="Este pedido ya existe. Registro Duplicado, ERROR";
         } else if(verificarIntegridad(pedido,6) && verificarIntegridad(pedido,7) && verificarIntegridad(pedido,8)){ //verificando que exista idEstadoPedido en EstadPedido e idLocal en Local e idUbicacion en Ubicacion para insertar en pedido
             ContentValues pedi = new ContentValues();
-            pedi.put("idPedido", pedido.getIdPedido());
             pedi.put("idEstadoPedido",pedido.getIdEstadoPedido());
             pedi.put("idLocal",pedido.getIdLocal());
             pedi.put("idUbicacion",pedido.getIdUbicacion());
@@ -1335,7 +1330,6 @@ public class ControladorBD {
             resultado="Esta facultad ya existe. Registro Duplicado, ERROR";
         } else {
             ContentValues facu = new ContentValues();
-            facu.put("idFacultad", facultad.getIdFacultad());
             facu.put("nomFacultad",facultad.getNomFacultad());
             contador=db.insert("Facultad", null, facu);
         }
@@ -1348,7 +1342,7 @@ public class ControladorBD {
         if(cursor.moveToFirst())
         {
             Facultad facultad = new Facultad();
-            facultad.setIdFacultad(cursor.getString(0));
+            facultad.setIdFacultad(cursor.getInt(0));
             facultad.setNomFacultad(cursor.getString(1));
             return facultad;
         }
@@ -1363,7 +1357,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                facu.add(new Facultad(cur.getString(0),
+                facu.add(new Facultad(cur.getInt(0),
                         cur.getString(1)));
             } while (cur.moveToNext());
 
@@ -1374,7 +1368,7 @@ public class ControladorBD {
     public String actualizar(Facultad facultad){
         //verificando que exista facultad
         if(verificarIntegridad(facultad, 9)){
-            String[] idF = {facultad.getIdFacultad()};
+            String[] idF = {String.valueOf(facultad.getIdFacultad())};
             ContentValues cv = new ContentValues();
             cv.put("idFacultad",facultad.getIdFacultad());
             cv.put("nomFacultad",facultad.getNomFacultad());
@@ -1407,7 +1401,6 @@ public class ControladorBD {
         //verificando Integridad
         if (verificarIntegridad(pedidoAsignado, 13)) {
             ContentValues pasig = new ContentValues();
-            pasig.put("idPedidoAsignado", pedidoAsignado.getIdPedidoAsignado());
             pasig.put("idPedido", pedidoAsignado.getIdPedido());
             pasig.put("idUsuario", pedidoAsignado.getIdUsuario());
             contador=db.insert("PedidoAsignado", null, pasig);
@@ -1421,16 +1414,15 @@ public class ControladorBD {
         return resultado;
     }
 
-    public PedidoAsignado consultarPedAsig(int idPedidoAsignado, int idPedido, String idUsuario){
-        String[] id = {String.valueOf(idPedidoAsignado),String.valueOf(idPedido),idUsuario};
-        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedidoAsignado = ? and idPedido = ? and idUsuario = ?" + id, null);
+    public PedidoAsignado consultarPedAsig(int idPedido, String idUsuario){
+        String[] id = {String.valueOf(idPedido),idUsuario};
+        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedido = ? and idUsuario = ?" + id, null);
         //si existe pedidoAsignado
         if(cursor.moveToFirst())
         {
             PedidoAsignado pedidoAsignado = new PedidoAsignado();
-            pedidoAsignado.setIdPedidoAsignado(cursor.getInt(0));
-            pedidoAsignado.setIdPedido(cursor.getInt(1));
-            pedidoAsignado.setIdUsuario(cursor.getString(2));
+            pedidoAsignado.setIdPedido(cursor.getInt(0));
+            pedidoAsignado.setIdUsuario(cursor.getString(1));
             return pedidoAsignado;
         }
         else {
@@ -1445,8 +1437,7 @@ public class ControladorBD {
 
             do {
                 peasig.add(new PedidoAsignado(cur.getInt(0),
-                        cur.getString(1),
-                        cur.getInt(2)));
+                        cur.getString(1)));
             } while (cur.moveToNext());
 
         }
@@ -1456,9 +1447,8 @@ public class ControladorBD {
     public String actualizar(PedidoAsignado pedidoAsignado){
         //verificando integridad
         if(verificarIntegridad(pedidoAsignado, 14)){
-            String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
+            String[] idPA = {String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
             ContentValues cv = new ContentValues();
-            cv.put("idPedidoAsignado",pedidoAsignado.getIdPedidoAsignado());
             cv.put("idPedido",pedidoAsignado.getIdPedido());
             cv.put("idUsuario",pedidoAsignado.getIdUsuario());
             db.update("PedidoAsignado", cv, "idPedidoAsignado = ? and idPedido= ? and idUsuario= ?", idPA);
@@ -1468,12 +1458,12 @@ public class ControladorBD {
         }
     }
     public String eliminar(PedidoAsignado pedidoAsignado){
-        String resultado = "Se elimino pedidoAsignado: " + pedidoAsignado.getIdPedidoAsignado();
-        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedidoAsignado()),String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
+        String resultado = "Se elimino pedidoAsignado";
+        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
         int contadorPA=0;
         //verificar que exista pedidoAsignado
         if(verificarIntegridad(pedidoAsignado,14)){
-            contadorPA+=db.delete("PedidoAsignado","idPedidoAsignado= ? and idPedido = ? and idUsuario = ? '"+ idPA +"'",null);
+            contadorPA+=db.delete("PedidoAsignado","idPedido = ? and idUsuario = ? '"+ idPA +"'",null);
         }else {
             resultado= "El pedido Asignado no existe";
         }
@@ -1487,10 +1477,8 @@ public class ControladorBD {
         //verificando Integridad
         if (verificarIntegridad(pedidoRealizado, 15)) {
             ContentValues preal = new ContentValues();
-            preal.put("idPedidoRealizado", pedidoRealizado.getIdPedidoRealizado());
             preal.put("idPedido", pedidoRealizado.getIdPedido());
             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
-            preal.put("tipoPedRealizado",pedidoRealizado.getIdPedidoRealizado());
             contador=db.insert("PedidoRealizado", null, preal);
         } if(contador==-1 || contador==0)
         {
@@ -1502,14 +1490,13 @@ public class ControladorBD {
         return resultado;
     }
 
-    public PedidoRealizado consultarPedReal(int idPedidoRealizado, int idPedido, String idUsuario){
-        String[] id = {String.valueOf(idPedidoRealizado),String.valueOf(idPedido),idUsuario};
-        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedidoRealizado = ? and idPedido = ? and idUsuario = ?" + id, null);
+    public PedidoRealizado consultarPedReal(int idPedido, String idUsuario){
+        String[] id = {String.valueOf(idPedido),idUsuario};
+        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido = ? and idUsuario = ?" + id, null);
         //si existe pedidoRealizado
         if(cursor.moveToFirst())
         {
             PedidoRealizado pedidoRealizado = new PedidoRealizado();
-            pedidoRealizado.setIdPedidoRealizado(cursor.getInt(0));
             pedidoRealizado.setIdPedido(cursor.getInt(1));
             pedidoRealizado.setIdUsuario(cursor.getString(2));
             pedidoRealizado.setTipo(cursor.getString(3));
@@ -1528,7 +1515,6 @@ public class ControladorBD {
             do {
                 pedreal.add(new PedidoRealizado(cur.getInt(0),
                         cur.getString(1),
-                        cur.getInt(2),
                         cur.getString(3)));
             } while (cur.moveToNext());
 
@@ -1539,25 +1525,24 @@ public class ControladorBD {
     public String actualizar(PedidoRealizado pedidoRealizado){
         //verificando integridad
         if(verificarIntegridad(pedidoRealizado, 16)){
-            String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),pedidoRealizado.getIdUsuario()};
+            String[] idPR = {String.valueOf(String.valueOf(pedidoRealizado.getIdPedido())),pedidoRealizado.getIdUsuario()};
             ContentValues cv = new ContentValues();
-            cv.put("idPedidoRealizado",pedidoRealizado.getIdPedidoRealizado());
             cv.put("idPedido",pedidoRealizado.getIdPedido());
             cv.put("idUsuario",pedidoRealizado.getIdUsuario());
-            cv.put("tipoPedRealizado",pedidoRealizado.getIdPedidoRealizado());
-            db.update("PedidoRealizado", cv, "idPedidoRealizado = ? and idPedido= ? and idUsuario= ?", idPR);
+            cv.put("tipoPedRealizado",pedidoRealizado.getTipo());
+            db.update("PedidoRealizado", cv, "idPedido= ? and idUsuario= ?", idPR);
             return "Registro de PedidoRealizado Actualizado Correctamente";
         }else{
             return "Registro con codigo no existe";
         }
     }
     public String eliminar(PedidoRealizado pedidoRealizado){
-        String resultado = "Se elimino pedidoRealizado: " + pedidoRealizado.getIdPedidoRealizado();
-        String[] idPR = {String.valueOf(pedidoRealizado.getIdPedidoRealizado()),String.valueOf(pedidoRealizado.getIdPedido()),pedidoRealizado.getIdUsuario()};
+        String resultado = "Se elimino pedidoRealizado";
+        String[] idPR = {String.valueOf(pedidoRealizado.getIdPedido()),pedidoRealizado.getIdUsuario()};
         int contadorPR=0;
         //verificar que exista pedidoRealizado
         if(verificarIntegridad(pedidoRealizado,16)){
-            contadorPR+=db.delete("PedidoRealizado","idPedidoRealizado= ? and idPedido = ? and idUsuario = ? '"+ idPR +"'",null);
+            contadorPR+=db.delete("PedidoRealizado","idPedido = ? and idUsuario = ? '"+ idPR +"'",null);
         }else {
             resultado= "El pedido Realizado no existe";
         }
@@ -1571,7 +1556,6 @@ public class ControladorBD {
         //verificando Integridad
         if (verificarIntegridad(accesoUsuario, 17)) {
             ContentValues accus = new ContentValues();
-            accus.put("idAccesoUsuario", accesoUsuario.getIdAccesoUsuario());
             accus.put("id_Opcion", accesoUsuario.getIdOpcion());
             accus.put("idUsuario", accesoUsuario.getIdUsuario());
             contador=db.insert("AccesoUsuario", null, accus);
@@ -1585,16 +1569,15 @@ public class ControladorBD {
         return resultado;
     }
 
-    public AccesoUsuario consultarAccesoUsuario(int idAccesoUsuario, String idOpcion, String idUsuario){
-        String[] id = {String.valueOf(idAccesoUsuario),idOpcion,idUsuario};
-        Cursor cursor = db.rawQuery("select * from AccesoUsuario where idAccesoUsuario = ? and id_Opcion = ? and idUsuario = ?" + id, null);
+    public AccesoUsuario consultarAccesoUsuario(String idOpcion, String idUsuario){
+        String[] id = {idOpcion,idUsuario};
+        Cursor cursor = db.rawQuery("select * from AccesoUsuario where id_Opcion = ? and idUsuario = ?" + id, null);
         //si existe AccesoUsuario
         if(cursor.moveToFirst())
         {
             AccesoUsuario accesoUsuario = new AccesoUsuario();
-            accesoUsuario.setIdAccesoUsuario(cursor.getInt(0));
-            accesoUsuario.setIdOpcion(cursor.getString(1));
-            accesoUsuario.setIdUsuario(cursor.getString(2));
+            accesoUsuario.setIdOpcion(cursor.getString(0));
+            accesoUsuario.setIdUsuario(cursor.getString(1));
             return accesoUsuario;
         }
         else {
@@ -1609,8 +1592,7 @@ public class ControladorBD {
 
             do {
                 accusu.add(new AccesoUsuario(cur.getString(0),
-                        cur.getString(1),
-                        cur.getInt(2)));
+                        cur.getString(1)));
             } while (cur.moveToNext());
 
         }
@@ -1620,24 +1602,23 @@ public class ControladorBD {
     public String actualizar(AccesoUsuario accesoUsuario){
         //verificando integridad
         if(verificarIntegridad(accesoUsuario, 18)){
-            String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
+            String[] idAU = {accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
             ContentValues cv = new ContentValues();
-            cv.put("idAccesoUsuario",accesoUsuario.getIdAccesoUsuario());
             cv.put("id_Opcion",accesoUsuario.getIdOpcion());
             cv.put("idUsuario",accesoUsuario.getIdUsuario());
-            db.update("AccesoUsuario", cv, "idAccesoUsuario= ? and id_Opcion= ? and idUsuario= ?", idAU);
+            db.update("AccesoUsuario", cv, "id_Opcion= ? and idUsuario= ?", idAU);
             return "Registro de AccesoUsuario Actualizado Correctamente";
         }else{
             return "Registro no existe";
         }
     }
     public String eliminar(AccesoUsuario accesoUsuario){
-        String resultado = "Se elimino accesoUsuario: " + accesoUsuario.getIdAccesoUsuario();
-        String[] idAU = {String.valueOf(accesoUsuario.getIdAccesoUsuario()),accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
+        String resultado = "Se elimino accesoUsuario ";
+        String[] idAU = {accesoUsuario.getIdOpcion(),accesoUsuario.getIdUsuario()};
         int contadorAU=0;
         //verificar que exista accesoUsuario
         if(verificarIntegridad(accesoUsuario,18)){
-            contadorAU+=db.delete("AccesoUsuario","idAccesoUsuario= ? and id_Opcion = ? and idUsuario = ? '"+ idAU +"'",null);
+            contadorAU+=db.delete("AccesoUsuario","id_Opcion = ? and idUsuario = ? '"+ idAU +"'",null);
         }else {
             resultado= "El AccesoUsuario no existe";
         }
@@ -1816,7 +1797,7 @@ public class ControladorBD {
             case 9: {
                 //verificar que exista Facultad
                 Facultad facultad = (Facultad) dato;
-                String[] fac = {facultad.getIdFacultad()};
+                String[] fac = {String.valueOf(facultad.getIdFacultad())};
                 Cursor c1 = db.query("Facultad", null, "idFacultad = ?", fac, null, null, null);
                 if (c1.moveToFirst()) {
                     //Se encontro facultad
@@ -1871,9 +1852,9 @@ public class ControladorBD {
             case 14:{
 //verificar que al modificar o eliminar pedidoAsignado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
                 PedidoAsignado pedidoAsignado1=(PedidoAsignado) dato;
-                String[] ids = {String.valueOf(pedidoAsignado1.getIdPedidoAsignado()), String.valueOf(pedidoAsignado1.getIdPedido()),
+                String[] ids = {String.valueOf(pedidoAsignado1.getIdPedido()),
                             pedidoAsignado1.getIdUsuario()};
-                Cursor c = db.query("PEDIDOASIGNADO", null, "IDPEDIDOASIGNADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
+                Cursor c = db.query("PEDIDOASIGNADO", null, "IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
                     if(c.moveToFirst()){
 //Se encontraron datos
                         return true;
@@ -1899,9 +1880,9 @@ public class ControladorBD {
             case 16:{
 //verificar que al modificar o eliminar pedidoRealizado exista idPedido del Pedido, idUsuario y el idPedidoAsignado
                 PedidoRealizado pedidoRealizado1 = (PedidoRealizado) dato;
-                String[] ids = {String.valueOf(pedidoRealizado1.getIdPedidoRealizado()), String.valueOf(pedidoRealizado1.getIdPedido()),
+                String[] ids = {String.valueOf(pedidoRealizado1.getIdPedido()),
                         pedidoRealizado1.getIdUsuario()};
-                Cursor c = db.query("PEDIDOREALIZADO", null, "IDPEDIDOREALIZADO= ? AND IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
+                Cursor c = db.query("PEDIDOREALIZADO", null, "IDPEDIDO = ? AND IDUSUARIO= ?", ids, null, null, null);
                 if(c.moveToFirst()){
 //Se encontraron datos
                     return true;
@@ -1927,9 +1908,9 @@ public class ControladorBD {
             case 18:{
 //verificar que al modificar o eliminar AccesoUsuario exista idOpcion de OpcionCrud, idUsuario y el idAccesoUsuario
                 AccesoUsuario accesoUsuario1 = (AccesoUsuario) dato;
-                String[] ids = {String.valueOf(accesoUsuario1.getIdAccesoUsuario()), accesoUsuario1.getIdOpcion(),
+                String[] ids = {accesoUsuario1.getIdOpcion(),
                         accesoUsuario1.getIdUsuario()};
-                Cursor c = db.query("ACCESOUSUARIO", null, "IDACCESOUSUARIO= ? AND ID_OPCION = ? AND IDUSUARIO= ?", ids, null, null, null);
+                Cursor c = db.query("ACCESOUSUARIO", null, "ID_OPCION = ? AND IDUSUARIO= ?", ids, null, null, null);
                 if(c.moveToFirst()){
 //Se encontraron datos
                     return true;

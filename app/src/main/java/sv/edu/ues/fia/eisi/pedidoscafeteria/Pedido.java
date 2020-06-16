@@ -1,9 +1,11 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Pedido{
 
+    private static final AtomicInteger count = new AtomicInteger(0);
     private int idPedido;
     private ArrayList<DetallePedido> detallePedidos;
     private int idEstadoPedido;
@@ -14,6 +16,16 @@ public class Pedido{
 
     public Pedido(){
 
+    }
+
+    public Pedido(ArrayList<DetallePedido> detallePedidos, int idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, double totalPedido) {
+        this.idPedido = count.incrementAndGet();
+        this.detallePedidos = detallePedidos;
+        this.idEstadoPedido = idEstadoPedido;
+        this.idLocal = idLocal;
+        this.idUbicacion = idUbicacion;
+        this.fechaPedido = fechaPedido;
+        this.totalPedido = totalPedido;
     }
 
     public Pedido(int idPedido, ArrayList<DetallePedido> detallePedidos, int idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, double totalPedido) {

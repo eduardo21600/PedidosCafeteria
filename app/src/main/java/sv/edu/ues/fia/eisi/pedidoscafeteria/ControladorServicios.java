@@ -10,7 +10,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -24,14 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.ubicacionCallback;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;
 
 public class ControladorServicios {
-
-    public ControladorServicios() {
-    }
-
     //aquí comienzan los erroes de fernando el señor poderoso que obviamente no ha dejado eic115
     RequestQueue requestQueue;
     //aquí los URL de los servicios php para que se vea más ordenado
@@ -1262,7 +1256,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
             Map<String, String> parametros = new HashMap<String, String>();
-            parametros.put("IDFACULTAD", facultad.getIdFacultad());
+            parametros.put("IDFACULTAD", String.valueOf(facultad.getIdFacultad()));
             parametros.put("NOMFACULTAD", facultad.getNomFacultad());
 
             return parametros;
@@ -1283,7 +1277,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         facultad.add(new Facultad(
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("NOMFACULTAD")
                         ));
                     } catch (JSONException e) {
@@ -1314,7 +1308,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         facultad.add(new Facultad(
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("NOMFACULTAD")
                         ));
                     } catch (JSONException e) {
@@ -1354,7 +1348,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("IDFACULTAD", facultad.getIdFacultad());
+                parametros.put("IDFACULTAD", String.valueOf(facultad.getIdFacultad()));
 
                 return parametros;
             }
@@ -1389,9 +1383,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<String, String>();
-                //parametros.put("IDUBICACION", String.valueOf(ubicacion.getIdUbicacion()));
-                parametros.put("IDFACULTAD", ubicacion.getIdFacultad());
-                //parametros.put("IDPEDIDO", String.valueOf(ubicacion.getIdPedido()));
+                parametros.put("IDUBICACION", String.valueOf(ubicacion.getIdUbicacion()));
+                parametros.put("IDFACULTAD", String.valueOf(ubicacion.getIdFacultad()));
+                parametros.put("IDPEDIDO", String.valueOf(ubicacion.getIdPedido()));
                 parametros.put("DIRECUBICACION", ubicacion.getDirecUbicacion());
                 parametros.put("NOMUBICACION", ubicacion.getNomUbicacion());
                 parametros.put("PUNTOREFUBICACION", ubicacion.getPuntoRefUbicacion());
@@ -1403,30 +1397,19 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
-    //inventos de Pablo no tocar
-
-    ubicacionCallback callback;
-
-    public ControladorServicios (ubicacionCallback callback)
-    {
-        this.callback = callback;
-    }
-
-    List<Ubicacion> ubicacion = new ArrayList<>();
     public List<Ubicacion> BuscarUbicaciones(Context context) {
-
-
+        final List<Ubicacion> ubicacion = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicaciones, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                JSONObject jsonObject;
+                JSONObject jsonObject = null;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
-                                jsonObject.getString("IDFACULTAD"),
-                                1,
+                                jsonObject.getInt("IDFACULTAD"),
+                                jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
                                 jsonObject.getString("PUNTOREFUBICACION")
@@ -1435,9 +1418,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
-                callback.VolleyResponse(ubicacion);
             }
-
 
         }, new Response.ErrorListener() {
             @Override
@@ -1452,6 +1433,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
     }
 
     public List<Ubicacion> BuscarUbicacion(int IDUBICACION, Context context) {
+        final List<Ubicacion> ubicacion = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicacion + String.valueOf(IDUBICACION), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1461,7 +1443,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
@@ -1541,7 +1523,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDPEDIDO", String.valueOf(pedidoAsignado.getIdPedido()));
                 parametros.put("IDUSUARIO", pedidoAsignado.getIdUsuario());
-                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoAsignado.getIdPedidoAsignado()));
                 return parametros;
             }
         };
@@ -1561,8 +1542,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         pedidoAsignados.add(new PedidoAsignado(
                                 jsonObject.getInt("IDPEDIDO"),
-                                jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getInt("IDPEDIDOASIGNADO")
+                                jsonObject.getString("IDUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1582,9 +1562,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return pedidoAsignados;
     }
 
-    public List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOASIGNADO, Context context) {
+    public List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, Context context) {
         final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOASIGNADO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1593,8 +1573,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         pedidoAsignados.add(new PedidoAsignado(
                                 jsonObject.getInt("IDPEDIDO"),
-                                jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getInt("IDPEDIDOASIGNADO")
+                                jsonObject.getString("IDUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1635,7 +1614,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDPEDIDO", String.valueOf(pedidoAsignado.getIdPedido()));
                 parametros.put("IDUSUARIO", pedidoAsignado.getIdUsuario());
-                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoAsignado.getIdPedidoAsignado()));
 
                 return parametros;
             }
@@ -1671,7 +1649,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDPEDIDO", String.valueOf(pedidoRealizado.getIdPedido()));
                 parametros.put("IDUSUARIO", pedidoRealizado.getIdUsuario());
-                parametros.put("IDPEDIDOASIGNADO", String.valueOf(pedidoRealizado.getIdPedidoRealizado()));
                 parametros.put("TIPOPEDREALIZADO", pedidoRealizado.getTipo());
                 return parametros;
             }
@@ -1693,7 +1670,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         pedidoRealizados.add(new PedidoRealizado(
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getInt("IDPEDIDOREALIZADO"),
                                 jsonObject.getString("TIPOPEDREALIZADO")
                         ));
                     } catch (JSONException e) {
@@ -1714,9 +1690,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return pedidoRealizados;
     }
 
-    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOREALIZADO, Context context) {
+    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, Context context) {
         final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOREALIZADO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1726,7 +1702,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         pedidoRealizados.add(new PedidoRealizado(
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getInt("IDPEDIDOREALIZADO"),
                                 jsonObject.getString("TIPOPEDREALIZADO")
                         ));
                     } catch (JSONException e) {
@@ -1768,7 +1743,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDPEDIDO", String.valueOf(pedidoRealizado.getIdPedido()));
                 parametros.put("IDUSUARIO", pedidoRealizado.getIdUsuario());
-                parametros.put("IDPEDIDOREALIZADO", String.valueOf(pedidoRealizado.getIdPedidoRealizado()));
                 return parametros;
             }
         };
@@ -1804,7 +1778,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDUSUARIO", accesoUsuario.getIdUsuario());
                 parametros.put("ID_OPCION",accesoUsuario.getIdOpcion());
-                parametros.put("IDACCESOUSUARIO", String.valueOf(accesoUsuario.getIdAccesoUsuario()));
                 return parametros;
             }
         };
@@ -1824,8 +1797,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         accesoUsuarios.add(new AccesoUsuario(
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getString("ID_OPCION"),
-                                jsonObject.getInt("IDACCESOUSUARIO")
+                                jsonObject.getString("ID_OPCION")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1845,9 +1817,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return accesoUsuarios;
     }
 
-    public List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, int IDACCESOUSUARIO, Context context) {
+    public List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, Context context) {
         final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION + String.valueOf(IDACCESOUSUARIO), new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -1856,8 +1828,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         accesoUsuarios.add(new AccesoUsuario(
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getString("ID_OPCION"),
-                                jsonObject.getInt("IDACCESOUSUARIO")
+                                jsonObject.getString("ID_OPCION")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1898,7 +1869,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDUSUARIO", accesoUsuario.getIdUsuario());
                 parametros.put("ID_OPCION", accesoUsuario.getIdOpcion());
-                parametros.put("IDACCESOUSUARIO", String.valueOf(accesoUsuario.getIdAccesoUsuario()));
                 return parametros;
             }
         };
@@ -2060,7 +2030,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
-                parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
                 parametros.put("IDESTADOPEDIDO", String.valueOf(pedido.getIdEstadoPedido()));
                 parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
                 parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));

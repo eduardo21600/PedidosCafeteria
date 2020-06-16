@@ -4,17 +4,15 @@ public class PedidoRealizado {
 
     private int idPedido;
     private String idUsuario;
-    private int idPedidoRealizado;
     private String tipo;
 
     public PedidoRealizado(){
 
     }
 
-    public PedidoRealizado(int idPedido, String idUsuario, int idPedidoRealizado, String tipo) {
+    public PedidoRealizado(int idPedido, String idUsuario, String tipo) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;
-        this.idPedidoRealizado = idPedidoRealizado;
         this.tipo = tipo;
     }
 
@@ -42,11 +40,4 @@ public class PedidoRealizado {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdPedidoRealizado() {
-        return idPedidoRealizado;
-    }
-
-    public void setIdPedidoRealizado(int idPedidoRealizado) {
-        this.idPedidoRealizado = idPedidoRealizado;
-    }
 }

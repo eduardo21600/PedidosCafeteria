@@ -3,12 +3,10 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 public class PedidoAsignado {
     private int idPedido;
     private String idUsuario;
-    private int idPedidoAsignado;
 
-    public PedidoAsignado(int idPedido, String idUsuario, int idPedidoAsignado) {
+    public PedidoAsignado(int idPedido, String idUsuario) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;
-        this.idPedidoAsignado = idPedidoAsignado;
     }
 
     public PedidoAsignado() {
@@ -31,11 +29,4 @@ public class PedidoAsignado {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdPedidoAsignado() {
-        return idPedidoAsignado;
-    }
-
-    public void setIdPedidoAsignado(int idPedidoAsignado) {
-        this.idPedidoAsignado = idPedidoAsignado;
-    }
 }

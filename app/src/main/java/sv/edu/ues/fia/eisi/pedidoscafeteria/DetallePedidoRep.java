@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DetallePedidoRep extends AppCompatActivity {
     ControladorServicios serv;
+
     ControladorBD bd;
     private EditText codigo;
     private EditText descripcion;
@@ -23,6 +24,7 @@ public class DetallePedidoRep extends AppCompatActivity {
     private Usuario usuario;
     private Ubicacion ubic;
     private Button marcar;
+    private List<Pedido> pedido1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class DetallePedidoRep extends AppCompatActivity {
         bd.abrir();
         ped = bd.consultarPedido(bundle.getString("idPedido"));
         bd.cerrar();
+
+        pedido1 = serv.BuscarPedido(Integer.parseInt(bundle.getString("idPedido")), this);
 
         codigo = (EditText) findViewById(R.id.edtCodigo);
         descripcion = (EditText) findViewById(R.id.edtDescripcion);

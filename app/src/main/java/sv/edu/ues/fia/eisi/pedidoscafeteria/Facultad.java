@@ -1,23 +1,32 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Facultad {
-    private String idFacultad;
+
+    private static final AtomicInteger count = new AtomicInteger(0);
+    private int idFacultad;
     private String nomFacultad;
 
     public Facultad(){
 
     }
 
-    public Facultad(String idFacultad, String nomFacultad) {
+    public Facultad(String nomFacultad) {
+        this.idFacultad = count.incrementAndGet();
+        this.nomFacultad = nomFacultad;
+    }
+
+    public Facultad(int idFacultad, String nomFacultad) {
         this.idFacultad = idFacultad;
         this.nomFacultad = nomFacultad;
     }
 
-    public String getIdFacultad() {
+    public int getIdFacultad() {
         return idFacultad;
     }
 
-    public void setIdFacultad(String idFacultad) {
+    public void setIdFacultad(int idFacultad) {
         this.idFacultad = idFacultad;
     }
 

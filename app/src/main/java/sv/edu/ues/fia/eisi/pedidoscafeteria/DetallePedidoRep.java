@@ -36,8 +36,6 @@ public class DetallePedidoRep extends AppCompatActivity {
         ped = bd.consultarPedido(bundle.getString("idPedido"));
         bd.cerrar();
 
-        pedido1 = serv.BuscarPedido(Integer.parseInt(bundle.getString("idPedido")), this);
-
         codigo = (EditText) findViewById(R.id.edtCodigo);
         descripcion = (EditText) findViewById(R.id.edtDescripcion);
         nomCliente = (EditText) findViewById(R.id.edtCliente);

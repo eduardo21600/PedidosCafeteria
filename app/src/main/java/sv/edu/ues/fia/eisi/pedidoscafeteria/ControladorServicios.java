@@ -1395,6 +1395,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 parametros.put("DIRECUBICACION", ubicacion.getDirecUbicacion());
                 parametros.put("NOMUBICACION", ubicacion.getNomUbicacion());
                 parametros.put("PUNTOREFUBICACION", ubicacion.getPuntoRefUbicacion());
+                parametros.put("IDUSUARIO", ubicacion.getIdUsuario());
                 return parametros;
             }
         };
@@ -1429,7 +1430,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                                 1,
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
-                                jsonObject.getString("PUNTOREFUBICACION")
+                                jsonObject.getString("PUNTOREFUBICACION"),
+                                jsonObject.getString("IDUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1465,7 +1467,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
-                                jsonObject.getString("PUNTOREFUBICACION")
+                                jsonObject.getString("PUNTOREFUBICACION"),
+                                jsonObject.getString("IDUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -11,27 +11,30 @@ public class Ubicacion {
     private String direcUbicacion;
     private String nomUbicacion;
     private String puntoRefUbicacion;
+    private String idUsuario;
 
     public Ubicacion(){
 
     }
 
-    public Ubicacion(int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion) {
+    public Ubicacion(int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {
         this.idUbicacion = count.incrementAndGet();
         this.idFacultad = idFacultad;
         this.idPedido = idPedido;
         this.direcUbicacion = direcUbicacion;
         this.nomUbicacion = nomUbicacion;
         this.puntoRefUbicacion = puntoRefUbicacion;
+        this.idUsuario = idUsuario;
     }
 
-    public Ubicacion(int idUbicacion, int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion) {
+    public Ubicacion(int idUbicacion, int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {
         this.idUbicacion = idUbicacion;
         this.idFacultad = idFacultad;
         this.idPedido = idPedido;
         this.direcUbicacion = direcUbicacion;
         this.nomUbicacion = nomUbicacion;
         this.puntoRefUbicacion = puntoRefUbicacion;
+        this.idUsuario = idUsuario;
     }
 
     public int getIdUbicacion() {
@@ -81,5 +84,14 @@ public class Ubicacion {
     public void setPuntoRefUbicacion(String puntoRefUbicacion) {
         this.puntoRefUbicacion = puntoRefUbicacion;
     }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
 
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import java.util.List;
 
 public class DetallePedidoRep extends AppCompatActivity {
+    ControladorServicios serv;
     ControladorBD bd;
     private EditText codigo;
     private EditText descripcion;

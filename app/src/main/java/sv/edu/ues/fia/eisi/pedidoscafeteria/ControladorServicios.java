@@ -122,7 +122,7 @@ public class ControladorServicios {
 
 
 
-    private String CrearAct(final Usuario usu, Context context,boolean accion)
+    public String CrearAct(final Usuario usu, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -161,7 +161,7 @@ public class ControladorServicios {
         return resultado;}
 
 
-    private List<Usuario> BuscarUsuarios(Context context)
+    public List<Usuario> BuscarUsuarios(Context context)
     {
         final List<Usuario> usus = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsus, new Response.Listener<JSONArray>() {
@@ -196,7 +196,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return usus;}
-    private List<Usuario> BuscarUsuario(String IDUSUARIO,Context context)
+    public List<Usuario> BuscarUsuario(String IDUSUARIO,Context context)
     {
         final List<Usuario> usus = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+IDUSUARIO, new Response.Listener<JSONArray>() {
@@ -231,7 +231,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return usus;}
-    private String Eliminar(final Usuario usu, Context context)
+    public String Eliminar(final Usuario usu, Context context)
     {String url;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEUsu, new Response.Listener<String>() {
@@ -264,7 +264,7 @@ public class ControladorServicios {
 
 
     //CRUD LOCAL
-    private String CrearAct(final Local local, Context context,boolean accion)
+    public String CrearAct(final Local local, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -300,7 +300,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<Local> BuscarLocales(Context context)
+    public List<Local> BuscarLocales(Context context)
     {
         final List<Local> local = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocals, new Response.Listener<JSONArray>() {
@@ -334,7 +334,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return local;}
 
-    private List<Local> BuscarLocal(int IDLOCAL,Context context)
+    public List<Local> BuscarLocal(int IDLOCAL,Context context)
     {
         final List<Local> local = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocal+String.valueOf(IDLOCAL), new Response.Listener<JSONArray>() {
@@ -367,7 +367,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return local;}
-    private String Eliminar(final Local local, Context context)
+    public String Eliminar(final Local local, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLELocal, new Response.Listener<String>() {
@@ -396,12 +396,8 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-
-
-
-
     //CRUD Producto
-    private String CrearAct(final Producto producto, Context context,boolean accion)
+    public String CrearAct(final Producto producto, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -438,7 +434,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<Producto> BuscarProductos(Context context)
+    public List<Producto> BuscarProductos(Context context)
     {
         final List<Producto> producto = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBProductos, new Response.Listener<JSONArray>() {
@@ -473,7 +469,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return producto;}
 
-    private List<Producto> BuscarProducto(int IDPRODUCTO,Context context)
+    public List<Producto> BuscarProducto(int IDPRODUCTO,Context context)
     {
         final List<Producto> producto = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBProducto+String.valueOf(IDPRODUCTO), new Response.Listener<JSONArray>() {
@@ -507,7 +503,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return producto;}
-    private String Eliminar(final Producto producto, Context context)
+    public String Eliminar(final Producto producto, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEProducto, new Response.Listener<String>() {
@@ -539,7 +535,7 @@ public class ControladorServicios {
 
 
     //CRUD TIPOUSUARIO
-    private String CrearAct(final TipoUsuario tipoUsuario, Context context,boolean accion)
+    public String CrearAct(final TipoUsuario tipoUsuario, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -575,7 +571,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<TipoUsuario> BuscarTiposU(Context context)
+    public List<TipoUsuario> BuscarTiposU(Context context)
     {
         final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsus, new Response.Listener<JSONArray>() {
@@ -608,7 +604,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return tipoUsuarios;}
 
-    private List<TipoUsuario> BuscarTipoU(int IDTIPOUSUARIO,Context context)
+    public List<TipoUsuario> BuscarTipoU(int IDTIPOUSUARIO,Context context)
     {
         final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsu+String.valueOf(IDTIPOUSUARIO), new Response.Listener<JSONArray>() {
@@ -640,7 +636,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return tipoUsuarios;}
-    private String Eliminar(final TipoUsuario tipoUsuario, Context context)
+    public String Eliminar(final TipoUsuario tipoUsuario, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETUsu, new Response.Listener<String>() {
@@ -670,10 +666,8 @@ public class ControladorServicios {
         return resultado;}
 
 
-
-
     //CRUD producto asignado
-    private String Crear(final int IDPRODUCTO, final int IDMENU, Context context)
+    public String Crear(final int IDPRODUCTO, final int IDMENU, Context context)
     {String url;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLCAsigM, new Response.Listener<String>() {
@@ -704,9 +698,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-
-
-    private List<Producto> BuscarAsigM(int IDMENU,Context context)
+    public List<Producto> BuscarAsigM(int IDMENU,Context context)
     {
         final List<Producto> producto = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAsig+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
@@ -740,7 +732,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return producto;}
-    private String Eliminar(final int IDMENU, Context context)
+    public String Eliminar(final int IDMENU, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEAsig, new Response.Listener<String>() {
@@ -774,7 +766,7 @@ public class ControladorServicios {
 
 
     //CRUD MENU
-    private String CrearAct(final Menu menu, final Context context, boolean accion)
+    public String CrearAct(final Menu menu, final Context context, boolean accion)
     {String url;
 
         url = URLCMenu;
@@ -814,7 +806,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private String Act(final Menu menu, final Context context)
+    public String Act(final Menu menu, final Context context)
     {String url;
 
 
@@ -852,7 +844,7 @@ public class ControladorServicios {
 
 
 
-    private List<Menu> BuscarMenus(final Context context)
+    public List<Menu> BuscarMenus(final Context context)
     {
         final List<Menu> menu = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenus, new Response.Listener<JSONArray>() {
@@ -894,7 +886,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return menu;}
 
-    private List<Menu> BuscarMenu(int IDMENU, final Context context)
+    public List<Menu> BuscarMenu(int IDMENU, final Context context)
     {
         final List<Menu> menu = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenu+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
@@ -932,7 +924,7 @@ public class ControladorServicios {
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return menu;}
-    private String Eliminar(final Menu menu, final Context context)
+    public String Eliminar(final Menu menu, final Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEMenu, new Response.Listener<String>() {
@@ -966,7 +958,7 @@ public class ControladorServicios {
 
 
     //CRUD detallePedido
-    private String CrearAct(final DetallePedido detallePedido, Context context,boolean accion)
+    public String CrearAct(final DetallePedido detallePedido, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -1003,7 +995,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<DetallePedido> BuscarDetallePedidos(Context context)
+    public List<DetallePedido> BuscarDetallePedidos(Context context)
     {
         final List<DetallePedido> detallePedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedidos, new Response.Listener<JSONArray>() {
@@ -1038,7 +1030,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return detallePedidos;}
 
-    private List<DetallePedido> BuscarDetallePedido(int IDDETALLEPEDIDO,Context context)
+    public List<DetallePedido> BuscarDetallePedido(int IDDETALLEPEDIDO,Context context)
     {
         final List<DetallePedido> detallePedidos= new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedido+String.valueOf(IDDETALLEPEDIDO), new Response.Listener<JSONArray>() {
@@ -1073,7 +1065,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return detallePedidos;}
 
-    private String Eliminar(final DetallePedido detallePedido, Context context)
+    public String Eliminar(final DetallePedido detallePedido, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEDetaPedido, new Response.Listener<String>() {
@@ -1106,7 +1098,7 @@ public class ControladorServicios {
     //CRUD estado pedido
 
 
-    private String CrearAct(final EstadoPedido estadoPedido, Context context,boolean accion)
+    public String CrearAct(final EstadoPedido estadoPedido, Context context,boolean accion)
     {String url;
         if(accion)
         {
@@ -1142,7 +1134,7 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private List<EstadoPedido> BuscarEstados(Context context)
+    public List<EstadoPedido> BuscarEstados(Context context)
     {
         final List<EstadoPedido> estadoPedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstados, new Response.Listener<JSONArray>() {
@@ -1175,7 +1167,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return estadoPedidos;}
 
-    private List<EstadoPedido> BuscarEstadoPedido(int IDESTADOPEDIDO,Context context)
+    public List<EstadoPedido> BuscarEstadoPedido(int IDESTADOPEDIDO,Context context)
     {
         final List<EstadoPedido> estadoPedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstado+String.valueOf(IDESTADOPEDIDO), new Response.Listener<JSONArray>() {
@@ -1210,7 +1202,7 @@ public class ControladorServicios {
         return estadoPedidos;}
 
 
-    private String Eliminar(final EstadoPedido estadoPedido, Context context)
+    public String Eliminar(final EstadoPedido estadoPedido, Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEEstado, new Response.Listener<String>() {
@@ -1240,7 +1232,7 @@ public class ControladorServicios {
         return resultado;}
 //aquí terminan los erroes del señor de las tinieblas
 //CRUD facultad
-private String CrearAct(final Facultad facultad, Context context, boolean accion) {
+public String CrearAct(final Facultad facultad, Context context, boolean accion) {
     String url;
     if (accion) {
         url = URLCFacultad;
@@ -1275,7 +1267,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     return resultado;
 }
 
-    private List<Facultad> BuscarFacultades(Context context) {
+    public List<Facultad> BuscarFacultades(Context context) {
         final List<Facultad> facultad = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultades, new Response.Listener<JSONArray>() {
             @Override
@@ -1306,7 +1298,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return facultad;
     }
 
-    private List<Facultad> BuscarFacultad(int IDFACULTAD, Context context) {
+    public List<Facultad> BuscarFacultad(int IDFACULTAD, Context context) {
         final List<Facultad> facultad = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultad + String.valueOf(IDFACULTAD), new Response.Listener<JSONArray>() {
             @Override
@@ -1337,7 +1329,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return facultad;
     }
 
-    private String Eliminar(final Facultad facultad, Context context) {
+    public String Eliminar(final Facultad facultad, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETFacultad, new Response.Listener<String>() {
             @Override
@@ -1367,7 +1359,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     }
 
     //CRUD Ubicacion
-    private String CrearAct(final Ubicacion ubicacion, Context context, boolean accion) {
+    public String CrearAct(final Ubicacion ubicacion, Context context, boolean accion) {
         String url;
         if (accion) {
             url = URLCUbicacion;
@@ -1405,7 +1397,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
 
-    private List<Ubicacion> BuscarUbicaciones(Context context) {
+    public List<Ubicacion> BuscarUbicaciones(Context context) {
         final List<Ubicacion> ubicacion = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicaciones, new Response.Listener<JSONArray>() {
             @Override
@@ -1440,7 +1432,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return ubicacion;
     }
 
-    private List<Ubicacion> BuscarUbicacion(int IDUBICACION, Context context) {
+    public List<Ubicacion> BuscarUbicacion(int IDUBICACION, Context context) {
         final List<Ubicacion> ubicacion = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicacion + String.valueOf(IDUBICACION), new Response.Listener<JSONArray>() {
             @Override
@@ -1475,7 +1467,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return ubicacion;
     }
 
-    private String Eliminar(final Ubicacion ubicacion, Context context) {
+    public String Eliminar(final Ubicacion ubicacion, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETUbicacion, new Response.Listener<String>() {
             @Override
@@ -1505,7 +1497,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     }
 
     //CRUD PedidoAsignado
-    private String CrearAct(final PedidoAsignado pedidoAsignado, Context context, boolean accion) {
+    public String CrearAct(final PedidoAsignado pedidoAsignado, Context context, boolean accion) {
         String url;
         if (accion) {
             url = URLCPedidoAsignado;
@@ -1540,7 +1532,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
 
-    private List<PedidoAsignado> BuscarPedidosAsignados(Context context) {
+    public List<PedidoAsignado> BuscarPedidosAsignados(Context context) {
         final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignados, new Response.Listener<JSONArray>() {
             @Override
@@ -1572,7 +1564,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return pedidoAsignados;
     }
 
-    private List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOASIGNADO, Context context) {
+    public List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOASIGNADO, Context context) {
         final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOASIGNADO), new Response.Listener<JSONArray>() {
             @Override
@@ -1604,7 +1596,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return pedidoAsignados;
     }
 
-    private String Eliminar(final PedidoAsignado pedidoAsignado, Context context) {
+    public String Eliminar(final PedidoAsignado pedidoAsignado, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETPedidoAsignado, new Response.Listener<String>() {
             @Override
@@ -1635,7 +1627,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
     //CRUD PedidoRealizado
-    private String CrearAct(final PedidoRealizado pedidoRealizado, Context context, boolean accion) {
+    public String CrearAct(final PedidoRealizado pedidoRealizado, Context context, boolean accion) {
         String url;
         if (accion) {
             url = URLCPedidoRealizado;
@@ -1671,7 +1663,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
 
-    private List<PedidoRealizado> BuscarPedidosRealizados(Context context) {
+    public List<PedidoRealizado> BuscarPedidosRealizados(Context context) {
         final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizados, new Response.Listener<JSONArray>() {
             @Override
@@ -1704,7 +1696,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return pedidoRealizados;
     }
 
-    private List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOREALIZADO, Context context) {
+    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOREALIZADO, Context context) {
         final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOREALIZADO), new Response.Listener<JSONArray>() {
             @Override
@@ -1737,7 +1729,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return pedidoRealizados;
     }
 
-    private String Eliminar(final PedidoRealizado pedidoRealizado, Context context) {
+    public String Eliminar(final PedidoRealizado pedidoRealizado, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETPedidoRealizado, new Response.Listener<String>() {
             @Override
@@ -1768,7 +1760,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     }
 
     //CRUD AccesoUsuario
-    private String CrearAct(final AccesoUsuario accesoUsuario, Context context, boolean accion) {
+    public String CrearAct(final AccesoUsuario accesoUsuario, Context context, boolean accion) {
         String url;
         if (accion) {
             url = URLCAccesoUsuario;
@@ -1803,7 +1795,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
 
-    private List<AccesoUsuario> BuscarAccesoUsuarios(Context context) {
+    public List<AccesoUsuario> BuscarAccesoUsuarios(Context context) {
         final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuarios, new Response.Listener<JSONArray>() {
             @Override
@@ -1835,7 +1827,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return accesoUsuarios;
     }
 
-    private List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, int IDACCESOUSUARIO, Context context) {
+    public List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, int IDACCESOUSUARIO, Context context) {
         final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION + String.valueOf(IDACCESOUSUARIO), new Response.Listener<JSONArray>() {
             @Override
@@ -1867,7 +1859,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return accesoUsuarios;
     }
 
-    private String Eliminar(final AccesoUsuario accesoUsuario, Context context) {
+    public String Eliminar(final AccesoUsuario accesoUsuario, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETAccesoUsuario, new Response.Listener<String>() {
             @Override
@@ -1898,7 +1890,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     }
 
     //CRUD OpcionCrud
-    private String CrearAct(final OpcionCrud opcionCrud, Context context, boolean accion) {
+    public String CrearAct(final OpcionCrud opcionCrud, Context context, boolean accion) {
         String url;
         if (accion) {
             url = URLCOpcionCrud;
@@ -1933,7 +1925,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;
     }
 
-    private List<OpcionCrud> BuscarOpcionesCrud(Context context) {
+    public List<OpcionCrud> BuscarOpcionesCrud(Context context) {
         final List<OpcionCrud> opcionesCrud = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionesCrud, new Response.Listener<JSONArray>() {
             @Override
@@ -1965,7 +1957,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return opcionesCrud;
     }
 
-    private List<OpcionCrud> BuscarOpcionCrud(String IDOPCION, Context context) {
+    public List<OpcionCrud> BuscarOpcionCrud(String IDOPCION, Context context) {
         final List<OpcionCrud> opcionCrud = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionCrud + IDOPCION, new Response.Listener<JSONArray>() {
             @Override
@@ -1997,7 +1989,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return opcionCrud;
     }
 
-    private String Eliminar(final OpcionCrud opcionCrud, Context context) {
+    public String Eliminar(final OpcionCrud opcionCrud, Context context) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLETOpcionCrud, new Response.Listener<String>() {
             @Override
@@ -2028,7 +2020,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
     }
 
     //CRUD pedido
-    private String CrearAct(final Pedido pedido, final Context context, final boolean accion)
+    public String CrearAct(final Pedido pedido, final Context context, final boolean accion)
     {String url;
 
         url = URLCPedido;
@@ -2073,7 +2065,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         requestQueue.add(stringRequest);
         return resultado;}
 
-    private String Act(final Pedido pedido, final Context context)
+    public String Act(final Pedido pedido, final Context context)
     {
         String url;
 
@@ -2110,7 +2102,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return resultado;}
 
 
-    private List<Pedido> BuscarPedidos(final Context context)
+    public List<Pedido> BuscarPedidos(final Context context)
     {
         final List<Pedido> pedido = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidos, new Response.Listener<JSONArray>() {
@@ -2150,7 +2142,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         requestQueue.add(jsonArrayRequest);
         return pedido;}
 
-    private List<Pedido> BuscarPedidosLocal(final Context context)
+    public List<Pedido> BuscarPedidosLocal(final Context context)
     {
         final List<Pedido> pedido = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal, new Response.Listener<JSONArray>() {
@@ -2190,7 +2182,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         return pedido;}
 
 
-    private List<Pedido> BuscarPedido(int IDPEDIDO, final Context context)
+    public List<Pedido> BuscarPedido(int IDPEDIDO, final Context context)
     {
         final List<Pedido> pedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedido+String.valueOf(IDPEDIDO), new Response.Listener<JSONArray>() {
@@ -2229,7 +2221,7 @@ private String CrearAct(final Facultad facultad, Context context, boolean accion
         requestQueue.add(jsonArrayRequest);
         return pedidos;
     }
-    private String Eliminar(final Pedido pedido, final Context context)
+    public String Eliminar(final Pedido pedido, final Context context)
     {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URLETPedido, new Response.Listener<String>() {

@@ -1256,7 +1256,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
             Map<String, String> parametros = new HashMap<String, String>();
-            parametros.put("IDFACULTAD", facultad.getIdFacultad());
+            parametros.put("IDFACULTAD", String.valueOf(facultad.getIdFacultad()));
             parametros.put("NOMFACULTAD", facultad.getNomFacultad());
 
             return parametros;
@@ -1277,7 +1277,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         facultad.add(new Facultad(
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("NOMFACULTAD")
                         ));
                     } catch (JSONException e) {
@@ -1308,7 +1308,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         facultad.add(new Facultad(
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("NOMFACULTAD")
                         ));
                     } catch (JSONException e) {
@@ -1348,7 +1348,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("IDFACULTAD", facultad.getIdFacultad());
+                parametros.put("IDFACULTAD", String.valueOf(facultad.getIdFacultad()));
 
                 return parametros;
             }
@@ -1384,7 +1384,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<String, String>();
                 parametros.put("IDUBICACION", String.valueOf(ubicacion.getIdUbicacion()));
-                parametros.put("IDFACULTAD", ubicacion.getIdFacultad());
+                parametros.put("IDFACULTAD", String.valueOf(ubicacion.getIdFacultad()));
                 parametros.put("IDPEDIDO", String.valueOf(ubicacion.getIdPedido()));
                 parametros.put("DIRECUBICACION", ubicacion.getDirecUbicacion());
                 parametros.put("NOMUBICACION", ubicacion.getNomUbicacion());
@@ -1408,7 +1408,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
@@ -1443,7 +1443,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
-                                jsonObject.getString("IDFACULTAD"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),

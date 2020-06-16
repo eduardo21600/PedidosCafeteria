@@ -3,7 +3,7 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 public class Ubicacion {
 
     private int idUbicacion;
-    private String idFacultad;
+    private int idFacultad;
     private int idPedido;
     private String direcUbicacion;
     private String nomUbicacion;
@@ -13,7 +13,7 @@ public class Ubicacion {
 
     }
 
-    public Ubicacion(int idUbicacion, String idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion) {
+    public Ubicacion(int idUbicacion, int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion) {
         this.idUbicacion = idUbicacion;
         this.idFacultad = idFacultad;
         this.idPedido = idPedido;
@@ -30,11 +30,11 @@ public class Ubicacion {
         this.idUbicacion = idUbicacion;
     }
 
-    public String getIdFacultad() {
+    public int getIdFacultad() {
         return idFacultad;
     }
 
-    public void setIdFacultad(String idFacultad) {
+    public void setIdFacultad(int idFacultad) {
         this.idFacultad = idFacultad;
     }
 

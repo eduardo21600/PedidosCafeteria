@@ -3,12 +3,12 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 public class Producto {
     private int idProduto;
     private String nombreProducto;
-    private int precioUnitario;
+    private double precioUnitario;
     private String descProducto;
 
     public Producto(){}
 
-    public Producto(int idProduto, String nombreProducto, int precioUnitario, String descProducto) {
+    public Producto(int idProduto, String nombreProducto,double precioUnitario, String descProducto) {
         this.idProduto = idProduto;
         this.nombreProducto = nombreProducto;
         this.precioUnitario = precioUnitario;
@@ -31,11 +31,11 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public int getPrecioUnitario() {
+    public double getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(int precioUnitario) {
+    public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 

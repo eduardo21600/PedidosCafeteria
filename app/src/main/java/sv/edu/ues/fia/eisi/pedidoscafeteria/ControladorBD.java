@@ -49,8 +49,8 @@ public class ControladorBD {
                 db.execSQL("create table ASIGNAPRODUCTO\n" +
                         "(\n" +
                         "   IDMENU               int not null,\n" +
-                        "   IDPRODUCTO           int not null,\n" +
-                        "   primary key (IDMENU, IDPRODUCTO)\n" +
+                        "   IDPRODUCTO           int not null\n" +
+                        "  \n" +
                         ");");
                 db.execSQL("create table DETALLEPEDIDO\n" +
                         "(\n" +
@@ -81,13 +81,12 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table MENU\n" +
                         "(\n" +
-                        "   IDMENU               int not null,\n" +
-                        "   IDLOCAL              int,\n" +
-                        "   PRECIOMENU           numeric(12,2) not null,\n" +
-                        "   FECHADESDEMENU       date not null,\n" +
-                        "   FECHAHASTAMENU       date not null,\n" +
-                        "   NOMMENU              varchar(50) not null,\n" +
-                        "   primary key (IDMENU)\n" +
+                        "   IDMENU               Integer primary key AUTOINCREMENT,\n" +
+                        "   IDLOCAL              Integer not null,\n" +
+                        "   PRECIOMENU           real not null,\n" +
+                        "   FECHADESDEMENU       varchar(50) not null,\n" +
+                        "   FECHAHASTAMENU       varchar(50) not null,\n" +
+                        "   NOMMENU              varchar(50) not null\n" +
                         ");");
                 db.execSQL("create table OPCIONCRUD\n" +
                         "(\n" +
@@ -122,11 +121,10 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table PRODUCTO\n" +
                         "(\n" +
-                        "   IDPRODUCTO           int not null,\n" +
+                        "   IDPRODUCTO           Integer primary key AUTOINCREMENT,\n" +
                         "   NOMBREPRODUCTO       varchar(50) not null,\n" +
                         "   PRECIOUNITARIO       real not null,\n" +
-                        "   DESCPRODUCTO         varchar(50),\n" +
-                        "   primary key (IDPRODUCTO)\n" +
+                        "   DESCPRODUCTO         varchar(50)\n" +
                         ");");
                 db.execSQL("create table TIPOUSUARIO\n" +
                         "(\n" +
@@ -559,7 +557,7 @@ public class ControladorBD {
     public String CrearProducto(Producto producto) {
         String resultado = "producto creado ";
         ContentValues pro777 = new ContentValues();
-        pro777.put("idProducto", producto.getIdProduto());
+        //pro777.put("idProducto", producto.getIdProduto());
         pro777.put("NombreProducto", producto.getNombreProducto());
         pro777.put("precioUnitario", producto.getPrecioUnitario());
         pro777.put("descProducto", producto.getDescProducto());
@@ -601,7 +599,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
 
             do {
-                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getInt(2),cur.getString(3)));
+                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
             } while (cur.moveToNext());
 
 
@@ -634,18 +632,25 @@ public class ControladorBD {
         int comprobador = 0;
         int cont = 0;
         String resultado = comprobador + " productos eliminados ";
+
         String[] id = {String.valueOf(producto.getIdProduto())};
-        Cursor cur = db.query("Producto", null, "idProducto = ?", id, null, null, null);
+
+        Cursor cur = db.query("Producto", null, "IDPRODUCTO = ?", id, null, null, null);
+
         if (cur.moveToFirst()) {
+            Cursor m = db.query("ASIGNAPRODUCTO", null, "IDPRODUCTO = ?", id, null, null, null);
 
-            Cursor m = db.query("ASIGNARPRODUCTO", null, "IDPRODCUTO", id, null, null, null);
             if (m.moveToFirst()) {
-                cont = db.delete("ASIGNARPRODUCTO", "IDPRODUCTO =" + producto.getIdProduto(), null);
-
-                resultado = resultado + ", " + cont + " Productos eliminados de menús";
+                cont = db.delete("ASIGNAPRODUCTO", "IDPRODUCTO = ?" + producto.getIdProduto(), null);
+                resultado = resultado + ", " + cont + " Productos eliminados de los menús";
+            }
+            else
+            {
+                resultado = "Este Producto no se encuentra en ningun menu";
             }
             comprobador = db.delete("Producto", "idProducto =" + producto.getIdProduto(), null);
-        } else {
+        }
+        else {
             resultado = "Ese Producto no existe";
         }
         return resultado;
@@ -658,9 +663,7 @@ public class ControladorBD {
         ContentValues uwu = new ContentValues();
         ContentValues proMenu = new ContentValues();
 
-
-
-        uwu.put("idMenu", menu.getIdMenu());
+        //uwu.put("idMenu", menu.getIdMenu());
         uwu.put("idLocal", menu.getIdLocal());
         uwu.put("PrecioMenu", menu.getPrecioMenu());
         uwu.put("fechaDesdeMenu", menu.getFechaDesdeMenu());
@@ -668,13 +671,12 @@ public class ControladorBD {
         uwu.put("nomMenu", menu.getNomMenu());
 
 
-
         long comprobador = 0;
         comprobador = db.insert("Menu", null, uwu);
         if (comprobador == -1 || comprobador == 0) {
             resultado = "oh, oh ya existe un Menu con ese codigo ): ";
         }
-        List<Producto> Productos =  menu.getProductos();
+       /* List<Producto> Productos =  menu.getProductos();
         for (int i=0;i<Productos.size();i++)
         {
             proMenu.put("IDMENU",menu.getIdMenu());
@@ -684,7 +686,7 @@ public class ControladorBD {
             {
                 resultado =resultado + "no se pudo insertar el producto del id "+Productos.get(i).getIdProduto();
             }
-        }
+        }*/
         return resultado;
     }
 
@@ -724,11 +726,18 @@ public class ControladorBD {
     }
 
     public List<Menu> ConsultaMenus() {
-        Cursor cur = db.rawQuery("SELECT * FROM Menu", null);
+        Cursor cur = db.rawQuery("SELECT * FROM MENU", null);
         List<Menu> uwu = new ArrayList<>();
         List<AsignarProducto> proMenu = new ArrayList<>();
         List<Producto> producto = new ArrayList<>();
+
         if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
+            } while (cur.moveToNext());
+        }
+       /* if (cur.moveToFirst()) {
 
             do {
                 String[] idMenu = {String.valueOf(cur.getInt(0))};
@@ -745,8 +754,6 @@ public class ControladorBD {
                         producto.add(new Producto(k.getInt(0),k.getString(1),k.getInt(2),k.getString(3)));
                     }
                 }
-
-
                 uwu.add(new Menu(cur.getInt(0),
                         producto,
                         cur.getInt(2),
@@ -755,9 +762,7 @@ public class ControladorBD {
                         cur.getString(5),
                         cur.getString(6)));
             } while (cur.moveToNext());
-
-
-        }
+        }*/
         return uwu;
     }
 
@@ -816,17 +821,16 @@ public class ControladorBD {
 
     //CD de una asignación de productos a menú
 
-    public String AsignarProtoMenu(AsignarProducto asigP) {
-        String resultado = "producto agregado amenu";
+    public String AsignarProtoMenu(ProductoAsignar asigP) {
+        String resultado = "producto agregado a menu";
         ContentValues prodM = new ContentValues();
-        prodM.put("IDMENU", asigP.getIDMENU());
-        prodM.put("IDPRODUCTO", asigP.getIDPRODUCTO());
-
+        prodM.put("IDMENU", asigP.getIdmenu());
+        prodM.put("IDPRODUCTO", asigP.getIdProducto());
 
         long comprobador = 0;
-        comprobador = db.insert("ASIGNARPRODUCTO", null, prodM);
+        comprobador = db.insert("ASIGNAPRODUCTO", null, prodM);
         if (comprobador == -1 || comprobador == 0) {
-            resultado = "oh, oh este Menú ya tiene este producto ): ";
+            resultado = "El producto no ha sigo asignado al menu ";
         }
         return resultado;
     }

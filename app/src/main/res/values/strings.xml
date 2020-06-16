@@ -50,7 +50,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-
+    <string name="menu_Producto">Slideshow</string>
     <string name="home_second">Home Second</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -79,7 +79,29 @@
     <string name="et_punto_ubicacion">Punto de referencia</string>
     <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
     <!-- Fin Strings Pablo-->
+    <!-- Inicio Strings Carlos -->
+    <string name="TituloCrearProducto">Crear Producto</string>
+    <string name="TituloAsignarProducto">Asignar Producto</string>
+    <string name="TituloModificarProducto">Modificar Producto</string>
+    <string name="TituloEliminarProducto">Eliminar Producto</string>
+    <string name="TituloProducto">Producto</string>
+    <string name="botonModificar">Modificar</string>
+    <string name="botonEliminar">Eliminar</string>
+    <string name="botonCrear">Crear</string>
+    <string name="MensajeDeConfirmacionProducto">¿Desea Eliminar este Producto?</string>
+    <string name="nombreProducto">Nombre:</string>
+    <string name="precioProducto">Precio:</string>
+    <string name="descripcionProducto">Descripción:</string>
+    <string name="IdMenu">ID Menú</string>
+    <string name="IdProducto">ID Producto</string>
 
+    <string name="TituloCrearMenu">Crear Menú</string>
+    <string name="TituloModificarMenu">Modificar Menú</string>
+    <string name="TituloEliminarMenu">Eliminar Menú</string>
+    <string name="TituloMenu">Menú</string>
+    <string name="fechadesdeMenu">Fecha Desde</string>
+    <string name="fechahastaMenu">Fecha Hasta</string>
+    <!-- Fin Strings Carlos-->
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
 

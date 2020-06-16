@@ -20,5 +20,9 @@
             android:id="@+id/nav_repartidor"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/repartidor" />
+        <item
+            android:id="@+id/nav_producto"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_Producto" />
     </group>
 </menu>

@@ -13,7 +13,14 @@ public class Menu
     private String nomMenu;
 
     public Menu(){}
-
+    public Menu(int idMenu, int idLocal, double precioMenu, String fechaDesdeMenu, String fechaHastaMenu, String nomMenu) {
+        this.idMenu = idMenu;
+        this.idLocal = idLocal;
+        this.precioMenu = precioMenu;
+        this.fechaDesdeMenu = fechaDesdeMenu;
+        this.fechaHastaMenu = fechaHastaMenu;
+        this.nomMenu = nomMenu;
+    }
     public Menu(int idMenu, List<Producto> productos, int idLocal, double precioMenu, String fechaDesdeMenu, String fechaHastaMenu, String nomMenu) {
         this.idMenu = idMenu;
         this.productos = productos;

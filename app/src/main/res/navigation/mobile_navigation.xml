@@ -70,4 +70,9 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.fragmentUbicacion"
         android:label="Mis Ubicaciones"
         tools:layout="@layout/fragment_ubicacion_c" />
+    <fragment
+        android:id="@+id/nav_producto"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.Producto.Producto_Lista"
+        android:label="@string/menu_Producto"
+        tools:layout="@layout/fragment_producto__lista" />
 </navigation>

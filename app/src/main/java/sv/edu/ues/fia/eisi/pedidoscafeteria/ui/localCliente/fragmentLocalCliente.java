@@ -15,18 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Local;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentLocalCliente extends Fragment {
+public class fragmentLocalCliente extends Fragment implements CallbackWS {
 
     private View v;
     private RecyclerView recyclerView;
     private List<Local> listLocal;
+    private ControladorServicios controladorServicios;
 
 
     public fragmentLocalCliente() {
@@ -40,9 +43,6 @@ public class fragmentLocalCliente extends Fragment {
     {
         v =  inflater.inflate(R.layout.fragment_local_cliente, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.local_recycler);
-        AdaptadorLocal adaptadorLocal = new AdaptadorLocal(getContext(), listLocal);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adaptadorLocal);
         // Inflate the layout for this fragment
         return v;
 
@@ -52,9 +52,16 @@ public class fragmentLocalCliente extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listLocal = new ArrayList<Local>();
-        listLocal.add(new Local(R.drawable.food,"Hola","Pollo Campero"));
-        listLocal.add(new Local(R.drawable.food,"Hola","KFC"));
-        listLocal.add(new Local(R.drawable.food,"Hola","Pizza Hut"));
+        controladorServicios = new ControladorServicios(this);
+        controladorServicios.BuscarLocales(getContext());
+    }
+
+    @Override
+    public void ResponseWS(Object lista)
+    {
+        listLocal = (List<Local>) lista;
+        AdaptadorLocal adaptadorLocal = new AdaptadorLocal(getContext(), listLocal);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adaptadorLocal);
     }
 }

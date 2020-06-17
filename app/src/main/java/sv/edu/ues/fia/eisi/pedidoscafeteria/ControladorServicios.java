@@ -63,20 +63,21 @@ public class ControladorServicios{
     String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_actualizar.php";
     String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_consulta.php";
 
-    String URLBTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_consulta.php?IDTIPOUSUARIO=";
-    String URLETUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_eliminar.php";
-    String URLCTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_insertar.php";
-    String URLATUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_actualizar.php";
-    String URLBTUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuarios_consulta.php";
+    String URLBTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_consulta.php?IDTIPOUSUARIO=";
+    String URLETUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_eliminar.php";
+    String URLCTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_insertar.php";
+    String URLATUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_actualizar.php";
+    String URLBTUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuarios_consulta.php";
 
-    String URLBMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_consulta.php?IDMENU=";
-    String URLEMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_eliminar.php";
-    String URLCMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_insertar.php";
-    String URLAMenu= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menu_actualizar.php";
-    String URLBMenus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/menus_consulta.php";
-    String URLCAsigM="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarP_insertar.php";
-    String URLEAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarP_eliminar.php";
-    String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/asignarPs_conosulta.php?IDMENU=";
+    String URLBMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menu_consulta.php?IDMENU=";
+    String URLBMenuLoc = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menu_consulta_local.php?IDLOCAL=";
+    String URLEMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menu_eliminar.php";
+    String URLCMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menu_insertar.php";
+    String URLAMenu= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menu_actualizar.php";
+    String URLBMenus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menus_consulta.php";
+    String URLCAsigM="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarP_insertar.php";
+    String URLEAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarP_eliminar.php";
+    String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarPs_conosulta.php?IDMENU=";
 
     String URLBDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_consulta.php?IDDETALLEPEDIDO=";
     String URLEDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_eliminar.php";
@@ -323,9 +324,11 @@ public class ControladorServicios{
         requestQueue.add(stringRequest);
         return resultado;}
 
+    List<Local> local = new ArrayList<>();
+
     public List<Local> BuscarLocales(Context context)
     {
-        final List<Local> local = new ArrayList<>();
+        local.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocals, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -344,6 +347,7 @@ public class ControladorServicios{
                     }
 
                 }
+                callback.ResponseWS(local);
             }
 
         }, new Response.ErrorListener(){
@@ -359,7 +363,7 @@ public class ControladorServicios{
 
     public List<Local> BuscarLocal(int IDLOCAL,Context context)
     {
-        final List<Local> local = new ArrayList<>();
+        local.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocal+String.valueOf(IDLOCAL), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -378,6 +382,7 @@ public class ControladorServicios{
                     }
 
                 }
+                callback.ResponseWS(local);
             }
 
         }, new Response.ErrorListener(){
@@ -870,10 +875,10 @@ public class ControladorServicios{
         requestQueue.add(stringRequest);
         return resultado;}
 
-
+    List<Menu> menu = new ArrayList<>();
     public List<Menu> BuscarMenus(final Context context)
     {
-        final List<Menu> menu = new ArrayList<>();
+        menu.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenus, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -914,7 +919,7 @@ public class ControladorServicios{
 
     public List<Menu> BuscarMenu(final int IDMENU, final Context context)
     {
-        final List<Menu> menu = new ArrayList<>();
+        menu.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenu+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -950,6 +955,47 @@ public class ControladorServicios{
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return menu;}
+
+    public List<Menu> BuscarMenuLocal(final int IDLOCAL, final Context context)
+    {
+        menu.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenuLoc+String.valueOf(IDLOCAL), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        //List<Producto> producto = BuscarAsigM(IDLOCAL,context);
+                        menu.add(new Menu(
+                                jsonObject.getInt("IDMENU"),
+                                jsonObject.getInt("IDLOCAL"),
+                                jsonObject.getInt("PRECIOMENU"),
+                                jsonObject.getString("FECHADESDEMENU"),
+                                jsonObject.getString("FECHAHASTAMENU"),
+                                jsonObject.getString("NOMMENU")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.ResponseWS(menu);
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return menu;
+    }
+
     public String Eliminar(final Menu menu, final Context context)
     {
 

@@ -54,7 +54,7 @@ public class AdaptadorLocal extends RecyclerView.Adapter<AdaptadorLocal.viewHold
     public void onBindViewHolder(@NonNull viewHolder holder, int position)
     {
         holder.tv_nombre.setText(mLocal.get(position).getNombreLocal());
-        holder.iv_imagen.setImageResource(mLocal.get(position).getIdLocal());
+        holder.iv_imagen.setImageResource(R.drawable.food);
         holder.idlocal = mLocal.get(position).getIdLocal();
     }
 

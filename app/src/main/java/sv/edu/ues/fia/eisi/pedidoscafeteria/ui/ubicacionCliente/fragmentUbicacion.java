@@ -18,10 +18,10 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorUbicacion;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.Callback;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.nuevaDIreccion.agregarDireccion;
 
-public class fragmentUbicacion extends Fragment implements Callback {
+public class fragmentUbicacion extends Fragment implements CallbackWS {
 
     private List<Ubicacion> listaUbi;
     private View v;

@@ -21,34 +21,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.Callback;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackRespuestaString;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
 public class ControladorServicios{
 
     public ControladorServicios() {
     }
 
-    Callback callback;
+    CallbackWS callback;
+    CallbackRespuestaString callbackRespuestaString;
 
-    public ControladorServicios (Callback callback)
+    public ControladorServicios (CallbackWS callback)
     {
         this.callback = callback;
+    }
+    public ControladorServicios (CallbackWS callback, CallbackRespuestaString callbackRespuestaString)
+    {
+        this.callback = callback;
+        this.callbackRespuestaString = callbackRespuestaString;
     }
 
     //aquí comienzan los erroes de fernando el señor poderoso que obviamente no ha dejado eic115
     RequestQueue requestQueue;
     //aquí los URL de los servicios php para que se vea más ordenado
-    String URLBUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_consulta.php?IDUSUARIO=";
-    String URLEUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_eliminar.php";
-    String URLCUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_insertar.php";
-    String URLAUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuario_actualizar.php";
-    String URLBUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/usuarios_consulta.php";
+    String URLBUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuario_consulta.php?IDUSUARIO=";
+    String URLEUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuario_eliminar.php";
+    String URLCUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuario_insertar.php";
+    String URLAUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuario_actualizar.php";
+    String URLBUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuarios_consulta.php";
 
-    String URLBLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_consulta.php?IDLOCAL=";
-    String URLELocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_eliminar.php";
-    String URLCLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_insertar.php";
-    String URLALocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_actualizar.php";
-    String URLBLocals= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/locals_consulta.php";
+    String URLBLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_consulta.php?IDLOCAL=";
+    String URLELocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_eliminar.php";
+    String URLCLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_insertar.php";
+    String URLALocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_actualizar.php";
+    String URLBLocals= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/locals_consulta.php";
 
     String URLBProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_consulta.php?IDPRODUCTO=";
     String URLEProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_eliminar.php";
@@ -131,8 +138,10 @@ public class ControladorServicios{
 
 
 
-    public String CrearAct(final Usuario usu, Context context,boolean accion)
-    {String url;
+    public String CrearAct(Usuario usuario, Context context,boolean accion)
+    {
+        final Usuario usu = usuario;
+        String url;
         if(accion)
         {
             url = URLCUsu;
@@ -144,13 +153,13 @@ public class ControladorServicios{
             public void onResponse(String response) {
 
                 resultado ="CONEXIÓN EXITOSA";
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
                 resultado=error.toString();
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }) {
             @Override
@@ -172,7 +181,6 @@ public class ControladorServicios{
 
     public List<Usuario> BuscarUsuarios(Context context)
     {
-        final List<Usuario> usus = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsus, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -205,9 +213,12 @@ public class ControladorServicios{
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return usus;}
+
+    List<Usuario> usus = new ArrayList<>();
+
     public List<Usuario> BuscarUsuario(String IDUSUARIO,Context context)
     {
-        final List<Usuario> usus = new ArrayList<>();
+        usus.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUsu+IDUSUARIO, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -228,6 +239,7 @@ public class ControladorServicios{
                     }
 
                 }
+                callback.ResponseWS(usus);
             }
 
         }, new Response.ErrorListener(){
@@ -273,8 +285,10 @@ public class ControladorServicios{
 
 
     //CRUD LOCAL
-    public String CrearAct(final Local local, Context context,boolean accion)
-    {String url;
+    public String CrearAct(Local loc, Context context,boolean accion)
+    {
+        final Local local=loc;
+        String url;
         if(accion)
         {
             url = URLCLocal;

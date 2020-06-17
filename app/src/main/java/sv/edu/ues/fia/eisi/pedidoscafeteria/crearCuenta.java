@@ -17,9 +17,11 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import java.util.ArrayList;
 import java.util.List;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.usuarioCallback;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackRespuestaString;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
-public class crearCuenta extends AppCompatActivity implements usuarioCallback {
+
+public class crearCuenta extends AppCompatActivity implements CallbackWS, CallbackRespuestaString {
 
     private Chip chip;
     private EditText nombre, apellido,usuario, contra, repeContra, telefono, nomLocal;
@@ -46,12 +48,12 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
         chip = (Chip)findViewById(R.id.chip2);
         tvNomLocal = (TextView)findViewById(R.id.tvNomLocal);
         btnCrear = (Button)findViewById(R.id.btnCrearCuenta);
-
+        cServicio = new ControladorServicios(this, this);
 
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CrearCuenta();
+                verificarId();
             }
         });
 
@@ -61,7 +63,8 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
                 if(chip.isChecked()){
                     tvNomLocal.setVisibility(View.VISIBLE);
                     nomLocal.setVisibility(View.VISIBLE);
-                    tipo = 2;//Encargado
+                    nomLocal.setEnabled(true);
+                    tipo = 3;//Encargado
                     encargadoActivado=1;
                 }
                 else{
@@ -83,7 +86,7 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
                         vigilante=1;
                     }
                     else{
-                        cServicio.BuscarUsuario(usuario.getText().toString(),getApplicationContext());
+                        //cServicio.BuscarUsuario(usuario.getText().toString(),getApplicationContext());
                     }
                 }
             }
@@ -239,22 +242,20 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
 
     public void CrearCuenta(){
         if(vigilante==0){
-            if(verificarId()){
-                FancyToast.makeText(getApplicationContext(),
-                        "Este nombre de usuario ya existe",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
-            }
-            else{
                 if(!(contra.getText().toString().isEmpty())&&!(repeContra.getText().toString().isEmpty())&&contrasenas()&&vacios()){
                     if(encargadoActivado==0){
                         usu = obtenerDatos();
-                        String respuesta= cServicio.CrearAct(usu,getApplicationContext(),true);
-                        FancyToast.makeText(getApplicationContext(),
-                                respuesta,FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                        cServicio.CrearAct(usu,getApplicationContext(),true);
                     }
                     else{
                         if(nomLocal.getText().toString().isEmpty()){
                             FancyToast.makeText(getApplicationContext(),
                                     "Hay datos incorrectos o vacios en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                        }
+                        else
+                        {
+                            usu = obtenerDatos();
+                            cServicio.CrearAct(usu,getApplicationContext(),true);
                         }
                     }
 
@@ -263,7 +264,7 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
                     FancyToast.makeText(getApplicationContext(),
                             "Hay datos incorrectos o vacios en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                 }
-            }
+
 
         }
         else{
@@ -272,16 +273,14 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
             }
     }
 
-    public boolean verificarId(){
-        boolean resul;
-
-        if(prueba.isEmpty()){
-            resul=false;//Esta disponible
+    public void verificarId(){
+        if(vigilante==0) {
+            cServicio.BuscarUsuario(usuario.getText().toString(), getApplicationContext());
         }
         else{
-            resul=true;
+            FancyToast.makeText(getApplicationContext(),
+                    "Hay datos incorrectos en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
         }
-        return resul;
     }
 
     public void llenarLista(String id){
@@ -324,8 +323,39 @@ public class crearCuenta extends AppCompatActivity implements usuarioCallback {
     }
 
     @Override
-    public void VolleyResponseUsuario(List<Usuario> usuario) {
-        prueba = usuario;
+    public void ResponseWS(Object lista)
+    {
+        prueba = (List<Usuario>) lista;
+        if(prueba.isEmpty())
+        {
+            CrearCuenta();
+        }
+        else
+        {
+            FancyToast.makeText(getApplicationContext(),
+                    "Nombre de usuario ya tomado",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+        }
+    }
 
+    @Override
+    public void respuesta(String respuesta)
+    {
+        if(respuesta.equals("CONEXIÓN EXITOSA"))
+        {
+            ControladorServicios controladorServicios = new ControladorServicios();
+            String nom = nomLocal.getText().toString();
+            Local local = new Local();
+            local.setNombreLocal(nom);
+            local.setIdUsuario(usu.getIdUsuario());
+            controladorServicios.CrearAct(local, getApplicationContext(), true);
+            FancyToast.makeText(getApplicationContext(),
+                    "Usuario Creado",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,R.drawable.exito,true).show();
+
+        }
+        else
+        {
+            FancyToast.makeText(getApplicationContext(),
+                    "Usuario no creado",FancyToast.LENGTH_LONG,FancyToast.ERROR,R.drawable.error,true).show();
+        }
     }
 }

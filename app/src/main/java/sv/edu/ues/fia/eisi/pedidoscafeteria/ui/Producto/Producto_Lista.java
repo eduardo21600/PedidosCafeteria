@@ -21,9 +21,9 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ProductoIngresar;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.Callback;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
-public class Producto_Lista extends Fragment implements Callback {
+public class Producto_Lista extends Fragment implements CallbackWS {
 
     private RecyclerView recyclerView;
     View v;

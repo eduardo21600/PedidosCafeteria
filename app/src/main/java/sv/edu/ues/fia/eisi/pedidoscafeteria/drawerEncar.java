@@ -27,7 +27,7 @@ public class drawerEncar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("validacion",0);
         String tipo =sharedPreferences.getString("tipoUsuario","");
-        if(!tipo.isEmpty()){//para cliente
+        if(tipo.equals("1")){//para cliente
             setContentView(R.layout.activity_drawer_cliente);
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -51,7 +51,7 @@ public class drawerEncar extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
         }
-        else {
+        else if (tipo.equals("3")) {
             setContentView(R.layout.activity_drawer_encar);
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);

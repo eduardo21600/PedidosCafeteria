@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.menuCliente.DescMenu"
+    android:background="@drawable/gradiente_fondo">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imagen_descMenu_c"
+            android:src="@drawable/food"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20sp"/>
+        <TextView
+            android:id="@+id/nombre_menu_desc"
+            android:text="Nombre del menu"
+            android:gravity="center"
+            android:layout_marginTop="20sp"
+            android:textSize="30dp"/>
+        <TableRow
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Incluye:"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:textSize="20dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/descMenu_productos_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"/>
+        </TableRow>
+        <TextView
+            android:id="@+id/precio_menu_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$$$"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_margin="10dp"/>
+        <Button
+            android:id="@+id/agregar_pedido_desc"
+            android:text="@string/agregar_pedido"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    </TableLayout>
+
+</ScrollView>

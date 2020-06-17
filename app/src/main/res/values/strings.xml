@@ -106,5 +106,6 @@
     <!-- Fin Strings Carlos-->
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
+    <string name="agregar_pedido">Agregar al pedido</string>
 
 </resources>

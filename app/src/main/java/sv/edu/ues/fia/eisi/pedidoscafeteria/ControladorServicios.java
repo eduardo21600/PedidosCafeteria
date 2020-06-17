@@ -63,6 +63,7 @@ public class ControladorServicios{
     String URLCProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_insertar.php";
     String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_actualizar.php";
     String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_consulta.php";
+    String URLBProductosMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_consulta_menu.php?IDMENU=";
 
     String URLBTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_consulta.php?IDTIPOUSUARIO=";
     String URLETUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/tipousuario_eliminar.php";
@@ -573,6 +574,43 @@ public class ControladorServicios{
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return producto;}
+
+    public List<Producto> BuscarProductoMenu(int IDMENU,Context context)
+    {
+        producto.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBProductosMenu+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        producto.add(new Producto(
+                                jsonObject.getInt("IDPRODUCTO"),
+                                jsonObject.getString("NOMBREPRODUCTO"),
+                                jsonObject.getInt("PRECIOUNITARIO"),
+                                jsonObject.getString("DESCPRODUCTO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.ResponseWS(producto);
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return producto;}
+
     public String Eliminar(final Producto producto, Context context)
     {
 
@@ -768,9 +806,11 @@ public class ControladorServicios{
         requestQueue.add(stringRequest);
         return resultado;}
 
+    List<ProductoAsignar> PS = new ArrayList<ProductoAsignar>();
+
     public List<Producto> BuscarAsigM(int IDMENU,Context context)
     {
-
+        PS.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAsig+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -779,18 +819,16 @@ public class ControladorServicios{
                 {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        producto.add(new Producto(
-                                jsonObject.getInt("IDPRODUCTO"),
-                                jsonObject.getString("NOMBREPRODUCTO"),
-                                jsonObject.getInt("PRECIOUNITARIO"),
-                                jsonObject.getString("DESCPRODUCTO")
+                        PS.add(new ProductoAsignar(
+                                jsonObject.getInt("IDMENU"),
+                                jsonObject.getInt("IDPRODUCTO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
-                callback.ResponseWS(producto);
+                callback.ResponseWS(PS);
             }
 
         }, new Response.ErrorListener(){
@@ -802,7 +840,8 @@ public class ControladorServicios{
         });
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
-        return producto;}
+        return producto;
+    }
     public String Eliminar(final int IDMENU, Context context)
     {
 

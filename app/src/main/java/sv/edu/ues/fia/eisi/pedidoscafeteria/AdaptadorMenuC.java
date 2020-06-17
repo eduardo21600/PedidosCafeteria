@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.DescMenu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.MenusLocal;
 
 public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHolder>
@@ -43,6 +44,18 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
             }
         });
 
+        vHolder.ly_local.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(mContext, DescMenu.class);
+                intent.putExtra("idMenu", vHolder.idMenu);
+                intent.putExtra("nomMenu", vHolder.nomMenu);
+                intent.putExtra("precioMenu", vHolder.precioMenu);
+                mContext.startActivity(intent);
+            }
+        });
+
         return vHolder;
     }
 
@@ -53,6 +66,9 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         holder.tv_desc.setText(mMenus.get(position).getFechaDesdeMenu());
         holder.tv_precio.setText(String.valueOf(mMenus.get(position).getPrecioMenu()));
         holder.iv_imagen.setImageResource(R.drawable.food);
+        holder.idMenu = mMenus.get(position).getIdMenu();
+        holder.nomMenu = mMenus.get(position).getNomMenu();
+        holder.precioMenu = mMenus.get(position).getPrecioMenu();
     }
 
     @Override
@@ -68,6 +84,10 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         private TextView tv_precio;
         private ImageView iv_imagen;
         private Button agregarPedido;
+        int idMenu;
+        String nomMenu;
+        double precioMenu;
+
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

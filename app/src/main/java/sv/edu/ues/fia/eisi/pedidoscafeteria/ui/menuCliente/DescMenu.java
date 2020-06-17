@@ -6,50 +6,55 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorDescripcionMenu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.Menu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.ProductoAsignar;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
-public class MenusLocal extends AppCompatActivity implements CallbackWS {
+public class DescMenu extends AppCompatActivity implements CallbackWS {
 
-    private List<Menu> listaMenu;
-    private List<ProductoAsignar> PS;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+    int idMenu;
+    String nomMenu;
+    double precionMenu;
     ControladorServicios controladorServicios;
+    List<Producto> productos;
+    TextView tv_nom, tv_precio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menus_local);
+        setContentView(R.layout.activity_desc_menu);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("Local",0);
-        Toast.makeText(this, "Estas viendo el menu del local con id: " + id, Toast.LENGTH_SHORT).show();
-        recyclerView = (RecyclerView) findViewById(R.id.menu_recycler);
+        idMenu = intent.getIntExtra("idMenu", 0);
+        nomMenu = intent.getStringExtra("nomMenu");
+        precionMenu = intent.getDoubleExtra("precioMenu", 0.00);
+        tv_nom = (TextView) findViewById(R.id.nombre_menu_desc);
+        tv_precio = (TextView) findViewById(R.id.precio_menu_desc);
+        tv_nom.setText(nomMenu);
+        tv_precio.setText(String.valueOf(precionMenu));
+        controladorServicios = new ControladorServicios(this);
+        controladorServicios.BuscarProductoMenu(idMenu, getApplicationContext());
+        recyclerView = (RecyclerView) findViewById(R.id.descMenu_productos_recycler);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        controladorServicios=new ControladorServicios(this);
-        controladorServicios.BuscarMenuLocal(id, getApplicationContext());
-
     }
 
     @Override
     public void ResponseWS(Object lista)
     {
-        listaMenu = (List<Menu>) lista;
-        adapter = new AdaptadorMenuC(this, listaMenu);
+        productos = (List<Producto>) lista;
+        adapter = new AdaptadorDescripcionMenu(this, productos);
         recyclerView.setAdapter(adapter);
     }
 }

@@ -18,7 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterPedidos;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.Local;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.Pedido;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoAsignado;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoRealizado;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 
 public class SlideshowFragment extends Fragment {
@@ -26,6 +32,11 @@ public class SlideshowFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private List<PedidoModelo> lstPedidos;
+    private ControladorServicios cServicios;
+    private List<Pedido> pedido1;
+    private ControladorBD controladorBD;
+    private List<Local> local;
+    private List<PedidoRealizado> pRea;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,6 +56,11 @@ public class SlideshowFragment extends Fragment {
         AdapterPedidos adapter = new AdapterPedidos(getContext(),lstPedidos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        cServicios = new ControladorServicios();
+        controladorBD = new ControladorBD(getActivity());
+        pedido1 = new ArrayList<>();
+        local = new ArrayList<>();
+        pRea = new ArrayList<>();
         return root;
     }
 
@@ -52,6 +68,13 @@ public class SlideshowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstPedidos = new ArrayList<>();
+        /*local = controladorBD.ConsultaLocales();
+        pedido1 = cServicios.BuscarPedidosLocal(getContext(),local.get(0).getIdLocal());
+        for (int i = 0; i <pedido1.size() ; i++) {
+            pRea.set(i, new PedidoRealizado(
+                    cServicios.BuscarPedidoRealizado(pedido1.get(i).getIdPedido()),"",getContext());
+        }*/
+
         lstPedidos.add(new PedidoModelo(1,"Claudia","Llevar"));
         lstPedidos.add(new PedidoModelo(2,"Roberto","Traer"));
         lstPedidos.add(new PedidoModelo(3,"Paulina","Llevar"));

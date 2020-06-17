@@ -8,6 +8,8 @@
     <string name="nuevaCuenta">¿No tienes una cuenta?</string>
     <string name="registrarse">Registrate</string>
     <string name="entrar">Ingresar</string>
+    <string name="esEncargado">¿Es encargado?</string>
+    <string name="nomLocal">Nombre Local</string>
 
     <string name="Configuraciones">Configuración</string>
     <string name="CambiarCrede">Cambiar Credenciales</string>

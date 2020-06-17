@@ -179,6 +179,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fontFamily="@font/allerta"
+        android:onClick="registrarse"
         android:text="@string/registrarse"
         android:textColor="#FBFBFB"
         android:textSize="14sp"

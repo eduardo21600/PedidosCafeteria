@@ -7,8 +7,10 @@
     tools:context=".PedidosActivity">
 
     <ListView
+        android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lista"></ListView>
+        android:background="@drawable/gradiente_fondo"
+        android:divider="@drawable/gradiente_fondo"></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,15 +11,20 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
+
 
 //le falta estetica
 
-public class PedidosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class PedidosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CallbackWS {
     ControladorBD Helper;
     private ListView LV;
     List<Pedido> pps = new ArrayList<>();
+    ControladorServicios controladorServicios = new ControladorServicios();
+    //controladorServicios
 
-    AdaptadorPedidos mlP;
+
+    AdaptadorPedidos mlP  ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,8 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
         LV = (ListView)findViewById(R.id.lista);
 
         LV.setOnItemClickListener(this);
-        Helper.abrir();
-        pps = Helper.ConsultaPedidos();
+       // Helper.abrir();
+       // pps = Helper.ConsultaPedidos();
 
         Helper.cerrar();
         mlP = new AdaptadorPedidos(this,R.layout.pedidos_items,pps);
@@ -42,5 +47,10 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
       /* Intent intx = new Intent(this,DetallePedidoAFragment.class);
         intx.putExtra("idpedido",String.valueOf(mlP.getItem(i).getIdPedido()));
         startActivity(intx); */
+    }
+
+    @Override
+    public void ResponseWS(Object lista) {
+
     }
 }

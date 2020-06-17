@@ -79,17 +79,17 @@ public class ControladorServicios{
     String URLEAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarP_eliminar.php";
     String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarPs_conosulta.php?IDMENU=";
 
-    String URLBDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_consulta.php?IDDETALLEPEDIDO=";
-    String URLEDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_eliminar.php";
-    String URLCDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_insertar.php";
-    String URLADetaPedido= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detalleP_actualizar.php";
-    String URLBDetaPedidos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/detallePs_consulta.php";
+    String URLBDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_consulta.php?IDDETALLEPEDIDO=";
+    String URLEDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_eliminar.php";
+    String URLCDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_insertar.php";
+    String URLADetaPedido= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_actualizar.php";
+    String URLBDetaPedidos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detallePs_consulta.php";
 
-    String URLBEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_consulta.php?IDESTADOPEDIDO=";
-    String URLEEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_eliminar.php";
-    String URLCEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_insertar.php";
-    String URLAEstado= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPe_actualizar.php";
-    String URLBEstados= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/estadoPes_consulta";
+    String URLBEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_consulta.php?IDESTADOPEDIDO=";
+    String URLEEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_eliminar.php";
+    String URLCEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_insertar.php";
+    String URLAEstado= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_actualizar.php";
+    String URLBEstados= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPes_consulta";
 
 
     String URLBFacultad = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultad_query.php?IDFACULTAD=";
@@ -602,10 +602,10 @@ public class ControladorServicios{
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
         return resultado;}
-
+     List<TipoUsuario> tipoUsuarios = new ArrayList<>();
     public List<TipoUsuario> BuscarTiposU(Context context)
     {
-        final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsus, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -638,7 +638,7 @@ public class ControladorServicios{
 
     public List<TipoUsuario> BuscarTipoU(int IDTIPOUSUARIO,Context context)
     {
-        final List<TipoUsuario> tipoUsuarios = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBTUsu+String.valueOf(IDTIPOUSUARIO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -732,7 +732,7 @@ public class ControladorServicios{
 
     public List<Producto> BuscarAsigM(int IDMENU,Context context)
     {
-        final List<Producto> producto = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAsig+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1066,10 +1066,10 @@ public class ControladorServicios{
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
         return resultado;}
-
+    List<DetallePedido> detallePedidos = new ArrayList<>();
     public List<DetallePedido> BuscarDetallePedidos(Context context)
     {
-        final List<DetallePedido> detallePedidos = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedidos, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1104,7 +1104,7 @@ public class ControladorServicios{
 
     public List<DetallePedido> BuscarDetallePedido(int IDDETALLEPEDIDO,Context context)
     {
-        final List<DetallePedido> detallePedidos= new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedido+String.valueOf(IDDETALLEPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1206,9 +1206,11 @@ public class ControladorServicios{
         requestQueue.add(stringRequest);
         return resultado;}
 
+    List<EstadoPedido> estadoPedidos = new ArrayList<>();
+
     public List<EstadoPedido> BuscarEstados(Context context)
     {
-        final List<EstadoPedido> estadoPedidos = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstados, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1241,7 +1243,7 @@ public class ControladorServicios{
 
     public List<EstadoPedido> BuscarEstadoPedido(int IDESTADOPEDIDO,Context context)
     {
-        final List<EstadoPedido> estadoPedidos = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBEstado+String.valueOf(IDESTADOPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

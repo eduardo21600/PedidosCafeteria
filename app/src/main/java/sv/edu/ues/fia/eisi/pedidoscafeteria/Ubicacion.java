@@ -1,10 +1,7 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Ubicacion {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
     private int idUbicacion;
     private int idFacultad;
     private int idPedido;
@@ -15,16 +12,6 @@ public class Ubicacion {
 
     public Ubicacion(){
 
-    }
-
-    public Ubicacion(int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {
-        this.idUbicacion = count.incrementAndGet();
-        this.idFacultad = idFacultad;
-        this.idPedido = idPedido;
-        this.direcUbicacion = direcUbicacion;
-        this.nomUbicacion = nomUbicacion;
-        this.puntoRefUbicacion = puntoRefUbicacion;
-        this.idUsuario = idUsuario;
     }
 
     public Ubicacion(int idUbicacion, int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {

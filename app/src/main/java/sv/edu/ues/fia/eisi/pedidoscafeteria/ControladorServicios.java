@@ -1338,9 +1338,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
     requestQueue.add(stringRequest);
     return resultado;
 }
-
+    List<Facultad> facultad = new ArrayList<>();
     public List<Facultad> BuscarFacultades(Context context) {
-        final List<Facultad> facultad = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultades, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1356,6 +1355,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(facultad);
             }
 
         }, new Response.ErrorListener() {
@@ -1370,8 +1370,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return facultad;
     }
 
+    List<Facultad> facultad1 = new ArrayList<>();
     public List<Facultad> BuscarFacultad(int IDFACULTAD, Context context) {
-        final List<Facultad> facultad = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBFacultad + String.valueOf(IDFACULTAD), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1379,7 +1379,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        facultad.add(new Facultad(
+                        facultad1.add(new Facultad(
                                 jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("NOMFACULTAD")
                         ));
@@ -1387,6 +1387,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(facultad1);
             }
 
         }, new Response.ErrorListener() {
@@ -1535,6 +1536,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(ubicacion);
             }
 
         }, new Response.ErrorListener() {
@@ -1614,8 +1616,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
+    List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
     public List<PedidoAsignado> BuscarPedidosAsignados(Context context) {
-        final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignados, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1631,6 +1634,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(pedidoAsignados);
             }
 
         }, new Response.ErrorListener() {
@@ -1645,16 +1649,16 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return pedidoAsignados;
     }
 
-    public List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOASIGNADO, Context context) {
-        final List<PedidoAsignado> pedidoAsignados = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOASIGNADO), new Response.Listener<JSONArray>() {
+    List<PedidoAsignado> pedidoAsignado = new ArrayList<>();
+    public List<PedidoAsignado> BuscarPedidoAsignado(int IDPEDIDO, String IDUSUARIO, Context context) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoAsignado + String.valueOf(IDPEDIDO) + IDUSUARIO, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        pedidoAsignados.add(new PedidoAsignado(
+                        pedidoAsignado.add(new PedidoAsignado(
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("IDUSUARIO")
                         ));
@@ -1662,6 +1666,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(pedidoAsignado);
             }
 
         }, new Response.ErrorListener() {
@@ -1743,8 +1748,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
+    List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
     public List<PedidoRealizado> BuscarPedidosRealizados(Context context) {
-        final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizados, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1762,6 +1767,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(pedidoRealizados);
             }
 
         }, new Response.ErrorListener() {
@@ -1776,16 +1782,16 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return pedidoRealizados;
     }
 
-    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, int IDPEDIDOREALIZADO, Context context) {
-        final List<PedidoRealizado> pedidoRealizados = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO + String.valueOf(IDPEDIDOREALIZADO), new Response.Listener<JSONArray>() {
+    List<PedidoRealizado> pedidoRealizado = new ArrayList<>();
+    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, Context context) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        pedidoRealizados.add(new PedidoRealizado(
+                        pedidoRealizado.add(new PedidoRealizado(
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("IDUSUARIO"),
                                 //jsonObject.getInt("IDPEDIDOREALIZADO"),
@@ -1795,6 +1801,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(pedidoRealizado);
             }
 
         }, new Response.ErrorListener() {
@@ -1875,8 +1882,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
+    List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
     public List<AccesoUsuario> BuscarAccesoUsuarios(Context context) {
-        final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuarios, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1886,13 +1893,14 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         jsonObject = response.getJSONObject(i);
                         accesoUsuarios.add(new AccesoUsuario(
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getString("ID_OPCION")
+                                jsonObject.getString("IDOPCION")
                                 //jsonObject.getInt("IDACCESOUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(accesoUsuarios);
             }
 
         }, new Response.ErrorListener() {
@@ -1907,24 +1915,25 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return accesoUsuarios;
     }
 
-    public List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, int IDACCESOUSUARIO, Context context) {
-        final List<AccesoUsuario> accesoUsuarios = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION + String.valueOf(IDACCESOUSUARIO), new Response.Listener<JSONArray>() {
+    List<AccesoUsuario> accesoUsuario = new ArrayList<>();
+    public List<AccesoUsuario> BuscarAccesoUsuario(String IDUSUARIO, String IDOPCION, Context context) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBAccesoUsuario + IDUSUARIO + IDOPCION, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        accesoUsuarios.add(new AccesoUsuario(
+                        accesoUsuario.add(new AccesoUsuario(
                                 jsonObject.getString("IDUSUARIO"),
-                                jsonObject.getString("ID_OPCION")
+                                jsonObject.getString("IDOPCION")
                               //  jsonObject.getInt("IDACCESOUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(accesoUsuario);
             }
 
         }, new Response.ErrorListener() {
@@ -2005,8 +2014,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return resultado;
     }
 
+    List<OpcionCrud> opcionesCrud = new ArrayList<>();
     public List<OpcionCrud> BuscarOpcionesCrud(Context context) {
-        final List<OpcionCrud> opcionesCrud = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionesCrud, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -2015,7 +2025,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         opcionesCrud.add(new OpcionCrud(
-                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getString("IDOPCION"),
                                 jsonObject.getString("DESOPCION"),
                                 jsonObject.getInt("NUMCRUD")
                         ));
@@ -2023,6 +2033,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(opcionesCrud);
             }
 
         }, new Response.ErrorListener() {
@@ -2037,8 +2048,9 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return opcionesCrud;
     }
 
+    List<OpcionCrud> opcionCrud = new ArrayList<>();
     public List<OpcionCrud> BuscarOpcionCrud(String IDOPCION, Context context) {
-        final List<OpcionCrud> opcionCrud = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBOpcionCrud + IDOPCION, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -2047,7 +2059,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
                         opcionCrud.add(new OpcionCrud(
-                                jsonObject.getString("ID_OPCION"),
+                                jsonObject.getString("IDOPCION"),
                                 jsonObject.getString("DESOPCION"),
                                 jsonObject.getInt("NUMCRUD")
                         ));
@@ -2055,6 +2067,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(opcionCrud);
             }
 
         }, new Response.ErrorListener() {
@@ -2135,7 +2148,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     detallePedido.setIdDetallePedido(pedido.getDetallePedidos().get(i).getIdDetallePedido());
                     detallePedido.setCantidad(pedido.getDetallePedidos().get(i).getCantidad());
                     detallePedido.setSubtotal(pedido.getDetallePedidos().get(i).getSubtotal());
-                    String r = CrearAct(detallePedido,context,accion);
+                    String det = CrearAct(detallePedido,context,accion);
                 }
 
                 return parametros;
@@ -2181,10 +2194,10 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         requestQueue.add(stringRequest);
         return resultado;}
 
-
+    List<Pedido> pedido = new ArrayList<>();
     public List<Pedido> BuscarPedidos(final Context context)
     {
-        final List<Pedido> pedido = new ArrayList<>();
+        final List<DetallePedido> detallePedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidos, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -2194,10 +2207,14 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
 
-                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+                        for(int j = 0; j < pedido.get(i).getDetallePedidos().size(); j++)
+                        {
+                            detallePedidos.add((DetallePedido) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"), context));
+                        }
+
                         pedido.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
-                                detallePedidos,
+                                (ArrayList<DetallePedido>) detallePedidos,
                                 jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
@@ -2207,8 +2224,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
+                callback.ResponseWS(pedido);
             }
 
         }, new Response.ErrorListener(){
@@ -2222,10 +2239,11 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         requestQueue.add(jsonArrayRequest);
         return pedido;}
 
-    public List<Pedido> BuscarPedidosLocal(final Context context)
+    List<Pedido> pedido2 = new ArrayList<>();
+    public List<Pedido> BuscarPedidosLocal(int idLocal, final Context context)
     {
-        final List<Pedido> pedido = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal, new Response.Listener<JSONArray>() {
+        final List<DetallePedido> detallePedidos = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal + String.valueOf(idLocal), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -2234,10 +2252,13 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
 
-                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
-                        pedido.add(new Pedido(
+                        for(int j = 0; j < pedido.get(i).getDetallePedidos().size(); j++)
+                        {
+                            detallePedidos.add((DetallePedido) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"), context));
+                        }
+                        pedido2.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
-                                detallePedidos,
+                                (ArrayList<DetallePedido>) detallePedidos,
                                 jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
@@ -2248,6 +2269,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
+                callback.ResponseWS(pedido2);
             }
 
         }, new Response.ErrorListener(){
@@ -2261,10 +2283,10 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         requestQueue.add(jsonArrayRequest);
         return pedido;}
 
-
+    List<Pedido> pedidos = new ArrayList<>();
     public List<Pedido> BuscarPedido(int IDPEDIDO, final Context context)
     {
-        final List<Pedido> pedidos = new ArrayList<>();
+        final List<DetallePedido> detallePedidos = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedido+String.valueOf(IDPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -2273,10 +2295,15 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                 {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+
+                        for(int j = 0; j < pedidos.get(i).getDetallePedidos().size(); j++)
+                        {
+                            detallePedidos.add((DetallePedido) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"), context));
+                        }
+
                         pedidos.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
-                                detallePedidos,
+                                (ArrayList<DetallePedido>) detallePedidos,
                                 jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
@@ -2286,8 +2313,8 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
+                callback.ResponseWS(pedidos);
             }
 
         }, new Response.ErrorListener(){
@@ -2321,8 +2348,12 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
-                String r = Eliminar(pedido.getIdPedido(),context);
                 parametros.put("IDPEDIDO", String.valueOf(pedido.getIdPedido()));
+                List<DetallePedido> detallePedidos = pedido.getDetallePedidos();
+                for (int i = 0; i < pedido.getDetallePedidos().size();i++)
+                {
+                    Eliminar(detallePedidos.get(i),context);
+                }
 
                 return parametros;
             }

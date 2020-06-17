@@ -1223,14 +1223,13 @@ public class ControladorBD {
     public List<Pedido> ConsultaPedidos() {
         Cursor cur = db.rawQuery("SELECT * FROM Pedido", null);
         List<Pedido> pedido = new ArrayList<>();
-        ArrayList<DetallePedido> detallePedidos;
-        detallePedidos = pedido.get(pedido.size()).getDetallePedidos();
+        ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
                 Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
                     detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
-                }
+                }while(m.moveToNext());
                 pedido.add(new Pedido(cur.getInt(0),
                         detallePedidos,
                         cur.getInt(2),
@@ -1246,14 +1245,13 @@ public class ControladorBD {
     public List<Pedido> ConsultaPedidosLocal(int idLocal) {
         Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=?" + idLocal, null);
         List<Pedido> pedido = new ArrayList<>();
-        ArrayList<DetallePedido> detallePedidos;
-        detallePedidos = pedido.get(pedido.size()).getDetallePedidos();
+        ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
                 Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
                     detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
-                }
+                }while(m.moveToNext());
                 pedido.add(new Pedido(cur.getInt(0),
                         detallePedidos,
                         cur.getInt(2),

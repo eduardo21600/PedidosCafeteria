@@ -7,6 +7,7 @@ public class Pedido{
 
     private int idPedido;
     private ArrayList<DetallePedido> detallePedidos;
+    private int idDetalleP;
     private int idEstadoPedido;
     private int idLocal;
     private int idUbicacion;
@@ -25,6 +26,24 @@ public class Pedido{
         this.idUbicacion = idUbicacion;
         this.fechaPedido = fechaPedido;
         this.totalPedido = totalPedido;
+    }
+
+    public Pedido(int idPedido, int idDetalleP, int idEstadoPedido, int idLocal, int idUbicacion, String fechaPedido, double totalPedido) {
+        this.idPedido = idPedido;
+        this.idDetalleP = idDetalleP;
+        this.idEstadoPedido = idEstadoPedido;
+        this.idLocal = idLocal;
+        this.idUbicacion = idUbicacion;
+        this.fechaPedido = fechaPedido;
+        this.totalPedido = totalPedido;
+    }
+
+    public int getIdDetalleP() {
+        return idDetalleP;
+    }
+
+    public void setIdDetalleP(int idDetalleP) {
+        this.idDetalleP = idDetalleP;
     }
 
     public Pedido(String idPedido, String idDetallePedido) {

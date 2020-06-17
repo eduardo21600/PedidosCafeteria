@@ -52,6 +52,7 @@ public class ControladorServicios{
     String URLBUsus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/usuarios_consulta.php";
 
     String URLBLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_consulta.php?IDLOCAL=";
+    String URLBLocalU = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_usuario_consulta.php?IDUSUARIO=";
     String URLELocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_eliminar.php";
     String URLCLocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_insertar.php";
     String URLALocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/local_actualizar.php";
@@ -77,13 +78,14 @@ public class ControladorServicios{
     String URLBMenus= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/menus_consulta.php";
     String URLCAsigM="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarP_insertar.php";
     String URLEAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarP_eliminar.php";
-    String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarPs_conosulta.php?IDMENU=";
+    String URLBAsig="https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/asignarPs_consulta.php?IDMENU=";
 
     String URLBDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_consulta.php?IDDETALLEPEDIDO=";
     String URLEDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_eliminar.php";
     String URLCDetaPedido = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_insertar.php";
     String URLADetaPedido= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_actualizar.php";
     String URLBDetaPedidos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detallePs_consulta.php";
+    String URLBDetaPedidoID = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/detalleP_consulta_idP.php?IDPEDIDO=";
 
     String URLBEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_consulta.php?IDESTADOPEDIDO=";
     String URLEEstado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/estadoPe_eliminar.php";
@@ -117,7 +119,7 @@ public class ControladorServicios{
     String URLAPedidoAsignado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidoasignado_update.php";
     String URLBPedidoAsignados = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidosasignados_query.php";
 
-    String URLBPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_query.php?IDPEDIDO=?&IDUSUARIO=?&IDPEDIDOREALIZADO=?";
+    String URLBPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_query.php?IDPEDIDO=";
     String URLETPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_delete.php";
     String URLCPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_insert.php";
     String URLAPedidoRealizado = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_pedidorealizado_update.php";
@@ -395,6 +397,42 @@ public class ControladorServicios{
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return local;}
+
+    public List<Local> BuscarLocalUsu(String IDUSUARIO,Context context)
+    {
+        local.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBLocalU+IDUSUARIO, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        local.add(new Local(
+                                jsonObject.getInt("IDLOCAL"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getString("NOMBRELOCAL")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.ResponseWS(local);
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return local;}
+
     public String Eliminar(final Local local, Context context)
     {
 
@@ -941,7 +979,7 @@ public class ControladorServicios{
                         e.printStackTrace();
                     }
 
-                }
+                } callback.ResponseWS(menu);
 
             }
 
@@ -1104,7 +1142,7 @@ public class ControladorServicios{
 
     public List<DetallePedido> BuscarDetallePedido(int IDDETALLEPEDIDO,Context context)
     {
-
+        detallePedidos.clear();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedido+String.valueOf(IDDETALLEPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -1115,7 +1153,7 @@ public class ControladorServicios{
                         jsonObject = response.getJSONObject(i);
                         detallePedidos.add(new DetallePedido(
                                 jsonObject.getInt("CANTIDAD"),
-                                jsonObject.getInt("SUBTUTOAL"),
+                                jsonObject.getInt("SUBTOTAL"),
                                 jsonObject.getInt("IDDETALLEPEDIDO"),
                                 jsonObject.getInt("IDMENU")
                         ));
@@ -1124,6 +1162,44 @@ public class ControladorServicios{
                     }
 
                 }
+                callback.ResponseWS(detallePedidos);
+            }
+
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado=error.toString();
+            }
+
+        });
+        requestQueue =Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return detallePedidos;}
+
+
+    public List<DetallePedido> BuscarDetallePedidoIdPe(int IDPEDIDO,Context context)
+    {
+        detallePedidos.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBDetaPedidoID+String.valueOf(IDPEDIDO), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for(int i=0;i<response.length();i++)
+                {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        detallePedidos.add(new DetallePedido(
+                                jsonObject.getInt("CANTIDAD"),
+                                jsonObject.getInt("SUBTOTAL"),
+                                jsonObject.getInt("IDDETALLEPEDIDO"),
+                                jsonObject.getInt("IDMENU")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.ResponseWS(detallePedidos);
             }
 
         }, new Response.ErrorListener(){
@@ -1784,16 +1860,17 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         return pedidoRealizados;
     }
 
-    List<PedidoRealizado> pedidoRealizado = new ArrayList<>();
-    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, String IDUSUARIO, Context context) {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO) + IDUSUARIO, new Response.Listener<JSONArray>() {
+
+    public List<PedidoRealizado> BuscarPedidoRealizado(int IDPEDIDO, Context context) {
+        pedidoRealizados.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidoRealizado + String.valueOf(IDPEDIDO), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        pedidoRealizado.add(new PedidoRealizado(
+                        pedidoRealizados.add(new PedidoRealizado(
                                 jsonObject.getInt("IDPEDIDO"),
                                 jsonObject.getString("IDUSUARIO"),
                                 //jsonObject.getInt("IDPEDIDOREALIZADO"),
@@ -1803,7 +1880,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
-                callback.ResponseWS(pedidoRealizado);
+                callback.ResponseWS(pedidoRealizados);
             }
 
         }, new Response.ErrorListener() {
@@ -2241,11 +2318,11 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         requestQueue.add(jsonArrayRequest);
         return pedido;}
 
-    List<Pedido> pedido2 = new ArrayList<>();
-    public List<Pedido> BuscarPedidosLocal(int idLocal, final Context context)
+
+    public List<Pedido> BuscarPedidosLocal(int id,final Context context)
     {
-        final List<DetallePedido> detallePedidos = new ArrayList<>();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal + String.valueOf(idLocal), new Response.Listener<JSONArray>() {
+        pedido.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBPedidosLocal+String.valueOf(id), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -2254,13 +2331,10 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                     try {
                         jsonObject = response.getJSONObject(i);
 
-                        for(int j = 0; j < pedido.get(i).getDetallePedidos().size(); j++)
-                        {
-                            detallePedidos.add((DetallePedido) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"), context));
-                        }
-                        pedido2.add(new Pedido(
+                        ArrayList<DetallePedido> detallePedidos = (ArrayList<DetallePedido>) BuscarDetallePedido(jsonObject.getInt("IDDETALLEPEDIDO"),context);
+                        pedido.add(new Pedido(
                                 jsonObject.getInt("IDPEDIDO"),
-                                (ArrayList<DetallePedido>) detallePedidos,
+                                jsonObject.getInt("IDDETALLEPEDIDO"),
                                 jsonObject.getInt("IDESTADOPEDIDO"),
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("IDUBICACION"),
@@ -2271,7 +2345,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         e.printStackTrace();
                     }
                 }
-                callback.ResponseWS(pedido2);
+                callback.ResponseWS(pedido);
             }
 
         }, new Response.ErrorListener(){

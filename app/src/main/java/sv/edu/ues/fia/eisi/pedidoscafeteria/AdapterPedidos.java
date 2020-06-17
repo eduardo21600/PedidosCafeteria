@@ -18,9 +18,9 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
 
 
     Context mContext;
-    List<PedidoModelo> datos;
+    List<Pedido> datos;
 
-    public AdapterPedidos(Context mContext, List<PedidoModelo> datos) {
+    public AdapterPedidos(Context mContext, List<Pedido> datos) {
         this.mContext = mContext;
         this.datos = datos;
     }
@@ -35,6 +35,10 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,detallePedidoEnc.class);
+                intent.putExtra("idPedido",vHolder.tvIdPedido.getText());
+                intent.putExtra("total",vHolder.tvTipo.getText());
+                intent.putExtra("idUbicacion",vHolder.idUbicacion);
+                intent.putExtra("idDetalleP",vHolder.idDeP);
                 mContext.startActivity(intent);
             }
         });
@@ -45,9 +49,11 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPedidos.PedidosViewHolder holder, int position) {
-        holder.tvIdPedido.setText("Id: "+String.valueOf(datos.get(position).getIdPedido()));
-        holder.tvCliente.setText("Cliente: "+datos.get(position).getNomCliente());
-        holder.tvTipo.setText("Entrega: "+datos.get(position).getTipo());
+        holder.tvIdPedido.setText(String.valueOf(datos.get(position).getIdPedido()));
+        holder.tvCliente.setText(datos.get(position).getFechaPedido());
+        holder.tvTipo.setText(String.valueOf(datos.get(position).getTotalPedido()));
+        holder.idUbicacion = datos.get(position).getIdUbicacion();
+        holder.idDeP = datos.get(position).getIdDetalleP();
     }
 
     @Override
@@ -59,6 +65,7 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
 
         private LinearLayout card;
         private TextView tvIdPedido, tvCliente, tvTipo;
+        private int idUbicacion,idDeP;
         public PedidosViewHolder(@NonNull View itemView) {
             super(itemView);
             card = (LinearLayout)itemView.findViewById(R.id.cardview_pedidos_e_id);

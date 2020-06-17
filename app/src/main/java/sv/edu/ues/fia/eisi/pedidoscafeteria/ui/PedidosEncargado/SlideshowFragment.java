@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria.ui.PedidosEncargado;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,41 +27,26 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoAsignado;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoRealizado;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.Usuario;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
-public class SlideshowFragment extends Fragment {
+public class SlideshowFragment extends Fragment implements CallbackWS {
 
 
     private RecyclerView recyclerView;
-    private List<PedidoModelo> lstPedidos;
+    private List<Pedido> lstPedidos;
     private ControladorServicios cServicios;
     private List<Pedido> pedido1;
     private ControladorBD controladorBD;
     private List<Local> local;
     private List<PedidoRealizado> pRea;
-
+    SharedPreferences sharedPreferences;
+    private int ordenResponse;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);*/
-
-       /* final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
-        AdapterPedidos adapter = new AdapterPedidos(getContext(),lstPedidos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
-        cServicios = new ControladorServicios();
-        controladorBD = new ControladorBD(getActivity());
-        pedido1 = new ArrayList<>();
-        local = new ArrayList<>();
-        pRea = new ArrayList<>();
         return root;
     }
 
@@ -68,15 +54,40 @@ public class SlideshowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstPedidos = new ArrayList<>();
-        /*local = controladorBD.ConsultaLocales();
-        pedido1 = cServicios.BuscarPedidosLocal(getContext(),local.get(0).getIdLocal());
-        for (int i = 0; i <pedido1.size() ; i++) {
-            pRea.set(i, new PedidoRealizado(
-                    cServicios.BuscarPedidoRealizado(pedido1.get(i).getIdPedido()),"",getContext());
-        }*/
-
-        lstPedidos.add(new PedidoModelo(1,"Claudia","Llevar"));
+        sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
+        String id = sharedPreferences.getString("nombreUsuario","");
+        cServicios = new ControladorServicios(this);
+        cServicios.BuscarLocalUsu(id,getContext());
+        ordenResponse=1;
+        controladorBD = new ControladorBD(getActivity());
+        /*lstPedidos.add(new PedidoModelo(1,"Claudia","Llevar"));
         lstPedidos.add(new PedidoModelo(2,"Roberto","Traer"));
-        lstPedidos.add(new PedidoModelo(3,"Paulina","Llevar"));
+        lstPedidos.add(new PedidoModelo(3,"Paulina","Llevar"));*/
+    }
+
+    @Override
+    public void ResponseWS(Object lista) {
+        if(ordenResponse==1){
+            local = (List<Local>) lista;
+            Local l = new Local(
+                    local.get(0).getIdLocal(),
+                    local.get(0).getNombreLocal(),
+                    local.get(0).getIdUsuario()
+            );
+            controladorBD.abrir();
+            controladorBD.CrearLocal(l);
+            controladorBD.cerrar();
+            cServicios.BuscarPedidosLocal(l.getIdLocal(),getContext());
+            ordenResponse=2;
+        }
+        else if(ordenResponse==2){
+            pedido1 = (List<Pedido>) lista;
+            AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
+            ordenResponse=3;
+        }
+
+
     }
 }

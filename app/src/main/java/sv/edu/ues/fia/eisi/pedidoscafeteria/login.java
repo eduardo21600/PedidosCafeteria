@@ -35,21 +35,12 @@ public class login extends AppCompatActivity implements CallbackWS {
     }
 
     public void entrar(View view){
-        // Validaciones aqui:v
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0); // 0 - for private mode
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
         editor.putString("tipoUsuario",String.valueOf(usuario.getText()));
         editor.apply();
 
         cServicios.BuscarUsuario(usuario.getText().toString(), getApplicationContext());
-        //GUARDAR USUARIO EN BASE LOCAL
-        //u = cServicios.BuscarUsuario(usuario.getText().ToString());
-        //controladorBD.insertar(u[0]);
-        //(if u[0].getIdTipoUsuario==2){
-        //  local = cServicio.BuscarLocalUsuario(this,u[0].getIdUsuario)
-        //  controladorBD.crearLocal(local[0])}
-
     }
 
     public void registrarse(View v){
@@ -94,6 +85,9 @@ public class login extends AppCompatActivity implements CallbackWS {
                     editor.putString("tipoUsuario","3");//encargado
                     editor.apply();
                 }
+                controladorBD.abrir();
+                controladorBD.insertar(u.get(0));
+                controladorBD.cerrar();
                 Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
                 startActivity(intent);
             }

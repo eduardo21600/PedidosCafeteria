@@ -27,7 +27,7 @@
         android:paddingBottom="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/pngwing" />
+        app:srcCompat="@mipmap/pngwing1" />
 
     <TextView
         android:id="@+id/cod"

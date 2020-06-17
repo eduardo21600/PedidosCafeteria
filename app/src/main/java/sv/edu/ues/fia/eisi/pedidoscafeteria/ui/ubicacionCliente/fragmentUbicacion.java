@@ -12,19 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorDetallePedidoC;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorUbicacion;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.ubicacionCallback;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.Callback;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.nuevaDIreccion.agregarDireccion;
 
-public class fragmentUbicacion extends Fragment implements ubicacionCallback {
+public class fragmentUbicacion extends Fragment implements Callback {
 
     private List<Ubicacion> listaUbi;
     private View v;
@@ -60,9 +57,9 @@ public class fragmentUbicacion extends Fragment implements ubicacionCallback {
         return v;
     }
 
-    public void VolleyResponse(List<Ubicacion> ubicacion)
+    public void ResponseWS(Object lista)
     {
-        listaUbi = ubicacion;
+        listaUbi = (List<Ubicacion>) lista;
         AdaptadorUbicacion adaptadorUbicacion = new AdaptadorUbicacion(getContext(), listaUbi);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adaptadorUbicacion);

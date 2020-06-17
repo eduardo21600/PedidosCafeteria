@@ -2,7 +2,6 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,7 +9,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -18,18 +16,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.ubicacionCallback;
-import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.Callback;
 
-public class ControladorServicios {
+public class ControladorServicios{
 
     public ControladorServicios() {
+    }
+
+    Callback callback;
+
+    public ControladorServicios (Callback callback)
+    {
+        this.callback = callback;
     }
 
     //aquí comienzan los erroes de fernando el señor poderoso que obviamente no ha dejado eic115
@@ -47,11 +50,11 @@ public class ControladorServicios {
     String URLALocal = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/local_actualizar.php";
     String URLBLocals= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/locals_consulta.php";
 
-    String URLBProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_consulta.php?IDPRODUCTO=";
-    String URLEProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_eliminar.php";
-    String URLCProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/producto_insertar.php";
-    String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/productos_actualizar.php";
-    String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/productos_consulta.php";
+    String URLBProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_consulta.php?IDPRODUCTO=";
+    String URLEProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_eliminar.php";
+    String URLCProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_insertar.php";
+    String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_actualizar.php";
+    String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_consulta.php";
 
     String URLBTUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_consulta.php?IDTIPOUSUARIO=";
     String URLETUsu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUes/tipousuario_eliminar.php";
@@ -440,9 +443,11 @@ public class ControladorServicios {
         requestQueue.add(stringRequest);
         return resultado;}
 
+    List<Producto> producto = new ArrayList<>();
+
     public List<Producto> BuscarProductos(Context context)
     {
-        final List<Producto> producto = new ArrayList<>();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBProductos, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -462,6 +467,7 @@ public class ControladorServicios {
                     }
 
                 }
+                callback.ResponseWS(producto);
             }
 
         }, new Response.ErrorListener(){
@@ -473,7 +479,8 @@ public class ControladorServicios {
         });
         requestQueue =Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
-        return producto;}
+        return producto;
+    }
 
     public List<Producto> BuscarProducto(int IDPRODUCTO,Context context)
     {
@@ -726,6 +733,7 @@ public class ControladorServicios {
                     }
 
                 }
+                callback.ResponseWS(producto);
             }
 
         }, new Response.ErrorListener(){
@@ -849,7 +857,6 @@ public class ControladorServicios {
         return resultado;}
 
 
-
     public List<Menu> BuscarMenus(final Context context)
     {
         final List<Menu> menu = new ArrayList<>();
@@ -867,7 +874,6 @@ public class ControladorServicios {
                         List<Producto> producto = BuscarAsigM(jsonObject.getInt("IDMENU"),context);
                         menu.add(new Menu(
                                 jsonObject.getInt("IDMENU"),
-                                producto,
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("PRECIOMENU"),
                                 jsonObject.getString("FECHADESDEMENU"),
@@ -892,7 +898,7 @@ public class ControladorServicios {
         requestQueue.add(jsonArrayRequest);
         return menu;}
 
-    public List<Menu> BuscarMenu(int IDMENU, final Context context)
+    public List<Menu> BuscarMenu(final int IDMENU, final Context context)
     {
         final List<Menu> menu = new ArrayList<>();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBMenu+String.valueOf(IDMENU), new Response.Listener<JSONArray>() {
@@ -903,10 +909,9 @@ public class ControladorServicios {
                 {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        List<Producto> producto = BuscarAsigM(jsonObject.getInt("IDMENU"),context);
+                        List<Producto> producto = BuscarAsigM(IDMENU,context);
                         menu.add(new Menu(
                                 jsonObject.getInt("IDMENU"),
-                                producto,
                                 jsonObject.getInt("IDLOCAL"),
                                 jsonObject.getInt("PRECIOMENU"),
                                 jsonObject.getString("FECHADESDEMENU"),
@@ -918,6 +923,7 @@ public class ControladorServicios {
                     }
 
                 }
+
             }
 
         }, new Response.ErrorListener(){
@@ -1406,12 +1412,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
 
     //inventos de Pablo no tocar
 
-    ubicacionCallback callback;
 
-    public ControladorServicios (ubicacionCallback callback)
-    {
-        this.callback = callback;
-    }
 
     List<Ubicacion> ubicacion = new ArrayList<>();
     public List<Ubicacion> BuscarUbicaciones(Context context) {
@@ -1431,13 +1432,13 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
                                 jsonObject.getString("PUNTOREFUBICACION"),
-                                jsonObject.getString("IDUSUARIO")
+                                    jsonObject.getString("IDUSUARIO")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                callback.VolleyResponse(ubicacion);
+                callback.ResponseWS(ubicacion);
             }
 
 
@@ -2270,6 +2271,7 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
         requestQueue.add(stringRequest);
         return resultado;
     }
+
 
 }
 

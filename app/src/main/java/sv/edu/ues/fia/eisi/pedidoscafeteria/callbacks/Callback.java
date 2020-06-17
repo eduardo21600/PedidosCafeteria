@@ -4,7 +4,7 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
 
-public interface ubicacionCallback
+public interface Callback
 {
-    void VolleyResponse(List<Ubicacion> ubicacion);
+    void ResponseWS(Object lista);
 }

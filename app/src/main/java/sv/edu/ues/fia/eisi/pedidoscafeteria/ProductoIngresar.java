@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 public class ProductoIngresar extends AppCompatActivity {
     private ControladorBD base;
     private ControladorServicios baseServicios;
@@ -21,6 +23,7 @@ public class ProductoIngresar extends AppCompatActivity {
         editnombreProducto = (EditText) findViewById(R.id.editnombreProducto);
         editprecioUnitario = (EditText) findViewById(R.id.editprecioUnitario);
         editdescProducto = (EditText) findViewById(R.id.editdescProducto);
+        baseServicios = new ControladorServicios();
     }
     public void insertarProducto(View v) {
 
@@ -40,6 +43,14 @@ public class ProductoIngresar extends AppCompatActivity {
             base.abrir();
             registro=base.CrearProducto(producto);
             registro=baseServicios.CrearAct(producto, getApplicationContext(),true);
+            /*if(registro == "CONEXIÓN EXITOSA")
+            {
+                FancyToast.makeText(getApplicationContext(), "Se ha guardado su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+            }
+            else
+            {
+                FancyToast.makeText(getApplicationContext(), "No se pudo guardar su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+            }*/
             base.cerrar();
             Toast.makeText(this, registro, Toast.LENGTH_SHORT).show();
             // Intent intentn= new Intent(this, Producto_Lista.class);

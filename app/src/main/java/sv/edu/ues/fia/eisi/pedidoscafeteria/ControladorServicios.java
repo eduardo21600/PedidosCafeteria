@@ -65,7 +65,7 @@ public class ControladorServicios{
     String URLBProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_consulta.php?IDPRODUCTO=";
     String URLEProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_eliminar.php";
     String URLCProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_insertar.php";
-    String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_actualizar.php";
+    String URLAProducto = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_actualizar.php";
     String URLBProductos= "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/productos_consulta.php";
     String URLBProductosMenu = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/producto_consulta_menu.php?IDMENU=";
 
@@ -494,7 +494,7 @@ public class ControladorServicios{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
-                parametros.put("IPRODUCTO",String.valueOf(producto.getIdProduto()));
+                parametros.put("IDPRODUCTO",String.valueOf(producto.getIdProduto()));
                 parametros.put("NOMBREPRODUCTO",producto.getNombreProducto());
                 parametros.put("PRECIOUNITARIO",String.valueOf(producto.getPrecioUnitario()));
                 parametros.put("DESCPRODUCTO",producto.getDescProducto());
@@ -522,7 +522,7 @@ public class ControladorServicios{
                         producto.add(new Producto(
                                 jsonObject.getInt("IDPRODUCTO"),
                                 jsonObject.getString("NOMBREPRODUCTO"),
-                                jsonObject.getInt("PRECIOUNITARIO"),
+                                jsonObject.getDouble("PRECIOUNITARIO"),
                                 jsonObject.getString("DESCPRODUCTO")
                         ));
                     } catch (JSONException e) {

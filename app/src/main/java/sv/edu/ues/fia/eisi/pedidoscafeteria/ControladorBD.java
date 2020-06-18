@@ -590,9 +590,6 @@ public class ControladorBD {
         pro777.put("NombreProducto", producto.getNombreProducto());
         pro777.put("precioUnitario", producto.getPrecioUnitario());
         pro777.put("descProducto", producto.getDescProducto());
-
-
-
         long comprobador = 0;
         comprobador = db.insert("Producto", null, pro777);
         if (comprobador == -1 || comprobador == 0) {
@@ -610,11 +607,7 @@ public class ControladorBD {
             pro777.setNombreProducto((cur.getString(1)));
             pro777.setPrecioUnitario((cur.getInt(2)));
             pro777.setDescProducto((cur.getString(3)));
-
-
-
             return pro777;
-
         } else {
             return null;
         }
@@ -626,12 +619,9 @@ public class ControladorBD {
         Cursor cur = db.rawQuery("SELECT * FROM Producto", null);
         List<Producto> pro777 = new ArrayList<>();
         if (cur.moveToFirst()) {
-
             do {
                 pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
             } while (cur.moveToNext());
-
-
         }
         return pro777;
     }
@@ -753,7 +743,20 @@ public class ControladorBD {
 
 
     }
+    public List<Producto> ConsultaTablaAsignarProducto(String x) {
 
+        List<Producto> producto = new ArrayList<>();
+
+        String[] idMenu = {x};
+        Cursor cur = db.rawQuery("SELECT * FROM PRODUCTO s INNER JOIN ASIGNAPRODUCTO a ON s.IDPRODUCTO=a.IDPRODUCTO WHERE a.IDMENU =?", idMenu, null);
+        if (cur.moveToFirst()) {
+            do {
+                producto.add(new Producto(cur.getInt(0), cur.getString(1), cur.getDouble(2), cur.getString(3)));
+            } while (cur.moveToNext());
+        }
+
+        return producto;
+    }
     public List<Menu> ConsultaMenus() {
         Cursor cur = db.rawQuery("SELECT * FROM MENU", null);
         List<Menu> uwu = new ArrayList<>();

@@ -108,6 +108,18 @@
             android:textStyle="bold"
             tools:ignore="OnClick" />
 
+        <Button
+            android:id="@+id/btnAsignarEnLaWEb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/bordes_redondos"
+            android:text="@string/botonCrearEnLaWeb"
+            android:onClick="insertarProductoEnLaWeb"
+            android:textColor="#F8F8F8"
+            android:textStyle="bold"
+            tools:ignore="OnClick" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline

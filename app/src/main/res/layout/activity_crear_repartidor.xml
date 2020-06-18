@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/nombreUsuario"
+                android:id="@+id/etNomRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -52,13 +52,34 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/etApeRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:ems="10"
                 android:fontFamily="@font/allerta"
                 android:gravity="fill"
                 android:hint="@string/Apellido"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nombreUsuario"
+                android:textColor="#DCD9D9"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta"/>
+
+            <EditText
+                android:id="@+id/etNomUsuRe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:fontFamily="@font/allerta"
+                android:hint="@string/nombreUsuario"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -72,7 +93,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/contra"
+                android:id="@+id/etContraRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -93,7 +114,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/repContra"
+                android:id="@+id/etRepContraRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -113,7 +134,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/telefono"
+                android:id="@+id/etTelefonoRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
@@ -123,7 +144,7 @@
                 android:inputType="number" />
 
             <Button
-                android:id="@+id/btnGuardar"
+                android:id="@+id/btnCrearRe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bordes_redondos"

@@ -27,7 +27,8 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
     private EditText nombre, apellido,usuario, contra, repeContra, telefono, nomLocal;
     private TextView tvNomLocal;
     private ControladorServicios cServicio;
-    private Usuario usu;
+    private ControladorBD controladorBD;
+    private Usuario usu, userLocal;
     private int tipo=1;
     private int vigilante=0;
     private int encargadoActivado=0;
@@ -49,11 +50,21 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
         tvNomLocal = (TextView)findViewById(R.id.tvNomLocal);
         btnCrear = (Button)findViewById(R.id.btnCrearCuenta);
         cServicio = new ControladorServicios(this, this);
+        controladorBD = new ControladorBD(getApplicationContext());
+        controladorBD.abrir();
+
 
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verificarId();
+                userLocal = controladorBD.ConsultaUsuario(usuario.getText().toString());
+                if(userLocal==null){
+                    verificarId();
+                }
+                else{
+                    FancyToast.makeText(getApplicationContext(),
+                            "Este nombre de usuario ya esta tomado",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                }
             }
         });
 
@@ -230,7 +241,7 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     FancyToast.makeText(getApplicationContext(),
                             "No Puede dejar este campo vacio",
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                    telefono.setError("Ingrese un nombre");
+                    nomLocal.setError("Ingrese un nombre");
                     vigilante=1;
                 }
                 else{
@@ -246,6 +257,8 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     if(encargadoActivado==0){
                         usu = obtenerDatos();
                         cServicio.CrearAct(usu,getApplicationContext(),true);
+                        controladorBD.insertar(usu);
+                        finish();
                     }
                     else{
                         if(nomLocal.getText().toString().isEmpty()){
@@ -256,6 +269,7 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                         {
                             usu = obtenerDatos();
                             cServicio.CrearAct(usu,getApplicationContext(),true);
+                            controladorBD.insertar(usu);
                         }
                     }
 
@@ -347,15 +361,24 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
             Local local = new Local();
             local.setNombreLocal(nom);
             local.setIdUsuario(usu.getIdUsuario());
+            controladorBD.CrearLocal(local);
+
             controladorServicios.CrearAct(local, getApplicationContext(), true);
+
             FancyToast.makeText(getApplicationContext(),
                     "Usuario Creado",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,R.drawable.exito,true).show();
-
+            finish();
         }
         else
         {
             FancyToast.makeText(getApplicationContext(),
                     "Usuario no creado",FancyToast.LENGTH_LONG,FancyToast.ERROR,R.drawable.error,true).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controladorBD.cerrar();
     }
 }

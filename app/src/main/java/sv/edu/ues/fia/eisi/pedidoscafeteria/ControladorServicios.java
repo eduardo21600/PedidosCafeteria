@@ -2287,19 +2287,20 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             public void onResponse(String response) {
 
                 resultado ="CONEXIÓN EXITOSA";
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
                 resultado=error.toString();
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros =new HashMap<String,String>();
                 parametros.put("IDPEDIDO",String.valueOf(pedido.getIdPedido()));
+                parametros.put("IDDETALLEPEDIDO", String.valueOf(pedido.getIdDetalleP()));
                 parametros.put("IDESTADOPEDIDO", String.valueOf(pedido.getIdEstadoPedido()));
                 parametros.put("IDLOCAL", String.valueOf(pedido.getIdLocal()));
                 parametros.put("IDUBICACION",String.valueOf(pedido.getIdUbicacion()));

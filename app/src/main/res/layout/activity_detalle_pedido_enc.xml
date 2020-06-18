@@ -61,7 +61,7 @@
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/productos"
+                android:text="@string/TituloMenu"
                 android:textColor="#FAF8F8"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -175,8 +175,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/marcar"
-                android:textOff="En curso"
-                android:textOn="Finalizado" />
+                android:textOff="@string/estaPedido"
+                android:textOn="@string/estaPedidoF" />
 
         </LinearLayout>
     </ScrollView>

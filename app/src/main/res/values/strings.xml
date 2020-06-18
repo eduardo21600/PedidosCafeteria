@@ -42,8 +42,11 @@
 
     <string name="nombreMenu">Nombre Menu</string>
     <string name="tipo">Tipo</string>
+    <string name="estaPedido">Pedido en curso</string>
+    <string name="estaPedidoF">Pedido finalizado</string>
     <string name="local">Local</string>
     <string name="nombre">Nombre</string>
+    <string name="Fecha">Fecha:</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
 

@@ -22,6 +22,8 @@ public class login extends AppCompatActivity implements CallbackWS {
     ControladorBD controladorBD;
     List<Local> local;
     SharedPreferences sharedPreferences;
+    Usuario userLocal;
+    boolean vigilanteLocal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,16 @@ public class login extends AppCompatActivity implements CallbackWS {
     }
 
     public void entrar(View view){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
-        editor.putString("tipoUsuario",String.valueOf(usuario.getText()));
-        editor.apply();
-
         cServicios.BuscarUsuario(usuario.getText().toString(), getApplicationContext());
+        controladorBD.abrir();
+        userLocal=controladorBD.ConsultaUsuario(usuario.getText().toString());
+        if(!(userLocal==null)){
+            vigilanteLocal=true; //se encontro el usuario en BD local
+        }
+        else{
+            vigilanteLocal=false; //no se encontro en BD local
+        }
+        controladorBD.cerrar();
     }
 
     public void registrarse(View v){
@@ -53,12 +59,12 @@ public class login extends AppCompatActivity implements CallbackWS {
     {
         u = (List<Usuario>) lista;
 
-        if (u.isEmpty())
+        if (u.isEmpty()&&!vigilanteLocal)
         {
             usuario.setError("Usuario no existente");
             FancyToast.makeText(getApplicationContext(), "El usuario no existe", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
         }
-        else
+        else if (!u.isEmpty())
         {
             Usuario usu = u.get(0);
             if(usu.getContrasena().equals(contrasena.getText().toString()))
@@ -94,6 +100,34 @@ public class login extends AppCompatActivity implements CallbackWS {
             else
             {
                 FancyToast.makeText(getApplicationContext(), "Contraseña no válida", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+            }
+        }
+        else{
+            if (contrasena.getText().toString().equals(userLocal.getContrasena())){
+                if(userLocal.getIdTipoUsuario()==1){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
+                    editor.putString("tipoUsuario","1");//cliente
+                    editor.apply();
+                }
+                else if (userLocal.getIdTipoUsuario()==2){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
+                    editor.putString("tipoUsuario","2");//repartidor
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreUsuario",String.valueOf(usuario.getText()));
+                    editor.putString("tipoUsuario","3");//encargado
+                    editor.apply();
+                }
+                Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
+                startActivity(intent);
+            }
+            else{
+                FancyToast.makeText(getApplicationContext(), "Contraseña no válida",
+                        FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
             }
         }
 

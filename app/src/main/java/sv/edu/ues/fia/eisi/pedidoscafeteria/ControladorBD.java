@@ -74,7 +74,7 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table LOCAL\n" +
                         "(\n" +
-                        "   IDLOCAL              int not null,\n" +
+                        "   IDLOCAL              INTEGER not null,\n" +
                         "   IDUSUARIO            varchar(30),\n" +
                         "   NOMBRELOCAL          varchar(50) not null,\n" +
                         "   primary key (IDLOCAL)\n" +
@@ -951,7 +951,7 @@ public class ControladorBD {
     public String CrearLocal(Local local) {
         String resultado = "Local creado ";
         ContentValues lokxti = new ContentValues();
-        lokxti.put("idLocal", local.getIdLocal());
+        //lokxti.put("idLocal", local.getIdLocal());
         lokxti.put("idUsuario", local.getIdUsuario());
         lokxti.put("nombreLocal", local.getNombreLocal());
 

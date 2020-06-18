@@ -36,6 +36,10 @@ public class ControladorServicios{
     {
         this.callback = callback;
     }
+    public ControladorServicios (CallbackRespuestaString callbackRespuestaString)
+    {
+        this.callbackRespuestaString = callbackRespuestaString;
+    }
     public ControladorServicios (CallbackWS callback, CallbackRespuestaString callbackRespuestaString)
     {
         this.callback = callback;
@@ -102,6 +106,7 @@ public class ControladorServicios{
     String URLBFacultades = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_facultades_query.php";
 
     String URLBUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_query.php?IDUBICACION=";
+    String URLBUbicacionUsuario = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_query_usuario.php?IDUSUARIO=";
     String URLETUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_delete.php";
     String URLCUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_insert.php";
     String URLAUbicacion = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_ubicacion_update.php";
@@ -1561,13 +1566,13 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
             public void onResponse(String response) {
 
                 resultado = "CONEXIÓN EXITOSA";
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 resultado = error.toString();
-
+                callbackRespuestaString.respuesta(resultado);
             }
         }) {
             @Override
@@ -1606,7 +1611,6 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
                                 jsonObject.getInt("IDFACULTAD"),
-                                1,
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
                                 jsonObject.getString("PUNTOREFUBICACION"),
@@ -1643,7 +1647,42 @@ public String CrearAct(final Facultad facultad, Context context, boolean accion)
                         ubicacion.add(new Ubicacion(
                                 jsonObject.getInt("IDUBICACION"),
                                 jsonObject.getInt("IDFACULTAD"),
-                                jsonObject.getInt("IDPEDIDO"),
+                                jsonObject.getString("DIRECUBICACION"),
+                                jsonObject.getString("NOMUBICACION"),
+                                jsonObject.getString("PUNTOREFUBICACION"),
+                                jsonObject.getString("IDUSUARIO")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.ResponseWS(ubicacion);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.toString();
+            }
+
+        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return ubicacion;
+    }
+
+    public List<Ubicacion> BuscarUbicacionUsuario(String IDUSUARIO, Context context) {
+        ubicacion.clear();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLBUbicacionUsuario + IDUSUARIO, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        ubicacion.add(new Ubicacion(
+                                jsonObject.getInt("IDUBICACION"),
+                                jsonObject.getInt("IDFACULTAD"),
                                 jsonObject.getString("DIRECUBICACION"),
                                 jsonObject.getString("NOMUBICACION"),
                                 jsonObject.getString("PUNTOREFUBICACION"),

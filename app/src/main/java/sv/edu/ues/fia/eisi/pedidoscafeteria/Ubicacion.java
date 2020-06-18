@@ -4,7 +4,7 @@ public class Ubicacion {
 
     private int idUbicacion;
     private int idFacultad;
-    private int idPedido;
+    //private int idPedido;
     private String direcUbicacion;
     private String nomUbicacion;
     private String puntoRefUbicacion;
@@ -14,10 +14,10 @@ public class Ubicacion {
 
     }
 
-    public Ubicacion(int idUbicacion, int idFacultad, int idPedido, String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {
+    public Ubicacion(int idUbicacion, int idFacultad, /*int idPedido,*/ String direcUbicacion, String nomUbicacion, String puntoRefUbicacion, String idUsuario) {
         this.idUbicacion = idUbicacion;
         this.idFacultad = idFacultad;
-        this.idPedido = idPedido;
+//        this.idPedido = idPedido;
         this.direcUbicacion = direcUbicacion;
         this.nomUbicacion = nomUbicacion;
         this.puntoRefUbicacion = puntoRefUbicacion;
@@ -40,13 +40,13 @@ public class Ubicacion {
         this.idFacultad = idFacultad;
     }
 
-    public int getIdPedido() {
+    /*public int getIdPedido() {
         return idPedido;
     }
 
     public void setIdPedido(int idPedido) {
         this.idPedido = idPedido;
-    }
+    }*/
 
     public String getDirecUbicacion() {
         return direcUbicacion;

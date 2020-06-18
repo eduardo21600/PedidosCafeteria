@@ -55,10 +55,11 @@
                 android:hint="@string/et_dir_ubicacion"
                 android:layout_margin="20dp"/>
         </TableRow>
-        <TableRow
+       <!-- <TableRow
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_facultad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/facultad_ubicacion"
@@ -72,7 +73,7 @@
                 android:inputType="textPersonName"
                 android:hint="@string/et_facultad_ubicacion"
                 android:layout_margin="20dp"/>
-        </TableRow>
+        </TableRow>-->
         <TableRow
             android:gravity="center">
 

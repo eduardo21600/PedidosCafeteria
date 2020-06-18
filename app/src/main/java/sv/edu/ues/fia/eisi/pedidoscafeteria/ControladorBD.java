@@ -68,7 +68,7 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table FACULTAD\n" +
                         "(\n" +
-                        "   IDFACULTAD           int not null,\n" +
+                        "   IDFACULTAD           INTEGER not null,\n" +
                         "   NOMFACULTAD          varchar(30) not null,\n" +
                         "   primary key (IDFACULTAD)\n" +
                         ");");
@@ -134,12 +134,12 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table UBICACION\n" +
                         "(\n" +
-                        "   IDUBICACION          int not null,\n" +
-                        "   IDFACULTAD           int,\n" +
-                        "   IDPEDIDO             int not null,\n" +
+                        "   IDUBICACION          INTEGER not null,\n" +
+                        "   IDFACULTAD           INTEGER,\n" +
                         "   DIRECUBICACION       varchar(100) not null,\n" +
                         "   NOMUBICACION         varchar(30) not null,\n" +
                         "   PUNTOREFUBICACION    varchar(50) not null,\n" +
+                        "   IDUSUARIO    varchar(50) not null,\n" +
                         "   primary key (IDUBICACION)\n" +
                         ");");
                 db.execSQL("create table USUARIO\n" +
@@ -193,9 +193,19 @@ public class ControladorBD {
         final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
         String res="No paso nada";
 
+        final int [] idFacultad =new int[]{1,2,3,4,5};
+        final String [] nomFacultad =new String[]{"FIA","Derecho","Economía","Psicología","Agronomía"};
+
+        final String[] direcUbicacion = new String[]{"Sierra Morena", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
+        final String[] nomUbicacion = new String[]{"Casa de Lidia", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
+        final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
+        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","Pepi1", "Car1"};
+
         abrir();
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
+        db.execSQL("DELETE FROM FACULTAD");
+        db.execSQL("DELETE FROM UBICACION");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -215,6 +225,25 @@ public class ControladorBD {
             u.setIdTipoUsuario(idTipoUsus[i]);
             res = insertar(u);
         }
+
+        Facultad f = new Facultad();
+        for (int i = 0; i < 5; i++)
+        {
+            f.setNomFacultad(nomFacultad[i]);
+            insertar(f);
+        }
+
+        Ubicacion ubi = new Ubicacion();
+        for (int i = 0; i < 5; i++)
+        {
+            ubi.setIdFacultad(idFacultad[i]);
+            ubi.setDirecUbicacion(direcUbicacion[i]);
+            ubi.setNomUbicacion(nomUbicacion[i]);
+            ubi.setPuntoRefUbicacion(puntoUbicacion[i]);
+            ubi.setIdUsuario(ubiUsuarios[i]);
+            insertar(ubi);
+        }
+
         cerrar();
         return res;
     }
@@ -1056,13 +1085,10 @@ public class ControladorBD {
         long contador=0;
         //verificando Integridad
         // verificar que existe ubicacion
-        if (verificarIntegridad(ubicacion, 1)) {
-            //se encontro ubicacion
-            resultado="Esta ubicacion ya existe. Registro Duplicado, ERROR";
-        } else if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3) && verificarIntegridad(ubicacion,21)){ //verificando que exista idPedido en pedido, idFacultad en facultad e idUsuario en Usuario para insertar en ubicacion
+        if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,21)){ //verificando que exista idPedido en pedido, idFacultad en facultad e idUsuario en Usuario para insertar en ubicacion
             ContentValues ubic = new ContentValues();
             ubic.put("idFacultad", ubicacion.getIdFacultad());
-            ubic.put("idPedido", ubicacion.getIdPedido());
+            //ubic.put("idPedido", ubicacion.getIdPedido());
             ubic.put("direcUbicacion", ubicacion.getDirecUbicacion());
             ubic.put("nomUbicacion", ubicacion.getNomUbicacion());
             ubic.put("puntoRefUbicacion", ubicacion.getPuntoRefUbicacion());
@@ -1083,16 +1109,32 @@ public class ControladorBD {
             Ubicacion ubicacion = new Ubicacion();
             ubicacion.setIdUbicacion(cursor.getInt(0));
             ubicacion.setIdFacultad(cursor.getInt(1));
-            ubicacion.setIdPedido(cursor.getInt(2));
-            ubicacion.setDirecUbicacion(cursor.getString(3));
-            ubicacion.setNomUbicacion(cursor.getString(4));
-            ubicacion.setPuntoRefUbicacion(cursor.getString(5));
-            ubicacion.setIdUsuario(cursor.getString(6));
+            //ubicacion.setIdPedido(1);
+            ubicacion.setDirecUbicacion(cursor.getString(2));
+            ubicacion.setNomUbicacion(cursor.getString(3));
+            ubicacion.setPuntoRefUbicacion(cursor.getString(4));
+            ubicacion.setIdUsuario(cursor.getString(5));
             return ubicacion;
         }
         else {
             return null;
         }
+    }
+
+    public List<Ubicacion> consultarUbicacionUsuario(String idUsuario){
+        Cursor cur = db.rawQuery("SELECT * FROM Ubicacion WHERE IDUSUARIO = '" + idUsuario+"'", null);
+        List<Ubicacion> ubic = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                ubic.add(new Ubicacion(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getString(2),
+                        cur.getString(3),
+                        cur.getString(4),
+                        cur.getString(5)));
+            } while (cur.moveToNext());
+        }
+        return ubic;
     }
 
     public List<Ubicacion> ConsultaUbicaciones() {
@@ -1102,11 +1144,10 @@ public class ControladorBD {
             do {
                 ubic.add(new Ubicacion(cur.getInt(0),
                         cur.getInt(1),
-                        cur.getInt(2),
+                        cur.getString(2),
                         cur.getString(3),
                         cur.getString(4),
-                        cur.getString(5),
-                        cur.getString(6)));
+                        cur.getString(5)));
             } while (cur.moveToNext());
         }
         return ubic;
@@ -1119,7 +1160,7 @@ public class ControladorBD {
                 String[] idU = {String.valueOf(ubicacion.getIdUbicacion())};
                 ContentValues cv = new ContentValues();
                 cv.put("idUbicacion",ubicacion.getIdUbicacion());
-                cv.put("idPedido",ubicacion.getIdPedido());
+                //cv.put("idPedido",ubicacion.getIdPedido());
                 cv.put("idFacultad",ubicacion.getIdFacultad());
                 cv.put("nomUbicacion",ubicacion.getNomUbicacion());
                 cv.put("direcUbicacion",ubicacion.getDirecUbicacion());
@@ -1143,10 +1184,10 @@ public class ControladorBD {
         //verificar que exista ubicacion
         if(verificarIntegridad(ubicacion,1)){
             //verificar que exista pedido para eliminar en cascada
-            if(verificarIntegridad(ubicacion,3)){
+            /*if(verificarIntegridad(ubicacion,3)){
                 contadorP+=db.delete("Pedido", "idPedido= '"+ubicacion.getIdPedido()+"'",null);
                 resultado+= resultado + " Se elimino el/los "+ contadorP+" registros de Pedido";
-            }
+            }*/
             contadorU+=db.delete("Ubicacion","idUbicacion= '"+ubicacion.getIdUbicacion()+"'",null);
         }else {
             resultado= "La ubicacion no existe";
@@ -1741,13 +1782,13 @@ public class ControladorBD {
                     return false;
             }
             case 3: {
-                //verificar que en ubicacion exista pedido
+                /*verificar que en ubicacion exista pedido
                 Ubicacion ubicacion2 = (Ubicacion) dato;
                 Cursor c1 = db.query(true, "Pedido", new String[]{"idPedido"}, "idPedido= '" + ubicacion2.getIdPedido() + "'", null, null, null, null, null);
                 if (c1.moveToFirst())
                     return true;
                 else
-                    return false;
+                    return false;*/
 
             }
             case 4: {

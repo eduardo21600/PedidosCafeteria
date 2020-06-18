@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.List;
 
@@ -40,11 +44,43 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdaptadorUbicacion.viewHolder holder, int position)
+    public void onBindViewHolder(@NonNull AdaptadorUbicacion.viewHolder holder, final int position)
     {
         holder.tv_nombre.setText(mUbicacion.get(position).getNomUbicacion());
         holder.tv_dir.setText(mUbicacion.get(position).getDirecUbicacion());
         holder.tv_punto.setText(String.valueOf(mUbicacion.get(position).getPuntoRefUbicacion()));
+        holder.idUbicacion = mUbicacion.get(position).getIdUbicacion();
+        holder.elminarUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ControladorBD controladorBD = new ControladorBD(mContext);
+                controladorBD.abrir();
+                controladorBD.eliminar(mUbicacion.get(position));
+                controladorBD.cerrar();
+                MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
+                        .setTitle("Eliminar")
+                        .setAnimation(R.raw.delete)
+                        .setMessage("¿Está seguro que quiere eliminar '"+mUbicacion.get(position).getNomUbicacion()+"'?")
+                        .setCancelable(false)
+                        .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                // Delete Operation
+                                mUbicacion.remove(position);
+                                notifyItemRemoved(position);
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                mDialog.show();
+            }
+        });
     }
 
     @Override
@@ -59,6 +95,8 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
         private TextView tv_dir;
         private TextView tv_punto;
         private ImageButton elminarUbicacion;
+        int idUbicacion;
+        Ubicacion ubicacion;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

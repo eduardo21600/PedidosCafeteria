@@ -8,6 +8,8 @@ import android.database.SQLException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.analytics.ecommerce.Product;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -200,8 +202,16 @@ public class ControladorBD {
         final String[] fechaDesde = new String[] {"2019-06-17","2020-03-04","2020-04-10","2020-06-02","2020-06-14"};
         final String[] fechaHasta = new String[] {"2020-09-17","2020-10-10","2020-11-10","2020-08-02","2020-09-14"};
         String [] nomMenu =new String[]{"Hamburguesa","Pollo frito","Carne Asada","Papa rellena","Café"};
-        final int[] idDetalleP = new int[] {1,2,3,4,5};
 
+        final int[] idProducto = new int[] {1,2,3,4,5};
+        String [] nomProducto =new String[]{"Papas","Soda","Ensalada","Chimol","Limonada"};
+        final double[] precioUnitarioProducto = new double[]{1.00,0.80,0.50,0.75,0.90};
+        String [] descProducto =new String[]{"Papas Fritas","Coca-Cola, Pepsi, entre otras","Fresca, coditos, etc","Bien picado","De limón"};
+
+        final int[] idMenuAsig = new int[] {1,1,2,2,2,3,3,4,4};
+        final int[] idProductoAsig = new int[] {1,2,1,2,3,2,4,2,3};
+
+        final int[] idDetalleP = new int[] {1,2,3,4,5};
         final int[] idEstadoPed = new int[] {1,2};
         final String[] descEstP = new String[] {"Pendiente","Entregado"};
 
@@ -227,6 +237,9 @@ public class ControladorBD {
         final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
         final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
 
+
+
+
         abrir();
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
@@ -236,6 +249,9 @@ public class ControladorBD {
         db.execSQL("DELETE FROM ESTADOPEDIDO");
         db.execSQL("DELETE FROM DETALLEPEDIDO");
         db.execSQL("DELETE FROM PEDIDO");
+        db.execSQL("DELETE FROM PRODUCTO");
+        db.execSQL("DELETE FROM ASIGNAPRODUCTO");
+        db.execSQL("DELETE FROM MENU");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -317,6 +333,21 @@ public class ControladorBD {
             pedido.setIdPedido(idPedido[i]);
             pedido.setIdLocal(idLocalPed[i]);
             insertar(pedido);
+        }
+
+        Producto producto = new Producto();
+        for (int i = 0; i <5 ; i++) {
+            producto.setNombreProducto(nomProducto[i]);
+            producto.setPrecioUnitario(precioUnitarioProducto[i]);
+            producto.setDescProducto(descProducto[i]);
+            CrearProducto(producto);
+        }
+
+        ProductoAsignar productoAsignar = new ProductoAsignar();
+        for (int i = 0; i <9 ; i++) {
+            productoAsignar.setIdmenu(idMenuAsig[i]);
+            productoAsignar.setIdProducto(idProductoAsig[i]);
+            AsignarProtoMenu(productoAsignar);
         }
 
         cerrar();
@@ -662,9 +693,9 @@ public class ControladorBD {
         String resultado = "producto creado ";
         ContentValues pro777 = new ContentValues();
         //pro777.put("idProducto", producto.getIdProduto());
-        pro777.put("NombreProducto", producto.getNombreProducto());
-        pro777.put("precioUnitario", producto.getPrecioUnitario());
-        pro777.put("descProducto", producto.getDescProducto());
+        pro777.put("NOMBREPRODUCTO", producto.getNombreProducto());
+        pro777.put("PRECIOUNITARIO", producto.getPrecioUnitario());
+        pro777.put("DESCPRODUCTO", producto.getDescProducto());
 
 
 
@@ -707,6 +738,20 @@ public class ControladorBD {
             } while (cur.moveToNext());
 
 
+        }
+        return pro777;
+    }
+
+    public List<Producto> ConsultaProductosMenu(int IDMENU) {
+        Cursor cur = db.rawQuery("SELECT PRODUCTO.* FROM \n" +
+                "(PRODUCTO INNER JOIN ASIGNAPRODUCTO ON PRODUCTO.IDPRODUCTO = ASIGNAPRODUCTO.IDPRODUCTO)\n" +
+                "INNER JOIN MENU ON ASIGNAPRODUCTO.IDMENU = MENU.IDMENU WHERE MENU.IDMENU = " + IDMENU, null);
+        List<Producto> pro777 = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
+            } while (cur.moveToNext());
         }
         return pro777;
     }
@@ -867,6 +912,18 @@ public class ControladorBD {
                         cur.getString(6)));
             } while (cur.moveToNext());
         }*/
+        return uwu;
+    }
+
+    public List<Menu> ConsultaMenusLocal(int idlocal) {
+        Cursor cur = db.rawQuery("SELECT * FROM MENU WHERE IDLOCAL=" + idlocal, null);
+        List<Menu> uwu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
+            } while (cur.moveToNext());
+        }
         return uwu;
     }
 

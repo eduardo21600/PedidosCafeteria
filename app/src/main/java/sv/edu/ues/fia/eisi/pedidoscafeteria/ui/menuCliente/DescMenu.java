@@ -13,6 +13,7 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorDescripcionMenu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
@@ -27,6 +28,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
     String nomMenu;
     double precionMenu;
     ControladorServicios controladorServicios;
+    ControladorBD controladorBD;
     List<Producto> productos;
     TextView tv_nom, tv_precio;
 
@@ -42,12 +44,18 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
         tv_precio = (TextView) findViewById(R.id.precio_menu_desc);
         tv_nom.setText(nomMenu);
         tv_precio.setText(String.valueOf(precionMenu));
-        controladorServicios = new ControladorServicios(this);
-        controladorServicios.BuscarProductoMenu(idMenu, getApplicationContext());
+        controladorBD = new ControladorBD(getApplicationContext());
+        controladorBD.abrir();
+        productos = controladorBD.ConsultaProductosMenu(idMenu);
+        controladorBD.cerrar();
+        //controladorServicios = new ControladorServicios(this);
+        //controladorServicios.BuscarProductoMenu(idMenu, getApplicationContext());
         recyclerView = (RecyclerView) findViewById(R.id.descMenu_productos_recycler);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new AdaptadorDescripcionMenu(this, productos);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

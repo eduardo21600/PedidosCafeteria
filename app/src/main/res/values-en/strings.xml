@@ -51,6 +51,8 @@
     <string name="estaPedidoF">Order completed</string>
     <string name="local">Local</string>
     <string name="Fecha">Date:</string>
+    <string name="verWs">Check Orders in WS</string>
+    <string name="Nohayws">There arent requests made to this Market Stall on the server</string>
     <string name="nombre">Name</string>
     <string name="Apellido">Surname</string>
     <string name="Teléfono">Phone</string>

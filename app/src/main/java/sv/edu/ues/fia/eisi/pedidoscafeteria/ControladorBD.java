@@ -1360,7 +1360,7 @@ public class ControladorBD {
     }
 
     public List<Pedido> ConsultaPedidosLocal(int idLocal) {
-        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=?" + idLocal, null);
+        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=" + idLocal, null);
         List<Pedido> pedido = new ArrayList<>();
         ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         if (cur.moveToFirst()) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterPedidos;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
@@ -46,15 +50,36 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     private int ordenResponse,idLocal;
     private boolean seTieneLocal;
     private Chip verWS;
-    View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
-        AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+        verWS = (Chip)root.findViewById(R.id.chipWSpedido);
+        final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        verWS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(verWS.isChecked()){
+                    if(lstPedidos.isEmpty()){
+                        FancyToast.makeText(getContext(),getResources().getString(R.string.Nohayws),
+                                FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
+                    }
+                    else {
+                        pedido1.addAll(lstPedidos);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                else{
+                    if(!lstPedidos.isEmpty()){
+                        pedido1.removeAll(lstPedidos);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
         return root;
     }
 
@@ -65,6 +90,7 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
         String id = sharedPreferences.getString("nombreUsuario","");
         controladorBD = new ControladorBD(getContext());
+
         controladorBD.abrir();
         localenCel = controladorBD.ConsultaLocales();
         cServicios = new ControladorServicios(this);
@@ -84,6 +110,8 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         }
         else{
             pedido1 = controladorBD.ConsultaPedidosLocal(idLocal);
+            cServicios.BuscarPedidosLocal(idLocal,getContext());
+            ordenResponse=3;
         }
 
     }
@@ -108,9 +136,11 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
             AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
-            ordenResponse=3;
+            ordenResponse=4;
         }
-
-
+        else if (ordenResponse==3){
+            lstPedidos =(List<Pedido>)lista;
+            ordenResponse=4;
+        }
     }
 }

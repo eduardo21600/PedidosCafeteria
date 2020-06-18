@@ -51,6 +51,8 @@
     <string name="estaPedidoF">Ordine completato</string>
     <string name="local">Locale</string>
     <string name="Fecha">Data:</string>
+    <string name="verWs">Vedi ordini in WS</string>
+    <string name="Nohayws">Non ci sono richieste per questa bancarella del mercato sul server</string>
     <string name="nombre">Nome</string>
     <string name="Apellido">Cognome</string>
     <string name="Teléfono">Telefono</string>

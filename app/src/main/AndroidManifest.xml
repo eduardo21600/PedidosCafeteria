@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductoMenuAsignar"></activity>
+        <activity android:name=".ProductoAsignadoFinal"></activity>
+        <activity android:name=".ProductoMenuAsignar" />
         <activity android:name=".AsignarProductoMenu" />
         <activity android:name=".EliminarMenu" />
         <activity android:name=".ModificarMenu" />

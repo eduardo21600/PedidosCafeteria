@@ -30,6 +30,7 @@ public class AsignarProductoMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProductoMenuAsignar.class);
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });

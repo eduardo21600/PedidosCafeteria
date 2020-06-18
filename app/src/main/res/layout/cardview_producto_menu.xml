@@ -7,98 +7,106 @@
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal">
 
-    <LinearLayout
-        android:id="@+id/listho"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardProducto"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        app:cardBackgroundColor="#00FFFFFF">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textSimboloDeDolar"
-                    android:layout_width="25dp"
-                    android:layout_height="35dp"
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textSimboloDeDolar"
+                        android:layout_width="25dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="$"
+                        android:textColor="#000000"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/textPrecioDelProductoEnElMenu"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text=" "
+                        android:textSize="24sp" />
+                </TableRow>
+
+                <ImageView
+                    android:id="@+id/imgProducto"
+                    android:layout_width="90dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="$"
-                    android:textColor="#000000"
-                    android:textSize="30sp" />
+                    app:srcCompat="@android:drawable/btn_dialog" />
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textPrecioDelProductoEnElMenu"
-                    android:layout_width="60dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text=" "
-                    android:textSize="24sp" />
-            </TableRow>
-
-            <ImageView
-                android:id="@+id/imgProducto"
-                android:layout_width="90dp"
-                android:layout_height="70dp"
+            <LinearLayout
+                android:id="@+id/listv"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/btn_dialog" />
-        </LinearLayout>
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-        <LinearLayout
-            android:id="@+id/listv"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:baselineAligned="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textIdDelProductoEnMenu"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="TextView"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/textNombreDelProductoENMenu"
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/textIdDelProductoEnMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="TextView"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/textNombreDelProductoENMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/baloo"
+                        android:gravity="center"
+                        android:text="TextView"
+                        android:textColor="#050505"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TextView
+                    android:id="@+id/textDescripcionDelProductoMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_gravity="left"
                     android:layout_weight="1"
                     android:fontFamily="@font/baloo"
-                    android:gravity="center"
                     android:text="TextView"
                     android:textColor="#050505"
-                    android:textSize="18sp" />
-            </TableRow>
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/textDescripcionDelProductoMenu"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:fontFamily="@font/baloo"
-                android:text="TextView"
-                android:textColor="#050505"
-                android:textSize="18sp"
-                android:textStyle="normal" />
 
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

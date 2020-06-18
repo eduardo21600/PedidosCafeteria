@@ -33,45 +33,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10"
         app:layout_constraintVertical_bias="0.100000024">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/IdProducto"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editAsignarProductoMenu"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_asignar_producto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:ems="10"
-            android:inputType="text"
-            android:textColor="#050505"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/IdMenu"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editidMenuProducto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:ems="10"
-            android:inputType="text"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            android:layout_height="350dp" />
 
         <Button
             android:id="@+id/button4"
@@ -79,11 +45,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bordes_redondos"
+            android:onClick="integrarProductoAlMenu"
             android:text="@string/botonCrear"
-            android:onClick="insertarProductoEnMenu"
             android:textColor="#F8F8F8"
             android:textStyle="bold"
-            tools:ignore="OnClick" />
+            tools:ignore="OnClick"/>
 
     </LinearLayout>
 

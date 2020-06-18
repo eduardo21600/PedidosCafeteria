@@ -205,6 +205,7 @@ public class ControladorBD {
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
         db.execSQL("DELETE FROM FACULTAD");
+        db.execSQL("DELETE FROM UBICACION");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {

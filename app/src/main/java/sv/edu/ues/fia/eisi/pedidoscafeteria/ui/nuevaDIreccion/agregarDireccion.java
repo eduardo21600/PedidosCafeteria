@@ -61,10 +61,10 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
         agregarDireccion = (Button) findViewById(R.id.agregar_direccion);
         nombreUbicacion = (EditText) findViewById(R.id.et_nombre_ubicacion);
         dirUbicacion = (EditText) findViewById(R.id.et_dir_ubicacion);
-        facUbicacion = (EditText) findViewById(R.id.et_facultad_ubicacion);
-        facUbicacion.setVisibility(View.INVISIBLE);
-        tv = (TextView) findViewById(R.id.tv_facultad);
-        tv.setVisibility(View.INVISIBLE);
+        //facUbicacion = (EditText) findViewById(R.id.et_facultad_ubicacion);
+        //facUbicacion.setVisibility(View.INVISIBLE);
+        //tv = (TextView) findViewById(R.id.tv_facultad);
+        //tv.setVisibility(View.INVISIBLE);
         puntoUbicacion = (EditText) findViewById(R.id.et_punto_ubicacion);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 

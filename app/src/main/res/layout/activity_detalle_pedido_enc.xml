@@ -46,13 +46,15 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etCodigo"
+                android:id="@+id/etCodigoDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:clickable="false"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
                 android:inputType="number"
                 android:textColor="#050505"
                 android:textSize="18sp" />
@@ -67,13 +69,15 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etProducto"
+                android:id="@+id/etProductoDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:clickable="false"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:textColor="#050505"
@@ -89,13 +93,15 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etCliente"
+                android:id="@+id/etClienteDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:clickable="false"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
                 android:inputType="textPersonName"
                 android:textColor="#050505"
                 android:textSize="18sp" />
@@ -110,13 +116,15 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etTotal"
+                android:id="@+id/etTotalDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:clickable="false"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
                 android:inputType="numberDecimal"
                 android:textColor="#050505"
                 android:textSize="18sp" />
@@ -132,13 +140,15 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etUbicacion"
+                android:id="@+id/etUbicacionDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:clickable="false"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:textColor="#050505"
@@ -154,11 +164,16 @@
                 android:textStyle="bold"/>
 
             <EditText
-                android:id="@+id/etTipo"
+                android:id="@+id/etTipoDP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="false"
+                android:editable="false"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btnAsignar"

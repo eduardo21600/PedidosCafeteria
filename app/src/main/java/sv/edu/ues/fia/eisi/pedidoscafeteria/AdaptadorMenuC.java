@@ -52,6 +52,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
                 intent.putExtra("idMenu", vHolder.idMenu);
                 intent.putExtra("nomMenu", vHolder.nomMenu);
                 intent.putExtra("precioMenu", vHolder.precioMenu);
+                intent.putExtra("idLocal", vHolder.idLocal);
                 mContext.startActivity(intent);
             }
         });
@@ -69,6 +70,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         holder.idMenu = mMenus.get(position).getIdMenu();
         holder.nomMenu = mMenus.get(position).getNomMenu();
         holder.precioMenu = mMenus.get(position).getPrecioMenu();
+        holder.idLocal = mMenus.get(position).getIdLocal();
     }
 
     @Override
@@ -84,7 +86,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         private TextView tv_precio;
         private ImageView iv_imagen;
         private Button agregarPedido;
-        int idMenu;
+        int idMenu, idLocal;
         String nomMenu;
         double precioMenu;
 

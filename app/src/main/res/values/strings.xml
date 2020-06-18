@@ -116,5 +116,8 @@
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
     <string name="agregar_pedido">Agregar al pedido</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="hint_cantidad">Ingrese la cantidad</string>
+    <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
 
 </resources>

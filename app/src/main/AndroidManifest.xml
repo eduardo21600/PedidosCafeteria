@@ -3,8 +3,8 @@
     package="sv.edu.ues.fia.eisi.pedidoscafeteria">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AsignarRepartidor"></activity>
+        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion"></activity>
+        <activity android:name=".AsignarRepartidor" />
         <activity android:name=".ui.menuCliente.DescMenu" />
         <activity android:name=".DetallePedidoRep" />
         <activity android:name=".ui.nuevaDIreccion.agregarDireccion" />

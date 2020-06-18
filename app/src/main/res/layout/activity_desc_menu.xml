@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"/>
         </TableRow>
+
         <TextView
             android:id="@+id/precio_menu_desc"
             android:layout_width="match_parent"
@@ -49,6 +50,22 @@
             android:gravity="center"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
+
+        <TableRow
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cantidad"
+                android:gravity="center"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/cantidad_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_cantidad"/>
+        </TableRow>
+
         <Button
             android:id="@+id/agregar_pedido_desc"
             android:text="@string/agregar_pedido"

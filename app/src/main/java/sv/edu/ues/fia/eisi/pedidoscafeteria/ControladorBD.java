@@ -58,7 +58,7 @@ public class ControladorBD {
                         "(\n" +
                         "   CANTIDAD             smallint not null,\n" +
                         "   SUBTOTAL             real not null,\n" +
-                        "   IDDETALLEPEDIDO      int not null,\n" +
+                        "   IDDETALLEPEDIDO      INTEGER not null,\n" +
                         "   IDMENU               int not null,\n" +
                         "   primary key (IDDETALLEPEDIDO)\n" +
                         ");");
@@ -352,6 +352,35 @@ public class ControladorBD {
 
         cerrar();
         return res;
+    }
+
+
+    //Metodos para obtener el ultimo id de una tabla
+    public DetallePedido ultimoIdDetallePedido()
+    {
+        Cursor cur = db.rawQuery("select * from DETALLEPEDIDO where IDDETALLEPEDIDO = (select max(IDDETALLEPEDIDO) from DETALLEPEDIDO);", null);
+        if (cur.moveToFirst()) {
+            DetallePedido detallePedido = new DetallePedido();
+            detallePedido.setCantidad(cur.getInt(0));
+            detallePedido.setSubtotal(cur.getDouble(1));
+            detallePedido.setIdDetallePedido(cur.getInt(2));
+            detallePedido.setIdMenu(cur.getInt(3));
+            return detallePedido;
+
+        } else {
+            return null;
+        }
+    }
+
+    public int ultimoIdPedido()
+    {
+        Cursor cur = db.rawQuery("select * from PEDIDO where IDPEDIDO = (select max(IDPEDIDO) from PEDIDO);", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+
+        } else {
+            return 0;
+        }
     }
 
 
@@ -1017,7 +1046,7 @@ public class ControladorBD {
         ContentValues depe = new ContentValues();
         depe.put("cantidad", detallepedido.getCantidad());
         depe.put("subtotal", detallepedido.getSubtotal());
-        depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
+        //depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
         depe.put("idMenu", detallepedido.getIdMenu());
 
         long comprobador = 0;
@@ -1329,7 +1358,7 @@ public class ControladorBD {
 
     //CRUD Pedido
     public String insertar(Pedido pedido){
-        String resultado="Se guardó correctamente nuevo pedido " + pedido;
+        String resultado="Se guardó correctamente nuevo pedido ";
         long contador=0;
         long cont = 0;
         ArrayList <DetallePedido> detallePedido = pedido.getDetallePedidos();
@@ -1659,13 +1688,15 @@ public class ControladorBD {
             ContentValues preal = new ContentValues();
             preal.put("idPedido", pedidoRealizado.getIdPedido());
             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
+            preal.put("TIPOPEDREALIZADO", pedidoRealizado.getTipo());
             contador=db.insert("PedidoRealizado", null, preal);
-        } if(contador==-1 || contador==0)
+        }
+        if(contador==-1 || contador==0)
         {
             resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
         }
         else {
-            resultado+=resultado+contador;
+
         }
         return resultado;
     }

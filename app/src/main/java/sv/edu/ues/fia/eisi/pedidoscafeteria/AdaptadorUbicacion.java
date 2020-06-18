@@ -53,10 +53,6 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
         holder.elminarUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControladorBD controladorBD = new ControladorBD(mContext);
-                controladorBD.abrir();
-                controladorBD.eliminar(mUbicacion.get(position));
-                controladorBD.cerrar();
                 MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
                         .setTitle("Eliminar")
                         .setAnimation(R.raw.delete)
@@ -66,9 +62,15 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 // Delete Operation
+                                int id = position;
+                                Ubicacion ubicacion = mUbicacion.get(position);
                                 mUbicacion.remove(position);
                                 notifyItemRemoved(position);
                                 dialogInterface.dismiss();
+                                ControladorBD controladorBD = new ControladorBD(mContext);
+                                controladorBD.abrir();
+                                controladorBD.eliminar(ubicacion);
+                                controladorBD.cerrar();
                             }
                         })
                         .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {

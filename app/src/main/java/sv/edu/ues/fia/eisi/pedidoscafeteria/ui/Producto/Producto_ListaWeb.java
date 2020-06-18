@@ -23,18 +23,23 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ProductoIngresar;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
-public class Producto_Lista extends Fragment  {
+public class Producto_ListaWeb extends Fragment  implements CallbackWS {
     View v;
     private RecyclerView recyclerView;
     private List<Producto> listaProducto;
+    ControladorServicios controladorServicios;
 
-    public Producto_Lista() {
-
+    public Producto_ListaWeb() {
+        // Required empty public constructor
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controladorServicios = new ControladorServicios(this);
+        controladorServicios.BuscarProductos(getContext());
     }
 
     @Override
@@ -45,9 +50,6 @@ public class Producto_Lista extends Fragment  {
         ControladorBD help = new ControladorBD(getContext());
         help.abrir();
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view_producto);
-        AdaptadorProducto adaptadorProducto = new AdaptadorProducto (help.ConsultaProductos());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adaptadorProducto);
         help.cerrar();
         Button crear = (Button)v.findViewById(R.id.butonAgregarProducto);
         crear.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +61,14 @@ public class Producto_Lista extends Fragment  {
         });
         // Inflate the layout for this fragment
         return v;
-           }
+    }
 
-
+    @Override
+    public void ResponseWS(Object lista)
+    {
+        listaProducto = (List<Producto>) lista;
+        AdaptadorProducto adaptadorProducto = new AdaptadorProducto (listaProducto);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adaptadorProducto);
+    }
 }

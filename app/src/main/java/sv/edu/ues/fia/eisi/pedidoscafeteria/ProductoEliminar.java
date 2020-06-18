@@ -10,6 +10,7 @@ import android.widget.Toast;
 public class ProductoEliminar extends AppCompatActivity {
 
     ControladorBD helper;
+    private ControladorServicios baseServicios;
     TextView textidProduto;
     String id;
     @Override
@@ -17,6 +18,7 @@ public class ProductoEliminar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_eliminar);
         helper = new ControladorBD(this);
+        baseServicios=new ControladorServicios();
         Bundle extras = getIntent().getExtras();
         id= extras.getString("idy");
         textidProduto=(TextView) findViewById(R.id.textEliminar);
@@ -29,6 +31,17 @@ public class ProductoEliminar extends AppCompatActivity {
 
         helper.abrir();
         regEliminadas=helper.eliminarProducto(producto);
+        helper.cerrar();
+        Toast.makeText(this, regEliminadas, Toast.LENGTH_SHORT).show();
+        //Intent intentn= new Intent(this, Producto_Lista.class);
+        //this.startActivity(intentn);
+    }
+    public void eliminarProductoEnLaWeb(View v){
+        String regEliminadas;
+        Producto producto=new Producto();
+        producto.setIdProduto(Integer.valueOf(id));
+        helper.abrir();
+        regEliminadas=baseServicios.Eliminar(producto,getApplicationContext());
         helper.cerrar();
         Toast.makeText(this, regEliminadas, Toast.LENGTH_SHORT).show();
         //Intent intentn= new Intent(this, Producto_Lista.class);

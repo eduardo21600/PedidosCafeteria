@@ -20,11 +20,13 @@ public class ProductoIngresar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_ingresar);
         base = new ControladorBD(this);
+        baseServicios=new ControladorServicios();
         editnombreProducto = (EditText) findViewById(R.id.editnombreProducto);
         editprecioUnitario = (EditText) findViewById(R.id.editprecioUnitario);
         editdescProducto = (EditText) findViewById(R.id.editdescProducto);
         baseServicios = new ControladorServicios();
     }
+
     public void insertarProducto(View v) {
 
 
@@ -34,27 +36,40 @@ public class ProductoIngresar extends AppCompatActivity {
             Double precio=Double.valueOf(editprecioUnitario.getText().toString());
             String des=editdescProducto.getText().toString();
             String registro;
-
             Producto producto=new Producto();
             producto.setNombreProducto(nombre);
             producto.setPrecioUnitario(precio);
             producto.setDescProducto(des);
-
             base.abrir();
             registro=base.CrearProducto(producto);
-            registro=baseServicios.CrearAct(producto, getApplicationContext(),true);
-            /*if(registro == "CONEXIÓN EXITOSA")
-            {
-                FancyToast.makeText(getApplicationContext(), "Se ha guardado su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
-            }
-            else
-            {
-                FancyToast.makeText(getApplicationContext(), "No se pudo guardar su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
-            }*/
             base.cerrar();
             Toast.makeText(this, registro, Toast.LENGTH_SHORT).show();
             // Intent intentn= new Intent(this, Producto_Lista.class);
             //this.startActivity(intentn);
+        }
+        else
+        {
+            Toast.makeText(this, "Debe llenar los campos correspondiente", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void insertarProductoEnLaWeb(View v) {
+
+
+        if(validar())
+        {
+            String nombre=editnombreProducto .getText().toString();
+            Double precio=Double.valueOf(editprecioUnitario.getText().toString());
+            String des=editdescProducto.getText().toString();
+            String registro;
+            Producto producto=new Producto();
+            producto.setNombreProducto(nombre);
+            producto.setPrecioUnitario(precio);
+            producto.setDescProducto(des);
+            base.abrir();
+            registro=baseServicios.CrearAct(producto, getApplicationContext(),true);
+            base.cerrar();
+            Toast.makeText(this, registro, Toast.LENGTH_SHORT).show();
         }
         else
         {

@@ -107,13 +107,25 @@
 
 
         <Button
-            android:id="@+id/btnAsignar"
+        android:id="@+id/btnAsignar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bordes_redondos"
+        android:text="@string/botonModificar"
+        android:onClick="actualizarProducto"
+        android:textColor="#F8F8F8"
+        android:textStyle="bold"
+        tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/btnAsignarEnLaWeb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bordes_redondos"
-            android:text="@string/botonModificar"
-            android:onClick="actualizarProducto"
+            android:text="@string/botonModificarEnLaWeb"
+            android:onClick="actualizarProductoEnLaWeb"
             android:textColor="#F8F8F8"
             android:textStyle="bold"
             tools:ignore="OnClick" />

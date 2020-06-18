@@ -94,6 +94,9 @@
     <string name="botonModificar">Modificar</string>
     <string name="botonEliminar">Eliminar</string>
     <string name="botonCrear">Crear</string>
+    <string name="botonModificarEnLaWeb">Modificar en la Web</string>
+    <string name="botonEliminarEnLaWeb">Eliminar de la Web</string>
+    <string name="botonCrearEnLaWeb">Crear en la Web</string>
     <string name="MensajeDeConfirmacionProducto">¿Desea Eliminar este Producto?</string>
     <string name="nombreProducto">Nombre:</string>
     <string name="precioProducto">Precio:</string>

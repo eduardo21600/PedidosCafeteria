@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class ProductoModificar extends AppCompatActivity {
     private ControladorBD helper;
+    private ControladorServicios baseServicios;
     private TextView textIdProducto;
     private EditText editnombreProducto;
     private EditText editprecioUnitario;
@@ -22,6 +23,7 @@ public class ProductoModificar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_modificar);
         helper = new ControladorBD(this);
+        baseServicios=new ControladorServicios();
         editnombreProducto = (EditText) findViewById(R.id.editnombreMProducto);
         editprecioUnitario = (EditText) findViewById(R.id.editprecioMUnitario);
         editdescProducto = (EditText) findViewById(R.id.editdescMProducto);
@@ -40,6 +42,27 @@ public class ProductoModificar extends AppCompatActivity {
             alumno.setDescProducto(editdescProducto.getText().toString());
             helper.abrir();
             String estado = helper.ActualizarProducto(alumno);
+            helper.cerrar();
+            Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
+            // Intent intentn= new Intent(this, Producto_Lista.class);
+            // this.startActivity(intentn);
+        }
+        else
+        {
+            Toast.makeText(this, "Debe llenar los campos correspondiente", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void actualizarProductoEnLaWeb(View v) {
+        if(validar()){
+
+            Producto producto = new Producto();
+            producto.setIdProduto(Integer.valueOf(textIdProducto.getText().toString()));
+            producto.setNombreProducto(editnombreProducto.getText().toString());
+            producto.setPrecioUnitario(Double.valueOf(editprecioUnitario.getText().toString()));
+            producto.setDescProducto(editdescProducto.getText().toString());
+            helper.abrir();
+            String estado = baseServicios.CrearAct(producto, getApplicationContext(),false);
             helper.cerrar();
             Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
             // Intent intentn= new Intent(this, Producto_Lista.class);

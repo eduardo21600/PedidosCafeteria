@@ -51,6 +51,7 @@
     <string name="local">Local</string>
     <string name="nombre">Nombre</string>
     <string name="Fecha">Fecha:</string>
+    <string name="verWs">Ver Pedidos en WS</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
 

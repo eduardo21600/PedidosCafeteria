@@ -60,7 +60,7 @@ public class ControladorBD {
                         "   IDMENU               int not null,\n" +
                         "   primary key (IDDETALLEPEDIDO)\n" +
                         ");");
-                db.execSQL("create table ESTADPEDIDO\n" +
+                db.execSQL("create table ESTADOPEDIDO\n" +
                         "(\n" +
                         "   IDESTADOPEDIDO       int not null,\n" +
                         "   DESCESTADOPEDIDO     varchar(30) not null,\n" +
@@ -97,12 +97,12 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table PEDIDO\n" +
                         "(\n" +
-                        "   IDPEDIDO             int not null,\n" +
+                        "   IDPEDIDO             INTEGER not null,\n" +
                         "   IDDETALLEPEDIDO      int,\n" +
                         "   IDESTADOPEDIDO       int,\n" +
                         "   IDLOCAL              int,\n" +
                         "   IDUBICACION          int not null,\n" +
-                        "   FECHAPEDIDO          time not null,\n" +
+                        "   FECHAPEDIDO          varchar(10) not null,\n" +
                         "   TOTALPEDIDO          real not null,\n" +
                         "   primary key (IDPEDIDO)\n" +
                         ");");
@@ -182,15 +182,41 @@ public class ControladorBD {
 
     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
     public String llenarUsuario(){
-        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
-        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
-        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
-        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
-        final String [] idUsus =new String[]{"1","2","3","4"};
-        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812"};
+        final String [] idUsus =new String[]{"1","2","3","4","5"};
+        final int [] idTipoUsus =new int[] {1,2,3,3,1}; //1 indica que son clientes
 
         final int [] idTipos =new int[] {1,2,3};
-        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+        final String [] nomTipos =new String[]{"Cliente","Repartidor","Encargado"};
+
+        final int [] cantidadDetP = new int[] {1,5,6,7,8};
+        final double[] subtotal = new double[] {1.5,2.8,10,8.2,6.5};
+        final int[] idMenu = new int[] {1,2,3,4,5};
+        final int[] idLocalMenu = new int[] {1,2,1,2,1};
+        final double[] precioMenu = new double[] {1.5,2.8,2.4,8.2,6.5};
+        final String[] fechaDesde = new String[] {"2019-06-17","2020-03-04","2020-04-10","2020-06-02","2020-06-14"};
+        final String[] fechaHasta = new String[] {"2020-09-17","2020-10-10","2020-11-10","2020-08-02","2020-09-14"};
+        String [] nomMenu =new String[]{"Hamburguesa","Pollo frito","Carne Asada","Papa rellena","Café"};
+        final int[] idDetalleP = new int[] {1,2,3,4,5};
+
+        final int[] idEstadoPed = new int[] {1,2};
+        final String[] descEstP = new String[] {"Pendiente","Entregado"};
+
+        final String[] nombreLocal = new String[] {"Don Carlos","Comedor Juan"};
+        final String [] idUsuarioLocal =new String[]{"Car1","Juan1"};
+
+        final int[] idPedido = new int[] {1,2,3,4,5};
+        final int[] idEstadoPedPed = new int[] {1,2,1,1,2};
+        final int[] idLocalPed = new int[] {1,2,1,1,2};
+        final int[] idUbicPed = new int[] {3,3,3,2,2};
+        final String[] fechaP = new String[] {"2020-06-17","2020-05-17","2020-04-10","2020-06-02","2020-06-14"};
+        final double[] total = new double[] {5,2.8,10.2,4.2,12.5};
+
+
+
         String res="No paso nada";
 
         final int [] idFacultad =new int[]{1,2,3,4,5};
@@ -199,13 +225,17 @@ public class ControladorBD {
         final String[] direcUbicacion = new String[]{"Sierra Morena", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
         final String[] nomUbicacion = new String[]{"Casa de Lidia", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
         final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
-        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","Pepi1", "Car1"};
+        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
 
         abrir();
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
         db.execSQL("DELETE FROM FACULTAD");
         db.execSQL("DELETE FROM UBICACION");
+        db.execSQL("DELETE FROM LOCAL");
+        db.execSQL("DELETE FROM ESTADOPEDIDO");
+        db.execSQL("DELETE FROM DETALLEPEDIDO");
+        db.execSQL("DELETE FROM PEDIDO");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -216,7 +246,7 @@ public class ControladorBD {
 
 
         Usuario u = new Usuario();
-        for (int i = 0; i <4 ; i++) {
+        for (int i = 0; i <5 ; i++) {
             u.setIdUsuario(contras[i]);
             u.setNombreUsuario(nomUsuario[i]);
             u.setApellidoUsuario(apeUsuario[i]);
@@ -242,6 +272,51 @@ public class ControladorBD {
             ubi.setPuntoRefUbicacion(puntoUbicacion[i]);
             ubi.setIdUsuario(ubiUsuarios[i]);
             insertar(ubi);
+        }
+
+        Menu menu = new Menu();
+        for (int i = 0; i <5 ; i++) {
+            menu.setNomMenu(nomMenu[i]);
+            menu.setFechaDesdeMenu(fechaDesde[i]);
+            menu.setFechaHastaMenu(fechaHasta[i]);
+            menu.setIdLocal(idLocalMenu[i]);
+            menu.setPrecioMenu(precioMenu[i]);
+            CrearMenu(menu);
+        }
+
+        DetallePedido dp = new DetallePedido();
+        for (int i = 0; i <5 ; i++) {
+            dp.setCantidad(cantidadDetP[i]);
+            dp.setIdMenu(idMenu[i]);
+            dp.setSubtotal(subtotal[i]);
+            dp.setIdDetallePedido(idDetalleP[i]);
+            Crear(dp);
+        }
+
+        EstadoPedido ep =new EstadoPedido();
+        for (int i = 0; i <2 ; i++) {
+            ep.setDescEstadoPedido(descEstP[i]);
+            ep.setIdEstadoPedido(idEstadoPed[i]);
+            CrearEstadoPedido(ep);
+        }
+
+        Local local = new Local();
+        for (int i = 0; i <2 ; i++) {
+            local.setIdUsuario(idUsuarioLocal[i]);
+            local.setNombreLocal(nombreLocal[i]);
+            CrearLocal(local);
+        }
+
+        Pedido pedido = new Pedido();
+        for (int i = 0; i <5 ; i++) {
+            pedido.setIdDetalleP(idDetalleP[i]);
+            pedido.setFechaPedido(fechaP[i]);
+            pedido.setIdEstadoPedido(idEstadoPedPed[i]);
+            pedido.setIdUbicacion(idUbicPed[i]);
+            pedido.setTotalPedido(total[i]);
+            pedido.setIdPedido(idPedido[i]);
+            pedido.setIdLocal(idLocalPed[i]);
+            insertar(pedido);
         }
 
         cerrar();
@@ -1214,9 +1289,10 @@ public class ControladorBD {
             pedi.put("idUbicacion",pedido.getIdUbicacion());
             pedi.put("fechaPedido",pedido.getFechaPedido());
             pedi.put("totalPedido",pedido.getTotalPedido());
+            pedi.put("idDetallePedido",pedido.getIdDetalleP());
             contador=db.insert("Pedido", null, pedi);
 
-            for(int i= 0; i < detallePedido.size(); i++){
+           /* for(int i= 0; i < detallePedido.size(); i++){
                 det.setIdDetallePedido(detallePedido.get(i).getIdDetallePedido());
                 det.setCantidad(detallePedido.get(i).getCantidad());
                 det.setSubtotal(detallePedido.get(i).getSubtotal());
@@ -1227,7 +1303,7 @@ public class ControladorBD {
                 {
                    resultado = resultado + "no se pudo insertar el detallePedido con el id "+ detallePedido.get(i).getIdDetallePedido();
                 }
-            }
+            }*/
         }
         else {
             resultado="EstadoPedido,Local o Ubicacion no existen";
@@ -1289,12 +1365,12 @@ public class ControladorBD {
         ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
-                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
+                /*Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
                     detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
-                }while(m.moveToNext());
+                }while(m.moveToNext());*/
                 pedido.add(new Pedido(cur.getInt(0),
-                        detallePedidos,
+                        cur.getInt(1),
                         cur.getInt(2),
                         cur.getInt(3),
                         cur.getInt(4),
@@ -1817,7 +1893,7 @@ public class ControladorBD {
             case 6: {
                 //verificar que en EstadPedido exista idEstadoPedido
                 Pedido pedido3 = (Pedido) dato;
-                Cursor c1 = db.query(true, "EstadPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
+                Cursor c1 = db.query(true, "EstadoPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
                 if (c1.moveToFirst())
                     return true;
                 else

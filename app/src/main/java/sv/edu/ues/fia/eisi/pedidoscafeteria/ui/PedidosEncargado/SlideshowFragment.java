@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,15 +40,21 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     private ControladorServicios cServicios;
     private List<Pedido> pedido1;
     private ControladorBD controladorBD;
-    private List<Local> local;
+    private List<Local> local,localenCel;
     private List<PedidoRealizado> pRea;
     SharedPreferences sharedPreferences;
-    private int ordenResponse;
+    private int ordenResponse,idLocal;
+    private boolean seTieneLocal;
+    private Chip verWS;
+    View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
+        AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
         return root;
     }
 
@@ -56,13 +64,28 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         lstPedidos = new ArrayList<>();
         sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
         String id = sharedPreferences.getString("nombreUsuario","");
+        controladorBD = new ControladorBD(getContext());
+        controladorBD.abrir();
+        localenCel = controladorBD.ConsultaLocales();
         cServicios = new ControladorServicios(this);
-        cServicios.BuscarLocalUsu(id,getContext());
-        ordenResponse=1;
-        controladorBD = new ControladorBD(getActivity());
-        /*lstPedidos.add(new PedidoModelo(1,"Claudia","Llevar"));
-        lstPedidos.add(new PedidoModelo(2,"Roberto","Traer"));
-        lstPedidos.add(new PedidoModelo(3,"Paulina","Llevar"));*/
+        for (int i = 0; i <localenCel.size() ; i++) {
+            if(localenCel.get(i).getIdUsuario().equals(id)){
+                seTieneLocal=true;
+                idLocal=localenCel.get(i).getIdLocal();
+                break;
+            }
+            else {
+                seTieneLocal=false;
+            }
+        }
+        if(!seTieneLocal){
+            cServicios.BuscarLocalUsu(id,getContext());
+            ordenResponse=1;
+        }
+        else{
+            pedido1 = controladorBD.ConsultaPedidosLocal(idLocal);
+        }
+
     }
 
     @Override

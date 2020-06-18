@@ -20,8 +20,6 @@ public class ProductoModificar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_modificar);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_producto_modificar);
         helper = new ControladorBD(this);
         baseServicios=new ControladorServicios();
         editnombreProducto = (EditText) findViewById(R.id.editnombreMProducto);

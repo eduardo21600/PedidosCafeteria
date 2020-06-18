@@ -75,4 +75,9 @@
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.Producto.Producto_Lista"
         android:label="@string/menu_Producto"
         tools:layout="@layout/fragment_producto__lista" />
+    <fragment
+        android:id="@+id/nav_menu"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuEncargado.MenuFragment"
+        android:label="@string/menu_Encargado"
+        tools:layout="@layout/fragment_menu" />
 </navigation>

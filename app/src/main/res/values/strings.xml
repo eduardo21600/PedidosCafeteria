@@ -55,7 +55,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_Producto">Slideshow</string>
+    <string name="menu_Producto">Producto</string>
+    <string name="menu_Encargado">Menu</string>
     <string name="home_second">Home Second</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -103,7 +104,7 @@
     <string name="descripcionProducto">Descripción:</string>
     <string name="IdMenu">ID Menú</string>
     <string name="IdProducto">ID Producto</string>
-
+    <string name="TituloContenidoMenu">Contenido del Menu</string>
     <string name="TituloCrearMenu">Crear Menú</string>
     <string name="TituloModificarMenu">Modificar Menú</string>
     <string name="TituloEliminarMenu">Eliminar Menú</string>

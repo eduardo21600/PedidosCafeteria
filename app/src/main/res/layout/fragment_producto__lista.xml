@@ -16,43 +16,51 @@
             android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="3dp"
             android:fontFamily="@font/baloo"
             android:gravity="center"
             android:text="@string/TituloProducto"
             android:textColor="#FBFBFB"
             android:textSize="36sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toTopOf="@+id/recycle_view_producto"
+            app:layout_constraintBottom_toTopOf="@+id/butonAgregarProducto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.027" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/butonAgregarProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/btnmodeloaceptar"
             android:text="@string/botonCrear"
             android:textColor="#F6FAF6"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recycle_view_producto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.049"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_view_producto"
-            android:layout_width="417dp"
-            android:layout_height="465dp"
-            android:visibility="visible"
+            android:layout_width="370dp"
+            android:layout_height="430dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/butonAgregarProducto" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

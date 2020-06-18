@@ -9,8 +9,9 @@ import android.widget.EditText;
 
 import java.util.List;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
+
 public class DetallePedidoRep extends AppCompatActivity {
-    ControladorServicios serv;
 
     ControladorBD bd;
     private EditText codigo;

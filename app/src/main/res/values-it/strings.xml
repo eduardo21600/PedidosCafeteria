@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Caffetteria ordini</string>
+
+    <string name="ingles">Inglese</string>
+    <string name="español">Spagnolo</string>
+    <string name="italiano">Italiano</string>
+
+    <string name="bienvenido">"Caffetteria UES"</string>
+    <string name="login">Accesso</string>
+    <string name="nombreUsuario">Nome utente</string>
+    <string name="contrasena">Parola d\'ordine</string>
+    <string name="nuevaCuenta">Non hai un account?</string>
+    <string name="registrarse">Iscriviti</string>
+    <string name="entrar">Enterokay</string>
+    <string name="esEncargado">È responsabile?</string>
+    <string name="nomLocal">Nome locale</string>
+
+    <string name="Configuraciones">Ambientazione</string>
+    <string name="CambiarCrede">Cambia credenziali</string>
+    <string name="Ayuda">Aiuto</string>
+    <string name="CerrarSesion">cancella la sottoscrizione</string>
+
+    <string name="repetircontra">Ripeti la password</string>
+    <string name="telefono">Telefono</string>
+    <string name="Guardar">Salvare le modifiche</string>
+    <string name="title_activity_drawer_encar">drawerEncar</string>
+    <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
+    <string name="navigation_drawer_close">Chiudi il riquadro di navigazione</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Intestazione di navigazione</string>
+    <string name="action_settings">Impostazioni</string>
+
+    <string name="Pedidos">Ordini</string>
+    <string name="detallePedidos">Dettagli ordine</string>
+    <string name="cliente">Nome del cliente</string>
+    <string name="productos">prodotti</string>
+    <string name="total">Totale da pagare</string>
+    <string name="ubicación">Posizione</string>
+    <string name="idPedido">Codice</string>
+    <string name="Asignar">Assegna fattorino</string>
+    <string name="marcar">Segna come consegnato</string>
+    <string name="repartidor">Rivenditori</string>
+    <string name="agregar">Aggiungere nuova</string>
+    <string name="crear">Creare</string>
+
+    <string name="nombreMenu">Menu Nome</string>
+    <string name="tipo">Genere</string>
+    <string name="estaPedido">Ordine in corso</string>
+    <string name="estaPedidoF">Ordine completato</string>
+    <string name="local">Locale</string>
+    <string name="Fecha">Data:</string>
+    <string name="nombre">Nome</string>
+    <string name="Apellido">Cognome</string>
+    <string name="Teléfono">Telefono</string>
+
+    <string name="crearRepartidor">Aggiungi un nuovo rivenditore</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_Producto">Slideshow</string>
+    <string name="home_second">Home Second</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="descDetallePedido">Dettagli ordine</string>
+    <string name="pedidoEntregado">Ordine consegnato</string>
+
+
+    <!-- Inicio Strings Pablo -->
+    <string name="title_Local_Cliente">Locali disponibili</string>
+    <string name="menu_local">Menù</string>
+    <string name="txtDetallePedido">Dettagli ordine</string>
+    <string name="nomCliente">Nome</string>
+    <string name="totalPedido">Totale</string>
+    <string name="direccion">Indirizzo</string>
+    <string name="agregar_ubicacion">Inserisci</string>
+    <string name="Ubicaciones">Le mie posizioni</string>
+    <string name="obtener_ubicacion">Ottieni posizione</string>
+    <string name="nombre_ubicacion">Nome:</string>
+    <string name="et_nombre_ubicacion">esempio: La mia casa</string>
+    <string name="dir_ubicacion">Indirizzo:</string>
+    <string name="et_dir_ubicacion">Paese / Città / via / casa</string>
+    <string name="facultad_ubicacion">Facoltà:</string>
+    <string name="et_facultad_ubicacion">La tua facoltà (opzionale)</string>
+    <string name="punto_ubicacion">Riferimento:</string>
+    <string name="et_punto_ubicacion">Punto di riferimento</string>
+    <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
+    <!-- Fin Strings Pablo-->
+    <!-- Inicio Strings Carlos -->
+    <string name="TituloCrearProducto">Crea prodotto</string>
+    <string name="TituloAsignarProducto">Assegna prodotto</string>
+    <string name="TituloModificarProducto">Modifica prodotto</string>
+    <string name="TituloEliminarProducto">Elimina prodotto</string>
+    <string name="TituloProducto">Prodotto</string>
+    <string name="botonModificar">Modificare</string>
+    <string name="botonEliminar">Rimuovere</string>
+    <string name="botonCrear">Creare</string>
+    <string name="MensajeDeConfirmacionProducto">Vuoi eliminare questo prodotto?</string>
+    <string name="nombreProducto">Nome:</string>
+    <string name="precioProducto">Prezzo:</string>
+    <string name="descripcionProducto">Descrizione:</string>
+    <string name="IdMenu">ID menu</string>
+    <string name="IdProducto">ID prodotto</string>
+
+    <string name="TituloCrearMenu">Crea menu</string>
+    <string name="TituloModificarMenu">Menu Modifica</string>
+    <string name="TituloEliminarMenu">Elimina menu</string>
+    <string name="TituloMenu">Menu</string>
+    <string name="fechadesdeMenu">Data da</string>
+    <string name="fechahastaMenu">Data fino a</string>
+    <!-- Fin Strings Carlos-->
+    <string name="descPedido">Descrizione</string>
+    <string name="estadoPedido">Ordine consegnato</string>
+    <string name="agregar_pedido">Aggiungi all\'ordine</string>
+</resources>

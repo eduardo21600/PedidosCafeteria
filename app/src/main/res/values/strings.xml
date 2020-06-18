@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">PedidosCafeteria</string>
 
+    <string name="ingles">Inglés</string>
+    <string name="español">Español</string>
+    <string name="italiano">Italiano</string>
+
     <string name="bienvenido">"Cafeterías UES"</string>
     <string name="login">Inicia sesión</string>
     <string name="nombreUsuario">Nombre de usuario</string>
@@ -58,7 +62,6 @@
     <string name="menu_Producto">Slideshow</string>
     <string name="home_second">Home Second</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="descDetallePedido">Detalle Pedido</string>
     <string name="pedidoEntregado">Pedido Entregado</string>

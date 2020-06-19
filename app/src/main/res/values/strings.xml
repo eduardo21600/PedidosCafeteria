@@ -48,6 +48,7 @@
     <string name="nombre">Nombre</string>
     <string name="Fecha">Fecha:</string>
     <string name="verWs">Ver Pedidos en WS</string>
+    <string name="noSeleccionoRepa">No seleccionó ningun repartidor</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>

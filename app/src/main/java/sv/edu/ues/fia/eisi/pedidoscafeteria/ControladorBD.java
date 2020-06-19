@@ -124,10 +124,11 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table PRODUCTO\n" +
                         "(\n" +
-                        "   IDPRODUCTO           Integer primary key AUTOINCREMENT,\n" +
+                        "   IDPRODUCTO           INTEGER not null,\n" +
                         "   NOMBREPRODUCTO       varchar(50) not null,\n" +
                         "   PRECIOUNITARIO       real not null,\n" +
-                        "   DESCPRODUCTO         varchar(50)\n" +
+                        "   DESCPRODUCTO         varchar(50),\n" +
+                        "   primary key (IDPRODUCTO)\n" +
                         ");");
                 db.execSQL("create table TIPOUSUARIO\n" +
                         "(\n" +
@@ -185,12 +186,13 @@ public class ControladorBD {
 
     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
     public String llenarUsuario(){
-        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber"};
-        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose"};
-        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber"};
-        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812"};
-        final String [] idUsus =new String[]{"1","2","3","4","5"};
-        final int [] idTipoUsus =new int[] {1,2,3,3,1}; //1 indica que son clientes
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber","Camila"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose","Gomez"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber","Camila"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812","65247812"};
+        final String [] idUsus =new String[]{"1","2","3","4","5","6"};
+        final int [] idTipoUsus =new int[] {1,2,3,3,1,2}; //1 indica que son clientes
+        final String [] estadoUsuario =new String[] {"0","1","0","0","0","1"}; //1 indica que son clientes
 
         final int [] idTipos =new int[] {1,2,3};
         final String [] nomTipos =new String[]{"Cliente","Repartidor","Encargado"};
@@ -264,13 +266,14 @@ public class ControladorBD {
 
 
         Usuario u = new Usuario();
-        for (int i = 0; i <5 ; i++) {
+        for (int i = 0; i <6 ; i++) {
             u.setIdUsuario(contras[i]);
             u.setNombreUsuario(nomUsuario[i]);
             u.setApellidoUsuario(apeUsuario[i]);
             u.setContrasena(idUsus[i]);
             u.setTeleUsuario(telefono[i]);
             u.setIdTipoUsuario(idTipoUsus[i]);
+            u.setEstado(estadoUsuario[i]);
             res = insertar(u);
         }
 
@@ -410,6 +413,7 @@ public class ControladorBD {
         usu.put("apellidoUsuario", usuario.getApellidoUsuario());
         usu.put("teleUsuario", usuario.getTeleUsuario());
         usu.put("contrasena", usuario.getContrasena());
+        usu.put("ESTDISPONREPARTIDOR",usuario.getEstado());
 
 
         //comprobando integridad
@@ -463,7 +467,8 @@ public class ControladorBD {
                         , cur.getString(2)
                         , cur.getString(3)
                         , cur.getString(4)
-                        , cur.getString(5)));
+                        , cur.getString(5)
+                        , cur.getString(6)));
             } while (cur.moveToNext());
 
 
@@ -486,6 +491,7 @@ public class ControladorBD {
                 usuact.put("nombreUsuario", usuario.getNombreUsuario());
                 usuact.put("teleUsuario", usuario.getTeleUsuario());
                 usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                usuact.put("ESTDISPONREPARTIDOR",usuario.getEstado());
                 db.update("Usuario", usuact, "idUsuario=?", id);
 
             } else {

@@ -8,7 +8,7 @@
     tools:context=".DetallePedidoRep">
 
     <TextView
-        android:id="@+id/textViewTi"
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
@@ -19,141 +19,154 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.04000002" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.100000024">
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
 
-        <TextView
-            android:id="@+id/textViewC"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/idPedido"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edtCodigo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="number"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textViewC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/idPedido"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewDes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/descPedido"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/edtCodigo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtDescripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textViewDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/descPedido"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/textViewNom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cliente"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/edtDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:gravity="start|top"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="textMultiLine"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtCliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textViewNom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cliente"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/textViewTot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/total"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/edtCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtTotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textViewTot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/total"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/textViewUbic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:text="@string/ubicación"
-            android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/edtTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="numberDecimal"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edtUbicacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textViewUbic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="@string/ubicación"
+                android:textColor="#FAF8F8"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/buttonMarcar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/bordes_redondos"
-            android:onClick="marcarEntregado"
-            android:text="@string/marcar"
-            android:textColor="#F8F8F8"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/edtUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:gravity="start|top"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="textMultiLine"
+                android:textColor="#050505"
+                android:textSize="18sp" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/buttonMarcar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes_redondos"
+                android:onClick="marcarEntregado"
+                android:text="@string/marcar"
+                android:textColor="#F8F8F8"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

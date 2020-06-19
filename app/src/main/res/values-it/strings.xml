@@ -127,4 +127,10 @@
     <string name="descPedido">Descrizione</string>
     <string name="estadoPedido">Ordine consegnato</string>
     <string name="agregar_pedido">Aggiungi all\'ordine</string>
+
+
+
+
+
+    <string name="mensajeRep">No hay pedidos asignados</string>
 </resources>

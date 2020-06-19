@@ -242,8 +242,6 @@ public class ControladorBD {
         final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
 
 
-
-
         abrir();
 
 
@@ -266,7 +264,6 @@ public class ControladorBD {
             t.setNomTipoUsuario(nomTipos[i]);
             CrearTipoUsuario(t);
         }
-
 
         Usuario u = new Usuario();
         for (int i = 0; i <6 ; i++) {
@@ -1484,6 +1481,24 @@ public class ControladorBD {
         }
     }
 
+    public Pedido consultarPedidoRep(String idPedido){
+        Cursor cursor = db.rawQuery("select * from Pedido where idPedido =" + idPedido, null);
+        if (cursor.moveToFirst()) {
+            Pedido pedido = new Pedido();
+            pedido.setIdPedido(cursor.getInt(0));
+            pedido.setIdDetalleP(1);
+            pedido.setIdEstadoPedido(cursor.getInt(2));
+            pedido.setIdLocal(cursor.getInt(3));
+            pedido.setIdUbicacion(cursor.getInt(4));
+            pedido.setFechaPedido(cursor.getString(5));
+            pedido.setTotalPedido(cursor.getDouble(6));
+
+            return pedido;
+        } else {
+            return null;
+        }
+    }
+
     public List<Pedido> consultarPedidoDetalle(int  idDetallePedido){
         Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDDETALLEPEDIDO=" + idDetallePedido, null);
         List<Pedido> pedido = new ArrayList<>();
@@ -1710,6 +1725,22 @@ public class ControladorBD {
     public PedidoAsignado consultarPedAsig(int idPedido, String idUsuario){
         String[] id = {String.valueOf(idPedido),idUsuario};
         Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedido = ? and idUsuario = ?" + id, null);
+        //si existe pedidoAsignado
+        if(cursor.moveToFirst())
+        {
+            PedidoAsignado pedidoAsignado = new PedidoAsignado();
+            pedidoAsignado.setIdPedido(cursor.getInt(0));
+            pedidoAsignado.setIdUsuario(cursor.getString(1));
+            return pedidoAsignado;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public PedidoAsignado consultarPedAsigID(String idPedido){
+        String[] id = {idPedido};
+        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedido=" + idPedido, null);
         //si existe pedidoAsignado
         if(cursor.moveToFirst())
         {

@@ -58,11 +58,6 @@
     <string name="errorAlCrear">Hay datos incorrectos en el formulario</string>
     <string name="usuarioEnUso">Este nombre de usuario ya existe</string>
     <string name="camposVacios">No puede dejar campos vacios</string>
-    <string name="LlenarBase">Llenar Base</string>
-    <string name="actRepa">Actualizar Repartidor</string>
-    <string name="NoPuedeCambiarCrede">No se puede actualizar nombre de usuario porque tiene pedidos pendientes</string>
-    <string name="Actualizar">Actualizar</string>
-    <string name="localActualizado">Se ha cambiado el nombre de su local</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
@@ -132,33 +127,11 @@
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
     <string name="agregar_pedido">Agregar al pedido</string>
-    <string name="cantidad">Cantidad: </string>
+    <string name="cantidad">Cantidad</string>
     <string name="hint_cantidad">Ingrese la cantidad</string>
     <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
     <string name="paraLlevar">Pasaré por el pedido</string>
-    <string name="añadir_al_pedido">Añadir al pedido</string>
-    <string name="incluye">Incluye</string>
-    <string name="nombre_del_menu">Nombre del menu</string>
-    <string name="realizar_este_pedido">¿Realizar este pedido?</string>
-    <string name="total_a_cancelar">Total a cancelar: $</string>
-    <string name="ordenar">Ordenar</string>
-    <string name="pedido_realizado">Pedido Realizado</string>
-    <string name="no_se_pudo_realizar">No se pudo realizar el pedido:</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="no_ubicacion">No se seleccionó ubicación</string>
-    <string name="num_entero">Inserte un número entero</string>
-    <string name="inserte_cantidad">Inserte una cantidad</string>
-    <string name="total_1">Total: </string>
-    <string name="cancelar_pedido">¿Cancelar Pedido?</string>
-    <string name="esta_seguro">¿Esta seguro de cancelar \'</string>
-    <string name="borrar">Borrar</string>
-    <string name="cancelado">Se canceló su pedido correctamente</string>
-    <string name="pedidos_realizados">Pedidos Realizados</string>
-    <string name="eliminar_ubicacion">¿Eliminar Ubicación?</string>
-    <string name="esta_seguro_ubi">¿Esta seguro de eliminar \'</string>
-    <string name="no_se_pudo_ubicacion">No se pudo obtener su ubicación</string>
-    <string name="llene_campos">Llene todos los campos</string>
-    <string name="ubicacion_guardada">Su ubicación se ha guardado</string>
-    <string name="ubicacion_no_guardada">Su ubicación no se pudo guardar</string>
+
+    <string name="mensajeRep">No hay pedidos asignados</string>
 
 </resources>

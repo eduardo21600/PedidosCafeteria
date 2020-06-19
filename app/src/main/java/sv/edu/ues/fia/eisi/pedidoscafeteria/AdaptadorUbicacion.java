@@ -72,6 +72,8 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
                                 controladorBD.abrir();
                                 controladorBD.eliminar(ubicacion);
                                 controladorBD.cerrar();
+                                //ControladorServicios controladorServicios = new ControladorServicios();
+                                //controladorServicios.Eliminar(ubicacion, mContext);
                             }
                         })
                         .setNegativeButton(mContext.getResources().getString(R.string.cancelar), new MaterialDialog.OnClickListener() {

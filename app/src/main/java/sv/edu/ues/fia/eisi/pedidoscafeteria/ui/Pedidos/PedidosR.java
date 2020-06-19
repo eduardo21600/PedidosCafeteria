@@ -34,6 +34,7 @@ public class PedidosR extends Fragment  {
     String usu;
     SharedPreferences sharedPreferences;
     //ControladorServicios controladorServicios;
+    ControladorBD help;
 
     public PedidosR() {
 
@@ -42,17 +43,10 @@ public class PedidosR extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ControladorBD help = new ControladorBD(getContext());
+        help = new ControladorBD(getContext());
         sharedPreferences = getContext().getSharedPreferences("validacion", 0);
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
-        help.abrir();
-        listaPedido = help.ConsultaPedidoR(usu);
-        help.cerrar();
-        if(listaPedido.isEmpty())
-        {
-            FancyToast.makeText(getContext(), "No tienes Pedidos asignados",FancyToast.INFO, R.drawable.error,  false).show();
-        }
+
        // controladorServicios = new ControladorServicios(this);
        // controladorServicios.BuscarProductos(getContext());
     }
@@ -64,6 +58,14 @@ public class PedidosR extends Fragment  {
         listaPedido = new ArrayList<Pedido>();
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view_pedidoR);
+
+        help.abrir();
+        listaPedido = help.ConsultaPedidoR(usu);
+        help.cerrar();
+        if(listaPedido.isEmpty())
+        {
+            FancyToast.makeText(getContext(), "No tienes Pedidos asignados",FancyToast.INFO, R.drawable.error,  false).show();
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         AdaptadorPedido1 adaptadorPedido = new AdaptadorPedido1(listaPedido);

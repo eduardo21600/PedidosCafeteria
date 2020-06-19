@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/baloo"
             android:gravity="center"
-            android:text="@string/TituloProducto"
+            android:text="@string/TituloProductoWeb"
             android:textColor="#FBFBFB"
             android:textSize="36sp"
             android:textStyle="normal"

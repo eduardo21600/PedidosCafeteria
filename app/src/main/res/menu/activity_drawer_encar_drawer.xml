@@ -18,7 +18,7 @@
             android:title="@string/TituloProducto"/>
         <item
             android:id="@+id/nav_producto_ListaWeb"
-            android:icon="@drawable/ic_local"
+            android:icon="@drawable/ic_productos"
             android:title="@string/TituloProductoWeb" />
         <item
             android:id="@+id/nav_menuEncargado"

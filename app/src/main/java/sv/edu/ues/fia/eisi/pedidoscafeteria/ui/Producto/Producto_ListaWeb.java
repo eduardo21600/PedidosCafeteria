@@ -45,7 +45,7 @@ public class Producto_ListaWeb extends Fragment  implements CallbackWS {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v =  inflater.inflate(R.layout.fragment_producto__lista, container, false);
+        v =  inflater.inflate(R.layout.fragment_producto__lista_web, container, false);
         listaProducto = new ArrayList<Producto>();
         ControladorBD help = new ControladorBD(getContext());
         help.abrir();

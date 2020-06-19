@@ -25,11 +25,12 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
 public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, CallbackRespuestaString {
 
-    String idPedido, total,fecha;
+    String total,fecha,idPedido;
     int idUbicacion,idDeP,idEstadoP,idLocal;
     EditText idCodigo, productos, cliente, totalPago, ubicacion,tipo;
     Button asignar;
     ControladorServicios cServ;
+    ControladorBD controladorBD;
     int ordenResponse;
     List<PedidoRealizado> pR;
     List<DetallePedido> lstDp;
@@ -37,6 +38,11 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
     ToggleButton estadoPedido;
     Pedido p;
     List <Ubicacion> ubiC;
+    PedidoRealizado pediReaLocal;
+    DetallePedido detallePedidoLocal;
+    Menu menuLocal;
+    Ubicacion ubicacionLocal;
+    boolean estaLocal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,31 +56,53 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
         idEstadoP = intent.getIntExtra("idEstadoP",0);
         idLocal = intent.getIntExtra("idLocal",0);
         fecha = intent.getStringExtra("fecha");
-        idCodigo =(EditText)findViewById(R.id.etCodigo);
-        productos =(EditText)findViewById(R.id.etProducto);
-        cliente =(EditText)findViewById(R.id.etCliente);
-        totalPago =(EditText)findViewById(R.id.etTotal);
-        ubicacion =(EditText)findViewById(R.id.etUbicacion);
-        tipo = (EditText)findViewById(R.id.etTipo);
+        estaLocal=true;
+        idCodigo =(EditText)findViewById(R.id.etCodigoDP);
+        productos =(EditText)findViewById(R.id.etProductoDP);
+        cliente =(EditText)findViewById(R.id.etClienteDP);
+        totalPago =(EditText)findViewById(R.id.etTotalDP);
+        ubicacion =(EditText)findViewById(R.id.etUbicacionDP);
+        tipo = (EditText)findViewById(R.id.etTipoDP);
         asignar = (Button)findViewById(R.id.btnAsignar);
         estadoPedido = (ToggleButton)findViewById(R.id.toggleButton);
+        controladorBD = new ControladorBD(getApplicationContext());
         cServ = new ControladorServicios(this,this);
-        idCodigo.setText(idPedido);
+        idCodigo.setText(String.valueOf(idPedido));
         totalPago.setText(total);
         //ubicacion.setText(String.valueOf(idUbicacion));
         productos.setText(String.valueOf(idDeP));
 
         if(idEstadoP==2){
             estadoPedido.setVisibility(View.INVISIBLE);
+            asignar.setVisibility(View.INVISIBLE);
         }
-        cServ.BuscarPedidoRealizado(Integer.parseInt(idPedido),getApplicationContext());
-        ordenResponse=1;
+
+        controladorBD.abrir();
+        pediReaLocal = controladorBD.consultarPedRealIdP(idPedido);
+
+        if(pediReaLocal==null){
+            cServ.BuscarPedidoRealizado(Integer.valueOf(idPedido),getApplicationContext());
+            ordenResponse=1;
+            estaLocal=false;
+        }
+        else{
+            detallePedidoLocal=controladorBD.ConsultaDetallePedido(idDeP);
+            menuLocal = controladorBD.ConsultaMenu(String.valueOf(detallePedidoLocal.getIdMenu()));
+            ubicacionLocal = controladorBD.consultarUbicacion(String.valueOf(idUbicacion));
+            tipo.setText(pediReaLocal.getTipo());
+            productos.setText(menuLocal.getNomMenu());
+            cliente.setText(pediReaLocal.getIdUsuario());
+            ubicacion.setText(ubicacionLocal.getDirecUbicacion());
+        }
+
+
+
         estadoPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(estadoPedido.isChecked()){
                     p = new Pedido(
-                            Integer.parseInt(idPedido), idDeP,2,idLocal,idUbicacion,fecha,Double.parseDouble(total)
+                            Integer.valueOf(idPedido), idDeP,2,idLocal,idUbicacion,fecha,Double.parseDouble(total)
                     );
                     MaterialDialog mDialog = new MaterialDialog.Builder(detallePedidoEnc.this)
                             .setTitle("Finalizar pedido")
@@ -84,8 +112,16 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int which) {
                                     // Delete Operation
-                                    cServ.Act(p,getApplicationContext());
-                                    dialogInterface.dismiss();
+                                    if(estaLocal){
+                                        String res = controladorBD.actualizar(p);
+                                        FancyToast.makeText(getApplicationContext(),res,FancyToast.LENGTH_LONG,
+                                                FancyToast.SUCCESS,false).show();
+                                        dialogInterface.dismiss();
+                                    }
+                                    else{
+                                        cServ.Act(p,getApplicationContext());
+                                        dialogInterface.dismiss();
+                                    }
                                 }
                             })
                             .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {

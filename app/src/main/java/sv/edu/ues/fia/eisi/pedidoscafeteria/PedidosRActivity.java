@@ -11,16 +11,12 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
+public class PedidosRActivity extends AppCompatActivity  {
 
-
-//le falta estetica
-
-public class PedidosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
-    ControladorBD Helper;
+    //ontroladorBD Helper;
     private ListView LV;
     List<Pedido> pps = new ArrayList<>();
-   // ControladorServicios controladorServicios = new ControladorServicios();
+    // ControladorServicios controladorServicios = new ControladorServicios();
     //controladorServicios
 
 
@@ -29,25 +25,29 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedidos);
+        setContentView(R.layout.activity_main);
         LV = (ListView)findViewById(R.id.lista);
         pps.add(new Pedido(1,2,3,4,5,"sd",6));
         pps.add(new Pedido(2,2,3,4,5,"sd",6));
         pps.add(new Pedido(3,2,3,4,5,"sd",6));
-        LV.setOnItemClickListener(this);
-       // Helper.abrir();
-       // pps = Helper.ConsultaPedidos();
+        //LV.setOnItemClickListener(this);
+        // Helper.abrir();
+        // pps = Helper.ConsultaPedidos();
 
         //Helper.cerrar();
         mlP = new AdaptadorPedidos(this,R.layout.pedidos_items,pps);
         LV.setAdapter(mlP);
     }
 
-    @Override
+  /*  @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
-       //Intent intx = new Intent(this,DetallePedidoRep.class);
+        //Intent intx = new Intent(this,DetallePedidoRep.class);
         //intx.putExtra("idpedido",String.valueOf(mlP.getItem(i).getIdPedido()));
         //startActivity(intx);
+    } */
+    public void Ir(View v){
+        Intent i = new Intent(this,DetallePedidoRep.class);
+        startActivity(i);
     }
 }

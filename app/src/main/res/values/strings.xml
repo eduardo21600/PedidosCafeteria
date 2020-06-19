@@ -47,6 +47,8 @@
     <string name="local">Local</string>
     <string name="nombre">Nombre</string>
     <string name="Fecha">Fecha:</string>
+    <string name="verWs">Ver Pedidos en WS</string>
+    <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
 
@@ -59,7 +61,6 @@
     <string name="menu_Encargado">Menu</string>
     <string name="home_second">Home Second</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="descDetallePedido">Detalle Pedido</string>
     <string name="pedidoEntregado">Pedido Entregado</string>
@@ -87,6 +88,7 @@
     <string name="eliminar_ubicacion_c">De verdad quieres eliminar: </string>
     <!-- Fin Strings Pablo-->
     <!-- Inicio Strings Carlos -->
+    <string name="TituloCrearPedidos">Pedidos</string>
     <string name="TituloCrearProducto">Crear Producto</string>
     <string name="TituloAsignarProducto">Asignar Producto</string>
     <string name="TituloModificarProducto">Modificar Producto</string>
@@ -115,5 +117,8 @@
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
     <string name="agregar_pedido">Agregar al pedido</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="hint_cantidad">Ingrese la cantidad</string>
+    <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
 
 </resources>

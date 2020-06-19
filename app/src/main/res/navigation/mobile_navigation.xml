@@ -76,8 +76,8 @@
         android:label="@string/menu_Producto"
         tools:layout="@layout/fragment_producto__lista" />
     <fragment
-        android:id="@+id/nav_menu"
-        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuEncargado.MenuFragment"
-        android:label="@string/menu_Encargado"
-        tools:layout="@layout/fragment_menu" />
+        android:id="@+id/nav_pedido_r"
+        android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.Pedidos.PedidosR"
+        android:label="fragment_pedidos_r"
+        tools:layout="@layout/fragment_pedidos_r" />
 </navigation>

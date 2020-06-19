@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Local;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
@@ -30,6 +31,7 @@ public class fragmentLocalCliente extends Fragment implements CallbackWS {
     private RecyclerView recyclerView;
     private List<Local> listLocal;
     private ControladorServicios controladorServicios;
+    ControladorBD controladorBD;
 
 
     public fragmentLocalCliente() {
@@ -43,6 +45,9 @@ public class fragmentLocalCliente extends Fragment implements CallbackWS {
     {
         v =  inflater.inflate(R.layout.fragment_local_cliente, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.local_recycler);
+        AdaptadorLocal adaptadorLocal = new AdaptadorLocal(getContext(), listLocal);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adaptadorLocal);
         // Inflate the layout for this fragment
         return v;
 
@@ -52,8 +57,13 @@ public class fragmentLocalCliente extends Fragment implements CallbackWS {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controladorServicios = new ControladorServicios(this);
-        controladorServicios.BuscarLocales(getContext());
+        //controladorServicios = new ControladorServicios(this);
+        //controladorServicios.BuscarLocales(getContext());
+        controladorBD = new ControladorBD(getContext());
+        controladorBD.abrir();
+        listLocal = controladorBD.ConsultaLocales();
+        controladorBD.cerrar();
+
     }
 
     @Override

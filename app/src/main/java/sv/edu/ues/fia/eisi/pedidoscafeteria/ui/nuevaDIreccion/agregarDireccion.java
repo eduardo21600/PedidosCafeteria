@@ -155,8 +155,8 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
             // ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             // public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    // int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
+            // int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
@@ -172,6 +172,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
     public void respuesta(String respuesta)
     {
         resultado = respuesta;
+
         if(resultado == "CONEXIÓN EXITOSA")
         {
             FancyToast.makeText(getApplicationContext(), "Se ha guardado su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();

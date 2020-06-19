@@ -8,6 +8,8 @@ import android.database.SQLException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.analytics.ecommerce.Product;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -56,11 +58,11 @@ public class ControladorBD {
                         "(\n" +
                         "   CANTIDAD             smallint not null,\n" +
                         "   SUBTOTAL             real not null,\n" +
-                        "   IDDETALLEPEDIDO      int not null,\n" +
+                        "   IDDETALLEPEDIDO      INTEGER not null,\n" +
                         "   IDMENU               int not null,\n" +
                         "   primary key (IDDETALLEPEDIDO)\n" +
                         ");");
-                db.execSQL("create table ESTADPEDIDO\n" +
+                db.execSQL("create table ESTADOPEDIDO\n" +
                         "(\n" +
                         "   IDESTADOPEDIDO       int not null,\n" +
                         "   DESCESTADOPEDIDO     varchar(30) not null,\n" +
@@ -81,12 +83,13 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table MENU\n" +
                         "(\n" +
-                        "   IDMENU               Integer primary key AUTOINCREMENT,\n" +
+                        "   IDMENU               INTEGER not null,\n" +
                         "   IDLOCAL              Integer not null,\n" +
                         "   PRECIOMENU           real not null,\n" +
                         "   FECHADESDEMENU       varchar(50) not null,\n" +
                         "   FECHAHASTAMENU       varchar(50) not null,\n" +
-                        "   NOMMENU              varchar(50) not null\n" +
+                        "   NOMMENU              varchar(50) not null,\n" +
+                        "   primary key (IDMENU)\n" +
                         ");");
                 db.execSQL("create table OPCIONCRUD\n" +
                         "(\n" +
@@ -97,12 +100,12 @@ public class ControladorBD {
                         ");");
                 db.execSQL("create table PEDIDO\n" +
                         "(\n" +
-                        "   IDPEDIDO             int not null,\n" +
+                        "   IDPEDIDO             INTEGER not null,\n" +
                         "   IDDETALLEPEDIDO      int,\n" +
                         "   IDESTADOPEDIDO       int,\n" +
                         "   IDLOCAL              int,\n" +
                         "   IDUBICACION          int not null,\n" +
-                        "   FECHAPEDIDO          time not null,\n" +
+                        "   FECHAPEDIDO          varchar(10) not null,\n" +
                         "   TOTALPEDIDO          real not null,\n" +
                         "   primary key (IDPEDIDO)\n" +
                         ");");
@@ -182,15 +185,50 @@ public class ControladorBD {
 
     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
     public String llenarUsuario(){
-        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
-        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
-        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
-        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
-        final String [] idUsus =new String[]{"1","2","3","4"};
-        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812"};
+        final String [] idUsus =new String[]{"1","2","3","4","5"};
+        final int [] idTipoUsus =new int[] {1,2,3,3,1}; //1 indica que son clientes
 
         final int [] idTipos =new int[] {1,2,3};
-        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
+        final String [] nomTipos =new String[]{"Cliente","Repartidor","Encargado"};
+
+        final int [] cantidadDetP = new int[] {1,5,6,7,8};
+        final double[] subtotal = new double[] {1.5,2.8,10,8.2,6.5};
+        final int[] idMenu = new int[] {1,2,3,4,5};
+        final int[] idLocalMenu = new int[] {1,2,1,2,1};
+        final double[] precioMenu = new double[] {1.5,2.8,2.4,8.2,6.5};
+        final String[] fechaDesde = new String[] {"2019-06-17","2020-03-04","2020-04-10","2020-06-02","2020-06-14"};
+        final String[] fechaHasta = new String[] {"2020-09-17","2020-10-10","2020-11-10","2020-08-02","2020-09-14"};
+        String [] nomMenu =new String[]{"Hamburguesa","Pollo frito","Carne Asada","Papa rellena","Café"};
+
+        final int[] idProducto = new int[] {1,2,3,4,5};
+        String [] nomProducto =new String[]{"Papas","Soda","Ensalada","Chimol","Limonada"};
+        final double[] precioUnitarioProducto = new double[]{1.00,0.80,0.50,0.75,0.90};
+        String [] descProducto =new String[]{"Papas Fritas","Coca-Cola, Pepsi, entre otras","Fresca, coditos, etc","Bien picado","De limón"};
+
+        final int[] idMenuAsig = new int[] {1,1,2,2,2,3,3,4,4};
+        final int[] idProductoAsig = new int[] {1,2,1,2,3,2,4,2,3};
+
+        final int[] idDetalleP = new int[] {1,2,3,4,5};
+        final int[] idEstadoPed = new int[] {1,2};
+        final String[] descEstP = new String[] {"Pendiente","Entregado"};
+
+        final String[] nombreLocal = new String[] {"Don Carlos","Comedor Juan"};
+        final String [] idUsuarioLocal =new String[]{"Car1","Juan1"};
+
+        final int[] idPedido = new int[] {1,2,3,4,5};
+        final int[] idEstadoPedPed = new int[] {1,2,1,1,2};
+        final int[] idLocalPed = new int[] {1,2,1,1,2};
+        final int[] idUbicPed = new int[] {3,3,3,2,2};
+        final String[] fechaP = new String[] {"2020-06-17","2020-05-17","2020-04-10","2020-06-02","2020-06-14"};
+        final double[] total = new double[] {5,2.8,10.2,4.2,12.5};
+
+        final String [] idUsuarioPed =new String[]{"Lau1","Lau1","amber","amber","amber"};
+        final String [] tipoPedReal =new String[]{"Local","Llevar","Local","Local","Llevar"};
+
         String res="No paso nada";
 
         final int [] idFacultad =new int[]{1,2,3,4,5};
@@ -199,13 +237,23 @@ public class ControladorBD {
         final String[] direcUbicacion = new String[]{"Sierra Morena", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
         final String[] nomUbicacion = new String[]{"Casa de Lidia", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
         final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
-        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","Pepi1", "Car1"};
+        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
+
+
+
 
         abrir();
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
         db.execSQL("DELETE FROM FACULTAD");
         db.execSQL("DELETE FROM UBICACION");
+        db.execSQL("DELETE FROM LOCAL");
+        db.execSQL("DELETE FROM ESTADOPEDIDO");
+        db.execSQL("DELETE FROM DETALLEPEDIDO");
+        db.execSQL("DELETE FROM PEDIDO");
+        db.execSQL("DELETE FROM PRODUCTO");
+        db.execSQL("DELETE FROM ASIGNAPRODUCTO");
+        db.execSQL("DELETE FROM MENU");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -216,7 +264,7 @@ public class ControladorBD {
 
 
         Usuario u = new Usuario();
-        for (int i = 0; i <4 ; i++) {
+        for (int i = 0; i <5 ; i++) {
             u.setIdUsuario(contras[i]);
             u.setNombreUsuario(nomUsuario[i]);
             u.setApellidoUsuario(apeUsuario[i]);
@@ -244,8 +292,106 @@ public class ControladorBD {
             insertar(ubi);
         }
 
+        Menu menu = new Menu();
+        for (int i = 0; i <5 ; i++) {
+            menu.setNomMenu(nomMenu[i]);
+            menu.setFechaDesdeMenu(fechaDesde[i]);
+            menu.setFechaHastaMenu(fechaHasta[i]);
+            menu.setIdLocal(idLocalMenu[i]);
+            menu.setPrecioMenu(precioMenu[i]);
+            CrearMenu(menu);
+        }
+
+        DetallePedido dp = new DetallePedido();
+        for (int i = 0; i <5 ; i++) {
+            dp.setCantidad(cantidadDetP[i]);
+            dp.setIdMenu(idMenu[i]);
+            dp.setSubtotal(subtotal[i]);
+            dp.setIdDetallePedido(idDetalleP[i]);
+            Crear(dp);
+        }
+
+        EstadoPedido ep =new EstadoPedido();
+        for (int i = 0; i <2 ; i++) {
+            ep.setDescEstadoPedido(descEstP[i]);
+            ep.setIdEstadoPedido(idEstadoPed[i]);
+            CrearEstadoPedido(ep);
+        }
+
+        Local local = new Local();
+        for (int i = 0; i <2 ; i++) {
+            local.setIdUsuario(idUsuarioLocal[i]);
+            local.setNombreLocal(nombreLocal[i]);
+            CrearLocal(local);
+        }
+
+        Pedido pedido = new Pedido();
+        for (int i = 0; i <5 ; i++) {
+            pedido.setIdDetalleP(idDetalleP[i]);
+            pedido.setFechaPedido(fechaP[i]);
+            pedido.setIdEstadoPedido(idEstadoPedPed[i]);
+            pedido.setIdUbicacion(idUbicPed[i]);
+            pedido.setTotalPedido(total[i]);
+            pedido.setIdPedido(idPedido[i]);
+            pedido.setIdLocal(idLocalPed[i]);
+            insertar(pedido);
+        }
+
+        PedidoRealizado pedidoRealizado= new PedidoRealizado();
+        for (int i = 0; i <5 ; i++) {
+            pedidoRealizado.setIdPedido(idPedido[i]);
+            pedidoRealizado.setIdUsuario(idUsuarioPed[i]);
+            pedidoRealizado.setTipo(tipoPedReal[i]);
+            insertar(pedidoRealizado);
+        }
+
+
+        Producto producto = new Producto();
+        for (int i = 0; i <5 ; i++) {
+            producto.setNombreProducto(nomProducto[i]);
+            producto.setPrecioUnitario(precioUnitarioProducto[i]);
+            producto.setDescProducto(descProducto[i]);
+            CrearProducto(producto);
+        }
+
+        ProductoAsignar productoAsignar = new ProductoAsignar();
+        for (int i = 0; i <9 ; i++) {
+            productoAsignar.setIdmenu(idMenuAsig[i]);
+            productoAsignar.setIdProducto(idProductoAsig[i]);
+            AsignarProtoMenu(productoAsignar);
+        }
+
         cerrar();
         return res;
+    }
+
+
+    //Metodos para obtener el ultimo id de una tabla
+    public DetallePedido ultimoIdDetallePedido()
+    {
+        Cursor cur = db.rawQuery("select * from DETALLEPEDIDO where IDDETALLEPEDIDO = (select max(IDDETALLEPEDIDO) from DETALLEPEDIDO);", null);
+        if (cur.moveToFirst()) {
+            DetallePedido detallePedido = new DetallePedido();
+            detallePedido.setCantidad(cur.getInt(0));
+            detallePedido.setSubtotal(cur.getDouble(1));
+            detallePedido.setIdDetallePedido(cur.getInt(2));
+            detallePedido.setIdMenu(cur.getInt(3));
+            return detallePedido;
+
+        } else {
+            return null;
+        }
+    }
+
+    public int ultimoIdPedido()
+    {
+        Cursor cur = db.rawQuery("select * from PEDIDO where IDPEDIDO = (select max(IDPEDIDO) from PEDIDO);", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+
+        } else {
+            return 0;
+        }
     }
 
 
@@ -587,9 +733,12 @@ public class ControladorBD {
         String resultado = "producto creado ";
         ContentValues pro777 = new ContentValues();
         //pro777.put("idProducto", producto.getIdProduto());
-        pro777.put("NombreProducto", producto.getNombreProducto());
-        pro777.put("precioUnitario", producto.getPrecioUnitario());
-        pro777.put("descProducto", producto.getDescProducto());
+        pro777.put("NOMBREPRODUCTO", producto.getNombreProducto());
+        pro777.put("PRECIOUNITARIO", producto.getPrecioUnitario());
+        pro777.put("DESCPRODUCTO", producto.getDescProducto());
+
+
+
         long comprobador = 0;
         comprobador = db.insert("Producto", null, pro777);
         if (comprobador == -1 || comprobador == 0) {
@@ -607,7 +756,11 @@ public class ControladorBD {
             pro777.setNombreProducto((cur.getString(1)));
             pro777.setPrecioUnitario((cur.getInt(2)));
             pro777.setDescProducto((cur.getString(3)));
+
+
+
             return pro777;
+
         } else {
             return null;
         }
@@ -619,6 +772,23 @@ public class ControladorBD {
         Cursor cur = db.rawQuery("SELECT * FROM Producto", null);
         List<Producto> pro777 = new ArrayList<>();
         if (cur.moveToFirst()) {
+
+            do {
+                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
+            } while (cur.moveToNext());
+
+
+        }
+        return pro777;
+    }
+
+    public List<Producto> ConsultaProductosMenu(int IDMENU) {
+        Cursor cur = db.rawQuery("SELECT PRODUCTO.* FROM \n" +
+                "(PRODUCTO INNER JOIN ASIGNAPRODUCTO ON PRODUCTO.IDPRODUCTO = ASIGNAPRODUCTO.IDPRODUCTO)\n" +
+                "INNER JOIN MENU ON ASIGNAPRODUCTO.IDMENU = MENU.IDMENU WHERE MENU.IDMENU = " + IDMENU, null);
+        List<Producto> pro777 = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
             do {
                 pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
             } while (cur.moveToNext());
@@ -711,19 +881,23 @@ public class ControladorBD {
 
     public Menu ConsultaMenu(String idMenu) {
         String[] id = {idMenu};
-        List<AsignarProducto> productosMenu = null;
+        ProductoAsignar pA;
+        List<ProductoAsignar> productosMenu = new ArrayList<>();
         List<Producto> productos = new ArrayList<>();
         Cursor cur = db.rawQuery("select * from Menu where idMenu =" + idMenu, null);
         if (cur.moveToFirst()) {
-            Cursor k = db.rawQuery("select * from PRODUCTOASIGNADO where idMenu =" + idMenu, null);
+            Cursor k = db.rawQuery("select * from ASIGNAPRODUCTO where idMenu =" + idMenu, null);
             if(k.moveToFirst())
             {
                 do {
-                        productosMenu.add(new AsignarProducto(k.getInt(0),k.getInt(1)));
+                        pA = new ProductoAsignar(k.getInt(0),k.getInt(1));
+                        productosMenu.add(pA);
                 }while(k.moveToNext());
                 for(int i=0;i<productosMenu.size();i++)
-                {Cursor m = db.rawQuery("select * from PRODUCTO where idProducto =" + productosMenu.get(i).getIDPRODUCTO(), null);
-                    productos.add(new Producto(m.getInt(0),m.getString(1),m.getInt(2),m.getString(3)));
+                {Cursor m = db.rawQuery("select * from PRODUCTO where idProducto = " + String.valueOf(productosMenu.get(i).getIdProducto()), null);
+                    if(m.moveToFirst()){
+                        productos.add(new Producto(m.getInt(0),m.getString(1),m.getDouble(2),m.getString(3)));
+                    }
                 }
 
             }
@@ -743,20 +917,7 @@ public class ControladorBD {
 
 
     }
-    public List<Producto> ConsultaTablaAsignarProducto(String x) {
 
-        List<Producto> producto = new ArrayList<>();
-
-        String[] idMenu = {x};
-        Cursor cur = db.rawQuery("SELECT * FROM PRODUCTO s INNER JOIN ASIGNAPRODUCTO a ON s.IDPRODUCTO=a.IDPRODUCTO WHERE a.IDMENU =?", idMenu, null);
-        if (cur.moveToFirst()) {
-            do {
-                producto.add(new Producto(cur.getInt(0), cur.getString(1), cur.getDouble(2), cur.getString(3)));
-            } while (cur.moveToNext());
-        }
-
-        return producto;
-    }
     public List<Menu> ConsultaMenus() {
         Cursor cur = db.rawQuery("SELECT * FROM MENU", null);
         List<Menu> uwu = new ArrayList<>();
@@ -795,6 +956,18 @@ public class ControladorBD {
                         cur.getString(6)));
             } while (cur.moveToNext());
         }*/
+        return uwu;
+    }
+
+    public List<Menu> ConsultaMenusLocal(int idlocal) {
+        Cursor cur = db.rawQuery("SELECT * FROM MENU WHERE IDLOCAL=" + idlocal, null);
+        List<Menu> uwu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
+            } while (cur.moveToNext());
+        }
         return uwu;
     }
 
@@ -888,7 +1061,7 @@ public class ControladorBD {
         ContentValues depe = new ContentValues();
         depe.put("cantidad", detallepedido.getCantidad());
         depe.put("subtotal", detallepedido.getSubtotal());
-        depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
+        //depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
         depe.put("idMenu", detallepedido.getIdMenu());
 
         long comprobador = 0;
@@ -899,8 +1072,8 @@ public class ControladorBD {
         return resultado;
     }
 
-    public DetallePedido ConsultaDetallePedido(String iddetallePedido) {
-        String[] id = {iddetallePedido};
+    public DetallePedido ConsultaDetallePedido(int iddetallePedido) {
+        String[] id = {String.valueOf(iddetallePedido)};
         Cursor cur = db.rawQuery("select * from DetallePedido where idDetallePedido =" + iddetallePedido, null);
         if (cur.moveToFirst()) {
             DetallePedido depe = new DetallePedido();
@@ -1200,7 +1373,7 @@ public class ControladorBD {
 
     //CRUD Pedido
     public String insertar(Pedido pedido){
-        String resultado="Se guardó correctamente nuevo pedido " + pedido;
+        String resultado="Se guardó correctamente nuevo pedido ";
         long contador=0;
         long cont = 0;
         ArrayList <DetallePedido> detallePedido = pedido.getDetallePedidos();
@@ -1217,9 +1390,10 @@ public class ControladorBD {
             pedi.put("idUbicacion",pedido.getIdUbicacion());
             pedi.put("fechaPedido",pedido.getFechaPedido());
             pedi.put("totalPedido",pedido.getTotalPedido());
+            pedi.put("idDetallePedido",pedido.getIdDetalleP());
             contador=db.insert("Pedido", null, pedi);
 
-            for(int i= 0; i < detallePedido.size(); i++){
+           /* for(int i= 0; i < detallePedido.size(); i++){
                 det.setIdDetallePedido(detallePedido.get(i).getIdDetallePedido());
                 det.setCantidad(detallePedido.get(i).getCantidad());
                 det.setSubtotal(detallePedido.get(i).getSubtotal());
@@ -1230,7 +1404,7 @@ public class ControladorBD {
                 {
                    resultado = resultado + "no se pudo insertar el detallePedido con el id "+ detallePedido.get(i).getIdDetallePedido();
                 }
-            }
+            }*/
         }
         else {
             resultado="EstadoPedido,Local o Ubicacion no existen";
@@ -1287,17 +1461,17 @@ public class ControladorBD {
     }
 
     public List<Pedido> ConsultaPedidosLocal(int idLocal) {
-        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=?" + idLocal, null);
+        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=" + idLocal, null);
         List<Pedido> pedido = new ArrayList<>();
         ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
-                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
+                /*Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
                 if (m.moveToFirst()) {
                     detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
-                }while(m.moveToNext());
+                }while(m.moveToNext());*/
                 pedido.add(new Pedido(cur.getInt(0),
-                        detallePedidos,
+                        cur.getInt(1),
                         cur.getInt(2),
                         cur.getInt(3),
                         cur.getInt(4),
@@ -1529,13 +1703,15 @@ public class ControladorBD {
             ContentValues preal = new ContentValues();
             preal.put("idPedido", pedidoRealizado.getIdPedido());
             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
+            preal.put("TIPOPEDREALIZADO", pedidoRealizado.getTipo());
             contador=db.insert("PedidoRealizado", null, preal);
-        } if(contador==-1 || contador==0)
+        }
+        if(contador==-1 || contador==0)
         {
             resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
         }
         else {
-            resultado+=resultado+contador;
+
         }
         return resultado;
     }
@@ -1550,6 +1726,23 @@ public class ControladorBD {
             pedidoRealizado.setIdPedido(cursor.getInt(1));
             pedidoRealizado.setIdUsuario(cursor.getString(2));
             pedidoRealizado.setTipo(cursor.getString(3));
+            return pedidoRealizado;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public PedidoRealizado consultarPedRealIdP(String idPedido){
+        String[] id = {idPedido};
+        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido =" + idPedido, null);
+        //si existe pedidoRealizado
+        if(cursor.moveToFirst())
+        {
+            PedidoRealizado pedidoRealizado = new PedidoRealizado();
+            pedidoRealizado.setIdPedido(cursor.getInt(0));
+            pedidoRealizado.setIdUsuario(cursor.getString(1));
+            pedidoRealizado.setTipo(cursor.getString(2));
             return pedidoRealizado;
         }
         else {
@@ -1820,7 +2013,7 @@ public class ControladorBD {
             case 6: {
                 //verificar que en EstadPedido exista idEstadoPedido
                 Pedido pedido3 = (Pedido) dato;
-                Cursor c1 = db.query(true, "EstadPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
+                Cursor c1 = db.query(true, "EstadoPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
                 if (c1.moveToFirst())
                     return true;
                 else

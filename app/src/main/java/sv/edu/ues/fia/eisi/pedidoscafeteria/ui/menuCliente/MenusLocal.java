@@ -13,6 +13,7 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Menu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
@@ -28,6 +29,7 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     ControladorServicios controladorServicios;
+    ControladorBD controladorBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +38,18 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
         Intent intent = getIntent();
         int id = intent.getIntExtra("Local",0);
         Toast.makeText(this, "Estas viendo el menu del local con id: " + id, Toast.LENGTH_SHORT).show();
+        controladorBD = new ControladorBD(getApplicationContext());
+        controladorBD.abrir();
+        listaMenu = controladorBD.ConsultaMenusLocal(id);
+        controladorBD.cerrar();
         recyclerView = (RecyclerView) findViewById(R.id.menu_recycler);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        controladorServicios=new ControladorServicios(this);
-        controladorServicios.BuscarMenuLocal(id, getApplicationContext());
+        adapter = new AdaptadorMenuC(this, listaMenu);
+        recyclerView.setAdapter(adapter);
+        //controladorServicios=new ControladorServicios(this);
+        //controladorServicios.BuscarMenuLocal(id, getApplicationContext());
 
     }
 

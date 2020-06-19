@@ -23,6 +23,7 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
 
     Context mContext;
     List<Usuario> datos;
+    ControladorBD controladorBD;
 
     public AdapterRepartidor(Context mContext,List<Usuario> datos){
         this.mContext =mContext;
@@ -34,6 +35,7 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
     public RepartidorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_repa_e,parent,false);
         AdapterRepartidor.RepartidorViewHolder vHolder = new AdapterRepartidor.RepartidorViewHolder(v);
+        controladorBD = new ControladorBD(mContext);
         vHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +65,11 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 // Delete Operation
+                                controladorBD.abrir();
+                                controladorBD.eliminarUsuario(datos.get(position));
                                 datos.remove(position);
                                 notifyItemRemoved(position);
+                                controladorBD.cerrar();
                                 dialogInterface.dismiss();
                             }
                         })

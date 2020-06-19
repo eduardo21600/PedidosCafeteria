@@ -41,7 +41,7 @@
     <string name="idPedido">Code</string>
     <string name="Asignar">Assign Delivery Man</string>
     <string name="marcar">Mark as delivered</string>
-    <string name="repartidor">Dealers</string>
+    <string name="repartidor">Deliveryman</string>
     <string name="agregar">Add New</string>
     <string name="crear">Create</string>
 

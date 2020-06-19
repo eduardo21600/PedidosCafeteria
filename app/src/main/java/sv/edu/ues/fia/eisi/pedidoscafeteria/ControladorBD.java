@@ -542,20 +542,20 @@ public class ControladorBD {
 
              */ {
         String resultado = "se ha eliminado el usuario " + usuario.getIdUsuario();
-        String[] id = {String.valueOf(usuario.getIdTipoUsuario())};
+        String[] id = {usuario.getIdUsuario()};
         Cursor cur = db.query("Usuario", null, "idUsuario = ?", id, null, null, null);
         if (cur.moveToFirst()) {
             Cursor k = db.query("PedidoRealizado", null, "idUsuario = ?", id, null, null, null);
             Cursor m = db.query("Local", null, "idUsuario = ?", id, null, null, null);
             if (k.moveToFirst()) {
-                int cantPR = db.delete("PedidoRealizado", "idUsuario=" + usuario.getIdUsuario(), null);
+                int cantPR = db.delete("PedidoRealizado", "idUsuario= '" + usuario.getIdUsuario()+"'", null);
                 resultado = resultado + " y el/los " + cantPR + " pedidos de este usuario ";
             }
             if (m.moveToFirst()) {
-                int cantL = db.delete("Local", "idUsuario =" + usuario.getIdUsuario(), null);
+                int cantL = db.delete("Local", "idUsuario = '" + usuario.getIdUsuario() + "'", null);
                 resultado = resultado + " y el/los " + cantL + " locales de los que era propietario  ";
             }
-            int cantU = db.delete("Usuario", "idUsuario =" + usuario.getIdUsuario(), null);
+            int cantU = db.delete("Usuario", "idUsuario = '" + usuario.getIdUsuario()+"'", null);
 
         } else {
             resultado = "el usuario no existe";

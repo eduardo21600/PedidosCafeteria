@@ -22,6 +22,7 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterPedidos;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterRepartidor;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Usuario;
@@ -32,8 +33,9 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.crearRepartidor;
 public class fragmentReparEnc extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<Usuario> lstRepa;
+    private List<Usuario> lstRepa,lstusers;
     private ImageView btnEliminar;
+    private ControladorBD controladorBD;
 
 
     @Override
@@ -63,8 +65,19 @@ public class fragmentReparEnc extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstRepa = new ArrayList<>();
-        lstRepa.add(new Usuario("1","Pablo","22577777"));
-        lstRepa.add(new Usuario("2","Pablo","22577777"));
-        lstRepa.add(new Usuario("3","Pablo","22577777"));
+        lstRepa = new ArrayList<>();
+        controladorBD = new ControladorBD(getContext());
+        controladorBD.abrir();
+        lstusers=controladorBD.ConsultaUsuarios();
+        controladorBD.cerrar();
+        if(!lstusers.isEmpty()){
+            for (int i = 0; i <lstusers.size() ; i++) {
+                if(lstusers.get(i).getIdTipoUsuario()==2){
+                    lstRepa.add(lstusers.get(i));
+                }
+            }
+        }
+
+
     }
 }

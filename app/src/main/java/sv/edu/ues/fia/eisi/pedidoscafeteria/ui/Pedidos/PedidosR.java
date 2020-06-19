@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria.ui.Pedidos;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,8 @@ public class PedidosR extends Fragment  {
     private RecyclerView recyclerView;
     private View v;
     private List<Pedido> listaPedido;
+    String usu;
+    SharedPreferences sharedPreferences;
     //ControladorServicios controladorServicios;
 
     public PedidosR() {
@@ -36,6 +39,13 @@ public class PedidosR extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ControladorBD help = new ControladorBD(getContext());
+        sharedPreferences = getContext().getSharedPreferences("validacion", 0);
+        usu = sharedPreferences.getString("nombreUsuario", "No Name");
+        help.abrir();
+       listaPedido = help.ConsultaPedidoR(usu);
+        help.cerrar();
        // controladorServicios = new ControladorServicios(this);
        // controladorServicios.BuscarProductos(getContext());
     }
@@ -45,13 +55,13 @@ public class PedidosR extends Fragment  {
                              Bundle savedInstanceState) {
         v =  inflater.inflate(R.layout.fragment_pedidos_r, container, false);
         listaPedido = new ArrayList<Pedido>();
-        ControladorBD help = new ControladorBD(getContext());
-        help.abrir();
+
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view_pedidoR);
-        AdaptadorPedido1 adaptadorPedido = new AdaptadorPedido1(help.ConsultaPedidos());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        AdaptadorPedido1 adaptadorPedido = new AdaptadorPedido1(listaPedido);
         recyclerView.setAdapter(adaptadorPedido);
-        help.cerrar();
+
 
 
         // Inflate the layout for this fragment

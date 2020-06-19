@@ -245,6 +245,9 @@ public class ControladorBD {
 
 
         abrir();
+
+
+
         db.execSQL("DELETE FROM USUARIO");
         db.execSQL("DELETE FROM TIPOUSUARIO");
         db.execSQL("DELETE FROM FACULTAD");
@@ -1733,6 +1736,39 @@ public class ControladorBD {
         }
         return peasig;
     }
+    public List<Pedido> ConsultaPedidoR(String idUsuario) {
+                 String[] id = {idUsuario};
+        Cursor cur = db.rawQuery("SELECT * FROM PedidoAsignado WHERE  IDUSUARIO=?"+id, null);
+        List<Pedido> pedido = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                String[] idP  = {String.valueOf(cur.getInt(1))};
+                Cursor x = db.rawQuery("SELECT * FROM PEDIDO WHERE IDPEDIDO=?"+idP,null);
+                if(x.moveToFirst())
+                {do {
+                    pedido.add(new Pedido(
+                            x.getInt(0),
+                            x.getInt(1),
+                            x.getInt(2),
+                            x.getInt(3),
+                            x.getInt(4),
+                            x.getString(5),
+                            x.getDouble(6)));
+
+
+                }while (x.moveToFirst());
+
+
+                }
+
+
+
+            } while (cur.moveToNext());
+
+        }
+        return pedido;
+    }
 
     public String actualizar(PedidoAsignado pedidoAsignado){
         //verificando integridad
@@ -2268,4 +2304,10 @@ public class ControladorBD {
         //Integridad
         //fin integridad
     }
+
+
+
+
+
+
 }

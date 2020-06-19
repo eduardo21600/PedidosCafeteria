@@ -17,13 +17,18 @@
             android:icon="@drawable/ic_productos"
             android:title="@string/TituloProducto"/>
         <item
+            android:id="@+id/nav_producto_ListaWeb"
+            android:icon="@drawable/ic_local"
+            android:title="@string/TituloProductoWeb" />
+        <item
             android:id="@+id/nav_menuEncargado"
-            android:icon="@drawable/ic_menu"
+            android:icon="@drawable/ic_productos"
             android:title="@string/menu_Encargado" />
         <item
             android:id="@+id/nav_Local_encar"
             android:icon="@drawable/ic_local"
             android:title="@string/local" />
+
 
     </group>
 </menu>

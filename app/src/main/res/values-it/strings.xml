@@ -123,9 +123,10 @@
     <string name="nombreProducto">Nome:</string>
     <string name="precioProducto">Prezzo:</string>
     <string name="descripcionProducto">Descrizione:</string>
+    <string name="web">Web</string>
     <string name="IdMenu">ID menu</string>
     <string name="IdProducto">ID prodotto</string>
-
+    <string name="TituloProductoWeb">Web Prodotto</string>
     <string name="TituloCrearMenu">Crea menu</string>
     <string name="TituloModificarMenu">Menu Modifica</string>
     <string name="TituloEliminarMenu">Elimina menu</string>

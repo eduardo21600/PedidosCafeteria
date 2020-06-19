@@ -1033,20 +1033,22 @@ public class ControladorBD {
         int cont1 =0;
         String resultado = comprobador + " Menu eliminados ";
         String[] id = {String.valueOf(menu.getIdMenu())};
+
         Cursor cur = db.query("Menu", null, "idMenu = ?", id, null, null, null);
         if (cur.moveToFirst()) {
-            Cursor k = db.query("DetallePedido", null, "idMenu", id, null, null, null);
+            Cursor m = db.query("ASIGNAPRODUCTO", null, "IDMENU = ?", id, null, null, null);
+            if (m.moveToFirst()) {
+                cont = db.delete("ASIGNAPRODUCTO", "IDMENU =" + menu.getIdMenu(), null);
+
+                resultado = resultado + ", " + cont1 + " Productos eliminados del menú";
+            }
+            Cursor k = db.query("DetallePedido", null, "IDMENU = ?", id, null, null, null);
             if (k.moveToFirst()) {
                 cont = db.delete("DetallePedido", "idMenu =" + menu.getIdMenu(), null);
 
                 resultado = resultado + ", " + cont + " Detalles eliminados con este Menu";
             }
-            Cursor m = db.query("ASIGNARPRODUCTO", null, "IDMENU", id, null, null, null);
-            if (m.moveToFirst()) {
-                cont = db.delete("ASIGNARPRODUCTO", "IDMENU =" + menu.getIdMenu(), null);
 
-                resultado = resultado + ", " + cont1 + " Productos eliminados del menú";
-            }
             comprobador = db.delete("Menu", "idMenu =" + menu.getIdMenu(), null);
         } else {
             resultado = "Ese Menu no existe";

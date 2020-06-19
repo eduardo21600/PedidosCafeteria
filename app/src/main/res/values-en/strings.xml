@@ -114,6 +114,7 @@
     <string name="TituloAsignarProducto">Assign Product</string>
     <string name="TituloModificarProducto">Modify Product</string>
     <string name="TituloEliminarProducto">Delete Product</string>
+    <string name="TituloProductoWeb">Web Product</string>
     <string name="TituloProducto">Product</string>
     <string name="botonModificar">Modify</string>
     <string name="botonEliminar">Delete</string>
@@ -125,7 +126,7 @@
     <string name="descripcionProducto">Description:</string>
     <string name="IdMenu">Menu ID</string>
     <string name="IdProducto">Product ID</string>
-
+    <string name="web">Web</string>
     <string name="TituloCrearMenu">Create Menu</string>
     <string name="TituloModificarMenu">Modify Menu</string>
     <string name="TituloEliminarMenu">Delete Menu</string>

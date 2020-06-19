@@ -50,6 +50,8 @@ public class AdaptadorMenuE extends RecyclerView.Adapter<AdaptadorMenuE.ViewHold
                 case R.id.btnEliminarProducto:
                     Intent intentn= new Intent(context, EliminarMenu.class);
                     intentn.putExtra("idy",id.getText());
+                    intentn.putExtra("nobre",nombre.getText());
+                    intentn.putExtra("prePro",precioMenu.getText());
                     context.startActivity(intentn);
                     break;
 

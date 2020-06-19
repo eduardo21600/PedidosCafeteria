@@ -909,10 +909,10 @@ public class ControladorServicios{
                 parametros.put("FECHADESDEMENU",menu.getFechaDesdeMenu());
                 parametros.put("FECHAHASTAMENU",menu.getFechaHastaMenu());
                 parametros.put("NOMMENU",menu.getNomMenu());
-                for(int i=0;i<menu.getProductos().size();i++)
+                /*for(int i=0;i<menu.getProductos().size();i++)
                 {
                     String r = Crear(menu.getIdMenu(),menu.getProductos().get(i).getIdProduto(),context);
-                }
+                }*/
 
                 return parametros;
             }

@@ -128,6 +128,17 @@
             android:textColor="#F8F8F8"
             android:textStyle="bold"
             />
+        <Button
+            android:id="@+id/botonCrearMenuWeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/bordes_redondos"
+            android:text="@string/botonCrearEnLaWeb"
+            android:onClick="insertarMenuEncargadoEnLaWeb"
+            android:textColor="#F8F8F8"
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
 

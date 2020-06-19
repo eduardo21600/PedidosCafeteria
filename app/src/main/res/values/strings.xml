@@ -118,6 +118,8 @@
     <string name="TituloModificarProducto">Modificar Producto</string>
     <string name="TituloEliminarProducto">Eliminar Producto</string>
     <string name="TituloProducto">Producto</string>
+    <string name="TituloProductoWeb">Producto en la web</string>
+    <string name="web">Web</string>
     <string name="botonModificar">Modificar</string>
     <string name="botonEliminar">Eliminar</string>
     <string name="botonCrear">Crear</string>

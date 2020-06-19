@@ -1738,13 +1738,13 @@ public class ControladorBD {
     }
     public List<Pedido> ConsultaPedidoR(String idUsuario) {
                  String[] id = {idUsuario};
-        Cursor cur = db.rawQuery("SELECT * FROM PedidoAsignado WHERE  IDUSUARIO=?"+id, null);
+        Cursor cur = db.rawQuery("SELECT * FROM PEDIDOASIGNADO WHERE IDUSUARIO = '" + id+"'", null);
         List<Pedido> pedido = new ArrayList<>();
         if (cur.moveToFirst()) {
 
             do {
-                String[] idP  = {String.valueOf(cur.getInt(1))};
-                Cursor x = db.rawQuery("SELECT * FROM PEDIDO WHERE IDPEDIDO=?"+idP,null);
+                String idP  = String.valueOf(cur.getInt(0));
+                Cursor x = db.rawQuery("SELECT * FROM PEDIDO WHERE IDPEDIDO="+idP,null);
                 if(x.moveToFirst())
                 {do {
                     pedido.add(new Pedido(

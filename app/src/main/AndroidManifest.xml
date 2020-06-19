@@ -19,6 +19,7 @@
         <activity android:name=".EliminarMenu" />
         <activity android:name=".ModificarMenu" />
         <activity android:name=".InsertarMenu" />
+        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion"></activity>
         <activity android:name=".AsignarRepartidor" />
         <activity android:name=".ui.menuCliente.DescMenu" />
         <activity android:name=".DetallePedidoRep" />

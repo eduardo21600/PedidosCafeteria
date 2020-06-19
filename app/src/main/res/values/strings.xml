@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">PedidosCafeteria</string>
 
+    <string name="ingles">Inglés</string>
+    <string name="español">Español</string>
+    <string name="italiano">Italiano</string>
+
     <string name="bienvenido">"Cafeterías UES"</string>
     <string name="login">Inicia sesión</string>
     <string name="nombreUsuario">Nombre de usuario</string>

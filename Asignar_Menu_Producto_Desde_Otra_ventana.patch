@@ -1,0 +1,1904 @@
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/DescMenu.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/DescMenu.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/DescMenu.java	(date 1592525239663)
+@@ -1,53 +1,97 @@
+ package sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente;
+ 
++import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import android.app.Activity;
+ import android.content.Intent;
++import android.content.SharedPreferences;
+ import android.os.Bundle;
++import android.view.View;
++import android.widget.Button;
++import android.widget.EditText;
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
++import com.shashank.sony.fancytoastlib.FancyToast;
++import com.shreyaspatil.MaterialDialog.MaterialDialog;
++import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
++
++import java.text.SimpleDateFormat;
++import java.util.Calendar;
++import java.util.Date;
+ import java.util.List;
+ 
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorDescripcionMenu;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.DetallePedido;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.Pedido;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoRealizado;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.SeleccionarUbicacion;
+ 
+ public class DescMenu extends AppCompatActivity implements CallbackWS {
+ 
++    private final int SECOND_ACTIVITY = 1;
+     private RecyclerView recyclerView;
+     private RecyclerView.LayoutManager layoutManager;
+     private RecyclerView.Adapter adapter;
+-    int idMenu;
+-    String nomMenu;
++    int idMenu,idLocal,c;
++    String nomMenu, direccion;
+     double precionMenu;
+     ControladorServicios controladorServicios;
++    ControladorBD controladorBD;
+     List<Producto> productos;
+     TextView tv_nom, tv_precio;
++    Button agregarPedido;
++    EditText cantidad;
++    SharedPreferences sharedPreferences;
++    String usu;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_desc_menu);
+         Intent intent = getIntent();
++        sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0);
++        usu = sharedPreferences.getString("nombreUsuario", "No Name");
+         idMenu = intent.getIntExtra("idMenu", 0);
++        idLocal = intent.getIntExtra("idLocal", 0);
+         nomMenu = intent.getStringExtra("nomMenu");
+         precionMenu = intent.getDoubleExtra("precioMenu", 0.00);
+         tv_nom = (TextView) findViewById(R.id.nombre_menu_desc);
+         tv_precio = (TextView) findViewById(R.id.precio_menu_desc);
++        agregarPedido = (Button) findViewById(R.id.agregar_pedido_desc);
++        cantidad = (EditText) findViewById(R.id.cantidad_menu);
+         tv_nom.setText(nomMenu);
+         tv_precio.setText(String.valueOf(precionMenu));
+-        controladorServicios = new ControladorServicios(this);
+-        controladorServicios.BuscarProductoMenu(idMenu, getApplicationContext());
++        controladorBD = new ControladorBD(getApplicationContext());
++        controladorBD.abrir();
++        productos = controladorBD.ConsultaProductosMenu(idMenu);
++        controladorBD.cerrar();
++        //controladorServicios = new ControladorServicios(this);
++        //controladorServicios.BuscarProductoMenu(idMenu, getApplicationContext());
+         recyclerView = (RecyclerView) findViewById(R.id.descMenu_productos_recycler);
+         recyclerView.setHasFixedSize(true);
+         layoutManager = new LinearLayoutManager(this);
+         recyclerView.setLayoutManager(layoutManager);
++        adapter = new AdaptadorDescripcionMenu(this, productos);
++        recyclerView.setAdapter(adapter);
++
++        agregarPedido.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                realizarPedido();
++            }
++        });
++
+     }
+ 
+     @Override
+@@ -57,4 +101,89 @@
+         adapter = new AdaptadorDescripcionMenu(this, productos);
+         recyclerView.setAdapter(adapter);
+     }
++
++    public void realizarPedido()
++    {
++        if(!String.valueOf(cantidad.getText()).isEmpty())
++        {
++            try
++            {
++                c = Integer.parseInt(String.valueOf(cantidad.getText()));
++                Intent intent = new Intent(getApplicationContext(), SeleccionarUbicacion.class);
++                startActivityForResult(intent, SECOND_ACTIVITY);
++            }
++            catch(Exception e)
++            {
++                FancyToast.makeText(getApplicationContext(), "Inserte un número", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
++            }
++        }
++        else
++        {
++            FancyToast.makeText(getApplicationContext(), "Inserte la cantidad", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
++        }
++
++    }
++
++    @Override
++    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
++        super.onActivityResult(requestCode, resultCode, data);
++        if(requestCode == SECOND_ACTIVITY)
++        {
++            if (resultCode == Activity.RESULT_OK)
++            {
++                int idUbicacion=data.getIntExtra("idUbicacion", 999);
++                direccion = data.getStringExtra("direccion");
++                controladorBD.abrir();
++                DetallePedido nuevoDetallePedido = new DetallePedido();
++                nuevoDetallePedido.setCantidad(c);
++                nuevoDetallePedido.setSubtotal(c*precionMenu);
++                nuevoDetallePedido.setIdMenu(idMenu);
++                String resultado = controladorBD.Crear(nuevoDetallePedido);
++                if(resultado.equals("detalle de pedido creado "))
++                {
++                    DetallePedido detallePedido = controladorBD.ultimoIdDetallePedido();
++                    Pedido nuevoPedido = new Pedido();
++                    nuevoPedido.setIdDetalleP(detallePedido.getIdDetallePedido());
++                    nuevoPedido.setIdEstadoPedido(1);
++                    nuevoPedido.setIdLocal(idLocal);
++                    nuevoPedido.setIdUbicacion(idUbicacion);
++                    nuevoPedido.setTotalPedido(c*precionMenu);
++                    Date c = Calendar.getInstance().getTime();
++                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
++                    String fecha = df.format(c);
++                    nuevoPedido.setFechaPedido(fecha);
++                    resultado = controladorBD.insertar(nuevoPedido);
++                    if (resultado.equals("Se guardó correctamente nuevo pedido "))
++                    {
++                        PedidoRealizado pedidoRealizado = new PedidoRealizado();
++                        pedidoRealizado.setIdPedido(controladorBD.ultimoIdPedido());
++                        pedidoRealizado.setIdUsuario(usu);
++                        pedidoRealizado.setTipo("Entregar en: " + direccion);
++                        resultado = controladorBD.insertar(pedidoRealizado);
++                        if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
++                        {
++                            FancyToast.makeText(getApplicationContext(), "Pedido realizado", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
++                        }
++                        else
++                        {
++                            FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 1\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
++                        }
++                    }
++                    else
++                    {
++                        FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 2\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
++                    }
++                }
++                else
++                {
++                    FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 3\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
++                }
++                controladorBD.cerrar();
++            }
++            else
++            {
++                Toast.makeText(getApplicationContext(), "No se seleccionó ubicacion  ", Toast.LENGTH_SHORT).show();
++            }
++        }
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacion.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacion.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacion.java	(date 1592525239644)
+@@ -2,6 +2,7 @@
+ 
+ import android.app.Activity;
+ import android.content.Context;
++import android.content.Intent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -53,10 +54,6 @@
+         holder.elminarUbicacion.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                ControladorBD controladorBD = new ControladorBD(mContext);
+-                controladorBD.abrir();
+-                controladorBD.eliminar(mUbicacion.get(position));
+-                controladorBD.cerrar();
+                 MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
+                         .setTitle("Eliminar")
+                         .setAnimation(R.raw.delete)
+@@ -66,9 +63,15 @@
+                             @Override
+                             public void onClick(DialogInterface dialogInterface, int which) {
+                                 // Delete Operation
++                                int id = position;
++                                Ubicacion ubicacion = mUbicacion.get(position);
+                                 mUbicacion.remove(position);
+                                 notifyItemRemoved(position);
+                                 dialogInterface.dismiss();
++                                ControladorBD controladorBD = new ControladorBD(mContext);
++                                controladorBD.abrir();
++                                controladorBD.eliminar(ubicacion);
++                                controladorBD.cerrar();
+                             }
+                         })
+                         .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/MenusLocal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/MenusLocal.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/menuCliente/MenusLocal.java	(date 1592525239673)
+@@ -13,6 +13,7 @@
+ 
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.Menu;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.Producto;
+@@ -28,6 +29,7 @@
+     private RecyclerView.LayoutManager layoutManager;
+     private RecyclerView.Adapter adapter;
+     ControladorServicios controladorServicios;
++    ControladorBD controladorBD;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -36,12 +38,18 @@
+         Intent intent = getIntent();
+         int id = intent.getIntExtra("Local",0);
+         Toast.makeText(this, "Estas viendo el menu del local con id: " + id, Toast.LENGTH_SHORT).show();
++        controladorBD = new ControladorBD(getApplicationContext());
++        controladorBD.abrir();
++        listaMenu = controladorBD.ConsultaMenusLocal(id);
++        controladorBD.cerrar();
+         recyclerView = (RecyclerView) findViewById(R.id.menu_recycler);
+         recyclerView.setHasFixedSize(true);
+         layoutManager = new LinearLayoutManager(this);
+         recyclerView.setLayoutManager(layoutManager);
+-        controladorServicios=new ControladorServicios(this);
+-        controladorServicios.BuscarMenuLocal(id, getApplicationContext());
++        adapter = new AdaptadorMenuC(this, listaMenu);
++        recyclerView.setAdapter(adapter);
++        //controladorServicios=new ControladorServicios(this);
++        //controladorServicios.BuscarMenuLocal(id, getApplicationContext());
+ 
+     }
+ 
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/nuevaDIreccion/agregarDireccion.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/nuevaDIreccion/agregarDireccion.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/nuevaDIreccion/agregarDireccion.java	(date 1592525239673)
+@@ -155,8 +155,8 @@
+             // ActivityCompat#requestPermissions
+             // here to request the missing permissions, and then overriding
+             // public void onRequestPermissionsResult(int requestCode, String[] permissions,
+-                    // int[] grantResults)
+-                    // to handle the case where the user grants the permission. See the documentation
++            // int[] grantResults)
++            // to handle the case where the user grants the permission. See the documentation
+             // for ActivityCompat#requestPermissions for more details.
+             return;
+         }
+@@ -172,6 +172,7 @@
+     public void respuesta(String respuesta)
+     {
+         resultado = respuesta;
++
+         if(resultado == "CONEXIÓN EXITOSA")
+         {
+             FancyToast.makeText(getApplicationContext(), "Se ha guardado su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/localCliente/fragmentLocalCliente.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/localCliente/fragmentLocalCliente.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/localCliente/fragmentLocalCliente.java	(date 1592525239663)
+@@ -15,6 +15,7 @@
+ import java.util.List;
+ 
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorLocal;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.Local;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
+@@ -30,6 +31,7 @@
+     private RecyclerView recyclerView;
+     private List<Local> listLocal;
+     private ControladorServicios controladorServicios;
++    ControladorBD controladorBD;
+ 
+ 
+     public fragmentLocalCliente() {
+@@ -43,6 +45,9 @@
+     {
+         v =  inflater.inflate(R.layout.fragment_local_cliente, container, false);
+         recyclerView = (RecyclerView) v.findViewById(R.id.local_recycler);
++        AdaptadorLocal adaptadorLocal = new AdaptadorLocal(getContext(), listLocal);
++        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
++        recyclerView.setAdapter(adaptadorLocal);
+         // Inflate the layout for this fragment
+         return v;
+ 
+@@ -52,8 +57,13 @@
+     @Override
+     public void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        controladorServicios = new ControladorServicios(this);
+-        controladorServicios.BuscarLocales(getContext());
++        //controladorServicios = new ControladorServicios(this);
++        //controladorServicios.BuscarLocales(getContext());
++        controladorBD = new ControladorBD(getContext());
++        controladorBD.abrir();
++        listLocal = controladorBD.ConsultaLocales();
++        controladorBD.cerrar();
++
+     }
+ 
+     @Override
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/PedidosEncargado/SlideshowFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/PedidosEncargado/SlideshowFragment.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/PedidosEncargado/SlideshowFragment.java	(date 1592525239663)
+@@ -5,6 +5,8 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.RadioGroup;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -15,8 +17,13 @@
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.google.android.material.chip.Chip;
++import com.google.android.material.chip.ChipGroup;
++import com.shashank.sony.fancytoastlib.FancyToast;
++
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.Set;
+ 
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterPedidos;
+ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
+@@ -38,15 +45,51 @@
+     private ControladorServicios cServicios;
+     private List<Pedido> pedido1;
+     private ControladorBD controladorBD;
+-    private List<Local> local;
++    private List<Local> local,localenCel;
+     private List<PedidoRealizado> pRea;
+     SharedPreferences sharedPreferences;
+-    private int ordenResponse;
++    private int ordenResponse,idLocal;
++    private boolean seTieneLocal;
++    private Chip verWS;
++    private ImageView ivRefresh;
+ 
+     public View onCreateView(@NonNull LayoutInflater inflater,
+                              ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
++        verWS = (Chip)root.findViewById(R.id.chipWSpedido);
++        ivRefresh = (ImageView)root.findViewById(R.id.ivRefrescar);
++        final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
++        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
++        recyclerView.setAdapter(adapter);
++        verWS.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                if(verWS.isChecked()){
++                    if(lstPedidos.isEmpty()){
++                        FancyToast.makeText(getContext(),getResources().getString(R.string.Nohayws),
++                                FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
++                    }
++                    else {
++                        pedido1.addAll(lstPedidos);
++                        adapter.notifyDataSetChanged();
++                    }
++                }
++                else{
++                    if(!lstPedidos.isEmpty()){
++                        pedido1.removeAll(lstPedidos);
++                        adapter.notifyDataSetChanged();
++                    }
++                }
++            }
++        });
++
++        ivRefresh.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                adapter.notifyDataSetChanged();
++            }
++        });
+         return root;
+     }
+ 
+@@ -56,13 +99,32 @@
+         lstPedidos = new ArrayList<>();
+         sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
+         String id = sharedPreferences.getString("nombreUsuario","");
++        controladorBD = new ControladorBD(getContext());
++
++        controladorBD.abrir();
++        localenCel = controladorBD.ConsultaLocales();
+         cServicios = new ControladorServicios(this);
+-        cServicios.BuscarLocalUsu(id,getContext());
+-        ordenResponse=1;
+-        controladorBD = new ControladorBD(getActivity());
+-        /*lstPedidos.add(new PedidoModelo(1,"Claudia","Llevar"));
+-        lstPedidos.add(new PedidoModelo(2,"Roberto","Traer"));
+-        lstPedidos.add(new PedidoModelo(3,"Paulina","Llevar"));*/
++        for (int i = 0; i <localenCel.size() ; i++) {
++            if(localenCel.get(i).getIdUsuario().equals(id)){
++                seTieneLocal=true;
++                idLocal=localenCel.get(i).getIdLocal();
++                break;
++            }
++            else {
++                seTieneLocal=false;
++            }
++        }
++        if(!seTieneLocal){
++            cServicios.BuscarLocalUsu(id,getContext());
++            ordenResponse=1;
++        }
++        else{
++            pedido1 = controladorBD.ConsultaPedidosLocal(idLocal);
++            controladorBD.cerrar();
++            cServicios.BuscarPedidosLocal(idLocal,getContext());
++            ordenResponse=3;
++        }
++
+     }
+ 
+     @Override
+@@ -85,9 +147,11 @@
+             AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+             recyclerView.setAdapter(adapter);
+-            ordenResponse=3;
++            ordenResponse=4;
+         }
+-
+-
++        else if (ordenResponse==3){
++            lstPedidos =(List<Pedido>)lista;
++            ordenResponse=4;
++        }
+     }
+ }
+Index: app/src/main/res/layout/fragment_slideshow.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_slideshow.xml	(date 1592514380000)
++++ app/src/main/res/layout/fragment_slideshow.xml	(date 1592525239703)
+@@ -22,14 +22,40 @@
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.060000002" />
++        app:layout_constraintVertical_bias="0.01999998" />
++
++    <ImageButton
++        android:id="@+id/ivRefrescar"
++        android:layout_width="45dp"
++        android:layout_height="36dp"
++        android:background="@drawable/botonmodelo"
++        android:src="@drawable/ic_refresh_black_24dp"
++        app:layout_constraintBottom_toTopOf="@+id/pedidosRV"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.93"
++        app:layout_constraintStart_toEndOf="@+id/chipWSpedido"
++        app:layout_constraintTop_toBottomOf="@+id/textView9" />
++
++    <com.google.android.material.chip.Chip
++        android:id="@+id/chipWSpedido"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:checkable="true"
++        android:text="@string/verWs"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.05"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/textView9"
++        app:layout_constraintVertical_bias="0.0" />
+ 
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/pedidosRV"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
++        android:layout_marginBottom="8dp"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
++        app:layout_constraintTop_toBottomOf="@+id/chipWSpedido" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/values-en/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-en/strings.xml	(date 1592525239703)
++++ app/src/main/res/values-en/strings.xml	(date 1592525239703)
+@@ -0,0 +1,119 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <string name="app_name">Cafeteria Orders</string>
++
++    <string name="ingles">English</string>
++    <string name="español">Spanish</string>
++    <string name="italiano">Italian</string>
++
++    <string name="bienvenido">"UES Cafeterias"</string>
++    <string name="login">Log in</string>
++    <string name="nombreUsuario">Username</string>
++    <string name="contrasena">Password</string>
++    <string name="nuevaCuenta">You do not have an account?</string>
++    <string name="registrarse">Sign up</string>
++    <string name="entrar">Login</string>
++    <string name="esEncargado">Is he in charge?</string>
++    <string name="nomLocal">Local name</string>
++
++    <string name="Configuraciones">Setting</string>
++    <string name="CambiarCrede">Change credentials</string>
++    <string name="Ayuda">Help</string>
++    <string name="CerrarSesion">Sign off</string>
++
++    <string name="repetircontra">Repeat password</string>
++    <string name="telefono">Phone no.</string>
++    <string name="Guardar">Save Changes</string>
++    <string name="title_activity_drawer_encar">drawerEncar</string>
++    <string name="navigation_drawer_open">Open navigation drawer</string>
++    <string name="navigation_drawer_close">Close navigation drawer</string>
++    <string name="nav_header_title">Android Studio</string>
++    <string name="nav_header_subtitle">android.studio@android.com</string>
++    <string name="nav_header_desc">Navigation header</string>
++    <string name="action_settings">Settings</string>
++
++    <string name="Pedidos">Orders</string>
++    <string name="detallePedidos">Order detail</string>
++    <string name="cliente">Customer name</string>
++    <string name="productos">products</string>
++    <string name="total">Total to pay</string>
++    <string name="ubicación">Location</string>
++    <string name="idPedido">Code</string>
++    <string name="Asignar">Assign Delivery Man</string>
++    <string name="marcar">Mark as delivered</string>
++    <string name="repartidor">Dealers</string>
++    <string name="agregar">Add New</string>
++    <string name="crear">Create</string>
++
++    <string name="nombreMenu">Name Menu</string>
++    <string name="tipo">Type</string>
++    <string name="estaPedido">Order in progress</string>
++    <string name="estaPedidoF">Order completed</string>
++    <string name="local">Local</string>
++    <string name="Fecha">Date:</string>
++    <string name="verWs">Check Orders in WS</string>
++    <string name="Nohayws">There arent requests made to this Market Stall on the server</string>
++    <string name="nombre">Name</string>
++    <string name="Apellido">Surname</string>
++    <string name="Teléfono">Phone</string>
++
++    <string name="crearRepartidor">Add new dealer</string>
++
++    <string name="menu_home">Home</string>
++    <string name="menu_gallery">Gallery</string>
++    <string name="menu_slideshow">Slideshow</string>
++    <string name="menu_Producto">Slideshow</string>
++    <string name="home_second">Home Second</string>
++
++    <string name="hello_blank_fragment">Hello blank fragment</string>
++    <string name="descDetallePedido">Order Detail</string>
++    <string name="pedidoEntregado">Order delivered</string>
++
++
++    <!-- Inicio Strings Pablo -->
++    <string name="title_Local_Cliente">Available Locals</string>
++    <string name="menu_local">Menu</string>
++    <string name="txtDetallePedido">Order Detail</string>
++    <string name="nomCliente">Name</string>
++    <string name="totalPedido">Total</string>
++    <string name="direccion">Address</string>
++    <string name="agregar_ubicacion">Add</string>
++    <string name="Ubicaciones">My Locations</string>
++    <string name="obtener_ubicacion">Get Location</string>
++    <string name="nombre_ubicacion">Name:</string>
++    <string name="et_nombre_ubicacion">example: My house</string>
++    <string name="dir_ubicacion">Address:</string>
++    <string name="et_dir_ubicacion">Country / City / street / house</string>
++    <string name="facultad_ubicacion">Faculty:</string>
++    <string name="et_facultad_ubicacion">Your faculty (optional)</string>
++    <string name="punto_ubicacion">Reference:</string>
++    <string name="et_punto_ubicacion">Reference point</string>
++    <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
++    <!-- Fin Strings Pablo-->
++    <!-- Inicio Strings Carlos -->
++    <string name="TituloCrearProducto">Create Product</string>
++    <string name="TituloAsignarProducto">Assign Product</string>
++    <string name="TituloModificarProducto">Modify Product</string>
++    <string name="TituloEliminarProducto">Delete Product</string>
++    <string name="TituloProducto">Product</string>
++    <string name="botonModificar">Modify</string>
++    <string name="botonEliminar">Delete</string>
++    <string name="botonCrear">Create</string>
++    <string name="MensajeDeConfirmacionProducto">Do you want to delete this product?</string>
++    <string name="nombreProducto">Name:</string>
++    <string name="precioProducto">Price:</string>
++    <string name="descripcionProducto">Description:</string>
++    <string name="IdMenu">Menu ID</string>
++    <string name="IdProducto">Product ID</string>
++
++    <string name="TituloCrearMenu">Create Menu</string>
++    <string name="TituloModificarMenu">Modify Menu</string>
++    <string name="TituloEliminarMenu">Delete Menu</string>
++    <string name="TituloMenu">Menu</string>
++    <string name="fechadesdeMenu">Date from</string>
++    <string name="fechahastaMenu">Date Until</string>
++    <!-- Fin Strings Carlos-->
++    <string name="descPedido">Description</string>
++    <string name="estadoPedido">Order delivered</string>
++    <string name="agregar_pedido">Add to order</string>
++</resources>
+\ No newline at end of file
+Index: app/src/main/res/values-it/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-it/strings.xml	(date 1592525239703)
++++ app/src/main/res/values-it/strings.xml	(date 1592525239703)
+@@ -0,0 +1,119 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <string name="app_name">Caffetteria ordini</string>
++
++    <string name="ingles">Inglese</string>
++    <string name="español">Spagnolo</string>
++    <string name="italiano">Italiano</string>
++
++    <string name="bienvenido">"Caffetteria UES"</string>
++    <string name="login">Accesso</string>
++    <string name="nombreUsuario">Nome utente</string>
++    <string name="contrasena">Parola d\'ordine</string>
++    <string name="nuevaCuenta">Non hai un account?</string>
++    <string name="registrarse">Iscriviti</string>
++    <string name="entrar">Enterokay</string>
++    <string name="esEncargado">È responsabile?</string>
++    <string name="nomLocal">Nome locale</string>
++
++    <string name="Configuraciones">Ambientazione</string>
++    <string name="CambiarCrede">Cambia credenziali</string>
++    <string name="Ayuda">Aiuto</string>
++    <string name="CerrarSesion">cancella la sottoscrizione</string>
++
++    <string name="repetircontra">Ripeti la password</string>
++    <string name="telefono">Telefono</string>
++    <string name="Guardar">Salvare le modifiche</string>
++    <string name="title_activity_drawer_encar">drawerEncar</string>
++    <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
++    <string name="navigation_drawer_close">Chiudi il riquadro di navigazione</string>
++    <string name="nav_header_title">Android Studio</string>
++    <string name="nav_header_subtitle">android.studio@android.com</string>
++    <string name="nav_header_desc">Intestazione di navigazione</string>
++    <string name="action_settings">Impostazioni</string>
++
++    <string name="Pedidos">Ordini</string>
++    <string name="detallePedidos">Dettagli ordine</string>
++    <string name="cliente">Nome del cliente</string>
++    <string name="productos">prodotti</string>
++    <string name="total">Totale da pagare</string>
++    <string name="ubicación">Posizione</string>
++    <string name="idPedido">Codice</string>
++    <string name="Asignar">Assegna fattorino</string>
++    <string name="marcar">Segna come consegnato</string>
++    <string name="repartidor">Rivenditori</string>
++    <string name="agregar">Aggiungere nuova</string>
++    <string name="crear">Creare</string>
++
++    <string name="nombreMenu">Menu Nome</string>
++    <string name="tipo">Genere</string>
++    <string name="estaPedido">Ordine in corso</string>
++    <string name="estaPedidoF">Ordine completato</string>
++    <string name="local">Locale</string>
++    <string name="Fecha">Data:</string>
++    <string name="verWs">Vedi ordini in WS</string>
++    <string name="Nohayws">Non ci sono richieste per questa bancarella del mercato sul server</string>
++    <string name="nombre">Nome</string>
++    <string name="Apellido">Cognome</string>
++    <string name="Teléfono">Telefono</string>
++
++    <string name="crearRepartidor">Aggiungi un nuovo rivenditore</string>
++
++    <string name="menu_home">Home</string>
++    <string name="menu_gallery">Gallery</string>
++    <string name="menu_slideshow">Slideshow</string>
++    <string name="menu_Producto">Slideshow</string>
++    <string name="home_second">Home Second</string>
++
++    <string name="hello_blank_fragment">Hello blank fragment</string>
++    <string name="descDetallePedido">Dettagli ordine</string>
++    <string name="pedidoEntregado">Ordine consegnato</string>
++
++
++    <!-- Inicio Strings Pablo -->
++    <string name="title_Local_Cliente">Locali disponibili</string>
++    <string name="menu_local">Menù</string>
++    <string name="txtDetallePedido">Dettagli ordine</string>
++    <string name="nomCliente">Nome</string>
++    <string name="totalPedido">Totale</string>
++    <string name="direccion">Indirizzo</string>
++    <string name="agregar_ubicacion">Inserisci</string>
++    <string name="Ubicaciones">Le mie posizioni</string>
++    <string name="obtener_ubicacion">Ottieni posizione</string>
++    <string name="nombre_ubicacion">Nome:</string>
++    <string name="et_nombre_ubicacion">esempio: La mia casa</string>
++    <string name="dir_ubicacion">Indirizzo:</string>
++    <string name="et_dir_ubicacion">Paese / Città / via / casa</string>
++    <string name="facultad_ubicacion">Facoltà:</string>
++    <string name="et_facultad_ubicacion">La tua facoltà (opzionale)</string>
++    <string name="punto_ubicacion">Riferimento:</string>
++    <string name="et_punto_ubicacion">Punto di riferimento</string>
++    <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
++    <!-- Fin Strings Pablo-->
++    <!-- Inicio Strings Carlos -->
++    <string name="TituloCrearProducto">Crea prodotto</string>
++    <string name="TituloAsignarProducto">Assegna prodotto</string>
++    <string name="TituloModificarProducto">Modifica prodotto</string>
++    <string name="TituloEliminarProducto">Elimina prodotto</string>
++    <string name="TituloProducto">Prodotto</string>
++    <string name="botonModificar">Modificare</string>
++    <string name="botonEliminar">Rimuovere</string>
++    <string name="botonCrear">Creare</string>
++    <string name="MensajeDeConfirmacionProducto">Vuoi eliminare questo prodotto?</string>
++    <string name="nombreProducto">Nome:</string>
++    <string name="precioProducto">Prezzo:</string>
++    <string name="descripcionProducto">Descrizione:</string>
++    <string name="IdMenu">ID menu</string>
++    <string name="IdProducto">ID prodotto</string>
++
++    <string name="TituloCrearMenu">Crea menu</string>
++    <string name="TituloModificarMenu">Menu Modifica</string>
++    <string name="TituloEliminarMenu">Elimina menu</string>
++    <string name="TituloMenu">Menu</string>
++    <string name="fechadesdeMenu">Data da</string>
++    <string name="fechahastaMenu">Data fino a</string>
++    <!-- Fin Strings Carlos-->
++    <string name="descPedido">Descrizione</string>
++    <string name="estadoPedido">Ordine consegnato</string>
++    <string name="agregar_pedido">Aggiungi all\'ordine</string>
++</resources>
+\ No newline at end of file
+Index: app/src/main/res/raw/Confirmar.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/raw/Confirmar.json	(date 1592525239703)
++++ app/src/main/res/raw/Confirmar.json	(date 1592525239703)
+@@ -0,0 +1,1 @@
++{"v":"5.5.7","meta":{"g":"LottieFiles AE 0.1.20","a":"","k":"","d":"","tc":""},"fr":60,"ip":0,"op":88,"w":800,"h":800,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"party","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[581.614,273.921,0],"ix":2},"a":{"a":0,"k":[79.5,81,0],"ix":1},"s":{"a":0,"k":[84.464,84.464,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[0,0]],"o":[[0,0],[0,0]],"v":[[-55.311,54.161],[55.311,-54.161]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.176470588235,0.964705942191,0.435294147566,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[90.561,66.661],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[0,0]],"o":[[0,0],[0,0]],"v":[[-27.75,27.751],[27.75,-27.751]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.176470588235,0.964705942191,0.435294147566,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[114.186,120.821],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[0,0]],"o":[[0,0],[0,0]],"v":[[-27.75,27.75],[27.75,-27.75]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.176470588235,0.964705942191,0.435294147566,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[40.25,40.693],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 3","np":2,"cix":2,"bm":0,"ix":3,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":40,"s":[0]},{"t":70,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":40,"s":[0]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":55,"s":[100]},{"t":70,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":4,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":300,"st":0,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Check","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[404.503,415.009,0],"ix":2},"a":{"a":0,"k":[108,80.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0]],"v":[[-95.5,12.25],[-40,67.75],[95.5,-67.75]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.176470588235,0.964705942191,0.435294147566,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[108,80.25],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":0,"k":0,"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":20,"s":[0]},{"t":40,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":300,"st":0,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Circulo","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[398.499,401.501,0],"ix":2},"a":{"a":0,"k":[0,0,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ty":"st","c":{"a":0,"k":[0.177808529723,0.964705882353,0.437021831438,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":1,"lj":1,"ml":4,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[0,0],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Shape 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"d":1,"ty":"el","s":{"a":0,"k":[445.779,445.779],"ix":2},"p":{"a":0,"k":[0,0],"ix":3},"nm":"Ellipse Path 1","mn":"ADBE Vector Shape - Ellipse","hd":false},{"ty":"st","c":{"a":0,"k":[0.177808529723,0.964705882353,0.437021831438,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":25,"ix":5},"lc":1,"lj":1,"ml":4,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[7.505,10.507],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[90,90],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Ellipse 1","np":3,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[100]},{"t":20,"s":[0]}],"ix":1},"e":{"a":0,"k":100,"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":3,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":300,"st":0,"bm":0}],"markers":[]}
+\ No newline at end of file
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacionSeleccionar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacionSeleccionar.java	(date 1592525239644)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorUbicacionSeleccionar.java	(date 1592525239644)
+@@ -0,0 +1,91 @@
++package sv.edu.ues.fia.eisi.pedidoscafeteria;
++
++import android.app.Activity;
++import android.content.Context;
++import android.content.Intent;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageButton;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.shreyaspatil.MaterialDialog.MaterialDialog;
++import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
++
++import java.util.List;
++
++public class AdaptadorUbicacionSeleccionar extends RecyclerView.Adapter<AdaptadorUbicacionSeleccionar.viewHolder>
++{
++    private Context mContext;
++    private Activity mActivity;
++    private List<Ubicacion> mUbicacion;
++
++    public AdaptadorUbicacionSeleccionar(Context mContext, List<Ubicacion> mUbicacion, Activity mActivity) {
++        this.mContext = mContext;
++        this.mUbicacion = mUbicacion;
++        this.mActivity = mActivity;
++    }
++
++    @NonNull
++    @Override
++    public AdaptadorUbicacionSeleccionar.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++
++        View v;
++        v = LayoutInflater.from(mContext).inflate(R.layout.cardview_ubicacion_c, parent, false);
++        final AdaptadorUbicacionSeleccionar.viewHolder vHolder = new AdaptadorUbicacionSeleccionar.viewHolder(v);
++
++
++        return vHolder;
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull AdaptadorUbicacionSeleccionar.viewHolder holder, final int position)
++    {
++        holder.tv_nombre.setText(mUbicacion.get(position).getNomUbicacion());
++        holder.tv_dir.setText(mUbicacion.get(position).getDirecUbicacion());
++        holder.tv_punto.setText(String.valueOf(mUbicacion.get(position).getPuntoRefUbicacion()));
++        holder.idUbicacion = mUbicacion.get(position).getIdUbicacion();
++        holder.elminarUbicacion.setVisibility(View.INVISIBLE);
++        holder.ly_local.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                Intent result = new Intent();
++                result.putExtra("idUbicacion", mUbicacion.get(position).getIdUbicacion());
++                result.putExtra("direccion", mUbicacion.get(position).getDirecUbicacion());
++                mActivity.setResult(Activity.RESULT_OK, result);
++                mActivity.finish();
++            }
++        });
++
++    }
++
++    @Override
++    public int getItemCount() {
++        return mUbicacion.size();
++    }
++
++    public static class viewHolder extends RecyclerView.ViewHolder
++    {
++        private LinearLayout ly_local;
++        private TextView tv_nombre;
++        private TextView tv_dir;
++        private TextView tv_punto;
++        private ImageButton elminarUbicacion;
++        int idUbicacion;
++        Ubicacion ubicacion;
++
++        public viewHolder(@NonNull View itemView) {
++            super(itemView);
++            ly_local = (LinearLayout) itemView.findViewById(R.id.ubicacion_card);
++            tv_nombre = (TextView) itemView.findViewById(R.id.nombre_ubicacion_c);
++            tv_dir = (TextView) itemView.findViewById(R.id.dir_ubicacion_c);
++            tv_punto = (TextView) itemView.findViewById(R.id.punto_ubicacion_c);
++            elminarUbicacion = (ImageButton) itemView.findViewById(R.id.eliminar_ubicacion_c);
++        }
++    }
++}
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ControladorBD.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ControladorBD.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ControladorBD.java	(date 1592525239804)
+@@ -8,6 +8,8 @@
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ 
++import com.google.android.gms.analytics.ecommerce.Product;
++
+ import java.util.ArrayList;
+ import java.util.Collection;
+ import java.util.Iterator;
+@@ -56,11 +58,11 @@
+                         "(\n" +
+                         "   CANTIDAD             smallint not null,\n" +
+                         "   SUBTOTAL             real not null,\n" +
+-                        "   IDDETALLEPEDIDO      int not null,\n" +
++                        "   IDDETALLEPEDIDO      INTEGER not null,\n" +
+                         "   IDMENU               int not null,\n" +
+                         "   primary key (IDDETALLEPEDIDO)\n" +
+                         ");");
+-                db.execSQL("create table ESTADPEDIDO\n" +
++                db.execSQL("create table ESTADOPEDIDO\n" +
+                         "(\n" +
+                         "   IDESTADOPEDIDO       int not null,\n" +
+                         "   DESCESTADOPEDIDO     varchar(30) not null,\n" +
+@@ -81,12 +83,13 @@
+                         ");");
+                 db.execSQL("create table MENU\n" +
+                         "(\n" +
+-                        "   IDMENU               Integer primary key AUTOINCREMENT,\n" +
++                        "   IDMENU               INTEGER not null,\n" +
+                         "   IDLOCAL              Integer not null,\n" +
+                         "   PRECIOMENU           real not null,\n" +
+                         "   FECHADESDEMENU       varchar(50) not null,\n" +
+                         "   FECHAHASTAMENU       varchar(50) not null,\n" +
+-                        "   NOMMENU              varchar(50) not null\n" +
++                        "   NOMMENU              varchar(50) not null,\n" +
++                        "   primary key (IDMENU)\n" +
+                         ");");
+                 db.execSQL("create table OPCIONCRUD\n" +
+                         "(\n" +
+@@ -97,12 +100,12 @@
+                         ");");
+                 db.execSQL("create table PEDIDO\n" +
+                         "(\n" +
+-                        "   IDPEDIDO             int not null,\n" +
++                        "   IDPEDIDO             INTEGER not null,\n" +
+                         "   IDDETALLEPEDIDO      int,\n" +
+                         "   IDESTADOPEDIDO       int,\n" +
+                         "   IDLOCAL              int,\n" +
+                         "   IDUBICACION          int not null,\n" +
+-                        "   FECHAPEDIDO          time not null,\n" +
++                        "   FECHAPEDIDO          varchar(10) not null,\n" +
+                         "   TOTALPEDIDO          real not null,\n" +
+                         "   primary key (IDPEDIDO)\n" +
+                         ");");
+@@ -182,15 +185,50 @@
+ 
+     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
+     public String llenarUsuario(){
+-        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo"};
+-        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera"};
+-        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1"};
+-        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931"};
+-        final String [] idUsus =new String[]{"1","2","3","4"};
+-        final int [] idTipoUsus =new int[] {1,1,1,1}; //1 indica que son clientes
++        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber"};
++        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose"};
++        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber"};
++        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812"};
++        final String [] idUsus =new String[]{"1","2","3","4","5"};
++        final int [] idTipoUsus =new int[] {1,2,3,3,1}; //1 indica que son clientes
+ 
+         final int [] idTipos =new int[] {1,2,3};
+-        final String [] nomTipos =new String[]{"Cliente","Encargado","Repartidor"};
++        final String [] nomTipos =new String[]{"Cliente","Repartidor","Encargado"};
++
++        final int [] cantidadDetP = new int[] {1,5,6,7,8};
++        final double[] subtotal = new double[] {1.5,2.8,10,8.2,6.5};
++        final int[] idMenu = new int[] {1,2,3,4,5};
++        final int[] idLocalMenu = new int[] {1,2,1,2,1};
++        final double[] precioMenu = new double[] {1.5,2.8,2.4,8.2,6.5};
++        final String[] fechaDesde = new String[] {"2019-06-17","2020-03-04","2020-04-10","2020-06-02","2020-06-14"};
++        final String[] fechaHasta = new String[] {"2020-09-17","2020-10-10","2020-11-10","2020-08-02","2020-09-14"};
++        String [] nomMenu =new String[]{"Hamburguesa","Pollo frito","Carne Asada","Papa rellena","Café"};
++
++        final int[] idProducto = new int[] {1,2,3,4,5};
++        String [] nomProducto =new String[]{"Papas","Soda","Ensalada","Chimol","Limonada"};
++        final double[] precioUnitarioProducto = new double[]{1.00,0.80,0.50,0.75,0.90};
++        String [] descProducto =new String[]{"Papas Fritas","Coca-Cola, Pepsi, entre otras","Fresca, coditos, etc","Bien picado","De limón"};
++
++        final int[] idMenuAsig = new int[] {1,1,2,2,2,3,3,4,4};
++        final int[] idProductoAsig = new int[] {1,2,1,2,3,2,4,2,3};
++
++        final int[] idDetalleP = new int[] {1,2,3,4,5};
++        final int[] idEstadoPed = new int[] {1,2};
++        final String[] descEstP = new String[] {"Pendiente","Entregado"};
++
++        final String[] nombreLocal = new String[] {"Don Carlos","Comedor Juan"};
++        final String [] idUsuarioLocal =new String[]{"Car1","Juan1"};
++
++        final int[] idPedido = new int[] {1,2,3,4,5};
++        final int[] idEstadoPedPed = new int[] {1,2,1,1,2};
++        final int[] idLocalPed = new int[] {1,2,1,1,2};
++        final int[] idUbicPed = new int[] {3,3,3,2,2};
++        final String[] fechaP = new String[] {"2020-06-17","2020-05-17","2020-04-10","2020-06-02","2020-06-14"};
++        final double[] total = new double[] {5,2.8,10.2,4.2,12.5};
++
++        final String [] idUsuarioPed =new String[]{"Lau1","Lau1","amber","amber","amber"};
++        final String [] tipoPedReal =new String[]{"Local","Llevar","Local","Local","Llevar"};
++
+         String res="No paso nada";
+ 
+         final int [] idFacultad =new int[]{1,2,3,4,5};
+@@ -199,13 +237,23 @@
+         final String[] direcUbicacion = new String[]{"Sierra Morena", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
+         final String[] nomUbicacion = new String[]{"Casa de Lidia", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
+         final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
+-        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","Pepi1", "Car1"};
++        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
++
++
++
+ 
+         abrir();
+         db.execSQL("DELETE FROM USUARIO");
+         db.execSQL("DELETE FROM TIPOUSUARIO");
+         db.execSQL("DELETE FROM FACULTAD");
+         db.execSQL("DELETE FROM UBICACION");
++        db.execSQL("DELETE FROM LOCAL");
++        db.execSQL("DELETE FROM ESTADOPEDIDO");
++        db.execSQL("DELETE FROM DETALLEPEDIDO");
++        db.execSQL("DELETE FROM PEDIDO");
++        db.execSQL("DELETE FROM PRODUCTO");
++        db.execSQL("DELETE FROM ASIGNAPRODUCTO");
++        db.execSQL("DELETE FROM MENU");
+ 
+         TipoUsuario t = new TipoUsuario();
+         for (int i = 0; i <3 ; i++) {
+@@ -216,7 +264,7 @@
+ 
+ 
+         Usuario u = new Usuario();
+-        for (int i = 0; i <4 ; i++) {
++        for (int i = 0; i <5 ; i++) {
+             u.setIdUsuario(contras[i]);
+             u.setNombreUsuario(nomUsuario[i]);
+             u.setApellidoUsuario(apeUsuario[i]);
+@@ -244,11 +292,109 @@
+             insertar(ubi);
+         }
+ 
++        Menu menu = new Menu();
++        for (int i = 0; i <5 ; i++) {
++            menu.setNomMenu(nomMenu[i]);
++            menu.setFechaDesdeMenu(fechaDesde[i]);
++            menu.setFechaHastaMenu(fechaHasta[i]);
++            menu.setIdLocal(idLocalMenu[i]);
++            menu.setPrecioMenu(precioMenu[i]);
++            CrearMenu(menu);
++        }
++
++        DetallePedido dp = new DetallePedido();
++        for (int i = 0; i <5 ; i++) {
++            dp.setCantidad(cantidadDetP[i]);
++            dp.setIdMenu(idMenu[i]);
++            dp.setSubtotal(subtotal[i]);
++            dp.setIdDetallePedido(idDetalleP[i]);
++            Crear(dp);
++        }
++
++        EstadoPedido ep =new EstadoPedido();
++        for (int i = 0; i <2 ; i++) {
++            ep.setDescEstadoPedido(descEstP[i]);
++            ep.setIdEstadoPedido(idEstadoPed[i]);
++            CrearEstadoPedido(ep);
++        }
++
++        Local local = new Local();
++        for (int i = 0; i <2 ; i++) {
++            local.setIdUsuario(idUsuarioLocal[i]);
++            local.setNombreLocal(nombreLocal[i]);
++            CrearLocal(local);
++        }
++
++        Pedido pedido = new Pedido();
++        for (int i = 0; i <5 ; i++) {
++            pedido.setIdDetalleP(idDetalleP[i]);
++            pedido.setFechaPedido(fechaP[i]);
++            pedido.setIdEstadoPedido(idEstadoPedPed[i]);
++            pedido.setIdUbicacion(idUbicPed[i]);
++            pedido.setTotalPedido(total[i]);
++            pedido.setIdPedido(idPedido[i]);
++            pedido.setIdLocal(idLocalPed[i]);
++            insertar(pedido);
++        }
++
++        PedidoRealizado pedidoRealizado= new PedidoRealizado();
++        for (int i = 0; i <5 ; i++) {
++            pedidoRealizado.setIdPedido(idPedido[i]);
++            pedidoRealizado.setIdUsuario(idUsuarioPed[i]);
++            pedidoRealizado.setTipo(tipoPedReal[i]);
++            insertar(pedidoRealizado);
++        }
++
++
++        Producto producto = new Producto();
++        for (int i = 0; i <5 ; i++) {
++            producto.setNombreProducto(nomProducto[i]);
++            producto.setPrecioUnitario(precioUnitarioProducto[i]);
++            producto.setDescProducto(descProducto[i]);
++            CrearProducto(producto);
++        }
++
++        ProductoAsignar productoAsignar = new ProductoAsignar();
++        for (int i = 0; i <9 ; i++) {
++            productoAsignar.setIdmenu(idMenuAsig[i]);
++            productoAsignar.setIdProducto(idProductoAsig[i]);
++            AsignarProtoMenu(productoAsignar);
++        }
++
+         cerrar();
+         return res;
+     }
+ 
+ 
++    //Metodos para obtener el ultimo id de una tabla
++    public DetallePedido ultimoIdDetallePedido()
++    {
++        Cursor cur = db.rawQuery("select * from DETALLEPEDIDO where IDDETALLEPEDIDO = (select max(IDDETALLEPEDIDO) from DETALLEPEDIDO);", null);
++        if (cur.moveToFirst()) {
++            DetallePedido detallePedido = new DetallePedido();
++            detallePedido.setCantidad(cur.getInt(0));
++            detallePedido.setSubtotal(cur.getDouble(1));
++            detallePedido.setIdDetallePedido(cur.getInt(2));
++            detallePedido.setIdMenu(cur.getInt(3));
++            return detallePedido;
++
++        } else {
++            return null;
++        }
++    }
++
++    public int ultimoIdPedido()
++    {
++        Cursor cur = db.rawQuery("select * from PEDIDO where IDPEDIDO = (select max(IDPEDIDO) from PEDIDO);", null);
++        if (cur.moveToFirst()) {
++            return cur.getInt(0);
++
++        } else {
++            return 0;
++        }
++    }
++
++
+ 
+     //Preguntar a Spiderman si esta parte del código falla o hay dudas
+ 
+@@ -587,9 +733,18 @@
+         String resultado = "producto creado ";
+         ContentValues pro777 = new ContentValues();
+         //pro777.put("idProducto", producto.getIdProduto());
++<<<<<<< HEAD
+         pro777.put("NombreProducto", producto.getNombreProducto());
+         pro777.put("precioUnitario", producto.getPrecioUnitario());
+         pro777.put("descProducto", producto.getDescProducto());
++=======
++        pro777.put("NOMBREPRODUCTO", producto.getNombreProducto());
++        pro777.put("PRECIOUNITARIO", producto.getPrecioUnitario());
++        pro777.put("DESCPRODUCTO", producto.getDescProducto());
++
++
++
++>>>>>>> origin/master
+         long comprobador = 0;
+         comprobador = db.insert("Producto", null, pro777);
+         if (comprobador == -1 || comprobador == 0) {
+@@ -625,6 +780,20 @@
+         }
+         return pro777;
+     }
++
++    public List<Producto> ConsultaProductosMenu(int IDMENU) {
++        Cursor cur = db.rawQuery("SELECT PRODUCTO.* FROM \n" +
++                "(PRODUCTO INNER JOIN ASIGNAPRODUCTO ON PRODUCTO.IDPRODUCTO = ASIGNAPRODUCTO.IDPRODUCTO)\n" +
++                "INNER JOIN MENU ON ASIGNAPRODUCTO.IDMENU = MENU.IDMENU WHERE MENU.IDMENU = " + IDMENU, null);
++        List<Producto> pro777 = new ArrayList<>();
++        if (cur.moveToFirst()) {
++
++            do {
++                pro777.add(new Producto(cur.getInt(0), cur.getString(1),cur.getDouble(2),cur.getString(3)));
++            } while (cur.moveToNext());
++        }
++        return pro777;
++    }
+ 
+     public String ActualizarProducto(Producto producto) {
+         String resultado = "producto actualizado";
+@@ -711,19 +880,23 @@
+ 
+     public Menu ConsultaMenu(String idMenu) {
+         String[] id = {idMenu};
+-        List<AsignarProducto> productosMenu = null;
++        ProductoAsignar pA;
++        List<ProductoAsignar> productosMenu = new ArrayList<>();
+         List<Producto> productos = new ArrayList<>();
+         Cursor cur = db.rawQuery("select * from Menu where idMenu =" + idMenu, null);
+         if (cur.moveToFirst()) {
+-            Cursor k = db.rawQuery("select * from PRODUCTOASIGNADO where idMenu =" + idMenu, null);
++            Cursor k = db.rawQuery("select * from ASIGNAPRODUCTO where idMenu =" + idMenu, null);
+             if(k.moveToFirst())
+             {
+                 do {
+-                        productosMenu.add(new AsignarProducto(k.getInt(0),k.getInt(1)));
++                        pA = new ProductoAsignar(k.getInt(0),k.getInt(1));
++                        productosMenu.add(pA);
+                 }while(k.moveToNext());
+                 for(int i=0;i<productosMenu.size();i++)
+-                {Cursor m = db.rawQuery("select * from PRODUCTO where idProducto =" + productosMenu.get(i).getIDPRODUCTO(), null);
+-                    productos.add(new Producto(m.getInt(0),m.getString(1),m.getInt(2),m.getString(3)));
++                {Cursor m = db.rawQuery("select * from PRODUCTO where idProducto = " + String.valueOf(productosMenu.get(i).getIdProducto()), null);
++                    if(m.moveToFirst()){
++                        productos.add(new Producto(m.getInt(0),m.getString(1),m.getDouble(2),m.getString(3)));
++                    }
+                 }
+ 
+             }
+@@ -795,6 +968,18 @@
+                         cur.getString(6)));
+             } while (cur.moveToNext());
+         }*/
++        return uwu;
++    }
++
++    public List<Menu> ConsultaMenusLocal(int idlocal) {
++        Cursor cur = db.rawQuery("SELECT * FROM MENU WHERE IDLOCAL=" + idlocal, null);
++        List<Menu> uwu = new ArrayList<>();
++        if (cur.moveToFirst()) {
++
++            do {
++                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
++            } while (cur.moveToNext());
++        }
+         return uwu;
+     }
+ 
+@@ -888,7 +1073,7 @@
+         ContentValues depe = new ContentValues();
+         depe.put("cantidad", detallepedido.getCantidad());
+         depe.put("subtotal", detallepedido.getSubtotal());
+-        depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
++        //depe.put("idDetallePedido", detallepedido.getIdDetallePedido());
+         depe.put("idMenu", detallepedido.getIdMenu());
+ 
+         long comprobador = 0;
+@@ -899,8 +1084,8 @@
+         return resultado;
+     }
+ 
+-    public DetallePedido ConsultaDetallePedido(String iddetallePedido) {
+-        String[] id = {iddetallePedido};
++    public DetallePedido ConsultaDetallePedido(int iddetallePedido) {
++        String[] id = {String.valueOf(iddetallePedido)};
+         Cursor cur = db.rawQuery("select * from DetallePedido where idDetallePedido =" + iddetallePedido, null);
+         if (cur.moveToFirst()) {
+             DetallePedido depe = new DetallePedido();
+@@ -1200,7 +1385,7 @@
+ 
+     //CRUD Pedido
+     public String insertar(Pedido pedido){
+-        String resultado="Se guardó correctamente nuevo pedido " + pedido;
++        String resultado="Se guardó correctamente nuevo pedido ";
+         long contador=0;
+         long cont = 0;
+         ArrayList <DetallePedido> detallePedido = pedido.getDetallePedidos();
+@@ -1217,9 +1402,10 @@
+             pedi.put("idUbicacion",pedido.getIdUbicacion());
+             pedi.put("fechaPedido",pedido.getFechaPedido());
+             pedi.put("totalPedido",pedido.getTotalPedido());
++            pedi.put("idDetallePedido",pedido.getIdDetalleP());
+             contador=db.insert("Pedido", null, pedi);
+ 
+-            for(int i= 0; i < detallePedido.size(); i++){
++           /* for(int i= 0; i < detallePedido.size(); i++){
+                 det.setIdDetallePedido(detallePedido.get(i).getIdDetallePedido());
+                 det.setCantidad(detallePedido.get(i).getCantidad());
+                 det.setSubtotal(detallePedido.get(i).getSubtotal());
+@@ -1230,7 +1416,7 @@
+                 {
+                    resultado = resultado + "no se pudo insertar el detallePedido con el id "+ detallePedido.get(i).getIdDetallePedido();
+                 }
+-            }
++            }*/
+         }
+         else {
+             resultado="EstadoPedido,Local o Ubicacion no existen";
+@@ -1287,17 +1473,17 @@
+     }
+ 
+     public List<Pedido> ConsultaPedidosLocal(int idLocal) {
+-        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=?" + idLocal, null);
++        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDLOCAL=" + idLocal, null);
+         List<Pedido> pedido = new ArrayList<>();
+         ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
+         if (cur.moveToFirst()) {
+             do {
+-                Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
++                /*Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
+                 if (m.moveToFirst()) {
+                     detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
+-                }while(m.moveToNext());
++                }while(m.moveToNext());*/
+                 pedido.add(new Pedido(cur.getInt(0),
+-                        detallePedidos,
++                        cur.getInt(1),
+                         cur.getInt(2),
+                         cur.getInt(3),
+                         cur.getInt(4),
+@@ -1529,13 +1715,15 @@
+             ContentValues preal = new ContentValues();
+             preal.put("idPedido", pedidoRealizado.getIdPedido());
+             preal.put("idUsuario", pedidoRealizado.getIdUsuario());
++            preal.put("TIPOPEDREALIZADO", pedidoRealizado.getTipo());
+             contador=db.insert("PedidoRealizado", null, preal);
+-        } if(contador==-1 || contador==0)
++        }
++        if(contador==-1 || contador==0)
+         {
+             resultado= "Error al Insertar el registro, Registro Duplicado. Verificar inserción";
+         }
+         else {
+-            resultado+=resultado+contador;
++
+         }
+         return resultado;
+     }
+@@ -1556,6 +1744,23 @@
+             return null;
+         }
+     }
++
++    public PedidoRealizado consultarPedRealIdP(String idPedido){
++        String[] id = {idPedido};
++        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido =" + idPedido, null);
++        //si existe pedidoRealizado
++        if(cursor.moveToFirst())
++        {
++            PedidoRealizado pedidoRealizado = new PedidoRealizado();
++            pedidoRealizado.setIdPedido(cursor.getInt(0));
++            pedidoRealizado.setIdUsuario(cursor.getString(1));
++            pedidoRealizado.setTipo(cursor.getString(2));
++            return pedidoRealizado;
++        }
++        else {
++            return null;
++        }
++    }
+ 
+     public List<PedidoRealizado> ConsultaPedidosRealizados() {
+         Cursor cur = db.rawQuery("SELECT * FROM PedidoRealizado", null);
+@@ -1820,7 +2025,7 @@
+             case 6: {
+                 //verificar que en EstadPedido exista idEstadoPedido
+                 Pedido pedido3 = (Pedido) dato;
+-                Cursor c1 = db.query(true, "EstadPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
++                Cursor c1 = db.query(true, "EstadoPedido", new String[]{"idEstadoPedido"}, "idEstadoPedido= '" + pedido3.getIdEstadoPedido() + "'", null, null, null, null, null);
+                 if (c1.moveToFirst())
+                     return true;
+                 else
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/ubicacionCliente/SeleccionarUbicacion.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/ubicacionCliente/SeleccionarUbicacion.java	(date 1592525239673)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/ubicacionCliente/SeleccionarUbicacion.java	(date 1592525239673)
+@@ -0,0 +1,45 @@
++package sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente;
++
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import android.content.SharedPreferences;
++import android.os.Bundle;
++
++import java.util.List;
++
++import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorMenuC;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.AdaptadorUbicacionSeleccionar;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
++import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
++
++public class SeleccionarUbicacion extends AppCompatActivity {
++
++    List<Ubicacion> listUbicacion;
++    private RecyclerView recyclerView;
++    private RecyclerView.LayoutManager layoutManager;
++    private RecyclerView.Adapter adapter;
++    ControladorBD controladorBD;
++    SharedPreferences sharedPreferences;
++    String usu;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_seleccionar_ubicacion);
++        sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0);
++        usu = sharedPreferences.getString("nombreUsuario", "No Name");
++        controladorBD = new ControladorBD(getApplicationContext());
++        controladorBD.abrir();
++        listUbicacion = controladorBD.consultarUbicacionUsuario(usu);
++        controladorBD.cerrar();
++        recyclerView = (RecyclerView) findViewById(R.id.ubicacion_seleccionar_recycler);
++        recyclerView.setHasFixedSize(true);
++        layoutManager = new LinearLayoutManager(this);
++        recyclerView.setLayoutManager(layoutManager);
++        adapter = new AdaptadorUbicacionSeleccionar(this, listUbicacion, this);
++        recyclerView.setAdapter(adapter);
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/detallePedidoEnc.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/detallePedidoEnc.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/detallePedidoEnc.java	(date 1592525239663)
+@@ -25,11 +25,12 @@
+ 
+ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, CallbackRespuestaString {
+ 
+-    String idPedido, total,fecha;
++    String total,fecha,idPedido;
+     int idUbicacion,idDeP,idEstadoP,idLocal;
+     EditText idCodigo, productos, cliente, totalPago, ubicacion,tipo;
+     Button asignar;
+     ControladorServicios cServ;
++    ControladorBD controladorBD;
+     int ordenResponse;
+     List<PedidoRealizado> pR;
+     List<DetallePedido> lstDp;
+@@ -37,6 +38,11 @@
+     ToggleButton estadoPedido;
+     Pedido p;
+     List <Ubicacion> ubiC;
++    PedidoRealizado pediReaLocal;
++    DetallePedido detallePedidoLocal;
++    Menu menuLocal;
++    Ubicacion ubicacionLocal;
++    boolean estaLocal;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -50,31 +56,53 @@
+         idEstadoP = intent.getIntExtra("idEstadoP",0);
+         idLocal = intent.getIntExtra("idLocal",0);
+         fecha = intent.getStringExtra("fecha");
+-        idCodigo =(EditText)findViewById(R.id.etCodigo);
+-        productos =(EditText)findViewById(R.id.etProducto);
+-        cliente =(EditText)findViewById(R.id.etCliente);
+-        totalPago =(EditText)findViewById(R.id.etTotal);
+-        ubicacion =(EditText)findViewById(R.id.etUbicacion);
+-        tipo = (EditText)findViewById(R.id.etTipo);
++        estaLocal=true;
++        idCodigo =(EditText)findViewById(R.id.etCodigoDP);
++        productos =(EditText)findViewById(R.id.etProductoDP);
++        cliente =(EditText)findViewById(R.id.etClienteDP);
++        totalPago =(EditText)findViewById(R.id.etTotalDP);
++        ubicacion =(EditText)findViewById(R.id.etUbicacionDP);
++        tipo = (EditText)findViewById(R.id.etTipoDP);
+         asignar = (Button)findViewById(R.id.btnAsignar);
+         estadoPedido = (ToggleButton)findViewById(R.id.toggleButton);
++        controladorBD = new ControladorBD(getApplicationContext());
+         cServ = new ControladorServicios(this,this);
+-        idCodigo.setText(idPedido);
++        idCodigo.setText(String.valueOf(idPedido));
+         totalPago.setText(total);
+         //ubicacion.setText(String.valueOf(idUbicacion));
+         productos.setText(String.valueOf(idDeP));
+ 
+         if(idEstadoP==2){
+             estadoPedido.setVisibility(View.INVISIBLE);
++            asignar.setVisibility(View.INVISIBLE);
+         }
+-        cServ.BuscarPedidoRealizado(Integer.parseInt(idPedido),getApplicationContext());
+-        ordenResponse=1;
++
++        controladorBD.abrir();
++        pediReaLocal = controladorBD.consultarPedRealIdP(idPedido);
++
++        if(pediReaLocal==null){
++            cServ.BuscarPedidoRealizado(Integer.valueOf(idPedido),getApplicationContext());
++            ordenResponse=1;
++            estaLocal=false;
++        }
++        else{
++            detallePedidoLocal=controladorBD.ConsultaDetallePedido(idDeP);
++            menuLocal = controladorBD.ConsultaMenu(String.valueOf(detallePedidoLocal.getIdMenu()));
++            ubicacionLocal = controladorBD.consultarUbicacion(String.valueOf(idUbicacion));
++            tipo.setText(pediReaLocal.getTipo());
++            productos.setText(menuLocal.getNomMenu());
++            cliente.setText(pediReaLocal.getIdUsuario());
++            ubicacion.setText(ubicacionLocal.getDirecUbicacion());
++        }
++
++
++
+         estadoPedido.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if(estadoPedido.isChecked()){
+                     p = new Pedido(
+-                            Integer.parseInt(idPedido), idDeP,2,idLocal,idUbicacion,fecha,Double.parseDouble(total)
++                            Integer.valueOf(idPedido), idDeP,2,idLocal,idUbicacion,fecha,Double.parseDouble(total)
+                     );
+                     MaterialDialog mDialog = new MaterialDialog.Builder(detallePedidoEnc.this)
+                             .setTitle("Finalizar pedido")
+@@ -84,8 +112,16 @@
+                                 @Override
+                                 public void onClick(DialogInterface dialogInterface, int which) {
+                                     // Delete Operation
+-                                    cServ.Act(p,getApplicationContext());
+-                                    dialogInterface.dismiss();
++                                    if(estaLocal){
++                                        String res = controladorBD.actualizar(p);
++                                        FancyToast.makeText(getApplicationContext(),res,FancyToast.LENGTH_LONG,
++                                                FancyToast.SUCCESS,false).show();
++                                        dialogInterface.dismiss();
++                                    }
++                                    else{
++                                        cServ.Act(p,getApplicationContext());
++                                        dialogInterface.dismiss();
++                                    }
+                                 }
+                             })
+                             .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+Index: app/src/main/res/layout/activity_seleccionar_ubicacion.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_seleccionar_ubicacion.xml	(date 1592525239703)
++++ app/src/main/res/layout/activity_seleccionar_ubicacion.xml	(date 1592525239703)
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".ui.ubicacionCliente.SeleccionarUbicacion"
++    android:background="@drawable/gradiente_fondo">
++
++        <TableLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content">
++
++            <TextView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:textSize="40dp"
++                android:text="@string/seleccionar_ubicacion"
++                android:gravity="center"
++                android:layout_marginTop="20dp"
++                android:layout_marginBottom="20dp"/>
++
++            <androidx.recyclerview.widget.RecyclerView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:id="@+id/ubicacion_seleccionar_recycler"
++                android:layout_marginLeft="40dp"
++                android:layout_marginRight="40dp"/>
++        </TableLayout>
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorMenuC.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorMenuC.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/AdaptadorMenuC.java	(date 1592525239644)
+@@ -52,6 +52,7 @@
+                 intent.putExtra("idMenu", vHolder.idMenu);
+                 intent.putExtra("nomMenu", vHolder.nomMenu);
+                 intent.putExtra("precioMenu", vHolder.precioMenu);
++                intent.putExtra("idLocal", vHolder.idLocal);
+                 mContext.startActivity(intent);
+             }
+         });
+@@ -69,6 +70,7 @@
+         holder.idMenu = mMenus.get(position).getIdMenu();
+         holder.nomMenu = mMenus.get(position).getNomMenu();
+         holder.precioMenu = mMenus.get(position).getPrecioMenu();
++        holder.idLocal = mMenus.get(position).getIdLocal();
+     }
+ 
+     @Override
+@@ -84,7 +86,7 @@
+         private TextView tv_precio;
+         private ImageView iv_imagen;
+         private Button agregarPedido;
+-        int idMenu;
++        int idMenu, idLocal;
+         String nomMenu;
+         double precioMenu;
+ 
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(date 1592514380000)
++++ app/src/main/AndroidManifest.xml	(date 1592525239864)
+@@ -13,12 +13,16 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
++<<<<<<< HEAD
+         <activity android:name=".ProductoAsignadoFinal"></activity>
+         <activity android:name=".ProductoMenuAsignar" />
+         <activity android:name=".AsignarProductoMenu" />
+         <activity android:name=".EliminarMenu" />
+         <activity android:name=".ModificarMenu" />
+         <activity android:name=".InsertarMenu" />
++=======
++        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion"></activity>
++>>>>>>> origin/master
+         <activity android:name=".AsignarRepartidor" />
+         <activity android:name=".ui.menuCliente.DescMenu" />
+         <activity android:name=".DetallePedidoRep" />
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/drawerEncar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/drawerEncar.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/drawerEncar.java	(date 1592525239663)
+@@ -1,6 +1,7 @@
+ package sv.edu.ues.fia.eisi.pedidoscafeteria;
+ 
+ import android.content.SharedPreferences;
++import android.content.res.Configuration;
+ import android.os.Bundle;
+ import android.view.View;
+ import android.view.Menu;
+@@ -17,6 +18,8 @@
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.appcompat.widget.Toolbar;
+ 
++import java.util.Locale;
++
+ public class drawerEncar extends AppCompatActivity {
+ 
+     private AppBarConfiguration mAppBarConfiguration;
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(date 1592514380000)
++++ app/src/main/res/values/strings.xml	(date 1592525239754)
+@@ -1,6 +1,10 @@
+ <resources>
+     <string name="app_name">PedidosCafeteria</string>
+ 
++    <string name="ingles">Inglés</string>
++    <string name="español">Español</string>
++    <string name="italiano">Italiano</string>
++
+     <string name="bienvenido">"Cafeterías UES"</string>
+     <string name="login">Inicia sesión</string>
+     <string name="nombreUsuario">Nombre de usuario</string>
+@@ -47,6 +51,8 @@
+     <string name="local">Local</string>
+     <string name="nombre">Nombre</string>
+     <string name="Fecha">Fecha:</string>
++    <string name="verWs">Ver Pedidos en WS</string>
++    <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
+     <string name="Apellido">Apellido</string>
+     <string name="Teléfono">Teléfono</string>
+ 
+@@ -59,7 +65,6 @@
+     <string name="menu_Encargado">Menu</string>
+     <string name="home_second">Home Second</string>
+ 
+-    <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
+     <string name="descDetallePedido">Detalle Pedido</string>
+     <string name="pedidoEntregado">Pedido Entregado</string>
+@@ -115,5 +120,8 @@
+     <string name="descPedido">Descripción</string>
+     <string name="estadoPedido">Pedido entregado</string>
+     <string name="agregar_pedido">Agregar al pedido</string>
++    <string name="cantidad">Cantidad</string>
++    <string name="hint_cantidad">Ingrese la cantidad</string>
++    <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
+ 
+ </resources>
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/DetallePedidoRep.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/DetallePedidoRep.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/DetallePedidoRep.java	(date 1592525239663)
+@@ -9,8 +9,9 @@
+ 
+ import java.util.List;
+ 
++import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
++
+ public class DetallePedidoRep extends AppCompatActivity {
+-    ControladorServicios serv;
+ 
+     ControladorBD bd;
+     private EditText codigo;
+Index: app/src/main/res/layout/activity_detalle_pedido_enc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_detalle_pedido_enc.xml	(date 1592514380000)
++++ app/src/main/res/layout/activity_detalle_pedido_enc.xml	(date 1592525239673)
+@@ -46,13 +46,15 @@
+                 android:textStyle="bold" />
+ 
+             <EditText
+-                android:id="@+id/etCodigo"
++                android:id="@+id/etCodigoDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="10dp"
+                 android:clickable="false"
+                 android:editable="false"
+                 android:ems="10"
++                android:enabled="false"
++                android:focusable="false"
+                 android:inputType="number"
+                 android:textColor="#050505"
+                 android:textSize="18sp" />
+@@ -67,13 +69,15 @@
+                 android:textStyle="bold" />
+ 
+             <EditText
+-                android:id="@+id/etProducto"
++                android:id="@+id/etProductoDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="10dp"
+                 android:clickable="false"
+                 android:editable="false"
+                 android:ems="10"
++                android:enabled="false"
++                android:focusable="false"
+                 android:gravity="start|top"
+                 android:inputType="textMultiLine"
+                 android:textColor="#050505"
+@@ -89,13 +93,15 @@
+                 android:textStyle="bold" />
+ 
+             <EditText
+-                android:id="@+id/etCliente"
++                android:id="@+id/etClienteDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="10dp"
+                 android:clickable="false"
+                 android:editable="false"
+                 android:ems="10"
++                android:enabled="false"
++                android:focusable="false"
+                 android:inputType="textPersonName"
+                 android:textColor="#050505"
+                 android:textSize="18sp" />
+@@ -110,13 +116,15 @@
+                 android:textStyle="bold" />
+ 
+             <EditText
+-                android:id="@+id/etTotal"
++                android:id="@+id/etTotalDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="10dp"
+                 android:clickable="false"
+                 android:editable="false"
+                 android:ems="10"
++                android:enabled="false"
++                android:focusable="false"
+                 android:inputType="numberDecimal"
+                 android:textColor="#050505"
+                 android:textSize="18sp" />
+@@ -132,13 +140,15 @@
+                 android:textStyle="bold" />
+ 
+             <EditText
+-                android:id="@+id/etUbicacion"
++                android:id="@+id/etUbicacionDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="15dp"
+                 android:clickable="false"
+                 android:editable="false"
+                 android:ems="10"
++                android:enabled="false"
++                android:focusable="false"
+                 android:gravity="start|top"
+                 android:inputType="textMultiLine"
+                 android:textColor="#050505"
+@@ -154,11 +164,16 @@
+                 android:textStyle="bold"/>
+ 
+             <EditText
+-                android:id="@+id/etTipo"
++                android:id="@+id/etTipoDP"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
++                android:clickable="false"
++                android:editable="false"
+                 android:ems="10"
+-                android:inputType="textPersonName" />
++                android:enabled="false"
++                android:focusable="false"
++                android:inputType="textPersonName"
++                android:textColor="#000000" />
+ 
+             <Button
+                 android:id="@+id/btnAsignar"
+Index: app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/home/HomeViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/home/HomeViewModel.java	(date 1592514380000)
++++ app/src/main/java/sv/edu/ues/fia/eisi/pedidoscafeteria/ui/home/HomeViewModel.java	(date 1592525239663)
+@@ -16,4 +16,5 @@
+     public LiveData<String> getText() {
+         return mText;
+     }
++
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_desc_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_desc_menu.xml	(date 1592514380000)
++++ app/src/main/res/layout/activity_desc_menu.xml	(date 1592525239673)
+@@ -41,6 +41,7 @@
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"/>
+         </TableRow>
++
+         <TextView
+             android:id="@+id/precio_menu_desc"
+             android:layout_width="match_parent"
+@@ -49,6 +50,22 @@
+             android:gravity="center"
+             android:textSize="20dp"
+             android:layout_margin="10dp"/>
++
++        <TableRow
++            android:gravity="center">
++            <TextView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:text="@string/cantidad"
++                android:gravity="center"
++                android:textSize="20dp"/>
++            <EditText
++                android:id="@+id/cantidad_menu"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:hint="@string/hint_cantidad"/>
++        </TableRow>
++
+         <Button
+             android:id="@+id/agregar_pedido_desc"
+             android:text="@string/agregar_pedido"

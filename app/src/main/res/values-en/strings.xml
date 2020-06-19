@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">Cafeteria Orders</string>
 
+    <string name="ingles">English</string>
+    <string name="español">Spanish</string>
+    <string name="italiano">Italian</string>
+
     <string name="bienvenido">"UES Cafeterias"</string>
     <string name="login">Log in</string>
     <string name="nombreUsuario">Username</string>
@@ -85,10 +89,8 @@
     <string name="punto_ubicacion">Reference:</string>
     <string name="et_punto_ubicacion">Reference point</string>
     <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
-    <string name="eliminar_ubicacion_c">You really want to delete: </string>
     <!-- Fin Strings Pablo-->
     <!-- Inicio Strings Carlos -->
-    <string name="TituloCrearPedidos">Pedidos</string>
     <string name="TituloCrearProducto">Create Product</string>
     <string name="TituloAsignarProducto">Assign Product</string>
     <string name="TituloModificarProducto">Modify Product</string>

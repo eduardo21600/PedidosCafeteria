@@ -96,9 +96,9 @@ public class crearRepartidor extends AppCompatActivity {
     }
 
     public boolean vacios(){
-        if(etNomRepa.getText().toString().isEmpty()&&apeRepa.getText().toString().isEmpty()&&
-            usuarioRepa.getText().toString().isEmpty()&&contraRepa.getText().toString().isEmpty()&&
-            contraRepa.getText().toString().isEmpty()&&repeConRepa.getText().toString().isEmpty()&&
+        if(etNomRepa.getText().toString().isEmpty()||apeRepa.getText().toString().isEmpty()||
+            usuarioRepa.getText().toString().isEmpty()||contraRepa.getText().toString().isEmpty()||
+            contraRepa.getText().toString().isEmpty()||repeConRepa.getText().toString().isEmpty()||
             teleRepa.getText().toString().isEmpty()){
             return true;
         }
@@ -126,6 +126,6 @@ public class crearRepartidor extends AppCompatActivity {
     }
     public void erroresEnFormulario(){
         FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.errorAlCrear),
-                FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+                FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
     }
 }

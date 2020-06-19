@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class cambiarCrede extends AppCompatActivity {
 
     Button btnGuardar;
@@ -163,16 +166,33 @@ public class cambiarCrede extends AppCompatActivity {
                        if(!(repeContra.getText().toString().isEmpty())&&!(contra.getText().toString().isEmpty())){
                            if(contra.getText().toString().equals(repeContra.getText().toString())){
                                //controlador.abrir();
-                               usuario.setIdUsuario(nomU);
-                               usuario.setContrasena(verContra);
-                               usuario.setTeleUsuario(tel);
-                               controlador.actualizarUsuario2(usuario,original);
-                               original = nomU;
-                               SharedPreferences.Editor editor = sharedPreferences.edit();
-                               editor.putString("nombreUsuario",nomU);
-                               editor.apply();
-                               //controlador.cerrar();
-                               FancyToast.makeText(getApplicationContext(),"Se han guardado los cambios",2,FancyToast.SUCCESS,true).show();
+                               List<PedidoRealizado> pedido= new ArrayList<>();
+                               boolean tienePedidos=false;
+                               pedido = controlador.ConsultaPedidosRealizados();
+                               for (int i = 0; i < pedido.size() ; i++) {
+                                   if(pedido.get(i).getIdUsuario().equals(original)){
+                                       tienePedidos=true;
+                                       break;
+                                   }
+                               }
+                               if(tienePedidos){
+                                   FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.NoPuedeCambiarCrede),
+                                           2,FancyToast.ERROR,true).show();
+                               }
+                               else{
+                                   usuario.setIdUsuario(nomU);
+                                   usuario.setContrasena(verContra);
+                                   usuario.setTeleUsuario(tel);
+                                   controlador.actualizarUsuario2(usuario,original);
+                                   original = nomU;
+                                   SharedPreferences.Editor editor = sharedPreferences.edit();
+                                   editor.putString("nombreUsuario",nomU);
+                                   editor.apply();
+                                   //controlador.cerrar();
+                                   FancyToast.makeText(getApplicationContext(),"Se han guardado los cambios",
+                                           2,FancyToast.SUCCESS,true).show();
+                               }
+
                                break;
                            }
                            else {
@@ -209,12 +229,6 @@ public class cambiarCrede extends AppCompatActivity {
                }
             }
         });
-    }
-
-    public void llenar (View v){
-        //LLENADO PARA PRUEBAS RECUERDA QUITAR ESTO LUEGO!
-        String res = controlador.llenarUsuario();
-        FancyToast.makeText(getApplicationContext(),res,FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
     }
 
     @Override

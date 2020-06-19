@@ -23,6 +23,7 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
 
     Context mContext;
     List<Usuario> datos;
+    private Activity mActivity;
     ControladorBD controladorBD;
 
     public AdapterRepartidor(Context mContext,List<Usuario> datos){
@@ -30,18 +31,13 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
         this.datos =datos;
     }
 
+
     @NonNull
     @Override
     public RepartidorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_repa_e,parent,false);
         AdapterRepartidor.RepartidorViewHolder vHolder = new AdapterRepartidor.RepartidorViewHolder(v);
         controladorBD = new ControladorBD(mContext);
-        vHolder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         return  vHolder;
     }
 
@@ -81,6 +77,20 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
                         })
                         .build();
                 mDialog.show();
+            }
+        });
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,ActualizarRepartidor.class);
+                intent.putExtra("idRepa",datos.get(position).getIdUsuario());
+                intent.putExtra("contraseña",datos.get(position).getContrasena());
+                intent.putExtra("nombreRepa",datos.get(position).getNombreUsuario());
+                intent.putExtra("telefono",datos.get(position).getTeleUsuario());
+                intent.putExtra("apellidoRepa",datos.get(position).getApellidoUsuario());
+                intent.putExtra("estado",datos.get(position).getEstado());
+                mContext.startActivity(intent);
             }
         });
 

@@ -13,13 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductoAsignadoFinal"></activity>
+        <activity android:name=".ActualizarRepartidor"></activity>
+        <activity android:name=".ProductoAsignadoFinal" />
         <activity android:name=".ProductoMenuAsignar" />
         <activity android:name=".AsignarProductoMenu" />
         <activity android:name=".EliminarMenu" />
         <activity android:name=".ModificarMenu" />
         <activity android:name=".InsertarMenu" />
-        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion"></activity>
+        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion" />
         <activity android:name=".AsignarRepartidor" />
         <activity android:name=".ui.menuCliente.DescMenu" />
         <activity android:name=".DetallePedidoRep" />

@@ -58,6 +58,9 @@
     <string name="errorAlCrear">Hay datos incorrectos en el formulario</string>
     <string name="usuarioEnUso">Este nombre de usuario ya existe</string>
     <string name="camposVacios">No puede dejar campos vacios</string>
+    <string name="LlenarBase">Llenar Base</string>
+    <string name="actRepa">Actualizar Repartidor</string>
+    <string name="NoPuedeCambiarCrede">No se puede actualizar nombre de usuario porque tiene pedidos pendientes</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>

@@ -519,6 +519,7 @@ public class ControladorBD {
                 usuact.put("nombreUsuario", usuario.getNombreUsuario());
                 usuact.put("teleUsuario", usuario.getTeleUsuario());
                 usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                usuact.put("ESTDISPONREPARTIDOR",usuario.getEstado());
                 db.update("Usuario", usuact, "idUsuario=?", id);
 
             } else {
@@ -1823,7 +1824,7 @@ public class ControladorBD {
             do {
                 pedreal.add(new PedidoRealizado(cur.getInt(0),
                         cur.getString(1),
-                        cur.getString(3)));
+                        cur.getString(2)));
             } while (cur.moveToNext());
 
         }

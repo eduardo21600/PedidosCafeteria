@@ -112,17 +112,11 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnLlenar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="llenar"
-                android:text="Llenar" />
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvRepaVista"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fontFamily="@font/baloo"

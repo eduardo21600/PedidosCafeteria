@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,10 @@ public class PedidosR extends Fragment  {
         help.abrir();
        listaPedido = help.ConsultaPedidoR(usu);
         help.cerrar();
+        if(listaPedido.isEmpty())
+        {
+            FancyToast.makeText(getContext(), "No tienes Pedidos asignados",FancyToast.INFO, R.drawable.error,  false).show();
+        }
        // controladorServicios = new ControladorServicios(this);
        // controladorServicios.BuscarProductos(getContext());
     }

@@ -61,6 +61,8 @@
     <string name="LlenarBase">Llenar Base</string>
     <string name="actRepa">Actualizar Repartidor</string>
     <string name="NoPuedeCambiarCrede">No se puede actualizar nombre de usuario porque tiene pedidos pendientes</string>
+    <string name="Actualizar">Actualizar</string>
+    <string name="localActualizado">Se ha cambiado el nombre de su local</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>

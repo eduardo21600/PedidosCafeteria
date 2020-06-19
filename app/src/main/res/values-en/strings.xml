@@ -52,6 +52,17 @@
     <string name="local">Local</string>
     <string name="Fecha">Date:</string>
     <string name="verWs">Check Orders in WS</string>
+    <string name="noSeleccionoRepa">Deliveryman not selected</string>
+    <string name="contraseñaNoCoincide">The password dont match</string>
+    <string name="repaCreado">Deliveryman created</string>
+    <string name="errorAlCrear">There is wrong data in the form</string>
+    <string name="usuarioEnUso">This username is already taken</string>
+    <string name="camposVacios">You cannot leave empty fields</string>
+    <string name="LlenarBase">Set data in database</string>
+    <string name="actRepa">Update Delivery Man</string>
+    <string name="NoPuedeCambiarCrede">Unable to update username because you have pending orders</string>
+    <string name="Actualizar">Update</string>
+    <string name="localActualizado">Your local name has been changed</string>
     <string name="Nohayws">There arent requests made to this Market Stall on the server</string>
     <string name="nombre">Name</string>
     <string name="Apellido">Surname</string>

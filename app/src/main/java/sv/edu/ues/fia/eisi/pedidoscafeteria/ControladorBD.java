@@ -1255,7 +1255,7 @@ public class ControladorBD {
         if (cur.moveToFirst()) {
             ContentValues lokxti = new ContentValues();
             lokxti.put("idLocal", local.getIdLocal());
-            lokxti.put("idTipoUsuario", local.getIdUsuario());
+            lokxti.put("idUsuario", local.getIdUsuario());
             lokxti.put("nombreLocal", local.getNombreLocal());
 
 

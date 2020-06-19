@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.shreyaspatil.MaterialDialog.AbstractDialog;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.List;
 
@@ -73,28 +76,41 @@ public class DetallePedidoRep extends AppCompatActivity {
 
     public void marcarEntregado(View view){
 
-        if(ped.getIdEstadoPedido()==1){
-            ped.setIdEstadoPedido(2);
-            marcar.setText(R.string.estadoPedido);
-            if(ped.getIdEstadoPedido()==2){
-                usuario.setEstado("1");
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(DetallePedidoRep.this);
+        builder.setTitle("Finalizar pedido");
+        builder.setMessage("¿Esta seguro que quiere terminar el pedido? Esta acción no puede cambiarse");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Finalizar", new MaterialDialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                // Delete Operation
+                if (ped.getIdEstadoPedido() == 1) {
+                    ped.setIdEstadoPedido(2);
+                    marcar.setText(R.string.estadoPedido);
+                    marcar.setClickable(false);
+                    if (ped.getIdEstadoPedido() == 2) {
+                        usuario.setEstado("1");
+                    }
+                    bd.abrir();
+                    bd.actualizar(ped);
+                    bd.actualizarUsuario(usuario);
+                    bd.eliminar(pedidoAsignado);
+                    bd.cerrar();
+                    dialogInterface.dismiss();
+                }
             }
-            bd.abrir();
-            bd.actualizar(ped);
-            bd.actualizarUsuario(usuario);
-            bd.cerrar();
-        }
-        else if(ped.getIdEstadoPedido()==2)
-        {
-            ped.setIdEstadoPedido(1);
-            marcar.setText(R.string.marcar);
-            if(ped.getIdEstadoPedido()==1){
-                usuario.setEstado("2");
+        });
+        builder.setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.dismiss();
+                marcar.setClickable(true);
             }
-            bd.abrir();
-            bd.actualizar(ped);
-            bd.actualizarUsuario(usuario);
-            bd.cerrar();
+        });
+        MaterialDialog mDialog = builder
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
         }
-    }
 }

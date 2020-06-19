@@ -261,7 +261,8 @@ public class ControladorBD {
         db.execSQL("DELETE FROM ASIGNAPRODUCTO");
         db.execSQL("DELETE FROM MENU");
         db.execSQL("DELETE FROM PEDIDOASIGNADO");
-        db.execSQL("DELETE FROM PEDIDOREALIZADO");
+
+
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -1829,9 +1830,25 @@ public class ControladorBD {
         String resultado = "Se elimino pedidoAsignado";
         String[] idPA = {String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
         int contadorPA=0;
+        String where="idPedido='"+pedidoAsignado.getIdPedido()+"'";
+        where=where+" AND idUsuario="+pedidoAsignado.getIdUsuario();
+
         //verificar que exista pedidoAsignado
         if(verificarIntegridad(pedidoAsignado,14)){
-            contadorPA+=db.delete("PedidoAsignado","idPedido = ? and idUsuario = ? '"+ idPA +"'",null);
+            contadorPA+=db.delete("PedidoAsignado",where,null);
+        }else {
+            resultado= "El pedido Asignado no existe";
+        }
+        return resultado;
+    }
+
+    public String eliminarPR(PedidoAsignado pedidoAsignado){
+        String resultado = "Se elimino pedidoAsignado";
+        String[] idPA = {String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
+        int contadorPA=0;
+        //verificar que exista pedidoAsignado
+        if(verificarIntegridad(pedidoAsignado,14)){
+            contadorPA+=db.delete("PedidoAsignado","idUsuario = "+ pedidoAsignado.getIdUsuario(),null);
         }else {
             resultado= "El pedido Asignado no existe";
         }

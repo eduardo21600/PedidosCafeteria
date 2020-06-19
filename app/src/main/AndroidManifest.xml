@@ -31,7 +31,6 @@
         <activity android:name=".ui.menuCliente.MenusLocal" />
         <activity android:name=".crearRepartidor" />
         <activity android:name=".detallePedidoEnc" />
-        <activity android:name=".ui.ubicacionCliente.SeleccionarUbicacion" />
         <activity
             android:name=".drawerEncar"
             android:label="@string/title_activity_drawer_encar"

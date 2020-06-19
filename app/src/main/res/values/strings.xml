@@ -127,9 +127,33 @@
     <string name="descPedido">Descripción</string>
     <string name="estadoPedido">Pedido entregado</string>
     <string name="agregar_pedido">Agregar al pedido</string>
-    <string name="cantidad">Cantidad</string>
+    <string name="cantidad">Cantidad: </string>
     <string name="hint_cantidad">Ingrese la cantidad</string>
     <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
     <string name="paraLlevar">Pasaré por el pedido</string>
+    <string name="añadir_al_pedido">Añadir al pedido</string>
+    <string name="incluye">Incluye</string>
+    <string name="nombre_del_menu">Nombre del menu</string>
+    <string name="realizar_este_pedido">¿Realizar este pedido?</string>
+    <string name="total_a_cancelar">Total a cancelar: $</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="pedido_realizado">Pedido Realizado</string>
+    <string name="no_se_pudo_realizar">No se pudo realizar el pedido:</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="no_ubicacion">No se seleccionó ubicación</string>
+    <string name="num_entero">Inserte un número entero</string>
+    <string name="inserte_cantidad">Inserte una cantidad</string>
+    <string name="total_1">Total: </string>
+    <string name="cancelar_pedido">¿Cancelar Pedido?</string>
+    <string name="esta_seguro">¿Esta seguro de cancelar \'</string>
+    <string name="borrar">Borrar</string>
+    <string name="cancelado">Se canceló su pedido correctamente</string>
+    <string name="pedidos_realizados">Pedidos Realizados</string>
+    <string name="eliminar_ubicacion">¿Eliminar Ubicación?</string>
+    <string name="esta_seguro_ubi">¿Esta seguro de eliminar \'</string>
+    <string name="no_se_pudo_ubicacion">No se pudo obtener su ubicación</string>
+    <string name="llene_campos">Llene todos los campos</string>
+    <string name="ubicacion_guardada">Su ubicación se ha guardado</string>
+    <string name="ubicacion_no_guardada">Su ubicación no se pudo guardar</string>
 
 </resources>

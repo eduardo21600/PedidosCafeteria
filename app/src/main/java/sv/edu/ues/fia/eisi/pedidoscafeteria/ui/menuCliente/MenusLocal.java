@@ -37,7 +37,7 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
         setContentView(R.layout.activity_menus_local);
         Intent intent = getIntent();
         int id = intent.getIntExtra("Local",0);
-        Toast.makeText(this, "Estas viendo el menu del local con id: " + id, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Estas viendo el menu del local con id: " + id, Toast.LENGTH_SHORT).show();
         controladorBD = new ControladorBD(getApplicationContext());
         controladorBD.abrir();
         listaMenu = controladorBD.ConsultaMenusLocal(id);

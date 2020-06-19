@@ -70,7 +70,7 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
     {
         holder.tv_nombre.setText(mMenus.get(position).getNomMenu());
         holder.tv_desc.setText(mMenus.get(position).getFechaDesdeMenu());
-        holder.tv_precio.setText(String.valueOf(mMenus.get(position).getPrecioMenu()));
+        holder.tv_precio.setText(String.valueOf("$"+mMenus.get(position).getPrecioMenu()));
         holder.iv_imagen.setImageResource(R.drawable.food);
         holder.idMenu = mMenus.get(position).getIdMenu();
         holder.nomMenu = mMenus.get(position).getNomMenu();

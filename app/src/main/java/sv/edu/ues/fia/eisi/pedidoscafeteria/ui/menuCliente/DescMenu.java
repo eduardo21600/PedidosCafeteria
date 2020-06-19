@@ -114,12 +114,12 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
             }
             catch(Exception e)
             {
-                FancyToast.makeText(getApplicationContext(), "Inserte un número entero", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.num_entero)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
         else
         {
-            FancyToast.makeText(getApplicationContext(), "Inserte la cantidad", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.inserte_cantidad)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
         }
 
     }
@@ -134,11 +134,13 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
                 final int idUbicacion=data.getIntExtra("idUbicacion", 999);
                 direccion = data.getStringExtra("direccion");
                 MaterialDialog mDialog = new MaterialDialog.Builder(this)
-                        .setTitle("¿Realizar este pedido?")
+                        .setTitle(getResources().getString(R.string.realizar_este_pedido))
                         .setAnimation(R.raw.confirmar)
-                        .setMessage(nomMenu+"\n$"+precionMenu+"\nCantidad: "+c+"\nTotal a cancelar: $"+c*precionMenu)
+                        .setMessage(nomMenu+"\n$"+precionMenu+"\n"+
+                                getResources().getString(R.string.cantidad)+c+"\n"+
+                                getResources().getString(R.string.total_a_cancelar)+c*precionMenu)
                         .setCancelable(false)
-                        .setPositiveButton("Ordenar", new MaterialDialog.OnClickListener() {
+                        .setPositiveButton(getResources().getString(R.string.ordenar), new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which)
                             {
@@ -167,32 +169,32 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
                                         PedidoRealizado pedidoRealizado = new PedidoRealizado();
                                         pedidoRealizado.setIdPedido(controladorBD.ultimoIdPedido());
                                         pedidoRealizado.setIdUsuario(usu);
-                                        pedidoRealizado.setTipo("Entregar en: " + direccion);
+                                        pedidoRealizado.setTipo("Llevar");
                                         resultado = controladorBD.insertar(pedidoRealizado);
                                         if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
                                         {
-                                            FancyToast.makeText(getApplicationContext(), "Pedido realizado", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.pedido_realizado), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
                                             cantidad.setText("");
                                         }
                                         else
                                         {
-                                            FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 1\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.pedido_realizado)+ "\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
                                         }
                                     }
                                     else
                                     {
-                                        FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 2\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                        FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.pedido_realizado)+ "\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
                                     }
                                 }
                                 else
                                 {
-                                    FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 3\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                    FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.pedido_realizado)+ "\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
                                 }
                                 controladorBD.cerrar();
                                 dialogInterface.dismiss();
                             }
                         })
-                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.cancelar), new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 dialogInterface.dismiss();
@@ -203,7 +205,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
             }
             else
             {
-                FancyToast.makeText(getApplicationContext(), "No se seleccionó ubicacion", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.no_ubicacion)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
     }

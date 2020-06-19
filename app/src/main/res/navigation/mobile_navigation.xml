@@ -63,12 +63,12 @@
     <fragment
         android:id="@+id/nav_pedidos_c"
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.pedidosCliente.fragmentPedidosCliente"
-        android:label="Pedidos"
+        android:label="@string/pedidos_realizados"
         tools:layout="@layout/fragment_pedidos_cliente" />
     <fragment
         android:id="@+id/nav_ubicaciones"
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.fragmentUbicacion"
-        android:label="Mis Ubicaciones"
+        android:label="@string/Ubicaciones"
         tools:layout="@layout/fragment_ubicacion_c" />
     <fragment
         android:id="@+id/nav_producto"

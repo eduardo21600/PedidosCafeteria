@@ -47,7 +47,7 @@
             android:id="@+id/agregar_pedido"
             android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:text="Añadir al pedido"
+            android:text="@string/añadir_al_pedido"
             android:background="#3FDDCE"/>
     </TableLayout>
 

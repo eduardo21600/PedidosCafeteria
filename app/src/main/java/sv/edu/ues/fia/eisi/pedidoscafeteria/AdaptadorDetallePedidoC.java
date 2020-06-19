@@ -54,8 +54,8 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     @Override
     public void onBindViewHolder(@NonNull AdaptadorDetallePedidoC.viewHolder holder, final int position)
     {
-        holder.tv_cantidad.setText(String.valueOf("Cantidad: " + mDet.get(position).getCantidad()));
-        holder.tv_subtotal.setText(String.valueOf("Total: $" + mDet.get(position).getSubtotal()));
+        holder.tv_cantidad.setText(String.valueOf(mContext.getResources().getString(R.string.cantidad)+ mDet.get(position).getCantidad()));
+        holder.tv_subtotal.setText(String.valueOf(mContext.getResources().getString(R.string.total_1) + mDet.get(position).getSubtotal()));
         holder.iv_imagen.setImageResource(R.drawable.food);
         controladorBD.abrir();
         final String nomMenu = controladorBD.ConsultaMenu(String.valueOf(mDet.get(position).getIdMenu())).getNomMenu();
@@ -70,11 +70,11 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
                     final List<Pedido> pedidoABorrar = controladorBD.consultarPedidoDetalle(mDet.get(position).getIdDetallePedido());
                 controladorBD.cerrar();
                 MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
-                        .setTitle("Cancelar Pedido")
+                        .setTitle(mContext.getResources().getString(R.string.cancelar_pedido))
                         .setAnimation(R.raw.delete)
-                        .setMessage("¿Está seguro que quiere cancelar '"+nomMenu+"'?")
+                        .setMessage(mContext.getResources().getString(R.string.esta_seguro)+nomMenu+"'?")
                         .setCancelable(false)
-                        .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
+                        .setPositiveButton(mContext.getResources().getString(R.string.borrar), new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 // Delete Operation
@@ -90,13 +90,13 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
                                     resultado = controladorBD.eliminar(pedidoABorrar.get(0));
                                     if(resultado.equals("Se elimino el pedido: "+pedidoABorrar.get(0).getIdPedido()))
                                     {
-                                        FancyToast.makeText(mContext, "Se canceló su pedido correctamente", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                        FancyToast.makeText(mContext, mContext.getResources().getString(R.string.cancelado), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
                                     }
                                 }
                                 controladorBD.cerrar();
                             }
                         })
-                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                        .setNegativeButton(mContext.getResources().getString(R.string.cancelar), new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 dialogInterface.dismiss();

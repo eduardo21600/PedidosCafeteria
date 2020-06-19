@@ -87,7 +87,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
                     }
                     else
                     {
-                        FancyToast.makeText(getApplicationContext(), "No se pudo obtener su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                        FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.no_se_pudo_ubicacion), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -101,7 +101,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
 
                 if (nombreUbicacion.getText().toString().isEmpty() || dirUbicacion.getText().toString().isEmpty() || puntoUbicacion.getText().toString().isEmpty())
                 {
-                    FancyToast.makeText(getApplicationContext(), "Llene todos los campos", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                    FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.llene_campos), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
                 else
                 {
@@ -110,7 +110,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
                     controladorBD.abrir();
                     String respuesta = controladorBD.insertar(ubicacion);
                     controladorBD.cerrar();
-                    FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                    //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
 
             }
@@ -175,14 +175,14 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
 
         if(resultado == "CONEXIÓN EXITOSA")
         {
-            FancyToast.makeText(getApplicationContext(), "Se ha guardado su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.ubicacion_guardada), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
             nombreUbicacion.setText("");
             dirUbicacion.setText("");
             puntoUbicacion.setText("");
         }
         else
         {
-            FancyToast.makeText(getApplicationContext(), "No se pudo guardar su ubicacion", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.ubicacion_no_guardada), FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
         }
     }
 }

@@ -971,6 +971,20 @@ public class ControladorBD {
         return uwu;
     }
 
+    public List<Menu> ConsultaMenusRealizados(String idUsuario) {
+        Cursor cur = db.rawQuery("SELECT MENU.* FROM ((DETALLEPEDIDO INNER JOIN PEDIDO ON DETALLEPEDIDO.IDDETALLEPEDIDO\n" +
+                "= PEDIDO.IDDETALLEPEDIDO) INNER JOIN PEDIDOREALIZADO ON PEDIDO.IDPEDIDO = PEDIDOREALIZADO.IDPEDIDO)\n" +
+                "INNER JOIN MENU ON MENU.IDMENU = DETALLEPEDIDO.IDMENU  WHERE IDUSUARIO=" + idUsuario, null);
+        List<Menu> uwu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
+            } while (cur.moveToNext());
+        }
+        return uwu;
+    }
+
     public String ActualizarMenu(Menu menu) {
         String resultado = "Menu actualizado";
         String[] id = {String.valueOf(menu.getIdMenu())};
@@ -1086,6 +1100,29 @@ public class ControladorBD {
         } else {
             return null;
         }
+
+
+    }
+
+    public List<DetallePedido> ConsultaDetallePedidoRealizado(String idUsuario) {
+        //String[] id = {String.valueOf(idUsuario)};
+        Cursor cur = db.rawQuery("SELECT DETALLEPEDIDO.* FROM ((DETALLEPEDIDO INNER JOIN PEDIDO ON DETALLEPEDIDO.IDDETALLEPEDIDO\n" +
+                "= PEDIDO.IDDETALLEPEDIDO) INNER JOIN PEDIDOREALIZADO ON PEDIDO.IDPEDIDO = PEDIDOREALIZADO.IDPEDIDO)\n" +
+                " WHERE IDUSUARIO= '" + idUsuario+"'", null);
+        List<DetallePedido> depe = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                depe.add(new DetallePedido(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2),
+                        cur.getInt(3)
+                ));
+            } while (cur.moveToNext());
+
+
+        }
+        return depe;
 
 
     }

@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -22,10 +23,12 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackRespuestaString;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.SeleccionarUbicacion;
 
 public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, CallbackRespuestaString {
 
-    String total,fecha,idPedido;
+    String total,fecha,idPedido,idRepa;
+    private final int SECOND_ACTIVITY = 1;
     int idUbicacion,idDeP,idEstadoP,idLocal;
     EditText idCodigo, productos, cliente, totalPago, ubicacion,tipo;
     Button asignar;
@@ -95,7 +98,12 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
             ubicacion.setText(ubicacionLocal.getDirecUbicacion());
         }
 
-
+        asignar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agregarRepaAlPedido();
+            }
+        });
 
         estadoPedido.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +148,11 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
         });
     }
 
+    public void agregarRepaAlPedido(){
+        Intent intent = new Intent(getApplicationContext(), AsignarRepartidor.class);
+        startActivityForResult(intent, SECOND_ACTIVITY);
+    }
+
     @Override
     public void ResponseWS(Object lista) {
         if(ordenResponse==1){
@@ -176,4 +189,33 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
             finish();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==SECOND_ACTIVITY){
+            if(resultCode==Activity.RESULT_OK){
+                idRepa = data.getStringExtra("idRepa");
+                Usuario repaAct= controladorBD.ConsultaUsuario(idRepa);
+                repaAct.setEstado("2");
+                PedidoAsignado pedidoAsignado= new PedidoAsignado(
+                        Integer.valueOf(idPedido),idRepa);
+                controladorBD.insertar(pedidoAsignado);
+                controladorBD.actualizarUsuario(repaAct);
+
+            }
+            else{
+                FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.noSeleccionoRepa),
+                        FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controladorBD.cerrar();
+    }
 }
+
+

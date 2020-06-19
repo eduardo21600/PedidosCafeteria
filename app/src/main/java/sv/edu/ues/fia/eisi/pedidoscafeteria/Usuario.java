@@ -7,6 +7,7 @@ public class Usuario {
     private String nombreUsuario;
     private String teleUsuario;
     private String apellidoUsuario;
+    private String estado;
 
     public Usuario(){}
 
@@ -23,6 +24,24 @@ public class Usuario {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.teleUsuario = teleUsuario;
+    }
+
+    public Usuario(String idUsuario, int idTipoUsuario, String contrasena, String nombreUsuario, String teleUsuario, String apellidoUsuario, String estado) {
+        this.idUsuario = idUsuario;
+        this.idTipoUsuario = idTipoUsuario;
+        this.contrasena = contrasena;
+        this.nombreUsuario = nombreUsuario;
+        this.teleUsuario = teleUsuario;
+        this.apellidoUsuario = apellidoUsuario;
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getIdUsuario() {

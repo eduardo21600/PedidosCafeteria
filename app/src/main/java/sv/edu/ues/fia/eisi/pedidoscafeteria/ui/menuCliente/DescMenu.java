@@ -71,7 +71,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
         agregarPedido = (Button) findViewById(R.id.agregar_pedido_desc);
         cantidad = (EditText) findViewById(R.id.cantidad_menu);
         tv_nom.setText(nomMenu);
-        tv_precio.setText(String.valueOf(precionMenu));
+        tv_precio.setText("$"+String.valueOf(precionMenu));
         controladorBD = new ControladorBD(getApplicationContext());
         controladorBD.abrir();
         productos = controladorBD.ConsultaProductosMenu(idMenu);
@@ -114,7 +114,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
             }
             catch(Exception e)
             {
-                FancyToast.makeText(getApplicationContext(), "Inserte un número", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                FancyToast.makeText(getApplicationContext(), "Inserte un número entero", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
         else
@@ -172,6 +172,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
                                         if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
                                         {
                                             FancyToast.makeText(getApplicationContext(), "Pedido realizado", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                            cantidad.setText("");
                                         }
                                         else
                                         {

@@ -43,6 +43,7 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
                 intent.putExtra("idLocal",vHolder.idLocal);
                 intent.putExtra("fecha",vHolder.fecha);
                 mContext.startActivity(intent);
+
             }
         });
 

@@ -51,14 +51,12 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     private int ordenResponse,idLocal;
     private boolean seTieneLocal;
     private Chip verWS;
-    private ImageView ivRefresh;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
         verWS = (Chip)root.findViewById(R.id.chipWSpedido);
-        ivRefresh = (ImageView)root.findViewById(R.id.ivRefrescar);
         final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -81,13 +79,6 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
                         adapter.notifyDataSetChanged();
                     }
                 }
-            }
-        });
-
-        ivRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.notifyDataSetChanged();
             }
         });
         return root;

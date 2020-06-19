@@ -1735,7 +1735,7 @@ public class ControladorBD {
 
         }
         return peasig;
-    }
+    }//siiiii
     public List<Pedido> ConsultaPedidoR(String idUsuario) {
                  String[] id = {idUsuario};
         Cursor cur = db.rawQuery("SELECT * FROM PEDIDOASIGNADO WHERE IDUSUARIO = '" + id+"'", null);

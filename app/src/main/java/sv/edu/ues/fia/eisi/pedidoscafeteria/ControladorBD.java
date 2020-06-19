@@ -239,10 +239,10 @@ public class ControladorBD {
         final int [] idFacultad =new int[]{1,2,3,4,5};
         final String [] nomFacultad =new String[]{"FIA","Derecho","Economía","Psicología","Agronomía"};
 
-        final String[] direcUbicacion = new String[]{"Sierra Morena", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
-        final String[] nomUbicacion = new String[]{"Casa de Lidia", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
-        final String[] puntoUbicacion = new String[]{"Delichely", "Iglesia", "Tienda","Parroquia", "Bajadas"};
-        final String[] ubiUsuarios = new String[]{"Lau1", "Lau1", "Lau1","amber", "amber"};
+        final String[] direcUbicacion = new String[]{"Pasaré por el", "Soyapango", "Mejicanos","Ciudad Delgado", "Ayutuxtepeque"};
+        final String[] nomUbicacion = new String[]{"Traer a local", "Casa de Pablo", "Casa de Carlos","Casa de Vane", "Casa de Fer"};
+        final String[] puntoUbicacion = new String[]{"Local", "Iglesia", "Tienda","Parroquia", "Bajadas"};
+        final String[] ubiUsuarios = new String[]{"Juan1", "Lau1", "Lau1","amber", "amber"};
 
 
         abrir();
@@ -261,6 +261,7 @@ public class ControladorBD {
         db.execSQL("DELETE FROM ASIGNAPRODUCTO");
         db.execSQL("DELETE FROM MENU");
         db.execSQL("DELETE FROM PEDIDOASIGNADO");
+        db.execSQL("DELETE FROM PEDIDOREALIZADO");
 
 
 
@@ -1128,7 +1129,7 @@ public class ControladorBD {
         //String[] id = {String.valueOf(idUsuario)};
         Cursor cur = db.rawQuery("SELECT DETALLEPEDIDO.* FROM ((DETALLEPEDIDO INNER JOIN PEDIDO ON DETALLEPEDIDO.IDDETALLEPEDIDO\n" +
                 "= PEDIDO.IDDETALLEPEDIDO) INNER JOIN PEDIDOREALIZADO ON PEDIDO.IDPEDIDO = PEDIDOREALIZADO.IDPEDIDO)\n" +
-                " WHERE IDUSUARIO= '" + idUsuario+"'", null);
+                " WHERE IDUSUARIO= '" + idUsuario+"' AND PEDIDO.IDESTADOPEDIDO = 1", null);
         List<DetallePedido> depe = new ArrayList<>();
         if (cur.moveToFirst()) {
 
@@ -1830,8 +1831,8 @@ public class ControladorBD {
         String resultado = "Se elimino pedidoAsignado";
         String[] idPA = {String.valueOf(pedidoAsignado.getIdPedido()),pedidoAsignado.getIdUsuario()};
         int contadorPA=0;
-        String where="idPedido='"+pedidoAsignado.getIdPedido()+"'";
-        where=where+" AND idUsuario="+pedidoAsignado.getIdUsuario();
+        String where="idPedido="+pedidoAsignado.getIdPedido();
+        where=where+" AND idUsuario='"+pedidoAsignado.getIdUsuario()+"'";
 
         //verificar que exista pedidoAsignado
         if(verificarIntegridad(pedidoAsignado,14)){

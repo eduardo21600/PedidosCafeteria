@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,6 +19,11 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"/>
 
+            <Button
+                android:id="@+id/pasar_local"
+                android:layout_margin="20dp"
+                android:text="@string/paraLlevar"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,4 +32,4 @@
                 android:layout_marginRight="40dp"/>
         </TableLayout>
 
-</LinearLayout>
+</ScrollView>

@@ -169,7 +169,14 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
                                         PedidoRealizado pedidoRealizado = new PedidoRealizado();
                                         pedidoRealizado.setIdPedido(controladorBD.ultimoIdPedido());
                                         pedidoRealizado.setIdUsuario(usu);
-                                        pedidoRealizado.setTipo("Llevar");
+                                        if(idUbicacion==1)
+                                        {
+                                            pedidoRealizado.setTipo("Local");
+                                        }
+                                        else
+                                        {
+                                            pedidoRealizado.setTipo("Llevar");
+                                        }
                                         resultado = controladorBD.insertar(pedidoRealizado);
                                         if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
                                         {

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.nuevaDIreccion.agregarDireccion"
+    android:background="@drawable/gradiente_fondo"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/obtener_direccion_m"
+            android:background="#3FDDCE"
+            android:text="@string/obtener_ubicacion"
+            android:layout_margin="20dp"/>
+
+        <TableRow
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_ubicacion"
+                android:layout_margin="20dp"/>
+
+            <EditText
+                android:id="@+id/et_nombre_ubicacion_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/et_nombre_ubicacion"
+                android:layout_margin="20dp"/>
+        </TableRow>
+        <TableRow
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dir_ubicacion"
+                android:layout_margin="20dp"/>
+
+            <EditText
+                android:id="@+id/et_dir_ubicacion_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/et_dir_ubicacion"
+                android:layout_margin="20dp"/>
+        </TableRow>
+        <TableRow
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/punto_ubicacion"
+                android:layout_margin="20dp"/>
+
+            <EditText
+                android:id="@+id/et_punto_ubicacion_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/et_punto_ubicacion"
+                android:layout_margin="20dp"/>
+        </TableRow>
+
+        <Button
+            android:id="@+id/modificar_direccion"
+            android:background="#3FDDCE"
+            android:text="@string/modificar_direccion"
+            android:layout_margin="20dp"/>
+
+
+    </TableLayout>
+
+</LinearLayout>

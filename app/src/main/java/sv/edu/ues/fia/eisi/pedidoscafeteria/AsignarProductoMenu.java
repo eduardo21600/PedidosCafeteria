@@ -24,6 +24,7 @@ public class AsignarProductoMenu extends AppCompatActivity {
         recyclerViewProductoDelMenu.setLayoutManager(new LinearLayoutManager(this));
         Bundle extras = getIntent().getExtras();
         id= extras.getString("id");
+        int idMenu=Integer.valueOf(id);
         ControladorBD help = new ControladorBD(getApplicationContext());
         help.abrir();
         btnAgregarProducto.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +35,7 @@ public class AsignarProductoMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        AdaptadorAsignarProductoMenu adaptadorAsignarProductoMenu=new AdaptadorAsignarProductoMenu(help.ConsultaTablaAsignarProducto(id));
+        AdaptadorAsignarProductoMenu adaptadorAsignarProductoMenu=new AdaptadorAsignarProductoMenu(help.ConsultaProductosMenu(idMenu));
         recyclerViewProductoDelMenu.setAdapter(adaptadorAsignarProductoMenu);
         help.cerrar();
     }

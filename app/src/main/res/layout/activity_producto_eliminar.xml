@@ -39,71 +39,68 @@
             android:layout_height="wrap_content"
             android:text="@string/nombreProducto"
             android:textColor="#FAF8F8"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editnombreProducto"
+        <TextView
+            android:id="@+id/textNombreEliminarProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:ems="10"
-            android:inputType="text"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            android:layout_marginTop="20dp"
+            android:text=" "
+            android:textColor="#FAF8F8"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/precioProducto"
             android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editprecioUnitario"
+        <TextView
+            android:id="@+id/textPrecioProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="numberDecimal"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            android:layout_marginTop="20dp"
+            android:text=" "
+            android:textColor="#FAF8F8"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/descripcionProducto"
             android:textColor="#FAF8F8"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editdescProducto"
+        <TextView
+            android:id="@+id/textDescripcionProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#050505"
-            android:textSize="18sp" />
+            android:layout_marginTop="20dp"
+            android:text=" "
+            android:textColor="#FAF8F8"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnAsignar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bordes_redondos"
-            android:text="@string/botonEliminar"
             android:onClick="eliminarProductoH"
+            android:text="@string/botonEliminar"
             android:textColor="#F8F8F8"
             android:textStyle="bold"
             tools:ignore="OnClick" />

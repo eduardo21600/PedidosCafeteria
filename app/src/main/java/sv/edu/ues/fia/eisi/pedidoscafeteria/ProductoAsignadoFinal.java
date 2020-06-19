@@ -17,14 +17,13 @@ public class ProductoAsignadoFinal extends AppCompatActivity {
         base = new ControladorBD(this);
 
     }
-    public void integrarProductoAlMenu (View v)
+    public void integrarProductoAlMenu (int idProducto)
     {
         Bundle extras = getIntent().getExtras();
         idMenu= extras.getString("id");
-        Bundle extras1 = getIntent().getExtras();
-        IDProducto= extras1.getString("productoid");
-
-        Integer IdProducto=Integer.valueOf(IDProducto);
+        //Bundle extras1 = getIntent().getExtras();
+         //= extras1.getString("productoid");
+        Integer IdProducto=Integer.valueOf(idProducto);
         Integer IdMenu=Integer.valueOf(idMenu);
         String registro;
         ProductoAsignar productoAsignar=new ProductoAsignar();

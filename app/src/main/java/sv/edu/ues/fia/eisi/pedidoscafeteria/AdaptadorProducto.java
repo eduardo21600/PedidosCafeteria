@@ -20,6 +20,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
         private TextView nombre;
         private TextView id;
         private TextView productoprecio;
+        private TextView descripcion;
         private Button btnModificar;
         private Button btnEliminar;
 
@@ -30,6 +31,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
             nombre=(TextView)itemView.findViewById(R.id.textNombre);
             id=(TextView)itemView.findViewById(R.id.textIdProducto);
             productoprecio=(TextView)itemView.findViewById(R.id.productoprecio);
+            descripcion=(TextView)itemView.findViewById(R.id.textDescripcionProducto);
             btnEliminar=(Button)itemView.findViewById(R.id.btnEliminarProducto);
             btnModificar=(Button)itemView.findViewById(R.id.btnModificarProducto);
         }
@@ -46,6 +48,9 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 case R.id.btnEliminarProducto:
                     Intent intentn= new Intent(context, ProductoEliminar.class);
                     intentn.putExtra("idy",id.getText());
+                    intentn.putExtra("precio",productoprecio.getText());
+                    intentn.putExtra("nombre",nombre.getText());
+                    intentn.putExtra("desc",descripcion.getText());
                     context.startActivity(intentn);
                     break;
 
@@ -75,6 +80,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
         holder.nombre.setText(productoLista.get(position).getNombreProducto());
         holder.id.setText(String.valueOf(productoLista.get(position).getIdProduto()));
         holder.productoprecio.setText(String.valueOf(productoLista.get(position).getPrecioUnitario()));
+        holder.descripcion.setText(productoLista.get(position).getNombreProducto());
         holder.setOnClickListener();
     }
 

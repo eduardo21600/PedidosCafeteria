@@ -49,7 +49,14 @@ public class Producto_Lista extends Fragment  {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adaptadorProducto);
         help.cerrar();
-
+        Button crear = (Button)v.findViewById(R.id.butonAgregarProducto);
+        crear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProductoIngresar.class);
+                startActivity(intent);
+            }
+        });
 
         // Inflate the layout for this fragment
         return v;

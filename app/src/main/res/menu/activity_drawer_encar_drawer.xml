@@ -25,7 +25,7 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_Producto" />
         <item
-            android:id="@+id/nav_menu"
+            android:id="@+id/nav_menuEncargado"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_Encargado" />
     </group>

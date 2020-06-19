@@ -1,6 +1,8 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+
 import java.util.List;
 
 public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetallePedidoC.viewHolder>
@@ -22,11 +28,15 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     private Context mContext;
     private List<DetallePedido> mDet;
     private ControladorBD controladorBD;
+    SharedPreferences sharedPreferences;
+    String usu;
 
     public AdaptadorDetallePedidoC(Context mContext, List<DetallePedido> mDet) {
         this.mContext = mContext;
         this.mDet = mDet;
         controladorBD = new ControladorBD(mContext);
+        sharedPreferences = mContext.getSharedPreferences("validacion", 0);
+        usu = sharedPreferences.getString("nombreUsuario", "No Name");
     }
 
     @NonNull
@@ -42,15 +52,60 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdaptadorDetallePedidoC.viewHolder holder, int position)
+    public void onBindViewHolder(@NonNull AdaptadorDetallePedidoC.viewHolder holder, final int position)
     {
-        holder.tv_cantidad.setText(String.valueOf(mDet.get(position).getCantidad()));
-        holder.tv_subtotal.setText(String.valueOf(mDet.get(position).getSubtotal()));
+        holder.tv_cantidad.setText(String.valueOf("Cantidad: " + mDet.get(position).getCantidad()));
+        holder.tv_subtotal.setText(String.valueOf("Total: $" + mDet.get(position).getSubtotal()));
         holder.iv_imagen.setImageResource(R.drawable.food);
         controladorBD.abrir();
-        String nomMenu = controladorBD.ConsultaMenu(String.valueOf(mDet.get(position).getIdMenu())).getNomMenu();
+        final String nomMenu = controladorBD.ConsultaMenu(String.valueOf(mDet.get(position).getIdMenu())).getNomMenu();
         holder.tv_idMenu.setText(nomMenu);
         controladorBD.cerrar();
+        holder.eleminarPedido.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                controladorBD.abrir();
+                    final List<Pedido> pedidoABorrar = controladorBD.consultarPedidoDetalle(mDet.get(position).getIdDetallePedido());
+                controladorBD.cerrar();
+                MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
+                        .setTitle("Cancelar Pedido")
+                        .setAnimation(R.raw.delete)
+                        .setMessage("¿Está seguro que quiere cancelar '"+nomMenu+"'?")
+                        .setCancelable(false)
+                        .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                // Delete Operation
+                                int id = position;
+                                mDet.remove(position);
+                                notifyItemRemoved(position);
+                                dialogInterface.dismiss();
+                                PedidoRealizado pedidoRealizado = new PedidoRealizado(pedidoABorrar.get(0).getIdPedido(), usu, "");
+                                controladorBD.abrir();
+                                String resultado = controladorBD.eliminar(pedidoRealizado);
+                                if(resultado.equals("Se elimino pedidoRealizado"))
+                                {
+                                    resultado = controladorBD.eliminar(pedidoABorrar.get(0));
+                                    if(resultado.equals("Se elimino el pedido: "+pedidoABorrar.get(0).getIdPedido()))
+                                    {
+                                        FancyToast.makeText(mContext, "Se canceló su pedido correctamente", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                    }
+                                }
+                                controladorBD.cerrar();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                mDialog.show();
+            }
+        });
     }
 
     @Override

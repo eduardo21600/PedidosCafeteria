@@ -1481,6 +1481,29 @@ public class ControladorBD {
         }
     }
 
+    public List<Pedido> consultarPedidoDetalle(int  idDetallePedido){
+        Cursor cur = db.rawQuery("SELECT * FROM Pedido WHERE IDDETALLEPEDIDO=" + idDetallePedido, null);
+        List<Pedido> pedido = new ArrayList<>();
+        ArrayList<DetallePedido> detallePedidos = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                /*Cursor m = db.rawQuery("SELECT * FROM DETALLEPEDIDO WHERE IDDETALLEPEDIDO=?" + cur.getString(1), null);
+                if (m.moveToFirst()) {
+                    detallePedidos.add(new DetallePedido(m.getInt(1), m.getInt(2), m.getInt(3),m.getInt(4)));
+                }while(m.moveToNext());*/
+                pedido.add(new Pedido(cur.getInt(0),
+                        cur.getInt(1),
+                        cur.getInt(2),
+                        cur.getInt(3),
+                        cur.getInt(4),
+                        cur.getString(5),
+                        cur.getDouble(6)));
+            } while (cur.moveToNext());
+        }
+        return pedido;
+    }
+
+
     public List<Pedido> ConsultaPedidos() {
         Cursor cur = db.rawQuery("SELECT * FROM Pedido", null);
         List<Pedido> pedido = new ArrayList<>();
@@ -1566,11 +1589,11 @@ public class ControladorBD {
                 contadorPA+=db.delete("PedidoAsignado", "idPedido= '"+pedido.getIdPedido()+"'",null);
                 resultado+= resultado + " Se elimino el/los "+ contadorPA+" registros de EstadoPedido";
             }
-            if(verificarIntegridad(pedido,8)){
+            /*if(verificarIntegridad(pedido,8)){
                 contadorU+=db.delete("Ubicacion", "idUbicacion= '"+pedido.getIdUbicacion()+"'",null);
                 resultado+= resultado + " Se elimino el/los "+ contadorU+" registros de Ubicacion";
-            }
-            for (int i = 0; i < detallePedidos.size();i++)
+            }*/
+            /*for (int i = 0; i < detallePedidos.size();i++)
             {
                 Cursor m = db.query(true, "DetallePedido", new String[]{"idDetallePedido"}, "idDetallePedido= '" + detallePedidos.get(i).getIdDetallePedido()+ "'", null, null, null, null, null);
                 if (m.moveToFirst()) {
@@ -1578,7 +1601,7 @@ public class ControladorBD {
 
                     resultado = resultado + ", " + cont1 + " Detalles de pedido eliminados de pedido";
                 }
-            }
+            }*/
             contadorU+=db.delete("Pedido","idPedido= '"+pedido.getIdPedido()+"'",null);
         }else {
             resultado= "El pedido no existe";
@@ -1828,7 +1851,7 @@ public class ControladorBD {
         int contadorPR=0;
         //verificar que exista pedidoRealizado
         if(verificarIntegridad(pedidoRealizado,16)){
-            contadorPR+=db.delete("PedidoRealizado","idPedido = ? and idUsuario = ? '"+ idPR +"'",null);
+            contadorPR+=db.delete("PedidoRealizado","idPedido = ? and idUsuario = ?",idPR);
         }else {
             resultado= "El pedido Realizado no existe";
         }

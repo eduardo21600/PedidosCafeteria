@@ -40,7 +40,12 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         vHolder.agregarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Men: " + vHolder.tv_nombre.getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, DescMenu.class);
+                intent.putExtra("idMenu", vHolder.idMenu);
+                intent.putExtra("nomMenu", vHolder.nomMenu);
+                intent.putExtra("precioMenu", vHolder.precioMenu);
+                intent.putExtra("idLocal", vHolder.idLocal);
+                mContext.startActivity(intent);
             }
         });
 

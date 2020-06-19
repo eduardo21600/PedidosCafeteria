@@ -21,10 +21,12 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
 {
     private Context mContext;
     private List<DetallePedido> mDet;
+    private ControladorBD controladorBD;
 
     public AdaptadorDetallePedidoC(Context mContext, List<DetallePedido> mDet) {
         this.mContext = mContext;
         this.mDet = mDet;
+        controladorBD = new ControladorBD(mContext);
     }
 
     @NonNull
@@ -45,6 +47,10 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         holder.tv_cantidad.setText(String.valueOf(mDet.get(position).getCantidad()));
         holder.tv_subtotal.setText(String.valueOf(mDet.get(position).getSubtotal()));
         holder.iv_imagen.setImageResource(R.drawable.food);
+        controladorBD.abrir();
+        String nomMenu = controladorBD.ConsultaMenu(String.valueOf(mDet.get(position).getIdMenu())).getNomMenu();
+        holder.tv_idMenu.setText(nomMenu);
+        controladorBD.cerrar();
     }
 
     @Override

@@ -124,5 +124,6 @@
     <string name="cantidad">Cantidad</string>
     <string name="hint_cantidad">Ingrese la cantidad</string>
     <string name="seleccionar_ubicacion">Seleccionar Una Ubicacion</string>
+    <string name="paraLlevar">Pasaré por el pedido</string>
 
 </resources>

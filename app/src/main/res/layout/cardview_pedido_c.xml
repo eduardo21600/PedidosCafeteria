@@ -13,7 +13,7 @@
         android:id="@+id/imagen_pedido_c"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/user"
+        android:src="@drawable/food"
         android:layout_margin="20dp"
         android:layout_alignParentLeft="true"/>
 
@@ -54,7 +54,7 @@
         android:id="@+id/eliminar_pedido_c"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/cancelar"
+        android:background="@drawable/delete"
         android:layout_margin="20dp"
         android:layout_alignParentRight="true"/>
     </RelativeLayout>

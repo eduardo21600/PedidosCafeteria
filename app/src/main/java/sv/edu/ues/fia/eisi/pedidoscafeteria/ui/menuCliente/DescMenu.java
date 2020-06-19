@@ -131,58 +131,78 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
         {
             if (resultCode == Activity.RESULT_OK)
             {
-                int idUbicacion=data.getIntExtra("idUbicacion", 999);
+                final int idUbicacion=data.getIntExtra("idUbicacion", 999);
                 direccion = data.getStringExtra("direccion");
-                controladorBD.abrir();
-                DetallePedido nuevoDetallePedido = new DetallePedido();
-                nuevoDetallePedido.setCantidad(c);
-                nuevoDetallePedido.setSubtotal(c*precionMenu);
-                nuevoDetallePedido.setIdMenu(idMenu);
-                String resultado = controladorBD.Crear(nuevoDetallePedido);
-                if(resultado.equals("detalle de pedido creado "))
-                {
-                    DetallePedido detallePedido = controladorBD.ultimoIdDetallePedido();
-                    Pedido nuevoPedido = new Pedido();
-                    nuevoPedido.setIdDetalleP(detallePedido.getIdDetallePedido());
-                    nuevoPedido.setIdEstadoPedido(1);
-                    nuevoPedido.setIdLocal(idLocal);
-                    nuevoPedido.setIdUbicacion(idUbicacion);
-                    nuevoPedido.setTotalPedido(c*precionMenu);
-                    Date c = Calendar.getInstance().getTime();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    String fecha = df.format(c);
-                    nuevoPedido.setFechaPedido(fecha);
-                    resultado = controladorBD.insertar(nuevoPedido);
-                    if (resultado.equals("Se guardó correctamente nuevo pedido "))
-                    {
-                        PedidoRealizado pedidoRealizado = new PedidoRealizado();
-                        pedidoRealizado.setIdPedido(controladorBD.ultimoIdPedido());
-                        pedidoRealizado.setIdUsuario(usu);
-                        pedidoRealizado.setTipo("Entregar en: " + direccion);
-                        resultado = controladorBD.insertar(pedidoRealizado);
-                        if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
-                        {
-                            FancyToast.makeText(getApplicationContext(), "Pedido realizado", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
-                        }
-                        else
-                        {
-                            FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 1\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
-                        }
-                    }
-                    else
-                    {
-                        FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 2\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
-                    }
-                }
-                else
-                {
-                    FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 3\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
-                }
-                controladorBD.cerrar();
+                MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                        .setTitle("¿Realizar este pedido?")
+                        .setAnimation(R.raw.confirmar)
+                        .setMessage(nomMenu+"\n$"+precionMenu+"\nCantidad: "+c+"\nTotal a cancelar: $"+c*precionMenu)
+                        .setCancelable(false)
+                        .setPositiveButton("Ordenar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which)
+                            {
+                                controladorBD.abrir();
+                                DetallePedido nuevoDetallePedido = new DetallePedido();
+                                nuevoDetallePedido.setCantidad(c);
+                                nuevoDetallePedido.setSubtotal(c*precionMenu);
+                                nuevoDetallePedido.setIdMenu(idMenu);
+                                String resultado = controladorBD.Crear(nuevoDetallePedido);
+                                if(resultado.equals("detalle de pedido creado "))
+                                {
+                                    DetallePedido detallePedido = controladorBD.ultimoIdDetallePedido();
+                                    Pedido nuevoPedido = new Pedido();
+                                    nuevoPedido.setIdDetalleP(detallePedido.getIdDetallePedido());
+                                    nuevoPedido.setIdEstadoPedido(1);
+                                    nuevoPedido.setIdLocal(idLocal);
+                                    nuevoPedido.setIdUbicacion(idUbicacion);
+                                    nuevoPedido.setTotalPedido(c*precionMenu);
+                                    Date c = Calendar.getInstance().getTime();
+                                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                    String fecha = df.format(c);
+                                    nuevoPedido.setFechaPedido(fecha);
+                                    resultado = controladorBD.insertar(nuevoPedido);
+                                    if (resultado.equals("Se guardó correctamente nuevo pedido "))
+                                    {
+                                        PedidoRealizado pedidoRealizado = new PedidoRealizado();
+                                        pedidoRealizado.setIdPedido(controladorBD.ultimoIdPedido());
+                                        pedidoRealizado.setIdUsuario(usu);
+                                        pedidoRealizado.setTipo("Entregar en: " + direccion);
+                                        resultado = controladorBD.insertar(pedidoRealizado);
+                                        if (resultado.equals("Se guardó correctamente pedidoRealizado N°: "))
+                                        {
+                                            FancyToast.makeText(getApplicationContext(), "Pedido realizado", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                        }
+                                        else
+                                        {
+                                            FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 1\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 2\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                    }
+                                }
+                                else
+                                {
+                                    FancyToast.makeText(getApplicationContext(), "No se pudo realizar el pedido 3\n" + resultado, FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+                                }
+                                controladorBD.cerrar();
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                mDialog.show();
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "No se seleccionó ubicacion  ", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(getApplicationContext(), "No se seleccionó ubicacion", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
     }

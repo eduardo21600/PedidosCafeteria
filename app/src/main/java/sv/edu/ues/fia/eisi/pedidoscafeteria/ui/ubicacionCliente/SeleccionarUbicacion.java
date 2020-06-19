@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
 
 public class SeleccionarUbicacion extends AppCompatActivity {
 
+    Button paraLlevar;
     List<Ubicacion> listUbicacion;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -39,7 +43,17 @@ public class SeleccionarUbicacion extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdaptadorUbicacionSeleccionar(this, listUbicacion, this);
-        recyclerView.setAdapter(adapter);
+        if(listUbicacion.isEmpty())
+        {
+            FancyToast.makeText(getApplicationContext(), "No hay ubicaciones, vaya a crear una ubicacion", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+        }
+        else
+        {
+            adapter = new AdaptadorUbicacionSeleccionar(this, listUbicacion, this);
+            recyclerView.setAdapter(adapter);
+        }
+
+
+
     }
 }

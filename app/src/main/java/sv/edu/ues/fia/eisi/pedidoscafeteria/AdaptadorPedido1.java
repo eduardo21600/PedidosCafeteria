@@ -50,8 +50,6 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
                     intentn.putExtra("id",IDpedido.getText());
                     context.startActivity(intentn);
                     break;
-
-
             }
         }
     }
@@ -63,13 +61,20 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
     }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardpedido, parent, false);
+        final ViewHolder viewHolder =new ViewHolder(view);
+        return  viewHolder;
+    }
+
+   /* @Override
     public AdaptadorPedido1.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardpedido, parent, false);
         final AdaptadorPedido1.ViewHolder viewHolder =new AdaptadorPedido1.ViewHolder(view);
         return  viewHolder;
-    }
+    }*/
     @Override
-    public void onBindViewHolder(AdaptadorPedido1.ViewHolder holder, int position){
+    public void onBindViewHolder(ViewHolder holder, int position){
         holder.IDpedido.setText(pedidoLista.get(position).getIdPedido());
         holder.precio.setText(String.valueOf(pedidoLista.get(position).getTotalPedido()));
 

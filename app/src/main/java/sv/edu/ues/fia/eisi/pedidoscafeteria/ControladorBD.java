@@ -1797,7 +1797,7 @@ public class ControladorBD {
                             x.getInt(4),
                             x.getString(5),
                             x.getDouble(6)));
-                }while (x.moveToFirst());
+                }while (x.moveToNext());
 
 
                 }

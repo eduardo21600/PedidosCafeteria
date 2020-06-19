@@ -35,7 +35,7 @@ public class AsignarProductoMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        AdaptadorAsignarProductoMenu adaptadorAsignarProductoMenu=new AdaptadorAsignarProductoMenu(help.ConsultaProductosMenu(idMenu));
+        AdaptadorAsignarProductoMenu adaptadorAsignarProductoMenu=new AdaptadorAsignarProductoMenu(help.ConsultaProductosMenu(idMenu),idMenu,getApplicationContext());
         recyclerViewProductoDelMenu.setAdapter(adaptadorAsignarProductoMenu);
         help.cerrar();
     }

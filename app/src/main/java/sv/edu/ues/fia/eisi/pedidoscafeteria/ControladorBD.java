@@ -1059,18 +1059,17 @@ public class ControladorBD {
         }
         return resultado;
     }
-    public  String QuitarProducto(AsignarProducto asigP)
-    {int cont = 0;
-     String resultado = "pedido retirado del menú";
-     String[]datos = {String.valueOf(asigP.getIDMENU()),String.valueOf(asigP.getIDPRODUCTO())};
-        Cursor cursor = db.query("ASIGNARPRODUCTO",null,"IDMENU =? AND IDPRODUCTO=?",datos,null,null,null);
-        if(cursor.moveToFirst())
-        {
-            cont = db.delete("ASIGNARPRODUCTO","WHERE IDMENU=? AND IDPEDIDO=?",datos);
-        }
+    public  String QuitarProducto(ProductoAsignar asigP)
+    {
+        int cont = 0;
+        String resultado = "Producto retirado del menú";
+        String[]datos = {String.valueOf(asigP.getIdmenu()),String.valueOf(asigP.getIdProducto())};
+        Cursor cursor = db.rawQuery("delete from ASIGNAPRODUCTO where idMenu =" +  asigP.getIdmenu() + " and idProducto="+asigP.getIdProducto(), null);
+        if(cursor.moveToFirst()) { cont=0; }
+        else {cont=1;}
         if(cont == -1 || cont == 0)
         {
-            resultado= "oh,oh parece que este pedido no está en el producto";
+            resultado= " Este Producto no está en este menu";
         }
         return resultado;
     }

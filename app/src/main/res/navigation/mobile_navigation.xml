@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/nav_pedido_r"
         android:name="sv.edu.ues.fia.eisi.pedidoscafeteria.ui.Pedidos.PedidosR"
-        android:label="fragment_pedidos_r"
+        android:label="@string/Pedidos"
         tools:layout="@layout/fragment_pedidos_r" />
     <fragment
         android:id="@+id/nav_menuEncargado"

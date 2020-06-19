@@ -186,13 +186,14 @@ public class ControladorBD {
 
     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
     public String llenarUsuario(){
-        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber","Camila"};
-        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose","Gomez"};
-        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber","Camila"};
-        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812","65247812"};
-        final String [] idUsus =new String[]{"1","2","3","4","5","6"};
-        final int [] idTipoUsus =new int[] {1,2,3,3,1,2}; //1 indica que son clientes
-        final String [] estadoUsuario =new String[] {"0","1","0","0","0","1"}; //1 indica que son clientes
+        final String [] nomUsuario =new String[]{"Laura","Pepito","Carlos","Juanjo","Amber","Camila","partidor"};
+        final String [] apeUsuario =new String[]{"Coto","Perez","Guzman","Herrera","Rose","Gomez","partidor"};
+        final String [] contras =new String[]{"Lau1","Pepi1","Car1","Juan1","amber","Camila","partidor"};
+        final String [] telefono =new String[]{"78156920","65258710","77458123","71458931","22457812","65247812","12345"};
+        final String [] idUsus =new String[]{"1","2","3","4","5","6","partidor"};
+        final int [] idTipoUsus =new int[] {1,2,3,3,1,2,2}; //1 indica que son clientes
+        final String [] estadoUsuario =new String[] {"0","1","0","0","0","1","0"}; //1 indica que son clientes
+
 
         final int [] idTipos =new int[] {1,2,3};
         final String [] nomTipos =new String[]{"Cliente","Repartidor","Encargado"};
@@ -227,6 +228,8 @@ public class ControladorBD {
         final int[] idUbicPed = new int[] {3,3,3,2,2};
         final String[] fechaP = new String[] {"2020-06-17","2020-05-17","2020-04-10","2020-06-02","2020-06-14"};
         final double[] total = new double[] {5,2.8,10.2,4.2,12.5};
+        final int[] idPR = new int[] {1,2,3};
+        final String[] R = new String[]{"partidor","partidor","Camila"};
 
         final String [] idUsuarioPed =new String[]{"Lau1","Lau1","amber","amber","amber"};
         final String [] tipoPedReal =new String[]{"Local","Llevar","Local","Local","Llevar"};
@@ -257,6 +260,9 @@ public class ControladorBD {
         db.execSQL("DELETE FROM PRODUCTO");
         db.execSQL("DELETE FROM ASIGNAPRODUCTO");
         db.execSQL("DELETE FROM MENU");
+        db.execSQL("DELETE FROM PEDIDOASIGNADO");
+
+
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {
@@ -266,7 +272,7 @@ public class ControladorBD {
         }
 
         Usuario u = new Usuario();
-        for (int i = 0; i <6 ; i++) {
+        for (int i = 0; i <7 ; i++) {
             u.setIdUsuario(contras[i]);
             u.setNombreUsuario(nomUsuario[i]);
             u.setApellidoUsuario(apeUsuario[i]);
@@ -362,6 +368,12 @@ public class ControladorBD {
             productoAsignar.setIdmenu(idMenuAsig[i]);
             productoAsignar.setIdProducto(idProductoAsig[i]);
             AsignarProtoMenu(productoAsignar);
+        }
+        PedidoAsignado p = new PedidoAsignado();
+        for (int i = 0; i <3 ; i++) {
+            p.setIdPedido(idPR[i]);
+            p.setIdUsuario(R[i]);
+            insertar(p);
         }
 
         cerrar();

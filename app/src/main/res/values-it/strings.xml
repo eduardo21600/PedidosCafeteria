@@ -52,6 +52,17 @@
     <string name="local">Locale</string>
     <string name="Fecha">Data:</string>
     <string name="verWs">Vedi ordini in WS</string>
+    <string name="noSeleccionoRepa">Non ha selezionato un uomo delle consegne</string>
+    <string name="contraseñaNoCoincide">le passwords non corrispondono</string>
+    <string name="repaCreado">Uomo di consegna creato</string>
+    <string name="errorAlCrear">Ci sono dati errati nel modulo</string>
+    <string name="usuarioEnUso">Questo nome utente esiste già</string>
+    <string name="camposVacios">Non puoi lasciare campi vuoti</string>
+    <string name="LlenarBase">Riempi database</string>
+    <string name="actRepa">Update Delivery Man</string>
+    <string name="NoPuedeCambiarCrede">Impossibile aggiornare il nome utente perché hai ordini in sospeso</string>
+    <string name="Actualizar">Aggiornare</string>
+    <string name="localActualizado">Il tuo nome locale è stato cambiato</string>
     <string name="Nohayws">Non ci sono richieste per questa bancarella del mercato sul server</string>
     <string name="nombre">Nome</string>
     <string name="Apellido">Cognome</string>

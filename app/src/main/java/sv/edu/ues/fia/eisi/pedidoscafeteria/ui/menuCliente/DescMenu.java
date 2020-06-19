@@ -114,12 +114,12 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
             }
             catch(Exception e)
             {
-                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.num_entero)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.num_entero), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
         else
         {
-            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.inserte_cantidad)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+            FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.inserte_cantidad), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
         }
 
     }
@@ -205,7 +205,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
             }
             else
             {
-                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.no_ubicacion)+ "\n", FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.no_ubicacion), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
             }
         }
     }

@@ -127,9 +127,41 @@
     <string name="descPedido">Description</string>
     <string name="estadoPedido">Order delivered</string>
     <string name="agregar_pedido">Add to order</string>
-
-
-
-
-    <string name="mensajeRep">No hay pedidos asignados</string>
+    <string name="cantidad">Quantity: </string>
+    <string name="hint_cantidad">Please, enter quantity</string>
+    <string name="seleccionar_ubicacion">Select a location</string>
+    <string name="paraLlevar">I\'ll pass for it</string>
+    <string name="añadir_al_pedido">Add to order</string>
+    <string name="incluye">Includes: </string>
+    <string name="nombre_del_menu">Menu name</string>
+    <string name="realizar_este_pedido">Place this order?</string>
+    <string name="total_a_cancelar">Total: $</string>
+    <string name="ordenar">Order</string>
+    <string name="pedido_realizado">Order Received</string>
+    <string name="no_se_pudo_realizar">Order not placed: </string>
+    <string name="cancelar">Cancel</string>
+    <string name="no_ubicacion">No location selected</string>
+    <string name="num_entero">Enter an integer number</string>
+    <string name="inserte_cantidad">Please, enter quantity</string>
+    <string name="total_1">Total: </string>
+    <string name="cancelar_pedido">¿Cancel Order?</string>
+    <string name="esta_seguro">Are you sure to cancel \'</string>
+    <string name="borrar">Delete</string>
+    <string name="cancelado">The order has been canceled</string>
+    <string name="pedidos_realizados">Placed Orders</string>
+    <string name="eliminar_ubicacion">Delete Location?</string>
+    <string name="esta_seguro_ubi">Are you sure to delete \'</string>
+    <string name="no_se_pudo_ubicacion">We cannot retrieve your current location</string>
+    <string name="llene_campos">Fill all the fields</string>
+    <string name="ubicacion_guardada">Location saved</string>
+    <string name="ubicacion_no_guardada">Location not saved</string>
+    <string name="prueba">prueba</string>
+    <string name="mensajeRep">No assigned orders</string>
+    <string name="menu_Encargado">Menu</string>
+    <string name="eliminar_ubicacion_c">Are you sure to delete: </string>
+    <string name="TituloCrearPedidos">Orders</string>
+    <string name="botonModificarEnLaWeb">Modify on web</string>
+    <string name="botonEliminarEnLaWeb">Delete on Web</string>
+    <string name="botonCrearEnLaWeb">Create on Web</string>
+    <string name="TituloContenidoMenu">Menú content</string>
 </resources>

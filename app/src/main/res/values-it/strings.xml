@@ -2,10 +2,6 @@
 <resources>
     <string name="app_name">Caffetteria ordini</string>
 
-    <string name="ingles">Inglese</string>
-    <string name="español">Spagnolo</string>
-    <string name="italiano">Italiano</string>
-
     <string name="bienvenido">"Caffetteria UES"</string>
     <string name="login">Accesso</string>
     <string name="nombreUsuario">Nome utente</string>
@@ -89,8 +85,10 @@
     <string name="punto_ubicacion">Riferimento:</string>
     <string name="et_punto_ubicacion">Punto di riferimento</string>
     <string name="google_places_api_key">AIzaSyCBLQsnfSt179Ky66y3E4rQeLCNvBODOok</string>
+    <string name="eliminar_ubicacion_c">Vuoi veramente cancellare:</string>
     <!-- Fin Strings Pablo-->
     <!-- Inicio Strings Carlos -->
+    <string name="TituloCrearPedidos">Pedidos</string>
     <string name="TituloCrearProducto">Crea prodotto</string>
     <string name="TituloAsignarProducto">Assegna prodotto</string>
     <string name="TituloModificarProducto">Modifica prodotto</string>

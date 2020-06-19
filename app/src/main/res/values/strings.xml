@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">PedidosCafeteria</string>
 
-    <string name="ingles">Inglés</string>
-    <string name="español">Español</string>
-    <string name="italiano">Italiano</string>
-
     <string name="bienvenido">"Cafeterías UES"</string>
     <string name="login">Inicia sesión</string>
     <string name="nombreUsuario">Nombre de usuario</string>
@@ -91,6 +87,7 @@
     <string name="eliminar_ubicacion_c">De verdad quieres eliminar: </string>
     <!-- Fin Strings Pablo-->
     <!-- Inicio Strings Carlos -->
+    <string name="TituloCrearPedidos">Pedidos</string>
     <string name="TituloCrearProducto">Crear Producto</string>
     <string name="TituloAsignarProducto">Asignar Producto</string>
     <string name="TituloModificarProducto">Modificar Producto</string>

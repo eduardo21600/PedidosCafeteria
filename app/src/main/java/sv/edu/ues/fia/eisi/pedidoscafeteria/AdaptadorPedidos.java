@@ -18,13 +18,13 @@ public class AdaptadorPedidos extends ArrayAdapter<Pedido> {
     private List<Pedido> mped;
     private Context conp;
     private int resourcep;
+
     public AdaptadorPedidos(@NonNull Context context, int resource, List<Pedido> objects) {
         super(context, resource, objects);
         this.mped = objects;
         this.conp = context;
         this.resourcep = resource;
     }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

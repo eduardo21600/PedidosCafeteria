@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idContraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/idCardViewPedidoR"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="520dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imagenP"
+                android:layout_width="89dp"
+                android:layout_height="58dp"
+                app:srcCompat="@drawable/food" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtpedido"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:text="@string/idPedido" />
+
+                    <TableRow
+                        android:layout_width="100dp"
+                        android:layout_height="30dp">
+
+                        <TextView
+                            android:id="@+id/txtIDpedido"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="TextView" />
+                    </TableRow>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtpedido1"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:text="@string/precioProducto" />
+
+                <TableRow
+                    android:layout_width="100dp"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:id="@+id/txtprecio"
+                        android:layout_width="40dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </TableRow>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

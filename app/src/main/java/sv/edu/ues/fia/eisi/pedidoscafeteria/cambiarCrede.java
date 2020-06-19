@@ -175,6 +175,12 @@ public class cambiarCrede extends AppCompatActivity {
                                        break;
                                    }
                                }
+                               sharedPreferences = getSharedPreferences("validacion",0);
+                               String tipo =sharedPreferences.getString("tipoUsuario","");
+                               if(tipo.equals("3")){
+                                   FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.noPuedeCambiarCredeEnc),
+                                           2,FancyToast.ERROR,true).show();
+                               }
                                if(tienePedidos){
                                    FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.NoPuedeCambiarCrede),
                                            2,FancyToast.ERROR,true).show();

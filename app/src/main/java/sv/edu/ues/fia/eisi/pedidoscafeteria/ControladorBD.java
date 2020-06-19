@@ -261,8 +261,7 @@ public class ControladorBD {
         db.execSQL("DELETE FROM ASIGNAPRODUCTO");
         db.execSQL("DELETE FROM MENU");
         db.execSQL("DELETE FROM PEDIDOASIGNADO");
-
-
+        db.execSQL("DELETE FROM PEDIDOREALIZADO");
 
         TipoUsuario t = new TipoUsuario();
         for (int i = 0; i <3 ; i++) {

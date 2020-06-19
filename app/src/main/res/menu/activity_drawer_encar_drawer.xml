@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_producto"
             android:icon="@drawable/ic_productos"
-            android:title="@string/productos"/>
+            android:title="@string/TituloProducto"/>
         <item
             android:id="@+id/nav_menuEncargado"
             android:icon="@drawable/ic_menu"

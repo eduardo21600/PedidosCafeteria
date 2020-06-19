@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
@@ -51,32 +52,37 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
         holder.btnELi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
-                        .setTitle("Eliminar")
-                        .setAnimation(R.raw.delete)
-                        .setMessage("¿Está seguro que quiere eliminar este repartidor?")
-                        .setCancelable(false)
-                        .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                // Delete Operation
-                                controladorBD.abrir();
-                                controladorBD.eliminarUsuario(datos.get(position));
-                                datos.remove(position);
-                                notifyItemRemoved(position);
-                                controladorBD.cerrar();
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .build();
-                mDialog.show();
+                if(datos.get(position).getEstado().equals("2")){
+                    FancyToast.makeText(mContext, mContext.getResources().getString(R.string.noSePuedeEliminarRepa),
+                            FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                }
+                else{
+                    final MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
+                            .setTitle("Eliminar")
+                            .setAnimation(R.raw.delete)
+                            .setMessage("¿Está seguro que quiere eliminar este repartidor?")
+                            .setCancelable(false)
+                            .setPositiveButton("Borrar", new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    // Delete Operation
+                                    controladorBD.abrir();
+                                    controladorBD.eliminarUsuario(datos.get(position));
+                                    datos.remove(position);
+                                    notifyItemRemoved(position);
+                                    controladorBD.cerrar();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .build();
+                    mDialog.show();
+                }
             }
         });
 

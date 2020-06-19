@@ -63,7 +63,16 @@
     <string name="NoPuedeCambiarCrede">Impossibile aggiornare il nome utente perché hai ordini in sospeso</string>
     <string name="Actualizar">Aggiornare</string>
     <string name="localActualizado">Il tuo nome locale è stato cambiato</string>
+    <string name="usuarioCreado">Utente creato</string>
+    <string name="usuarioNoCreado">Utente non creato</string>
+    <string name="ingreseUnNombre">Per favore, inserisci un nome</string>
+    <string name="ingreseUnNumero">Inserisci un numero</string>
+    <string name="ingreseUnApellido">Inserire il cognome</string>
+    <string name="noHayPedidosLocal">Non ci sono ordini fatti al tuo locale</string>
+    <string name="noSePuedeEliminarRepa">Non è possibile eliminare il rivenditore, perché sta consegnando un ordine</string>
+    <string name="noPuedeCambiarCredeEnc">Non puoi cambiare il tuo nome utente, perché ha dati locali associati</string>
     <string name="Nohayws">Non ci sono richieste per questa bancarella del mercato sul server</string>
+    <string name="grupo">Gruppo 05 PDM115</string>
     <string name="nombre">Nome</string>
     <string name="Apellido">Cognome</string>
     <string name="Teléfono">Telefono</string>

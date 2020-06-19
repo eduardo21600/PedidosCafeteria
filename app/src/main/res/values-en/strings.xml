@@ -63,6 +63,14 @@
     <string name="NoPuedeCambiarCrede">Unable to update username because you have pending orders</string>
     <string name="Actualizar">Update</string>
     <string name="localActualizado">Your local name has been changed</string>
+    <string name="usuarioCreado">User Created</string>
+    <string name="usuarioNoCreado">User Not Created</string>
+    <string name="ingreseUnNombre">Please enter a name</string>
+    <string name="ingreseUnNumero">Please enter a phone number</string>
+    <string name="ingreseUnApellido">Please enter your lastname</string>
+    <string name="noHayPedidosLocal">There are no orders made to your local</string>
+    <string name="noSePuedeEliminarRepa">You can not delete the dealiveryman, because he is delivering an order</string>
+    <string name="noPuedeCambiarCredeEnc">You cannot change your username, because it has associated local data</string>
     <string name="Nohayws">There arent requests made to this Market Stall on the server</string>
     <string name="nombre">Name</string>
     <string name="Apellido">Surname</string>
@@ -112,6 +120,7 @@
     <string name="botonCrear">Create</string>
     <string name="MensajeDeConfirmacionProducto">Do you want to delete this product?</string>
     <string name="nombreProducto">Name:</string>
+    <string name="grupo">Team 05 PDM115</string>
     <string name="precioProducto">Price:</string>
     <string name="descripcionProducto">Description:</string>
     <string name="IdMenu">Menu ID</string>

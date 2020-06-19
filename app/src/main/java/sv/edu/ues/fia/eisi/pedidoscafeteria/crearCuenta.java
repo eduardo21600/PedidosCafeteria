@@ -31,9 +31,10 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
     private Usuario usu, userLocal;
     private int tipo=1;
     private int vigilante=0;
-    private int encargadoActivado=0;
+    private int encargadoActivado;
     private Button btnCrear;
     private List<Usuario> prueba;
+    private boolean noCrearlocal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,11 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
         chip = (Chip)findViewById(R.id.chip2);
         tvNomLocal = (TextView)findViewById(R.id.tvNomLocal);
         btnCrear = (Button)findViewById(R.id.btnCrearCuenta);
+        encargadoActivado=0;
         cServicio = new ControladorServicios(this, this);
         controladorBD = new ControladorBD(getApplicationContext());
         controladorBD.abrir();
+        noCrearlocal=true;
 
 
         btnCrear.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +66,7 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                 }
                 else{
                     FancyToast.makeText(getApplicationContext(),
-                            "Este nombre de usuario ya esta tomado",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                            getResources().getString(R.string.usuarioEnUso),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                 }
             }
         });
@@ -93,7 +96,7 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                 if(!hasFocus){
                     if(usuario.getText().toString().isEmpty()){
                         FancyToast.makeText(getApplicationContext(),
-                                "No puede dejar vacio este campo",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                                getResources().getString(R.string.camposVacios),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                         vigilante=1;
                     }
                     else{
@@ -114,9 +117,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
             public void afterTextChanged(Editable s) {
                 if(nombre.getText().toString().isEmpty()){
                     FancyToast.makeText(getApplicationContext(),
-                            "No Puede dejar este campo vacio",
+                            getResources().getString(R.string.camposVacios),
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
-                    nombre.setError("Ingrese un nombre");
+                    nombre.setError(getResources().getString(R.string.ingreseUnNombre));
                     vigilante=1;
                 }
                 else{
@@ -137,9 +140,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
             public void afterTextChanged(Editable s) {
                 if(apellido.getText().toString().isEmpty()){
                     FancyToast.makeText(getApplicationContext(),
-                            "No Puede dejar este campo vacio",
+                            getResources().getString(R.string.camposVacios),
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                    apellido.setError("Ingrese un apellido");
+                    apellido.setError(getResources().getString(R.string.ingreseUnApellido));
                     vigilante=1;
                 }
                 else{
@@ -156,9 +159,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     if(!contra.getText().toString().isEmpty()){
                         if(!(contrasenas())){
                             FancyToast.makeText(getApplicationContext(),
-                                    "Las contraseñas no coinciden",
+                                    getResources().getString(R.string.contraseñaNoCoincide),
                                     FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                            contra.setError("Contraseñas distintas");
+                            contra.setError(getResources().getString(R.string.contraseñaNoCoincide));
                             vigilante=1;
                         }
                         else{
@@ -168,9 +171,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     }
                     else{
                         FancyToast.makeText(getApplicationContext(),
-                                "No puede dejar este campo vacio",
+                                getResources().getString(R.string.camposVacios),
                                 FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                        contra.setError("Campo Vacio");
+                        contra.setError(getResources().getString(R.string.camposVacios));
                         vigilante=1;
                     }
                 }
@@ -185,9 +188,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     if(!repeContra.getText().toString().isEmpty()){
                         if(!(contrasenas())){
                             FancyToast.makeText(getApplicationContext(),
-                                    "Las contraseñas no coinciden",
+                                    getResources().getString(R.string.contraseñaNoCoincide),
                                     FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                            repeContra.setError("Contraseñas distintas");
+                            repeContra.setError(getResources().getString(R.string.contraseñaNoCoincide));
                             vigilante=1;
                         }
                         else{
@@ -197,9 +200,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     }
                     else{
                         FancyToast.makeText(getApplicationContext(),
-                                "No puede dejar este campo vacio",
+                                getResources().getString(R.string.camposVacios),
                                 FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                        repeContra.setError("Campo Vacio");
+                        repeContra.setError(getResources().getString(R.string.camposVacios));
                         vigilante=1;
                     }
                 }
@@ -217,9 +220,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
             public void afterTextChanged(Editable s) {
                 if(telefono.getText().toString().isEmpty()){
                     FancyToast.makeText(getApplicationContext(),
-                            "No Puede dejar este campo vacio",
+                            getResources().getString(R.string.camposVacios),
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                    telefono.setError("Ingrese un número");
+                    telefono.setError(getResources().getString(R.string.ingreseUnNumero));
                     vigilante=1;
                 }
                 else{
@@ -239,9 +242,9 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
             public void afterTextChanged(Editable s) {
                 if(nomLocal.getText().toString().isEmpty()){
                     FancyToast.makeText(getApplicationContext(),
-                            "No Puede dejar este campo vacio",
+                            getResources().getString(R.string.camposVacios),
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
-                    nomLocal.setError("Ingrese un nombre");
+                    nomLocal.setError(getResources().getString(R.string.ingreseUnNombre));
                     vigilante=1;
                 }
                 else{
@@ -263,10 +266,11 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                     else{
                         if(nomLocal.getText().toString().isEmpty()){
                             FancyToast.makeText(getApplicationContext(),
-                                    "Hay datos incorrectos o vacios en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                                    getResources().getString(R.string.errorAlCrear),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                         }
                         else
                         {
+                            noCrearlocal=false;
                             usu = obtenerDatos();
                             cServicio.CrearAct(usu,getApplicationContext(),true);
                             controladorBD.insertar(usu);
@@ -276,14 +280,14 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
                 }
                 else{
                     FancyToast.makeText(getApplicationContext(),
-                            "Hay datos incorrectos o vacios en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                            getResources().getString(R.string.errorAlCrear),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                 }
 
 
         }
         else{
                 FancyToast.makeText(getApplicationContext(),
-                        "Hay datos incorrectos en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                        getResources().getString(R.string.errorAlCrear),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
             }
     }
 
@@ -293,12 +297,8 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
         }
         else{
             FancyToast.makeText(getApplicationContext(),
-                    "Hay datos incorrectos en el formulario",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                    getResources().getString(R.string.errorAlCrear),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
         }
-    }
-
-    public void llenarLista(String id){
-
     }
 
     public Usuario obtenerDatos(){
@@ -347,7 +347,7 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
         else
         {
             FancyToast.makeText(getApplicationContext(),
-                    "Nombre de usuario ya tomado",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                    getResources().getString(R.string.usuarioEnUso),FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
         }
     }
 
@@ -356,23 +356,31 @@ public class crearCuenta extends AppCompatActivity implements CallbackWS, Callba
     {
         if(respuesta.equals("CONEXIÓN EXITOSA"))
         {
-            ControladorServicios controladorServicios = new ControladorServicios();
-            String nom = nomLocal.getText().toString();
-            Local local = new Local();
-            local.setNombreLocal(nom);
-            local.setIdUsuario(usu.getIdUsuario());
-            controladorBD.CrearLocal(local);
+            if(noCrearlocal){
+                FancyToast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.usuarioCreado),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,R.drawable.exito,true).show();
+                finish();
+            }
+            else {
+                ControladorServicios controladorServicios = new ControladorServicios();
+                String nom = nomLocal.getText().toString();
+                Local local = new Local();
+                local.setNombreLocal(nom);
+                local.setIdUsuario(usu.getIdUsuario());
+                controladorBD.CrearLocal(local);
 
-            controladorServicios.CrearAct(local, getApplicationContext(), true);
+                controladorServicios.CrearAct(local, getApplicationContext(), true);
 
-            FancyToast.makeText(getApplicationContext(),
-                    "Usuario Creado",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,R.drawable.exito,true).show();
-            finish();
+                FancyToast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.usuarioCreado),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,R.drawable.exito,true).show();
+                finish();
+            }
+
         }
         else
         {
             FancyToast.makeText(getApplicationContext(),
-                    "Usuario no creado",FancyToast.LENGTH_LONG,FancyToast.ERROR,R.drawable.error,true).show();
+                    getResources().getString(R.string.usuarioNoCreado),FancyToast.LENGTH_LONG,FancyToast.ERROR,R.drawable.error,true).show();
         }
     }
 

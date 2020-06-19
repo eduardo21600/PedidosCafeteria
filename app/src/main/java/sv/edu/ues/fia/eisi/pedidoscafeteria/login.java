@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -25,6 +28,7 @@ public class login extends AppCompatActivity implements CallbackWS {
     SharedPreferences sharedPreferences;
     Usuario userLocal;
     boolean vigilanteLocal;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,16 @@ public class login extends AppCompatActivity implements CallbackWS {
         controladorBD = new ControladorBD(getApplicationContext());
         cServicios = new ControladorServicios(this);
         sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0); // 0 - for private mode
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255,51,156), PorterDuff.Mode.SRC_IN);
     }
 
     public void entrar(View view){
         cServicios.BuscarUsuario(usuario.getText().toString(), getApplicationContext());
         controladorBD.abrir();
         userLocal=controladorBD.ConsultaUsuario(usuario.getText().toString());
+
+        progressBar.setVisibility(View.VISIBLE);
         if(!(userLocal==null)){
             vigilanteLocal=true; //se encontro el usuario en BD local
         }
@@ -59,7 +67,7 @@ public class login extends AppCompatActivity implements CallbackWS {
     public void ResponseWS(Object lista)
     {
         u = (List<Usuario>) lista;
-
+        progressBar.setVisibility(View.INVISIBLE);
         if (u.isEmpty()&&!vigilanteLocal)
         {
             usuario.setError("Usuario no existente");
@@ -92,9 +100,11 @@ public class login extends AppCompatActivity implements CallbackWS {
                     editor.putString("tipoUsuario","3");//encargado
                     editor.apply();
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 controladorBD.abrir();
                 controladorBD.insertar(u.get(0));
                 controladorBD.cerrar();
+                progressBar.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
                 startActivity(intent);
             }

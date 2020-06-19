@@ -63,7 +63,16 @@
     <string name="NoPuedeCambiarCrede">No se puede actualizar nombre de usuario porque tiene pedidos pendientes</string>
     <string name="Actualizar">Actualizar</string>
     <string name="localActualizado">Se ha cambiado el nombre de su local</string>
+    <string name="usuarioCreado">Usuario Creado</string>
+    <string name="usuarioNoCreado">Usuario No Creado</string>
+    <string name="ingreseUnNombre">Ingrese un nombre</string>
+    <string name="ingreseUnNumero">Ingrese un número</string>
+    <string name="ingreseUnApellido">Ingrese su apellido</string>
+    <string name="noHayPedidosLocal">No hay pedidos hechos a tu local</string>
+    <string name="noSePuedeEliminarRepa">No se puede eliminar el repartidor, porque esta entregando un pedido</string>
+    <string name="noPuedeCambiarCredeEnc">No puede cambiar su nombre de usuario, porque tiene datos de local asociados</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
+    <string name="grupo">Grupo 05 PDM115</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
 

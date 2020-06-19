@@ -51,15 +51,23 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     private int ordenResponse,idLocal;
     private boolean seTieneLocal;
     private Chip verWS;
+    private boolean hayPedidos;
+    TextView titulo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
         verWS = (Chip)root.findViewById(R.id.chipWSpedido);
+        titulo = (TextView)root.findViewById(R.id.textView9);
         final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        if(pedido1.isEmpty()){
+            titulo.setText(getResources().getString(R.string.noHayPedidosLocal));
+            FancyToast.makeText(getContext(),getResources().getString(R.string.noHayPedidosLocal),
+                    FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
+        }
         verWS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +96,8 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstPedidos = new ArrayList<>();
+        pedido1 = new ArrayList<>();
+        hayPedidos=false;
         sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
         String id = sharedPreferences.getString("nombreUsuario","");
         controladorBD = new ControladorBD(getContext());
@@ -98,6 +108,7 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         for (int i = 0; i <localenCel.size() ; i++) {
             if(localenCel.get(i).getIdUsuario().equals(id)){
                 seTieneLocal=true;
+                hayPedidos = true;
                 idLocal=localenCel.get(i).getIdLocal();
                 break;
             }
@@ -135,10 +146,13 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         }
         else if(ordenResponse==2){
             pedido1 = (List<Pedido>) lista;
-            AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-            ordenResponse=4;
+            if(!pedido1.isEmpty()){
+                hayPedidos = true;
+                AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+                ordenResponse=4;
+            }
         }
         else if (ordenResponse==3){
             lstPedidos =(List<Pedido>)lista;

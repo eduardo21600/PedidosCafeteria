@@ -1781,7 +1781,7 @@ public class ControladorBD {
     }//siiiii
     public List<Pedido> ConsultaPedidoR(String idUsuario) {
                  String[] id = {idUsuario};
-        Cursor cur = db.rawQuery("SELECT * FROM PEDIDOASIGNADO WHERE IDUSUARIO = '" + id+"'", null);
+        Cursor cur = db.rawQuery("SELECT * FROM PEDIDOASIGNADO WHERE IDUSUARIO = '" + idUsuario+"'", null);
         List<Pedido> pedido = new ArrayList<>();
         if (cur.moveToFirst()) {
 
@@ -1798,8 +1798,6 @@ public class ControladorBD {
                             x.getInt(4),
                             x.getString(5),
                             x.getDouble(6)));
-
-
                 }while (x.moveToFirst());
 
 

@@ -40,7 +40,7 @@ public class DetallePedidoRep extends AppCompatActivity {
 
         Intent intent = getIntent();
         bd.abrir();
-        ped = bd.consultarPedidoRep(intent.getStringExtra("idPedido"));
+        ped = bd.consultarPedidoRep(intent.getStringExtra("id"));
 
         codigo = (EditText) findViewById(R.id.edtCodigo);
         descripcion = (EditText) findViewById(R.id.edtDescripcion);

@@ -127,9 +127,42 @@
     <string name="descPedido">Description</string>
     <string name="estadoPedido">Order delivered</string>
     <string name="agregar_pedido">Add to order</string>
+    <string name="mensajeRep">No orders assigned</string>
 
+    <string name="eliminar_ubicacion_c">You really want to delete:</string>
+    <string name="TituloCrearPedidos">Orders</string>
+    <string name="botonModificarEnLaWeb">Modify on the Web</string>
+    <string name="botonEliminarEnLaWeb">Delete from the Web</string>
+    <string name="botonCrearEnLaWeb">Create on the Web</string>
+    <string name="TituloContenidoMenu">Menu Contents</string>
+    <string name="cantidad">Quantity:</string>
+    <string name="hint_cantidad">Enter the amount</string>
+    <string name="seleccionar_ubicacion">Select a Location</string>
+    <string name="paraLlevar">I\'ll go through the order</string>
+    <string name="añadir_al_pedido">Add to order</string>
+    <string name="incluye">It includes</string>
+    <string name="nombre_del_menu">Menu name</string>
+    <string name="realizar_este_pedido">Place this order?</string>
+    <string name="total_a_cancelar">Total to pay: $</string>
+    <string name="ordenar">Order</string>
+    <string name="pedido_realizado">Order placed</string>
+    <string name="no_se_pudo_realizar">The order could not be placed:</string>
+    <string name="cancelar">Cancel</string>
+    <string name="no_ubicacion">No location selected</string>
+    <string name="num_entero">Insert an integer</string>
+    <string name="inserte_cantidad">Insert a quantity</string>
+    <string name="total_1">Total:</string>
+    <string name="cancelar_pedido">Cancel order?</string>
+    <string name="esta_seguro">Are you sure to cancel? \'</string>
+    <string name="borrar">Delete</string>
+    <string name="cancelado">Your order was successfully canceled</string>
+    <string name="pedidos_realizados">Orders Placed</string>
+    <string name="eliminar_ubicacion">Delete Location?</string>
+    <string name="esta_seguro_ubi">Are you sure to delete? \'</string>
+    <string name="no_se_pudo_ubicacion">Could not get your location</string>
+    <string name="llene_campos">Fill all the fields</string>
+    <string name="ubicacion_guardada">Your location has been saved</string>
+    <string name="ubicacion_no_guardada">Your location could not be saved</string>
+    <string name="prueba">proof</string>
 
-
-
-    <string name="mensajeRep">No hay pedidos asignados</string>
 </resources>

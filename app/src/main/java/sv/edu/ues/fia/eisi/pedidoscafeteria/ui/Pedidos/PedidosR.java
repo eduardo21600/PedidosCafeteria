@@ -47,7 +47,7 @@ public class PedidosR extends Fragment  {
         sharedPreferences = getContext().getSharedPreferences("validacion", 0);
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
         help.abrir();
-       listaPedido = help.ConsultaPedidoR(usu);
+        listaPedido = help.ConsultaPedidoR(usu);
         help.cerrar();
         if(listaPedido.isEmpty())
         {

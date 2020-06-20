@@ -84,7 +84,7 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
         pediReaLocal = controladorBD.consultarPedRealIdP(idPedido);
 
         if(pediReaLocal==null){
-            cServ.BuscarPedidoRealizado(Integer.valueOf(idPedido),getApplicationContext());
+            cServ.BuscarPedidoRealizado(Integer.parseInt(idPedido),getApplicationContext());
             ordenResponse=1;
             estaLocal=false;
         }
@@ -124,6 +124,8 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
                                         String res = controladorBD.actualizar(p);
                                         FancyToast.makeText(getApplicationContext(),res,FancyToast.LENGTH_LONG,
                                                 FancyToast.SUCCESS,false).show();
+                                        estadoPedido.setVisibility(View.INVISIBLE);
+                                        asignar.setVisibility(View.INVISIBLE);
                                         dialogInterface.dismiss();
                                     }
                                     else{

@@ -544,6 +544,34 @@ public class ControladorBD {
         }
         return resultado;
     }
+    public String actualizarUsuario3(Usuario usuario,String idUsuario) {
+        String resultado = "datos actualizados";
+        String[] columnas = new String[]{"idTipoUsuario","contrasena","NOMBREUSUARIO","TELEUSUARIO","APELLIDOUSUARIO","ESTDISPONREPARTIDOR"};
+        String[] id = {idUsuario};
+        Cursor cur = db.query("Usuario", columnas, "idUsuario = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+            String[] idTU = {String.valueOf(usuario.getIdTipoUsuario())};
+            Cursor k = db.query("TipoUsuario", null, "idTipoUsuario = ?", idTU, null, null, null);
+            if (k.moveToFirst()) {
+                ContentValues usuact = new ContentValues();
+                usuact.put("idUsuario", usuario.getIdUsuario());
+                usuact.put("idTipoUsuario", usuario.getIdTipoUsuario());
+                usuact.put("contrasena", usuario.getContrasena());
+                usuact.put("nombreUsuario", usuario.getNombreUsuario());
+                usuact.put("teleUsuario", usuario.getTeleUsuario());
+                usuact.put("apellidoUsuario", usuario.getApellidoUsuario());
+                usuact.put("ESTDISPONREPARTIDOR",usuario.getEstado());
+                db.update("Usuario", usuact, "idUsuario=?", id);
+
+            } else {
+                resultado = "el tipo de usuario no existe, pruebe con uno existente";
+            }
+
+        } else {
+            resultado = "no hay registros de usuario con el código " + id;
+        }
+        return resultado;
+    }
 
     public String eliminarUsuario(Usuario usuario)
             /*

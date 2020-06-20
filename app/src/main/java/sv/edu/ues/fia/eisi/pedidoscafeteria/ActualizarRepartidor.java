@@ -20,6 +20,8 @@ public class ActualizarRepartidor extends AppCompatActivity {
     private TextView tvTitulo;
     private String idRepa,telRepa,nomRepa,contraRepa,apellRepa,estado;
     private ControladorBD controladorBD;
+    boolean disponible;
+    int vigilante=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,9 @@ public class ActualizarRepartidor extends AppCompatActivity {
 
     public void actualizarRepartidor(){
         if(!estanVacios()){
-            if(idDisponible()){
+            if(idDisponible()&&vigilante==1){
                 if(repeContraCoincide()){
+
                     Usuario repaAct = new Usuario(Nomusu.getText().toString(),
                             2,
                             contraseña.getText().toString(),
@@ -102,6 +105,20 @@ public class ActualizarRepartidor extends AppCompatActivity {
                         }
                     });
                 }
+            }
+            else if(vigilante==0){
+                Usuario repaAct = new Usuario(Nomusu.getText().toString(),
+                        2,
+                        contraseña.getText().toString(),
+                        etNomRepa.getText().toString(),
+                        telefono.getText().toString(),
+                        apellido.getText().toString(),
+                        estado);
+                controladorBD.actualizarUsuario3(repaAct,idRepa);
+                controladorBD.cerrar();
+                FancyToast.makeText(getApplicationContext(),getResources().getString(R.string.repaCreado),
+                        FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+                finish();
             }
             else {
                 hayErrores();
@@ -142,14 +159,32 @@ public class ActualizarRepartidor extends AppCompatActivity {
         }
     }
     public boolean idDisponible(){
-        Usuario u;
-        u = controladorBD.ConsultaUsuario(Nomusu.getText().toString());
-        if(u==null){
-            return true;
-        }
-        else{
-            return false;
-        }
+
+        Nomusu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                vigilante=1;//cambio usuario
+                Usuario u = controladorBD.ConsultaUsuario(Nomusu.getText().toString());
+                if(u==null){
+                    disponible = true;
+                }
+                else{
+                    disponible = false;
+                }
+            }
+        });
+
+        return disponible;
     }
     public boolean repeContraCoincide(){
         if (repeC.getText().toString().equals(contraseña.getText().toString())){

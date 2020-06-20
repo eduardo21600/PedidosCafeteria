@@ -73,6 +73,7 @@
     <string name="noPuedeCambiarCredeEnc">No puede cambiar su nombre de usuario, porque tiene datos de local asociados</string>
     <string name="Nohayws">No hay pedidos hechos a este local en el servidor</string>
     <string name="grupo">Grupo 05 PDM115</string>
+    <string name="pedidoEstregado">El pedido ha sido entregado y no se poseen datos</string>
     <string name="Apellido">Apellido</string>
     <string name="Teléfono">Teléfono</string>
 

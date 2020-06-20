@@ -21,6 +21,8 @@ import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.List;
 
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente.ModificarUbicacion;
+
 public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.viewHolder>
 {
     private Context mContext;
@@ -84,6 +86,18 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
                         })
                         .build();
                 mDialog.show();
+            }
+        });
+
+        holder.ly_local.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ModificarUbicacion.class);
+                intent.putExtra("direccion", mUbicacion.get(position).getDirecUbicacion());
+                intent.putExtra("nombre", mUbicacion.get(position).getNomUbicacion());
+                intent.putExtra("punto", mUbicacion.get(position).getPuntoRefUbicacion());
+                intent.putExtra("id", mUbicacion.get(position).getIdUbicacion());
+                mContext.startActivity(intent);
             }
         });
     }

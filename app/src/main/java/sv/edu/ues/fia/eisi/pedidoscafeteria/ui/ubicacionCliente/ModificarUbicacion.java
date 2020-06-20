@@ -1,11 +1,17 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria.ui.ubicacionCliente;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -36,27 +42,34 @@ public class ModificarUbicacion extends AppCompatActivity {
     String usu;
     LocationManager locationManager;
     double latitud,longitud,altitud;
+    int idUbi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_ubicacion);
-
+        Intent intent = getIntent();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0);
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
         controladorServicios = new ControladorServicios();
         controladorBD = new ControladorBD(getApplicationContext());
-        obtenerDireccion = (Button) findViewById(R.id.obtener_direccion);
-        agregarDireccion = (Button) findViewById(R.id.agregar_direccion);
-        nombreUbicacion = (EditText) findViewById(R.id.et_nombre_ubicacion);
-        dirUbicacion = (EditText) findViewById(R.id.et_dir_ubicacion);
+        obtenerDireccion = (Button) findViewById(R.id.obtener_direccion_m);
+        agregarDireccion = (Button) findViewById(R.id.modificar_direccion);
+        nombreUbicacion = (EditText) findViewById(R.id.et_nombre_ubicacion_m);
+        dirUbicacion = (EditText) findViewById(R.id.et_dir_ubicacion_m);
         //facUbicacion = (EditText) findViewById(R.id.et_facultad_ubicacion);
         //facUbicacion.setVisibility(View.INVISIBLE);
         //tv = (TextView) findViewById(R.id.tv_facultad);
         //tv.setVisibility(View.INVISIBLE);
-        puntoUbicacion = (EditText) findViewById(R.id.et_punto_ubicacion);
+        puntoUbicacion = (EditText) findViewById(R.id.et_punto_ubicacion_m);
+
+        nombreUbicacion.setText(intent.getStringExtra("nombre"));
+        dirUbicacion.setText(intent.getStringExtra("direccion"));
+        puntoUbicacion.setText(intent.getStringExtra("punto"));
+        idUbi = intent.getIntExtra("id", 0);
+
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         obtenerDireccion.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +109,15 @@ public class ModificarUbicacion extends AppCompatActivity {
                 }
                 else
                 {
-                    Ubicacion ubicacion = new Ubicacion(1, 4,  dirUbicacion.getText().toString(), nombreUbicacion.getText().toString(), puntoUbicacion.getText().toString(),usu);
-                    resultado = controladorServicios.CrearAct(ubicacion, getApplicationContext(), INSERTAR);
+                    Ubicacion ubicacion = new Ubicacion(idUbi, 4,  dirUbicacion.getText().toString(), nombreUbicacion.getText().toString(), puntoUbicacion.getText().toString(),usu);
+                    //resultado = controladorServicios.CrearAct(ubicacion, getApplicationContext(), INSERTAR);
                     controladorBD.abrir();
-                    String respuesta = controladorBD.insertar(ubicacion);
+                    String respuesta = controladorBD.actualizar(ubicacion);
                     controladorBD.cerrar();
+                    FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.ubicacion_guardada), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                    nombreUbicacion.setText("");
+                    dirUbicacion.setText("");
+                    puntoUbicacion.setText("");
                     //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
 
@@ -109,4 +126,50 @@ public class ModificarUbicacion extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(locationListener);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            // ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            // public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            // int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                0, locationListener);
+        locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
+
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            // TODO Auto-generated method stub
+            latitud = location.getLatitude();
+            longitud = location.getLongitude() ;
+            altitud = location.getAltitude();
+        }
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // TODO Auto-generated method stub
+        }
+    };
+
 }

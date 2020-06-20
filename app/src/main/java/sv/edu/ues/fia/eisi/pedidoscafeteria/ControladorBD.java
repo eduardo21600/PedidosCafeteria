@@ -1390,7 +1390,7 @@ public class ControladorBD {
     public String actualizar(Ubicacion ubicacion){
         //verificando que exista ubicacion
         if(verificarIntegridad(ubicacion, 1)){
-            if(verificarIntegridad(ubicacion,2) && verificarIntegridad(ubicacion,3) && verificarIntegridad(ubicacion,21)){
+            if(verificarIntegridad(ubicacion,2) &&  verificarIntegridad(ubicacion,21)){
                 String[] idU = {String.valueOf(ubicacion.getIdUbicacion())};
                 ContentValues cv = new ContentValues();
                 cv.put("idUbicacion",ubicacion.getIdUbicacion());

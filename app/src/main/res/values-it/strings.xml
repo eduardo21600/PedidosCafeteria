@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Caffetteria ordini</string>
+    <string name="app_name">Caffetteria UES</string>
 
+    <string name="modificar_direccion">Aggiorna posizione</string>
     <string name="ingles">Inglese</string>
     <string name="español">Spagnolo</string>
     <string name="italiano">Italiano</string>
+    <string name="pedidoEstregado"> L\'ordine è stato consegnato e non ci sono dati</string>
 
     <string name="bienvenido">"Caffetteria UES"</string>
     <string name="login">Accesso</string>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cafeteria Orders</string>
+    <string name="app_name">UES Cafeteria</string>
 
+    <string name="modificar_direccion">Update Location</string>
+    <string name="pedidoEstregado">The order has been delivered and doesn\'t has data</string>
     <string name="ingles">English</string>
     <string name="español">Spanish</string>
     <string name="italiano">Italian</string>

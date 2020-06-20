@@ -118,6 +118,7 @@ public class ModificarUbicacion extends AppCompatActivity {
                     nombreUbicacion.setText("");
                     dirUbicacion.setText("");
                     puntoUbicacion.setText("");
+                    finish();
                     //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
 

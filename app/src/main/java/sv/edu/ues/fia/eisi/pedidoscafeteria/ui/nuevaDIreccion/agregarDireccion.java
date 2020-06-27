@@ -57,7 +57,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
         controladorServicios = new ControladorServicios(this);
         controladorBD = new ControladorBD(getApplicationContext());
-        obtenerDireccion = (Button) findViewById(R.id.obtener_direccion_m);
+        obtenerDireccion = (Button) findViewById(R.id.obtener_direccion);
         agregarDireccion = (Button) findViewById(R.id.agregar_direccion);
         nombreUbicacion = (EditText) findViewById(R.id.et_nombre_ubicacion);
         dirUbicacion = (EditText) findViewById(R.id.et_dir_ubicacion);

@@ -2,6 +2,10 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,8 +17,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -141,6 +148,101 @@ public class ControladorServicios{
     String URLBOpcionesCrud = "https://eisi.fia.ues.edu.sv/eisi05/PedidosCafeteriaUES/ws_opcionescrud_query.php";
 
     String resultado="";
+
+
+    //Servicio Web para subir una imagen a el servidor
+    String subirImagenWS = "https://dv17003servicios.000webhostapp.com/subir_imagen.php";
+
+/*
+    //Estos comentarios son para que los implementen en sus activities, es para llamar al explorador de archivos
+    //para escoger una imagen y convertirla en un bitmap para después llamar los otros metodos que están después
+    // de este comentario, cualquier duda avisen.
+
+
+    //Variables necesarias:
+    Bitmap bitmap; // para convertir la imagen en un mapa de bits
+    int SEARCH_IMAGE_REQUEST = 1; //codigo para la activity de seleccionar archivo y su resultado
+
+
+
+    private void escogerImagen() //metodo para mostrar un explorador de archivos para imagenes
+    {
+        Intent intent = new Intent(); //crea un nuevo intent
+        intent.setType("image/*");    //pone que solo sea para buscar cualquier tipo de imagen
+        intent.setAction(Intent.ACTION_GET_CONTENT); // le pone la acción que es, escoger un contenido
+        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), SEARCH_IMAGE_REQUEST); //Inicia la activitie para escoger una foto
+    }
+
+    //Este otro metodo es para el resultado de la activity de arriba.
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Este if verifica si el resultado es igual al código de nuestra variable
+        //y verifica si la foto no está vacía
+        if(requestCode == SEARCH_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        {
+            Uri filePath = data.getData();//obtiene dirección del archivo
+            try
+            {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath); //hace un mapa de bits de la imagen
+                imageView.setImageBitmap(bitmap); // ese imageView es dependiende de su activity, muestra la imagen seleccionada
+                //Pueden llamar el método de subirImagen aqui o donde ustedes les convenga más
+                //Solo tienen que recordar que tienen que mandar los parametros necesarios estos son:
+                //Contexto, el bitmap de aquí arriba, el nombre de la tabla, y el id del registro al que le pertenece la imagen
+            }
+            catch (IOException e)//captura excepción de conversión a bitmap
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            //no se seleccionó una foto, pueden poner aquí lo que les de la gana
+        }
+    }
+ */
+
+    public String getStringImage(Bitmap bmp)
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imagenBytes = byteArrayOutputStream.toByteArray();
+        String encodeImage = Base64.encodeToString(imagenBytes, Base64.DEFAULT);
+        return encodeImage;
+    }
+
+
+    public String subirImagen(Context context, final Bitmap bitmap, final String tabla, final String id)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, subirImagenWS,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                resultado = response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                resultado = error.getMessage();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError
+            {
+                String imagen = getStringImage(bitmap);
+                String nom = id+"_"+tabla;
+                Map <String, String> params = new Hashtable<String, String>();
+                params.put("image", imagen);
+                params.put("nombre", nom);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+        return resultado;
+    }
+
 
 
 

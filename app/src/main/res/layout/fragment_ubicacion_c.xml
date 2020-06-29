@@ -3,27 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ubicacionCliente.fragmentUbicacion"
     android:background="@drawable/gradiente_fondo">
-
-   <TableLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-
-       <Button
-           android:id="@+id/agregar_nueva_direccion"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="#3FDDCE"
-           android:layout_margin="40dp"
-           android:text="@string/agregar_ubicacion" />
-
-    <androidx.recyclerview.widget.RecyclerView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ubicacion_recycler"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
-   </TableLayout>
+        android:layout_height="wrap_content">
+        <TableLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginBottom="-50dp"
+                app:lottie_rawRes="@raw/ubicaciones"
+                app:lottie_loop="false"
+                app:lottie_autoPlay="true" />
+
+           <Button
+               android:id="@+id/agregar_nueva_direccion"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="#3FDDCE"
+               android:layout_margin="40dp"
+               android:text="@string/agregar_ubicacion" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ubicacion_recycler"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

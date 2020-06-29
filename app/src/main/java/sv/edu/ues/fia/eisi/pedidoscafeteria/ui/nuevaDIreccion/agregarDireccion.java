@@ -9,21 +9,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.io.IOException;
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
@@ -34,17 +39,20 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackRespuestaString;
 
 public class agregarDireccion extends AppCompatActivity implements CallbackRespuestaString {
 
-    Button obtenerDireccion, agregarDireccion;
+    Button obtenerDireccion, agregarDireccion, imagenReferencia;
+    ImageView referencia;
     EditText nombreUbicacion, dirUbicacion, facUbicacion, puntoUbicacion;
     TextView tv;
     ControladorServicios controladorServicios;
     ControladorBD controladorBD;
     boolean ACTUALIZAR = false, INSERTAR = true;
-    String resultado;
+    String resultado,id;
     SharedPreferences sharedPreferences;
     String usu;
     LocationManager locationManager;
     double latitud,longitud,altitud;
+    Bitmap bitmap = null; // para convertir la imagen en un mapa de bits
+    int SEARCH_IMAGE_REQUEST = 1; //codigo para la activity de seleccionar archivo y su resultado
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,8 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
         controladorBD = new ControladorBD(getApplicationContext());
         obtenerDireccion = (Button) findViewById(R.id.obtener_direccion);
         agregarDireccion = (Button) findViewById(R.id.agregar_direccion);
+        imagenReferencia = (Button) findViewById(R.id.imagen_referencia);
+        referencia = (ImageView) findViewById(R.id.referencia);
         nombreUbicacion = (EditText) findViewById(R.id.et_nombre_ubicacion);
         dirUbicacion = (EditText) findViewById(R.id.et_dir_ubicacion);
         //facUbicacion = (EditText) findViewById(R.id.et_facultad_ubicacion);
@@ -99,7 +109,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
             @Override
             public void onClick(View v) {
 
-                if (nombreUbicacion.getText().toString().isEmpty() || dirUbicacion.getText().toString().isEmpty() || puntoUbicacion.getText().toString().isEmpty())
+                if (nombreUbicacion.getText().toString().isEmpty() || dirUbicacion.getText().toString().isEmpty() || puntoUbicacion.getText().toString().isEmpty() || bitmap == null)
                 {
                     FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.llene_campos), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
@@ -109,13 +119,21 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
                     resultado = controladorServicios.CrearAct(ubicacion, getApplicationContext(), INSERTAR);
                     controladorBD.abrir();
                     String respuesta = controladorBD.insertar(ubicacion);
+                    id = String.valueOf(controladorBD.ultimoIdUbicacion());
                     controladorBD.cerrar();
+                    controladorServicios.subirImagen(getApplicationContext(), bitmap, "ubicacion", id);
                     //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
 
             }
         });
 
+        imagenReferencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                escogerImagen();
+            }
+        });
 
 
     }
@@ -183,6 +201,43 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
         else
         {
             FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.ubicacion_no_guardada), FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
+        }
+    }
+
+    private void escogerImagen() //metodo para mostrar un explorador de archivos para imagenes
+    {
+        Intent intent = new Intent(); //crea un nuevo intent
+        intent.setType("image/*");    //pone que solo sea para buscar cualquier tipo de imagen
+        intent.setAction(Intent.ACTION_GET_CONTENT); // le pone la acción que es, escoger un contenido
+        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), SEARCH_IMAGE_REQUEST); //Inicia la activitie para escoger una foto
+    }
+
+    //Este otro metodo es para el resultado de la activity de arriba.
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Este if verifica si el resultado es igual al código de nuestra variable
+        //y verifica si la foto no está vacía
+        if(requestCode == SEARCH_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        {
+            Uri filePath = data.getData();//obtiene dirección del archivo
+            try
+            {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath); //hace un mapa de bits de la imagen
+                referencia.setImageBitmap(bitmap); // ese imageView es dependiende de su activity, muestra la imagen seleccionada
+                //Pueden llamar el método de subirImagen aqui o donde ustedes les convenga más
+                //Solo tienen que recordar que tienen que mandar los parametros necesarios estos son:
+                //Contexto, el bitmap de aquí arriba, el nombre de la tabla, y el id del registro al que le pertenece la imagen
+            }
+            catch (IOException e)//captura excepción de conversión a bitmap
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            //no se seleccionó una foto, pueden poner aquí lo que les de la gana
         }
     }
 }

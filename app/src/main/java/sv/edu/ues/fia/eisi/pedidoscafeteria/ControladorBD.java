@@ -410,6 +410,17 @@ public class ControladorBD {
         }
     }
 
+    public int ultimoIdUbicacion()
+    {
+        Cursor cur = db.rawQuery("select * from UBICACION where IDUBICACION = (select max(IDUBICACION) from UBICACION);", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+
+        } else {
+            return 0;
+        }
+    }
+
 
 
     //Preguntar a Spiderman si esta parte del código falla o hay dudas

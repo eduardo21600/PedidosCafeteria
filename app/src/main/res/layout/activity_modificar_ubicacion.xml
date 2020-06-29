@@ -7,17 +7,26 @@
     tools:context=".ui.nuevaDIreccion.agregarDireccion"
     android:background="@drawable/gradiente_fondo"
     android:orientation="vertical">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <ImageView
+            android:id="@+id/referencia_m"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/locales"/>
 
         <Button
-            android:id="@+id/obtener_direccion_m"
+            android:id="@+id/imagen_referencia_m"
             android:background="#3FDDCE"
-            android:text="@string/obtener_ubicacion"
+            android:text="@string/imagen_referencia"
             android:layout_margin="20dp"/>
+
+
 
         <TableRow
             android:gravity="center">
@@ -75,6 +84,11 @@
         </TableRow>
 
         <Button
+            android:id="@+id/obtener_direccion_m"
+            android:background="#3FDDCE"
+            android:text="@string/obtener_ubicacion"
+            android:layout_margin="20dp"/>
+        <Button
             android:id="@+id/modificar_direccion"
             android:background="#3FDDCE"
             android:text="@string/modificar_direccion"
@@ -82,5 +96,5 @@
 
 
     </TableLayout>
-
+    </ScrollView>
 </LinearLayout>

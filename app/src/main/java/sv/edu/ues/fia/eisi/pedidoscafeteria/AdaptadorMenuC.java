@@ -14,6 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.DescMenu;
@@ -71,11 +75,18 @@ public class AdaptadorMenuC extends RecyclerView.Adapter<AdaptadorMenuC.viewHold
         holder.tv_nombre.setText(mMenus.get(position).getNomMenu());
         holder.tv_desc.setText(mMenus.get(position).getFechaDesdeMenu());
         holder.tv_precio.setText(String.valueOf("$"+mMenus.get(position).getPrecioMenu()));
-        holder.iv_imagen.setImageResource(R.drawable.food);
         holder.idMenu = mMenus.get(position).getIdMenu();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idMenu+"_menu.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.iv_imagen);
         holder.nomMenu = mMenus.get(position).getNomMenu();
         holder.precioMenu = mMenus.get(position).getPrecioMenu();
         holder.idLocal = mMenus.get(position).getIdLocal();
+
     }
 
     @Override

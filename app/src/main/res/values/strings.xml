@@ -176,4 +176,5 @@
     <string name="mensajeRep">No hay pedidos asignados</string>
     <string name="modificar_direccion">Actualizar Dirección</string>
     <string name="imagen_referencia">Subir imagen de referencia</string>
+    <string name="locales">Locales Disponibles</string>
 </resources>

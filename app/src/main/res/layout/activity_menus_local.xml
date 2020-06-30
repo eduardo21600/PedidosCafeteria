@@ -7,9 +7,34 @@
     tools:context=".ui.menuCliente.MenusLocal"
     android:background="@drawable/gradiente_fondo">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/menu_recycler"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/imagen_local_menu"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/locales"/>
+
+            <TextView
+                android:id="@+id/nombre_local_menu"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:text="Nombre local"
+                android:textSize="30dp"
+                android:textColor="#ffffff"
+                android:layout_margin="5dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/menu_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

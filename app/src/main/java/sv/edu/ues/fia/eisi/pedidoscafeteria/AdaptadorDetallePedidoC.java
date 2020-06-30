@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -56,7 +59,14 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     {
         holder.tv_cantidad.setText(String.valueOf(mContext.getResources().getString(R.string.cantidad)+ mDet.get(position).getCantidad()));
         holder.tv_subtotal.setText(String.valueOf(mContext.getResources().getString(R.string.total_1) + mDet.get(position).getSubtotal()));
-        holder.iv_imagen.setImageResource(R.drawable.food);
+        holder.idMenu = mDet.get(position).getIdMenu();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idMenu+"_menu.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.iv_imagen);
         controladorBD.abrir();
         final String nomMenu = controladorBD.ConsultaMenu(String.valueOf(mDet.get(position).getIdMenu())).getNomMenu();
         holder.tv_idMenu.setText(nomMenu);
@@ -121,6 +131,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         private TextView tv_subtotal;
         private ImageView iv_imagen;
         private ImageButton eleminarPedido;
+        private int idMenu;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

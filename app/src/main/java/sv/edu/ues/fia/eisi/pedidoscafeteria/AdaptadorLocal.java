@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.menuCliente.MenusLocal;
@@ -54,8 +58,14 @@ public class AdaptadorLocal extends RecyclerView.Adapter<AdaptadorLocal.viewHold
     public void onBindViewHolder(@NonNull viewHolder holder, int position)
     {
         holder.tv_nombre.setText(mLocal.get(position).getNombreLocal());
-        holder.iv_imagen.setImageResource(R.drawable.food);
         holder.idlocal = mLocal.get(position).getIdLocal();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idlocal+"_local.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.iv_imagen);
     }
 
     @Override

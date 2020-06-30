@@ -6,7 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +38,9 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
     private RecyclerView.Adapter adapter;
     ControladorServicios controladorServicios;
     ControladorBD controladorBD;
+    String nomLocal;
+    ImageView imageLocal;
+    TextView nLocal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,7 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
         controladorBD = new ControladorBD(getApplicationContext());
         controladorBD.abrir();
         listaMenu = controladorBD.ConsultaMenusLocal(id);
+        nomLocal = controladorBD.ConsultaLocal(String.valueOf(id)).getNombreLocal();
         controladorBD.cerrar();
         recyclerView = (RecyclerView) findViewById(R.id.menu_recycler);
         recyclerView.setHasFixedSize(true);
@@ -48,6 +60,16 @@ public class MenusLocal extends AppCompatActivity implements CallbackWS {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new AdaptadorMenuC(this, listaMenu);
         recyclerView.setAdapter(adapter);
+        nLocal = (TextView) findViewById(R.id.nombre_local_menu);
+        imageLocal = (ImageView) findViewById(R.id.imagen_local_menu);
+        nLocal.setText(nomLocal);
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+id+"_local.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(imageLocal);
         //controladorServicios=new ControladorServicios(this);
         //controladorServicios.BuscarMenuLocal(id, getApplicationContext());
 

@@ -13,6 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class AdaptadorDescripcionMenu extends RecyclerView.Adapter<AdaptadorDescripcionMenu.viewHolder>
@@ -40,7 +44,14 @@ public class AdaptadorDescripcionMenu extends RecyclerView.Adapter<AdaptadorDesc
     public void onBindViewHolder(@NonNull AdaptadorDescripcionMenu.viewHolder holder, int position)
     {
         holder.tv_nombre.setText(mDesc.get(position).getNombreProducto());
-        holder.iv_imagen.setImageResource(R.drawable.food);
+        holder.idProducto = mDesc.get(position).getIdProduto();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idProducto+"_producto.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.iv_imagen);
     }
 
     @Override
@@ -53,6 +64,7 @@ public class AdaptadorDescripcionMenu extends RecyclerView.Adapter<AdaptadorDesc
         private LinearLayout ly_desc;
         private TextView tv_nombre;
         private ImageView iv_imagen;
+        private int idProducto;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

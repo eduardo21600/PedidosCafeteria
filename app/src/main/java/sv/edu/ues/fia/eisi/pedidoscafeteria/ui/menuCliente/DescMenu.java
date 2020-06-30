@@ -12,12 +12,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,6 +58,7 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
     EditText cantidad;
     SharedPreferences sharedPreferences;
     String usu;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,14 @@ public class DescMenu extends AppCompatActivity implements CallbackWS {
         idLocal = intent.getIntExtra("idLocal", 0);
         nomMenu = intent.getStringExtra("nomMenu");
         precionMenu = intent.getDoubleExtra("precioMenu", 0.00);
+        imageView = (ImageView) findViewById(R.id.imagen_descMenu_c);
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+idMenu+"_menu.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(imageView);
         tv_nom = (TextView) findViewById(R.id.nombre_menu_desc);
         tv_precio = (TextView) findViewById(R.id.precio_menu_desc);
         agregarPedido = (Button) findViewById(R.id.agregar_pedido_desc);

@@ -75,6 +75,8 @@
     <string name="grupo">Grupo 05 PDM115</string>
     <string name="pedidoEstregado">El pedido ha sido entregado y no se poseen datos</string>
     <string name="Apellido">Apellido</string>
+    <string name="cargando">Cargando...</string>
+    <string name="cambiarFoto">Cambiar foto de perfil</string>
     <string name="Teléfono">Teléfono</string>
 
     <string name="crearRepartidor">Agregar nuevo repartidor</string>

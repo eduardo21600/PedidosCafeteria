@@ -29,6 +29,7 @@ public class login extends AppCompatActivity implements CallbackWS {
     Usuario userLocal;
     boolean vigilanteLocal;
     ProgressBar progressBar;
+    dialogLottie barra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,9 @@ public class login extends AppCompatActivity implements CallbackWS {
         controladorBD = new ControladorBD(getApplicationContext());
         cServicios = new ControladorServicios(this);
         sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0); // 0 - for private mode
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255,51,156), PorterDuff.Mode.SRC_IN);
+        barra = new dialogLottie(login.this);
+        /*progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255,51,156), PorterDuff.Mode.SRC_IN);*/
     }
 
     public void entrar(View view){
@@ -48,7 +50,8 @@ public class login extends AppCompatActivity implements CallbackWS {
         controladorBD.abrir();
         userLocal=controladorBD.ConsultaUsuario(usuario.getText().toString());
 
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
+        barra.starLoading();
         if(!(userLocal==null)){
             vigilanteLocal=true; //se encontro el usuario en BD local
         }
@@ -67,7 +70,8 @@ public class login extends AppCompatActivity implements CallbackWS {
     public void ResponseWS(Object lista)
     {
         u = (List<Usuario>) lista;
-        progressBar.setVisibility(View.INVISIBLE);
+        //progressBar.setVisibility(View.INVISIBLE);
+        barra.dismissDialog();
         if (u.isEmpty()&&!vigilanteLocal)
         {
             usuario.setError("Usuario no existente");
@@ -100,11 +104,13 @@ public class login extends AppCompatActivity implements CallbackWS {
                     editor.putString("tipoUsuario","3");//encargado
                     editor.apply();
                 }
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
+                barra.starLoading();
                 controladorBD.abrir();
                 controladorBD.insertar(u.get(0));
                 controladorBD.cerrar();
-                progressBar.setVisibility(View.INVISIBLE);
+                //progressBar.setVisibility(View.INVISIBLE);
+                barra.dismissDialog();
                 Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
                 startActivity(intent);
             }

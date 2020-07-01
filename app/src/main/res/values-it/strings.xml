@@ -64,6 +64,7 @@
     <string name="actRepa">Update Delivery Man</string>
     <string name="NoPuedeCambiarCrede">Impossibile aggiornare il nome utente perché hai ordini in sospeso</string>
     <string name="Actualizar">Aggiornare</string>
+    <string name="cargando">Caricamento in corso...</string>
     <string name="localActualizado">Il tuo nome locale è stato cambiato</string>
     <string name="usuarioCreado">Utente creato</string>
     <string name="usuarioNoCreado">Utente non creato</string>

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -28,8 +30,10 @@ public class login extends AppCompatActivity implements CallbackWS {
     SharedPreferences sharedPreferences;
     Usuario userLocal;
     boolean vigilanteLocal;
-    ProgressBar progressBar;
+    //ProgressBar progressBar;
     dialogLottie barra;
+    SoundPool sp;
+    int sonido,incorrecto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,9 @@ public class login extends AppCompatActivity implements CallbackWS {
         cServicios = new ControladorServicios(this);
         sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0); // 0 - for private mode
         barra = new dialogLottie(login.this);
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonido = sp.load(login.this,R.raw.audio_inicio,1);
+        incorrecto = sp.load(login.this,R.raw.audio_error,1);
         /*progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(255,51,156), PorterDuff.Mode.SRC_IN);*/
     }
@@ -74,6 +81,7 @@ public class login extends AppCompatActivity implements CallbackWS {
         barra.dismissDialog();
         if (u.isEmpty()&&!vigilanteLocal)
         {
+            sp.play(incorrecto,1,1,1,0,0);
             usuario.setError("Usuario no existente");
             FancyToast.makeText(getApplicationContext(), "El usuario no existe", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
         }
@@ -111,11 +119,13 @@ public class login extends AppCompatActivity implements CallbackWS {
                 controladorBD.cerrar();
                 //progressBar.setVisibility(View.INVISIBLE);
                 barra.dismissDialog();
+                sp.play(sonido,1,1,1,0,0);
                 Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
                 startActivity(intent);
             }
             else
             {
+                sp.play(incorrecto,1,1,1,0,0);
                 FancyToast.makeText(getApplicationContext(), "Contraseña no válida", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
             }
         }
@@ -139,10 +149,12 @@ public class login extends AppCompatActivity implements CallbackWS {
                     editor.putString("tipoUsuario","3");//encargado
                     editor.apply();
                 }
+                sp.play(sonido,1,1,1,0,0);
                 Intent intent = new Intent (getApplicationContext(), drawerEncar.class);
                 startActivity(intent);
             }
             else{
+                sp.play(incorrecto,1,1,1,0,0);
                 FancyToast.makeText(getApplicationContext(), "Contraseña no válida",
                         FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error, false).show();
             }

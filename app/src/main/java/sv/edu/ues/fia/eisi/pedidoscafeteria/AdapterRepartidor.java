@@ -3,6 +3,8 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
     List<Usuario> datos;
     private Activity mActivity;
     ControladorBD controladorBD;
+    SoundPool sp;
+    int sonido;
 
     public AdapterRepartidor(Context mContext,List<Usuario> datos){
         this.mContext =mContext;
@@ -39,6 +43,8 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_repa_e,parent,false);
         AdapterRepartidor.RepartidorViewHolder vHolder = new AdapterRepartidor.RepartidorViewHolder(v);
         controladorBD = new ControladorBD(mContext);
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonido = sp.load(mContext,R.raw.audio_eliminar,1);
         return  vHolder;
     }
 
@@ -57,6 +63,7 @@ public class AdapterRepartidor extends RecyclerView.Adapter<AdapterRepartidor.Re
                             FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
                 }
                 else{
+                    sp.play(sonido,1,1,1,0,0);
                     final MaterialDialog mDialog = new MaterialDialog.Builder((Activity) mContext)
                             .setTitle("Eliminar")
                             .setAnimation(R.raw.delete)

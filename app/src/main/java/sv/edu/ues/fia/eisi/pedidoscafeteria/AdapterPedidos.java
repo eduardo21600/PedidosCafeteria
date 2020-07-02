@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,6 +24,14 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
 
     Context mContext;
     List<Pedido> datos;
+    List<DetallePedido> detallePedidos;
+    int idMenu;
+
+    public AdapterPedidos(Context mContext, List<Pedido> datos, List<DetallePedido> detallePedidos) {
+        this.mContext = mContext;
+        this.datos = datos;
+        this.detallePedidos = detallePedidos;
+    }
 
     public AdapterPedidos(Context mContext, List<Pedido> datos) {
         this.mContext = mContext;
@@ -67,6 +80,16 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
             else{
                 holder.tvEstado.setText("Entregado");
             }
+            if(!detallePedidos.isEmpty()&&position<detallePedidos.size()){
+                idMenu =detallePedidos.get(position).getIdMenu();
+                String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+idMenu+"_menu.jpg";
+                Picasso.get().load(imageUri)
+                        .placeholder(R.drawable.locales)
+                        .error(R.drawable.error)
+                        .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .into(holder.foto);
+            }
     }
 
     @Override
@@ -80,6 +103,7 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
         private TextView tvIdPedido, tvCliente, tvTipo, tvEstado;
         private int idUbicacion,idDeP,idEstadoP,idLocal;
         private String fecha;
+        private ImageView foto;
         public PedidosViewHolder(@NonNull View itemView) {
             super(itemView);
             card = (LinearLayout)itemView.findViewById(R.id.cardview_pedidos_e_id);
@@ -87,6 +111,7 @@ public class AdapterPedidos extends RecyclerView.Adapter<AdapterPedidos.PedidosV
             tvCliente = (TextView)itemView.findViewById(R.id.tvCliente);
             tvTipo = (TextView)itemView.findViewById(R.id.tvTipo);
             tvEstado = (TextView)itemView.findViewById(R.id.tvEstado);
+            foto = (ImageView)itemView.findViewById(R.id.imageView4);
         }
     }
 }

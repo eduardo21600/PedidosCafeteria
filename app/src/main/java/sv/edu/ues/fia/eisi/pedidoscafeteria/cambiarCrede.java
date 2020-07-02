@@ -344,6 +344,9 @@ public class cambiarCrede extends AppCompatActivity {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public void onLongPress(MotionEvent e) {
+            if (ContextCompat.checkSelfPermission(cambiarCrede.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(cambiarCrede.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(cambiarCrede.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
+            }
             final MaterialDialog mDialog = new MaterialDialog.Builder(cambiarCrede.this)
                     .setTitle("Cambiar foto de perfil")
                     .setAnimation(R.raw.camera)

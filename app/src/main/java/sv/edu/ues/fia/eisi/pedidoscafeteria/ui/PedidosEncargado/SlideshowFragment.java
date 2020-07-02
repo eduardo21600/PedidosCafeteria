@@ -28,7 +28,9 @@ import java.util.Set;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.AdapterPedidos;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.DetallePedido;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Local;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.Menu;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Pedido;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoAsignado;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.PedidoModelo;
@@ -52,6 +54,8 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
     private boolean seTieneLocal;
     private Chip verWS;
     private boolean hayPedidos;
+    private List<DetallePedido> detallePedidos;
+    private List<Menu> menus;
     TextView titulo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,7 +64,7 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
        recyclerView = (RecyclerView) root.findViewById(R.id.pedidosRV);
         verWS = (Chip)root.findViewById(R.id.chipWSpedido);
         titulo = (TextView)root.findViewById(R.id.textView9);
-        final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1);
+        final AdapterPedidos adapter = new AdapterPedidos(getContext(),pedido1,detallePedidos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         if(pedido1.isEmpty()){
@@ -98,6 +102,8 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         lstPedidos = new ArrayList<>();
         pedido1 = new ArrayList<>();
         hayPedidos=false;
+        detallePedidos = new ArrayList<>();
+        menus = new ArrayList<>();
         sharedPreferences = this.getActivity().getSharedPreferences("validacion",0);
         String id = sharedPreferences.getString("nombreUsuario","");
         controladorBD = new ControladorBD(getContext());
@@ -122,6 +128,9 @@ public class SlideshowFragment extends Fragment implements CallbackWS {
         }
         else{
             pedido1 = controladorBD.ConsultaPedidosLocal(idLocal);
+            for (int i = 0; i <pedido1.size() ; i++) {
+                detallePedidos.add(controladorBD.ConsultaDetallePedido(pedido1.get(i).getIdDetalleP()));
+            }
             controladorBD.cerrar();
             cServicios.BuscarPedidosLocal(idLocal,getContext());
             ordenResponse=3;

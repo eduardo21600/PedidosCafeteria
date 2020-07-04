@@ -158,6 +158,8 @@
     <string name="inserte_cantidad">Per favore, inserisci la quantità</string>
     <string name="total_1">Totale: </string>
     <string name="cancelar_pedido">¿Annulla Ordine?</string>
+    <string name ="cancelar_menu"> Annulla menu? </string>
+    <string name = "cancelar_producto"> Annulla prodotto? </string>
     <string name="esta_seguro">Sei sicuro di annullare \'</string>
     <string name="borrar">Elimina</string>
     <string name="cancelado">L\'ordine è stato annullato</string>

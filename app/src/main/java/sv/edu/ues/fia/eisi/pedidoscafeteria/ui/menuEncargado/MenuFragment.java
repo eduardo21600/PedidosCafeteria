@@ -88,7 +88,7 @@ public class MenuFragment extends Fragment {
             final int position = viewHolder.getAdapterPosition();
             final Menu dp = listaMenu.get(position);
             MaterialDialog mDialog = new MaterialDialog.Builder((Activity) getActivity())
-                    .setTitle(getContext().getResources().getString(R.string.cancelar_pedido))
+                    .setTitle(getContext().getResources().getString(R.string.cancelar_menu))
                     .setAnimation(R.raw.delete)
                     .setMessage(getContext().getResources().getString(R.string.esta_seguro)+dp.getNomMenu() +"'?")
                     .setCancelable(false)

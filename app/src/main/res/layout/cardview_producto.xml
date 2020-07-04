@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listaProducto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:layout_margin="10dp"
     android:gravity="center">
 
     <LinearLayout
@@ -91,7 +93,8 @@
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#FAF7F7"
-                    android:textSize="18sp" />
+                    android:textSize="24sp" />
+
             </TableRow>
 
             <Button
@@ -106,22 +109,6 @@
                 android:background="@drawable/botonmodelo"
                 android:text="@string/botonModificar"
                 android:textColor="#F6FAF6" />
-
-            <Button
-                android:id="@+id/btnEliminarProducto"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="130dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/btnmodeloeliminar"
-                android:gravity="center"
-                android:text="@string/botonEliminar"
-                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 

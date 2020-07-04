@@ -89,13 +89,13 @@
                         android:id="@+id/textNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/baloo"
                         android:gravity="center"
                         android:text="TextView"
                         android:textColor="#050505"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </TableRow>
 
                 <Button
@@ -103,6 +103,7 @@
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="130dp"
                     android:layout_height="50dp"
+                    android:layout_margin="10dp"
                     android:background="@drawable/botonmodelo"
                     android:text="@string/botonModificar"
                     android:textColor="#F6FAF6" />
@@ -110,8 +111,8 @@
                 <Button
                     android:id="@+id/btnEliminarProducto"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                    android:layout_width="130dp"
-                    android:layout_height="50dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/btnmodeloeliminar"
                     android:text="@string/botonEliminar"

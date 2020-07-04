@@ -25,7 +25,7 @@ import java.util.List;
 
 public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.ViewHolder> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context context;
         private LinearLayout linearProducto;
@@ -58,12 +58,10 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
         void setOnClickListener()
         {
            // btnEliminar.setOnClickListener(this);
-           // btnModificar.setOnClickListener(this);
-            linearProducto.setOnTouchListener(this);
-            gestorDetector=new GestureDetector(context, this);
+            btnModificar.setOnClickListener(this);
         }
 
-     /*   @Override
+        @Override
         public void onClick(View v) {
             switch (v.getId())
             {
@@ -82,74 +80,10 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                     context.startActivity(intent);
                     break;
             }
-        }*/
-
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            Intent intentn= new Intent(context, ProductoEliminar.class);
-            intentn.putExtra("idy",id.getText());
-            intentn.putExtra("precio",productoprecio.getText());
-            intentn.putExtra("nombre",nombre.getText());
-            intentn.putExtra("desc",descripcion.getText());
-            context.startActivity(intentn);
-            return true;
         }
 
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            Intent intent= new Intent(context, ProductoModificar.class);
-            intent.putExtra("id",id.getText());
-            context.startActivity(intent);
-
-            return true;
-        }
-
-        @Override
-        public boolean onDoubleTapEvent(MotionEvent e) {
-
-            return false;
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
 
 
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            Intent intent= new Intent(context, ProductoModificar.class);
-            intent.putExtra("id",id.getText());
-            context.startActivity(intent);
-            return true;
-        }
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return gestorDetector.onTouchEvent(event);
-        }
     }
 
     public List<Producto> productoLista;

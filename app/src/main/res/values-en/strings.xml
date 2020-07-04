@@ -8,6 +8,7 @@
     <string name="español">Spanish</string>
     <string name="italiano">Italian</string>
 
+
     <string name="bienvenido">"UES Cafeterias"</string>
     <string name="login">Log in</string>
     <string name="nombreUsuario">Username</string>
@@ -164,6 +165,8 @@
     <string name="pedidos_realizados">Placed Orders</string>
     <string name="eliminar_ubicacion">Delete Location?</string>
     <string name="esta_seguro_ubi">Are you sure to delete \'</string>
+    <string name = "cancelar_menu"> Cancel Menu? </string>
+    <string name="cancelar_producto"> Cancel Product? </string>
     <string name="no_se_pudo_ubicacion">We cannot retrieve your current location</string>
     <string name="llene_campos">Fill all the fields</string>
     <string name="ubicacion_guardada">Location saved</string>

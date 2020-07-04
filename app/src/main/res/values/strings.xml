@@ -164,6 +164,8 @@
     <string name="inserte_cantidad">Inserte una cantidad</string>
     <string name="total_1">Total: </string>
     <string name="cancelar_pedido">¿Cancelar Pedido?</string>
+    <string name="cancelar_menu">¿Cancelar Menu?</string>
+    <string name="cancelar_producto">¿Cancelar Producto?</string>
     <string name="esta_seguro">¿Esta seguro de cancelar \'</string>
     <string name="borrar">Borrar</string>
     <string name="cancelado">Se canceló su pedido correctamente</string>

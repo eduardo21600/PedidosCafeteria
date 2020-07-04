@@ -40,7 +40,8 @@ public class ProductoEliminar extends AppCompatActivity {
         descripcion.setText(descripcions);
         nombre.setText(nombres);
     }
-    public void eliminarProductoH(View v){
+    public void eliminarProductoH(View v)
+    {
         String regEliminadas;
         Producto producto=new Producto();
         producto.setIdProduto(Integer.valueOf(idP));

@@ -39,10 +39,6 @@ public class ProductoMenuAsignar extends AppCompatActivity {
     public void integrarProductoAlMenu (String idProducto, int men)
     {
 
-        //Bundle extras1 = getIntent().getExtras();
-        //= extras1.getString("productoid");
-
-       // Integer IdMenu=Integer.valueOf(idMenu);
         Integer IdProducto=Integer.valueOf(idProducto);
         String registro;
         ProductoAsignar productoAsignar=new ProductoAsignar();

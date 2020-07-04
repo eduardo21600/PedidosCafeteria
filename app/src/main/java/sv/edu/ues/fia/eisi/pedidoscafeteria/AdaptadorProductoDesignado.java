@@ -7,11 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,27 +25,32 @@ public class AdaptadorProductoDesignado extends RecyclerView.Adapter<AdaptadorPr
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Context context;
+        private ProductoMenuAsignar prueba;
+        private ImageView imgProducto;
         private TextView idProducto;
-        private TextView nombre;
-        private TextView precio;
         private TextView descripcion;
         private CardView cdvConsultar;
-        private ProductoMenuAsignar prueba;
+        private TextView nombre;
+        private TextView precio;
+        private int idProducto1;
+        private Context context;
         private int idMenu2;
+
         private Context context1;
 
         public ViewHolder(View itemView)
         {
             super(itemView);
             context=itemView.getContext();
+            descripcion = (TextView) itemView.findViewById(R.id.textDescripcionDelProductoMenu);
             nombre = (TextView) itemView.findViewById(R.id.textNombreDelProductoENMenu);
             idProducto = (TextView) itemView.findViewById(R.id.textIdDelProductoEnMenu);
             precio = (TextView) itemView.findViewById(R.id.textPrecioDelProductoEnElMenu);
-            descripcion = (TextView) itemView.findViewById(R.id.textDescripcionDelProductoMenu);
             cdvConsultar=(CardView) itemView.findViewById(R.id.CardProducto);
+            imgProducto=(ImageView)itemView.findViewById(R.id.imgProducto);
             prueba=new ProductoMenuAsignar();
         }
+
         void setOnClickListener()
         {
             cdvConsultar.setOnClickListener(this);
@@ -48,8 +59,6 @@ public class AdaptadorProductoDesignado extends RecyclerView.Adapter<AdaptadorPr
         @Override
         public void onClick(View v) {
 
-                    // prueba.integrarProductoAlMenu(idProducto.getText().toString(), idMenu2);
-                    //Integer IdProducto=Integer.valueOf(idProducto);
                     String registro;
                     ProductoAsignar productoAsignar=new ProductoAsignar();
                     productoAsignar.setIdmenu(idMenu2);
@@ -60,8 +69,8 @@ public class AdaptadorProductoDesignado extends RecyclerView.Adapter<AdaptadorPr
                     registro=base.AsignarProtoMenu(productoAsignar);
                     base.cerrar();
                     Toast.makeText(context1, registro, Toast.LENGTH_SHORT).show();
-
         }
+
     }
 
     public List<Producto> productoLista;
@@ -85,6 +94,14 @@ public class AdaptadorProductoDesignado extends RecyclerView.Adapter<AdaptadorPr
         holder.idProducto.setText(String.valueOf(productoLista.get(position).getIdProduto()));
         holder.precio.setText(String.valueOf(productoLista.get(position).getPrecioUnitario()));
         holder.descripcion.setText(productoLista.get(position).getDescProducto());
+        holder.idProducto1=productoLista.get(position).getIdProduto();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idProducto1+"_producto.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.imgProducto);
         holder.idMenu2=idMenu;
         holder.context1=contextM;
         holder.setOnClickListener();

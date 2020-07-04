@@ -6,10 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,11 +25,12 @@ public class AdaptadorMenuE extends RecyclerView.Adapter<AdaptadorMenuE.ViewHold
         private Context context;
         private TextView nombre;
         private TextView id;
+        private int idProducto;
         private TextView precioMenu;
         private Button btnModificar;
         private Button btnEliminar;
         private CardView cdvConsultar;
-
+        private ImageView imageView;
         public ViewHolder(View itemView)
         {
             super(itemView);
@@ -35,6 +41,7 @@ public class AdaptadorMenuE extends RecyclerView.Adapter<AdaptadorMenuE.ViewHold
             btnEliminar=(Button)itemView.findViewById(R.id.btnEliminarProducto);
             btnModificar=(Button)itemView.findViewById(R.id.btnModificarProducto);
             cdvConsultar=(CardView) itemView.findViewById(R.id.itemMenuProductoEncargado);
+            imageView=(ImageView) itemView.findViewById(R.id.imgProducto);
         }
         void setOnClickListener()
         {
@@ -42,7 +49,6 @@ public class AdaptadorMenuE extends RecyclerView.Adapter<AdaptadorMenuE.ViewHold
             btnModificar.setOnClickListener(this);
             cdvConsultar.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View v) {
             switch (v.getId())
@@ -86,8 +92,16 @@ public class AdaptadorMenuE extends RecyclerView.Adapter<AdaptadorMenuE.ViewHold
     public void onBindViewHolder(AdaptadorMenuE.ViewHolder holder, int position){
         holder.nombre.setText(menuLista.get(position).getNomMenu());
         holder.id.setText(String.valueOf(menuLista.get(position).getIdMenu()));
+        holder.idProducto= menuLista.get(position).getIdMenu();
         holder.precioMenu.setText(String.valueOf(menuLista.get(position).getPrecioMenu()));
         holder.setOnClickListener();
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+holder.idProducto+"_menu.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.locales)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.imageView);
     }
 
 

@@ -969,9 +969,6 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
             pro777.setNombreProducto((cur.getString(1)));
             pro777.setPrecioUnitario((cur.getInt(2)));
             pro777.setDescProducto((cur.getString(3)));
-
-
-
             return pro777;
 
         } else {
@@ -991,6 +988,22 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
             } while (cur.moveToNext());
 
 
+        }
+        return pro777;
+    }
+
+    public List<Producto> ConsultaProductos(int  idProducto) {
+        Cursor cur = db.rawQuery("SELECT * FROM Producto WHERE idProducto="+ idProducto, null);
+        List<Producto> pro777 = new ArrayList<>();
+        ArrayList<Producto> detalleProducto = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                pro777.add(new Producto(cur.getInt(0),
+                        cur.getString(1),
+                        cur.getDouble(2),
+                        cur.getString(3)));
+            } while (cur.moveToNext());
         }
         return pro777;
     }
@@ -1350,8 +1363,6 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
 
         }
         return depe;
-
-
     }
 
     public List<DetallePedido> ConsultaDetallePedidos() {

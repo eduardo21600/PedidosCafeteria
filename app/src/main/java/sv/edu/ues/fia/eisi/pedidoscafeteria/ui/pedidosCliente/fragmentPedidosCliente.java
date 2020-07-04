@@ -55,8 +55,7 @@ public class fragmentPedidosCliente extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v =  inflater.inflate(R.layout.fragment_pedidos_cliente, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.pedidos_recycler_c);
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);

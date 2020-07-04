@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,13 +8,15 @@
     android:layout_margin="10sp"
     android:id="@+id/menu_card">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imagen_menu_c"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="20sp"
         android:src="@drawable/user"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        app:civ_border_color="#FBF6F6"
+        app:civ_border_width="2dp"/>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

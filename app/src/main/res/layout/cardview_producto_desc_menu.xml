@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/producto_desc_card"
     android:orientation="horizontal">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/food"
         android:layout_margin="20dp"
-        android:id="@+id/imagen_producto_c"/>
+        android:id="@+id/imagen_producto_c"
+        app:civ_border_color="#FBF6F6"
+        app:civ_border_width="2dp"/>
 
     <TextView
         android:layout_width="match_parent"

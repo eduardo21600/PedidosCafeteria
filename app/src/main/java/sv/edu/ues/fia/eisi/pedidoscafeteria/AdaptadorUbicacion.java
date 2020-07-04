@@ -3,6 +3,8 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +29,15 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
 {
     private Context mContext;
     private List<Ubicacion> mUbicacion;
+    SoundPool sp;
+    int sonido,incorrecto;
 
     public AdaptadorUbicacion(Context mContext, List<Ubicacion> mUbicacion) {
         this.mContext = mContext;
         this.mUbicacion = mUbicacion;
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonido = sp.load(mContext,R.raw.audio_eliminar,1);
+
     }
 
     @NonNull
@@ -74,6 +81,7 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
                                 controladorBD.abrir();
                                 controladorBD.eliminar(ubicacion);
                                 controladorBD.cerrar();
+                                sp.play(sonido,1,1,1,0,0);
                                 //ControladorServicios controladorServicios = new ControladorServicios();
                                 //controladorServicios.Eliminar(ubicacion, mContext);
                             }

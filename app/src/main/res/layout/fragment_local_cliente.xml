@@ -30,6 +30,14 @@
             android:layout_margin="5dp"
             android:textColor="#ffffff"/>
 
+        <Button
+            android:id="@+id/mostrar_todos"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/mostrar_todo"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/local_recycler"
         android:layout_width="match_parent"

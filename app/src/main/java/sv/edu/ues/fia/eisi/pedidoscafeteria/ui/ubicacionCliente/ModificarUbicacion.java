@@ -15,7 +15,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
 import android.media.Image;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -27,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -38,6 +42,7 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.nuevaDIreccion.agregarDireccion;
 
 public class ModificarUbicacion extends AppCompatActivity {
 
@@ -55,7 +60,9 @@ public class ModificarUbicacion extends AppCompatActivity {
     double latitud,longitud,altitud;
     int idUbi;
     Bitmap bitmap = null; // para convertir la imagen en un mapa de bits
-    int SEARCH_IMAGE_REQUEST = 1; //codigo para la activity de seleccionar archivo y su resultado
+    int SEARCH_IMAGE_REQUEST = 1, REQUEST_TAKE_PHOTO = 2; //codigo para la activity de seleccionar archivo y su resultado
+    SoundPool sp;
+    int sonido,incorrecto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,9 @@ public class ModificarUbicacion extends AppCompatActivity {
         //tv = (TextView) findViewById(R.id.tv_facultad);
         //tv.setVisibility(View.INVISIBLE);
         puntoUbicacion = (EditText) findViewById(R.id.et_punto_ubicacion_m);
-
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonido = sp.load(ModificarUbicacion.this,R.raw.audio_inicio,1);
+        incorrecto = sp.load(ModificarUbicacion.this,R.raw.audio_error,1);
         nombreUbicacion.setText(intent.getStringExtra("nombre"));
         dirUbicacion.setText(intent.getStringExtra("direccion"));
         puntoUbicacion.setText(intent.getStringExtra("punto"));
@@ -128,6 +137,7 @@ public class ModificarUbicacion extends AppCompatActivity {
                 if (nombreUbicacion.getText().toString().isEmpty() || dirUbicacion.getText().toString().isEmpty() || puntoUbicacion.getText().toString().isEmpty())
                 {
                     FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.llene_campos), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                    sp.play(incorrecto,1,1,1,0,0);
                 }
                 else
                 {
@@ -143,6 +153,7 @@ public class ModificarUbicacion extends AppCompatActivity {
                     nombreUbicacion.setText("");
                     dirUbicacion.setText("");
                     puntoUbicacion.setText("");
+                    sp.play(sonido,1,1,1,0,0);
                     finish();
                     //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
                 }
@@ -153,7 +164,28 @@ public class ModificarUbicacion extends AppCompatActivity {
         imagenReferencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                escogerImagen();
+                final MaterialDialog mDialog = new MaterialDialog.Builder(ModificarUbicacion.this)
+                        .setTitle("Agregar foto de referencia")
+                        .setAnimation(R.raw.camera)
+                        .setMessage("¡Cambia o agrega una fotografía!")
+                        .setCancelable(true)
+                        .setPositiveButton("Galería", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                // Delete Operation
+                                escogerImagen();
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Tomar Foto", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                tomarFoto();
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                mDialog.show();
             }
         });
     }
@@ -211,6 +243,14 @@ public class ModificarUbicacion extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), SEARCH_IMAGE_REQUEST); //Inicia la activitie para escoger una foto
     }
 
+    public void tomarFoto(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
+    }
+
     //Este otro metodo es para el resultado de la activity de arriba.
 
     @Override
@@ -234,6 +274,12 @@ public class ModificarUbicacion extends AppCompatActivity {
             {
                 e.printStackTrace();
             }
+        }
+        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK)
+        {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            referencia.setImageBitmap(bitmap);
         }
         else
         {

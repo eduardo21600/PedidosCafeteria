@@ -977,6 +977,7 @@ public class ControladorBD {
 
     }
 
+
     public List<Menu> ConsultaMenus() {
         Cursor cur = db.rawQuery("SELECT * FROM MENU", null);
         List<Menu> uwu = new ArrayList<>();
@@ -1020,6 +1021,18 @@ public class ControladorBD {
 
     public List<Menu> ConsultaMenusLocal(int idlocal) {
         Cursor cur = db.rawQuery("SELECT * FROM MENU WHERE IDLOCAL=" + idlocal, null);
+        List<Menu> uwu = new ArrayList<>();
+        if (cur.moveToFirst()) {
+
+            do {
+                uwu.add(new Menu(cur.getInt(0), cur.getInt(1), cur.getDouble(2), cur.getString(3), cur.getString(4), cur.getString(5)));
+            } while (cur.moveToNext());
+        }
+        return uwu;
+    }
+
+    public List<Menu> ConsultaMenusNombre(String nombre) {
+        Cursor cur = db.rawQuery("SELECT * FROM MENU WHERE NOMMENU LIKE '%" + nombre + "%'", null);
         List<Menu> uwu = new ArrayList<>();
         if (cur.moveToFirst()) {
 

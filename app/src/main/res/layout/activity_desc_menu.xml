@@ -11,12 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imagen_descMenu_c"
             android:src="@drawable/food"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="20sp"/>
+            android:layout_marginTop="20sp"
+            app:civ_border_color="#FBF6F6"
+            app:civ_border_width="2dp"/>
         <TextView
             android:id="@+id/nombre_menu_desc"
             android:text="@string/nombre_del_menu"

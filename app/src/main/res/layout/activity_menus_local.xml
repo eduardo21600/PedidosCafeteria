@@ -14,12 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imagen_local_menu"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/locales"/>
+                android:src="@drawable/locales"
+                app:civ_border_color="#FBF6F6"
+                app:civ_border_width="2dp"/>
 
             <TextView
                 android:id="@+id/nombre_local_menu"

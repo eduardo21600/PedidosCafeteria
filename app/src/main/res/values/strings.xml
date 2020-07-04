@@ -179,4 +179,9 @@
     <string name="modificar_direccion">Actualizar Dirección</string>
     <string name="imagen_referencia">Subir imagen de referencia</string>
     <string name="locales">Locales Disponibles</string>
+    <string name="mostrar_todo">Mostrar Todos los Menus</string>
+    <string name="todos_menu">Todos los menus</string>
+    <string name="buscar_menu">Buscar:</string>
+    <string name="ingrese_menu">Ingrese búsqueda</string>
+    <string name="buscar_menu_btn">Buscar</string>
 </resources>

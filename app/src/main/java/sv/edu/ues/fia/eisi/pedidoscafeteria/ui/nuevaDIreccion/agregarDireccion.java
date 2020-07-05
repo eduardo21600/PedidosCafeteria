@@ -135,7 +135,7 @@ public class agregarDireccion extends AppCompatActivity implements CallbackRespu
                     controladorBD.cerrar();
                     controladorServicios.subirImagen(getApplicationContext(), bitmap, "ubicacion", id);
                     //FancyToast.makeText(getApplicationContext(), respuesta, FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
-                    sp.play(sonido,1,1,1,0,0);
+                        sp.play(sonido,1,1,1,0,0);
                 }
 
             }

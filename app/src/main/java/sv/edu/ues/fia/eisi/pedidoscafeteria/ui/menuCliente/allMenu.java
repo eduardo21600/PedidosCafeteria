@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -40,6 +42,8 @@ public class allMenu extends AppCompatActivity implements RecognitionListener {
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mSpeechRecognizerIntent;
     ImageButton hablar;
+    SoundPool sp;
+    int sonido, error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,9 @@ public class allMenu extends AppCompatActivity implements RecognitionListener {
         recyclerView.setAdapter(adapter);
         busqueda = (EditText) findViewById(R.id.buscar_menu_et);
         hablar = (ImageButton) findViewById(R.id.buscar_menu_mic);
-
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonido = sp.load(getApplicationContext(),R.raw.audio_success,1);
+        error = sp.load(getApplicationContext(),R.raw.audio_error,1);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(this);
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -126,6 +132,7 @@ public class allMenu extends AppCompatActivity implements RecognitionListener {
     @Override
     public void onError(int error) {
         FancyToast.makeText(getApplicationContext(), "Ha ocurrido un error", FancyToast.LENGTH_SHORT, FancyToast.ERROR, R.drawable.error    , false).show();
+        sp.play(error,1,1,1,0,0);
     }
 
     @Override
@@ -142,6 +149,7 @@ public class allMenu extends AppCompatActivity implements RecognitionListener {
         adapter = new AdaptadorMenuC(getApplicationContext(), listaMenu);
         recyclerView.setAdapter(adapter);
         FancyToast.makeText(getApplicationContext(), "Mostrando resultados para: " + b, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+        sp.play(sonido,1,1,1,0,0);
     }
 
     @Override

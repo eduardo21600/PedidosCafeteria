@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
@@ -30,14 +31,13 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
     private Context mContext;
     private List<Ubicacion> mUbicacion;
     SoundPool sp;
-    int sonido,incorrecto;
+    int sonido;
 
     public AdaptadorUbicacion(Context mContext, List<Ubicacion> mUbicacion) {
         this.mContext = mContext;
         this.mUbicacion = mUbicacion;
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sonido = sp.load(mContext,R.raw.audio_eliminar,1);
-
     }
 
     @NonNull
@@ -108,6 +108,7 @@ public class AdaptadorUbicacion extends RecyclerView.Adapter<AdaptadorUbicacion.
                 mContext.startActivity(intent);
             }
         });
+
     }
 
     @Override

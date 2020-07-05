@@ -2,6 +2,7 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -116,6 +117,19 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
                 mDialog.show();
             }
         });
+
+        holder.chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controladorBD.abrir();
+                Pedido pedido = controladorBD.consultarPedidoDetalle(mDet.get(position).getIdDetallePedido()).get(0);
+                controladorBD.abrir();
+                Intent intent = new Intent(mContext, Chat2.class);
+                intent.putExtra("idpedido", pedido.getIdPedido());
+                //Toast.makeText(mContext, "IDPEDIDO: "+ pedido.getIdPedido(), Toast.LENGTH_SHORT).show();
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -130,7 +144,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         private TextView tv_cantidad;
         private TextView tv_subtotal;
         private ImageView iv_imagen;
-        private ImageButton eleminarPedido;
+        private ImageButton eleminarPedido, chat;
         private int idMenu;
 
         public viewHolder(@NonNull View itemView) {
@@ -141,6 +155,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
             tv_subtotal = (TextView) itemView.findViewById(R.id.subtotal_pedido_c);
             iv_imagen = (ImageView) itemView.findViewById(R.id.imagen_pedido_c);
             eleminarPedido = (ImageButton) itemView.findViewById(R.id.eliminar_pedido_c);
+            chat = (ImageButton) itemView.findViewById(R.id.chat_pedido_c);
         }
     }
 

@@ -16,9 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;
-
-public class ControladorBD {
+import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class ControladorBD {
     private SQLiteDatabase db;
     private DataBaseHelper DBHelper;
     private final Context context;
@@ -199,6 +197,8 @@ public class ControladorBD {
     public void cerrar(){
         DBHelper.close();
     }
+
+
 
     //Agregare un metodo para llenar algunas partes de la base y hacer pruebas
     public String llenarUsuario(){
@@ -504,7 +504,7 @@ public class ControladorBD {
             do {
                         usus.add(new Usuario(cur.getString(0)
                         , cur.getInt(1)
-                        , cur.getString(2)
+                         , cur.getString(2)
                         , cur.getString(3)
                         , cur.getString(4)
                         , cur.getString(5)
@@ -722,7 +722,7 @@ public class ControladorBD {
     public String CrearMensaje(Mensaje mensaje) {
         String resultado = "saquenme de venezuela por favor ";
         ContentValues msj = new ContentValues();
-        msj.put("idMensaje",mensaje.getIdMensaje ());
+
         msj.put("idUsuario", mensaje.getIdUsuario ());
         msj.put("idChat", mensaje.getIdChat());
         msj.put("texto", mensaje.getTexto ());
@@ -730,6 +730,21 @@ public class ControladorBD {
 
         long comprobador = 0;
         comprobador = db.insert("MENSAJE", null, msj);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe warw mensaje con ese codigo ): ";
+        }
+        return resultado;
+    }
+    public String CrearChat(Chat chat) {
+        String resultado = "saquenme de venezuela por favor ";
+        ContentValues msj = new ContentValues();
+
+        msj.put("idUsuario", chat.getIdUsuario ());
+        msj.put("idUsuario2", chat.getIdUsuario2());
+
+
+        long comprobador = 0;
+        comprobador = db.insert("CHAT", null, msj);
         if (comprobador == -1 || comprobador == 0) {
             resultado = "oh, oh ya existe warw mensaje con ese codigo ): ";
         }
@@ -759,6 +774,29 @@ public class ControladorBD {
 
 
     }
+    public List<Chat> ConsultaChat(Chat chat) {
+
+        Cursor cur = db.rawQuery("select * from CHAT where IDCHAT =" + chat.getIdUsuario()+"AND IDUSUARIO2="+chat.getIdUsuario2() , null);
+        List<Chat> chatz = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+
+                chatz.add(new Chat (cur.getInt(0),
+                        cur.getString(1)
+                        ,cur.getString(2)
+                        ));
+            }while(cur.moveToNext ());
+
+            return chatz;
+
+
+        } else {
+            return null;
+        }
+
+
+    }
+
 
 
 
@@ -2025,6 +2063,22 @@ public class ControladorBD {
     public PedidoRealizado consultarPedReal(int idPedido, String idUsuario){
         String[] id = {String.valueOf(idPedido),idUsuario};
         Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido = ? and idUsuario = ?" + id, null);
+        //si existe pedidoRealizado
+        if(cursor.moveToFirst())
+        {
+            PedidoRealizado pedidoRealizado = new PedidoRealizado();
+            pedidoRealizado.setIdPedido(cursor.getInt(1));
+            pedidoRealizado.setIdUsuario(cursor.getString(2));
+            pedidoRealizado.setTipo(cursor.getString(3));
+            return pedidoRealizado;
+        }
+        else {
+            return null;
+        }
+    }
+    public PedidoRealizado consultarPedRealU(int idPedido){
+        String[] id = {String.valueOf(idPedido)};
+        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido = ?" + id, null);
         //si existe pedidoRealizado
         if(cursor.moveToFirst())
         {

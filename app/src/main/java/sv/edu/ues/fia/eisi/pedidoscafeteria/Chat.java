@@ -11,6 +11,11 @@ public class Chat{
         this.idUsuario = idUsuario;
         this.idUsuario2 = idUsuario2;
     }
+    public Chat( String idUsuario, String idUsuario2) {
+
+        this.idUsuario = idUsuario;
+        this.idUsuario2 = idUsuario2;
+    }
 
     public int getIdchat() {
         return idchat;

@@ -62,6 +62,7 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
                     break;
                 case R.id.chat:
                     Intent intent= new Intent(context, Chat2.class);
+                    intent.putExtra("id",IDpedido.getText());
                     context.startActivity(intent);
                     break;
             }

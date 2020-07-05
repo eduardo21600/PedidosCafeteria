@@ -3,6 +3,7 @@ package sv.edu.ues.fia.eisi.pedidoscafeteria;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -35,52 +36,115 @@ import java.util.Map;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
 
 public class Chat2 extends AppCompatActivity {
-
     //MessagesListAdapter<Message> adapter;
     RequestQueue requestQueue;
-
-    String resultado = "oh vaya, no crei que funcionara";
     private ListView LV;
     private TextView tx;
+    String resultado = "oh vaya, no crei que funcionara";
     private List<Chat> chats = new ArrayList<>();
     List<Mensaje> pps = new ArrayList<> ();
     String usu2 = "Fernando";
     SharedPreferences sharedPreferences;
     String usu ="";
     PedidoRealizado pedidoRealizado;
-    int puExtra = 1; //esto debe ser un putextra
+    PedidoAsignado pedidoAsignado;
+    int idPed;
+     //esto debe ser un putextra
     int ichat;
-
-
     AdaptadorMensaje mlP;
     List<Chat> chatito = new ArrayList<> ();
     ControladorBD controladorBD = new ControladorBD (this);
     String xa ="";
+    Usuario usuB;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         sharedPreferences = getApplicationContext().getSharedPreferences("validacion", 0);
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
-
+        Intent intent = getIntent();
+        String i = intent.getStringExtra("id");
+        Toast.makeText(this,"es este pedido"+ i, Toast.LENGTH_SHORT).show();
+        idPed = Integer.valueOf(i);
+        Toast.makeText(this,usu, Toast.LENGTH_SHORT).show();
         setContentView (R.layout.activity_chat);
         iniciarVista();
         LV = (ListView)findViewById(R.id.msm);
         tx = (TextView)findViewById(R.id.editText2);
         controladorBD.abrir ();
+        usuB =controladorBD.ConsultaUsuario(usu);
+        if(usuB.getIdTipoUsuario() ==2)
+        {
+            Toast.makeText(this, "todo bien", Toast.LENGTH_SHORT).show();
+            pedidoRealizado = controladorBD.consultarPedRealU(idPed);
+            if(!(pedidoRealizado == null))
+            {
+                usu2 = pedidoRealizado.getIdUsuario();
+                Toast.makeText(this,usu2, Toast.LENGTH_SHORT).show();
+            }else
+            {
+                Toast.makeText(this, "No tendrías que estar viendo esto ¿no creaste un pedidorealizado?", Toast.LENGTH_SHORT).show();
+            }
+
+        }else
+        {
+
+            Toast.makeText(this, "eres un cliente", Toast.LENGTH_SHORT).show();
+            pedidoAsignado = controladorBD.consultarPedAsig(idPed);
+            if(!(pedidoAsignado == null))
+            {
+                usu2 = pedidoRealizado.getIdUsuario();
+                Toast.makeText(this,usu2, Toast.LENGTH_SHORT).show();
+                usuB.setIdUsuario(usu);
+                usu = usu2;
+                usu2 = usuB.getIdUsuario();
+            }else
+            {
+                Toast.makeText(this, "No tendrías que estar viendo esto ¿no creaste un pedidorealizado?", Toast.LENGTH_SHORT).show();
+            }
 
 
-        pedidoRealizado = controladorBD.consultarPedRealU(puExtra);
-        usu2 = pedidoRealizado.getIdUsuario();
-        chats = controladorBD.ConsultaChat(new Chat(usu,usu2));
-        ichat = chats.get(0).getIdchat();
-        pps = controladorBD.ConsultaMensaje (1);
-        //pps = controladorBD.ConsultaMensaje (ichat);
+        }
+
+        //
+
+       chats = controladorBD.ConsultaChat(new Chat(usu,usu2));
+
+
+       if(!(chats == null)) {
+           ichat = chats.get(0).getIdchat();
+           Toast.makeText(this, String.valueOf(ichat), Toast.LENGTH_SHORT).show();
+           Toast.makeText(this, "No esta vacio", Toast.LENGTH_SHORT).show();
+       }else
+       {
+           String respuesta1 = controladorBD.CrearChat(new Chat(usu,usu2));
+           Toast.makeText(this, respuesta1, Toast.LENGTH_SHORT).show();
+           chats = controladorBD.ConsultaChat(new Chat(usu,usu2));
+           ichat = chats.get(0).getIdchat();
+
+       }
+        //Toast.makeText(this,String.valueOf(ichat), Toast.LENGTH_SHORT).show();
+
+        pps = controladorBD.ConsultaMensaje(ichat);
         controladorBD.cerrar();
+        if(pps == null)
+        {
+            controladorBD.abrir();
+            String m = controladorBD.CrearMensaje(new Mensaje(usu,ichat,"¿alguna duda sobre el pedido?","hoy"));
+            pps = controladorBD.ConsultaMensaje(ichat);
+            controladorBD.cerrar();
+            Toast.makeText(this, "Parece que no tienes mensajes", Toast.LENGTH_SHORT).show();
+        }
 
 
-        //Helper.cerrar();
         mlP = new AdaptadorMensaje (this,R.layout.chat_lista,pps);
         LV.setAdapter(mlP);
+
+
     }
 
     private void iniciarVista() {
@@ -101,11 +165,18 @@ public class Chat2 extends AppCompatActivity {
 
     //con este método creas un mensaje nuevo
     public void crearMensaje(View v)
-    {
+    { String m;
         controladorBD.abrir();
-        String m = controladorBD.CrearMensaje(new Mensaje(usu,chats.get(0).getIdchat(),String.valueOf(tx.getText()),"hoy"));
+        if(usuB.getIdTipoUsuario()==2)
+        {
+           m = controladorBD.CrearMensaje(new Mensaje(usu,ichat,"jaja","hoy")); //cambiar texto por el input
+        }else
+        {
+             m = controladorBD.CrearMensaje(new Mensaje(usu2,ichat,"jaja","hoy")); //cambiar texto por el input
+        }
+
         controladorBD.cerrar();
-        Toast.makeText(getApplicationContext(),m,Toast.LENGTH_SHORT); //mensaje de prueba
+        Toast.makeText(getApplicationContext(),m + " ¿se habrá creado?",Toast.LENGTH_SHORT); //mensaje de prueba
         tx.setText("");
     }
     public void BuscarChat(Chat chat)

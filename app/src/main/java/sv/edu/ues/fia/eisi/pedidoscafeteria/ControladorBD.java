@@ -721,8 +721,10 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
 
     public String CrearMensaje(Mensaje mensaje) {
         String resultado = "saquenme de venezuela por favor ";
+        int idMensaje = ultimoIdMensaje();
+        idMensaje= idMensaje+1;
         ContentValues msj = new ContentValues();
-
+        msj.put("IDMENSAJE",idMensaje);
         msj.put("idUsuario", mensaje.getIdUsuario ());
         msj.put("idChat", mensaje.getIdChat());
         msj.put("texto", mensaje.getTexto ());
@@ -735,20 +737,43 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
         }
         return resultado;
     }
+    public int ultimoIdMensaje()
+    {
+        Cursor cur = db.rawQuery("select * from MENSAJE where IDMENSAJE = (select max(IDMENSAJE) from MENSAJE);", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+
+        } else {
+            return 0;
+        }
+    }
+
     public String CrearChat(Chat chat) {
         String resultado = "saquenme de venezuela por favor ";
+        int idchat = ultimoIdChat();
+        idchat = idchat+1;
         ContentValues msj = new ContentValues();
-
-        msj.put("idUsuario", chat.getIdUsuario ());
-        msj.put("idUsuario2", chat.getIdUsuario2());
+        msj.put("IDCHAT",idchat);
+        msj.put("IDUSUARIO", chat.getIdUsuario());
+        msj.put("IDUSUARIO2", chat.getIdUsuario2());
 
 
         long comprobador = 0;
         comprobador = db.insert("CHAT", null, msj);
         if (comprobador == -1 || comprobador == 0) {
-            resultado = "oh, oh ya existe warw mensaje con ese codigo ): ";
+            resultado = "oh, oh ya existe un chat con ese codigo ): ";
         }
         return resultado;
+    }
+    public int ultimoIdChat()
+    {
+        Cursor cur = db.rawQuery("select * from CHAT where IDCHAT = (select max(IDCHAT) from CHAT);", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+
+        } else {
+            return 0;
+        }
     }
 
     public List<Mensaje> ConsultaMensaje(int idChat) {
@@ -776,7 +801,7 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
     }
     public List<Chat> ConsultaChat(Chat chat) {
 
-        Cursor cur = db.rawQuery("select * from CHAT where IDCHAT =" + chat.getIdUsuario()+"AND IDUSUARIO2="+chat.getIdUsuario2() , null);
+        Cursor cur = db.rawQuery("select * from CHAT where IDUSUARIO = '" + chat.getIdUsuario()+"' AND IDUSUARIO2='"+chat.getIdUsuario2()+"'" , null);
         List<Chat> chatz = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
@@ -1919,9 +1944,9 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
         return resultado;
     }
 
-    public PedidoAsignado consultarPedAsig(int idPedido, String idUsuario){
-        String[] id = {String.valueOf(idPedido),idUsuario};
-        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedido = ? and idUsuario = ?" + id, null);
+    public PedidoAsignado consultarPedAsig(int idPedido){
+        String id = String.valueOf(idPedido);
+        Cursor cursor = db.rawQuery("select * from PedidoAsignado where idPedido =" + id, null);
         //si existe pedidoAsignado
         if(cursor.moveToFirst())
         {
@@ -2077,16 +2102,17 @@ import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.AsignarProducto;public class Cont
         }
     }
     public PedidoRealizado consultarPedRealU(int idPedido){
-        String[] id = {String.valueOf(idPedido)};
-        Cursor cursor = db.rawQuery("select * from PedidoRealizado where idPedido = ?" + id, null);
+        String id = String.valueOf(idPedido);
+        Cursor cursor = db.rawQuery("select * from PEDIDOREALIZADO where IDPEDIDO=" + id, null);
         //si existe pedidoRealizado
         if(cursor.moveToFirst())
         {
             PedidoRealizado pedidoRealizado = new PedidoRealizado();
-            pedidoRealizado.setIdPedido(cursor.getInt(1));
-            pedidoRealizado.setIdUsuario(cursor.getString(2));
-            pedidoRealizado.setTipo(cursor.getString(3));
+            pedidoRealizado.setIdPedido(cursor.getInt(0));
+            pedidoRealizado.setIdUsuario(cursor.getString(1));
+            pedidoRealizado.setTipo(cursor.getString(2));
             return pedidoRealizado;
+
         }
         else {
             return null;

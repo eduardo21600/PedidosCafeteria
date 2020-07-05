@@ -157,6 +157,22 @@ public class ControladorBD {
                         "   ESTDISPONREPARTIDOR  varchar(20),\n" +
                         "   primary key (IDUSUARIO)\n" +
                         ");");
+                db.execSQL("create table MENSAJE\n" +
+                        "(\n" +
+                        "   IDMENSAJE            int not null,\n" +
+                        "   IDUSUARIO            varchar(30),\n" +
+                        "   IDCHAT               int,\n" +
+                        "   TEXTO                char(255) not null,\n" +
+                        "   FECHA                varchar(30),\n" +
+                        "   primary key (IDMENSAJE)\n" +
+                        ");");
+                db.execSQL("create table CHAT\n" +
+                        "(\n" +
+                        "   IDCHAT               int not null,\n" +
+                        "   IDUSUARIO            varchar(30),\n" +
+                        "   IDUSUARIO2           varchar(30),\n" +
+                        "   primary key (IDCHAT)\n" +
+                        ");");
 
 
             }catch(SQLException e)
@@ -698,6 +714,82 @@ public class ControladorBD {
             comprobador = db.delete("TipoUsuario", "idTipoUsuario =" + tipousuario.getIdTipoUsuario(), null);
         } else {
             resultado = "Ese tipo de usuario no existe";
+        }
+        return resultado;
+    }
+    //CHAT Y MENSAJERIA
+
+    public String CrearMensaje(Mensaje mensaje) {
+        String resultado = "saquenme de venezuela por favor ";
+        ContentValues msj = new ContentValues();
+        msj.put("idMensaje",mensaje.getIdMensaje ());
+        msj.put("idUsuario", mensaje.getIdUsuario ());
+        msj.put("idChat", mensaje.getIdChat());
+        msj.put("texto", mensaje.getTexto ());
+        msj.put("fecha", mensaje.getFecha ());
+
+        long comprobador = 0;
+        comprobador = db.insert("MENSAJE", null, msj);
+        if (comprobador == -1 || comprobador == 0) {
+            resultado = "oh, oh ya existe warw mensaje con ese codigo ): ";
+        }
+        return resultado;
+    }
+
+    public List<Mensaje> ConsultaMensaje(int idChat) {
+        //String[] id = {idTipoUsuario};
+        Cursor cur = db.rawQuery("select * from MENSAJE where IDCHAT =" + idChat, null);
+        List<Mensaje> mensaje = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+
+                mensaje.add(new Mensaje (cur.getInt(0),
+                 cur.getString(1)
+               ,cur.getInt(2)
+                ,cur.getString(3)
+               ,cur.getString(4)));
+            }while(cur.moveToNext ());
+
+            return mensaje;
+
+
+        } else {
+            return null;
+        }
+
+
+    }
+
+
+
+
+
+
+    public String eliminarMensaje(Mensaje mensaje) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " tipos de datos eliminados ";
+        String[] id = {String.valueOf(mensaje.getIdChat ())};
+        Cursor cur = db.query("MENSAJE", null, "IDCHAT = ?", id, null, null, null);
+        if (cur.moveToFirst()) {
+
+            comprobador = db.delete("MENSAJE", "IDCHAT =" + mensaje.getIdChat (), null);
+        } else {
+            resultado = "no logrado";
+        }
+        return resultado;
+    }
+    public String eliminarChat(Chat chat) {
+        int comprobador = 0;
+        int cont = 0;
+        String resultado = comprobador + " tipos de datos eliminados ";
+        String[] id = {chat.getIdUsuario (),chat.getIdUsuario2 ()};
+        Cursor cur = db.query("MENSAJE", null, "IDUSUARIO=? AND IDUSUARIO2=?", id, null, null, null);
+        if (cur.moveToFirst()) {
+
+            comprobador = db.delete("CHAT", "IDUSUARIO =" + chat.getIdUsuario ()+"AND IDUSUARIO2="+chat.getIdUsuario2 (), null);
+        } else {
+            resultado = "no logrado";
         }
         return resultado;
     }

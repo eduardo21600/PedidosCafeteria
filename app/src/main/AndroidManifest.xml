@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.menuCliente.allMenu"></activity>
+        <activity android:name=".Chat2"></activity>
+        <activity android:name=".ui.menuCliente.allMenu" />
         <activity android:name=".ui.ubicacionCliente.ModificarUbicacion" />
         <activity android:name=".ActualizarRepartidor" />
         <activity android:name=".ProductoAsignadoFinal" />

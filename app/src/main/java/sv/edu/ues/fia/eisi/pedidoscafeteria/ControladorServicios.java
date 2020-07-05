@@ -308,7 +308,7 @@ public class ControladorServicios{
                         e.printStackTrace();
                     }
 
-                }
+                } 
             }
 
         }, new Response.ErrorListener(){
@@ -946,35 +946,71 @@ public class ControladorServicios{
         requestQueue.add(jsonArrayRequest);
         return producto;
     }
-    public String Eliminar(final int IDMENU, Context context)
-    {
+    public String Eliminar(final int IDMENU, Context context) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLEAsig, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest (Request.Method.POST, URLEAsig, new Response.Listener<String> (){
             @Override
             public void onResponse(String response) {
 
-                resultado ="CONEXIÓN EXITOSA";
+                resultado = "CONEXIÓN EXITOSA";
 
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener (){
             @Override
             public void onErrorResponse(VolleyError error) {
-                resultado=error.toString();
+                resultado = error.toString ();
 
             }
-        }) {
+        }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> parametros =new HashMap<String,String>();
-                parametros.put("IDMENU", String.valueOf(IDMENU));
+                Map<String, String> parametros = new HashMap<String, String> ();
+                parametros.put ("IDMENU", String.valueOf (IDMENU));
 
 
                 return parametros;
             }
         };
-        requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-        return resultado;}
+        requestQueue = Volley.newRequestQueue (context);
+        requestQueue.add (stringRequest);
+        return resultado;
+    }
+
+      //CHAT
+
+        public List<Chat> BuscarCHAT(String Url, final Context context){
+        final List<Chat> chat = new ArrayList<>();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url, new Response.Listener<JSONArray>(){
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject=null;
+                for (int i = 0;i<response.length(); i++){
+                    try {
+
+                        jsonObject = response.getJSONObject(i);
+                        chat.add(new Chat (
+                                jsonObject.getInt ("IDCHAT"),
+                                jsonObject.getString("IDUSUARIO"),
+                                jsonObject.getString("IDUSUARIO2")));
+                        Toast.makeText (context,chat.get (i).getIdUsuario (),Toast.LENGTH_SHORT).show ();
+                    }catch (JSONException e)
+                    {
+                        Toast.makeText (context,e.getMessage (),Toast.LENGTH_SHORT).show ();
+                    }
+                }callback.ResponseWS(chat);
+               }
+          },new Response.ErrorListener(){
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText (context,"ERROR EN CONEXION",Toast.LENGTH_SHORT).show ();
+            }
+        });
+        RequestQueue requestQueue=Volley.newRequestQueue (context);
+        requestQueue.add (jsonArrayRequest);
+        return chat;}
+
+
 
 
 

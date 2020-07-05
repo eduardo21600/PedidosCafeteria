@@ -76,7 +76,6 @@ public class PedidosR extends Fragment  {
         // Inflate the layout for this fragment
         return v;
     }
-
    // @Override
   /*  public void ResponseWS(Object lista)
     {

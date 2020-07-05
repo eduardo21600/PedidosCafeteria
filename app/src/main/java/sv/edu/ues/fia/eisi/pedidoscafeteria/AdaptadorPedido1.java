@@ -16,13 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.ViewHolder> {
+public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.ViewHolder> implements View.OnClickListener{
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context context;
         private TextView IDpedido;
         private TextView precio;
         private CardView cdP;
+        private Button chat;
 
 
         public ViewHolder(View itemView)
@@ -32,11 +39,14 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
             IDpedido=(TextView)itemView.findViewById(R.id.txtIDpedido);
             precio=(TextView)itemView.findViewById(R.id.txtprecio);
             cdP=(CardView)itemView.findViewById(R.id.idCardViewPedidoR);
+            chat=(Button)itemView.findViewById (R.id.chat);
+
 
         }
         void setOnClickListener()
         {
            cdP.setOnClickListener(this);
+           chat.setOnClickListener(this);
 
         }
 
@@ -50,8 +60,10 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
                     intentn.putExtra("id",IDpedido.getText());
                     context.startActivity(intentn);
                     break;
-
-
+                case R.id.chat:
+                    Intent intent= new Intent(context, Chat2.class);
+                    context.startActivity(intent);
+                    break;
             }
         }
     }
@@ -76,9 +88,11 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
         holder.setOnClickListener();
     }
 
-
     @Override
     public int getItemCount(){
         return pedidoLista.size();
     }
+
 }
+
+

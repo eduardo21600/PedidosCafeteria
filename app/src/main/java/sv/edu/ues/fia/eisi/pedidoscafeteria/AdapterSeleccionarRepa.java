@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,7 +46,13 @@ public class AdapterSeleccionarRepa extends RecyclerView.Adapter<AdapterSeleccio
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSeleccionarRepa.SeleccRepartidorViewHolder holder, final int position) {
-        holder.imageView.setImageResource(R.drawable.job);
+        String imageUri = "https://dv17003servicios.000webhostapp.com/uploads/"+datos.get(position).getIdUsuario()+"_usuario.jpg";
+        Picasso.get().load(imageUri)
+                .placeholder(R.drawable.job)
+                .error(R.drawable.error)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(holder.imageView);
         holder.tvIdRepa.setText(String.valueOf(datos.get(position).getIdUsuario()));
         holder.tvNombre.setText(datos.get(position).getNombreUsuario());
         holder.tvTelefono.setText(datos.get(position).getTeleUsuario());
@@ -56,6 +65,7 @@ public class AdapterSeleccionarRepa extends RecyclerView.Adapter<AdapterSeleccio
                         .setTitle("Asignar Repartidor")
                         .setMessage("¿Esta seguro que quiere asignar este repartidor para la entrega de este pedido? Esta acción no puede cambiarse")
                         .setCancelable(false)
+                        .setAnimation(R.raw.alert)
                         .setPositiveButton("Asignar", new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {

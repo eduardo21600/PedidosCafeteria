@@ -116,6 +116,7 @@ public class detallePedidoEnc extends AppCompatActivity implements CallbackWS, C
                             .setTitle("Finalizar pedido")
                             .setMessage("¿Esta seguro que quiere terminar el pedido? Esta acción no puede cambiarse")
                             .setCancelable(false)
+                            .setAnimation(R.raw.confirmar)
                             .setPositiveButton("Finalizar", new MaterialDialog.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int which) {

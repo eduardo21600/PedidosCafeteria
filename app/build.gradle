@@ -65,4 +65,7 @@ dependencies {
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.stfalcon:chatkit:0.3.3'
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }

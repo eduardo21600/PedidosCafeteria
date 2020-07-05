@@ -40,6 +40,7 @@ import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorBD;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ControladorServicios;
+import sv.edu.ues.fia.eisi.pedidoscafeteria.MapsActivity;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.R;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.Ubicacion;
 import sv.edu.ues.fia.eisi.pedidoscafeteria.ui.nuevaDIreccion.agregarDireccion;
@@ -63,6 +64,7 @@ public class ModificarUbicacion extends AppCompatActivity {
     int SEARCH_IMAGE_REQUEST = 1, REQUEST_TAKE_PHOTO = 2; //codigo para la activity de seleccionar archivo y su resultado
     SoundPool sp;
     int sonido,incorrecto;
+    private int SECOND_ACTIVITY=10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +129,12 @@ public class ModificarUbicacion extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                //Iniciar actividad de mapa
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent.putExtra("latitud",latitud);
+                intent.putExtra("longitud",longitud);
+                startActivityForResult(intent, SECOND_ACTIVITY);
             }
         });
 
@@ -284,6 +292,32 @@ public class ModificarUbicacion extends AppCompatActivity {
         else
         {
             //no se seleccionó una foto, pueden poner aquí lo que les de la gana
+        }
+
+        if(requestCode == SECOND_ACTIVITY && resultCode == RESULT_OK){
+            Geocoder g = new Geocoder(getApplicationContext());
+            latitud = data.getDoubleExtra("nuevaLatitud",latitud);
+            longitud = data.getDoubleExtra("nuevaLongitud",longitud);
+            try {
+                List<Address> addresses = g.getFromLocation(latitud, longitud, 1);
+                if (addresses != null) {
+                    Address returnedAddress = addresses.get(0);
+                    StringBuilder strReturnedAddress = new StringBuilder("");
+
+                    for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                        strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                    }
+                    dirUbicacion.setText("");
+                    dirUbicacion.setText(strReturnedAddress.toString());
+
+                }
+                else
+                {
+                    FancyToast.makeText(getApplicationContext(), getResources().getString(R.string.no_se_pudo_ubicacion), FancyToast.LENGTH_SHORT, FancyToast.INFO, R.drawable.error, false).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

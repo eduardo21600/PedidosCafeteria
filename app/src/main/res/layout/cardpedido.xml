@@ -113,6 +113,7 @@
                         android:layout_weight="1"
                         android:text="Chat"
                         android:textSize="20sp"
+                        android:textStyle="bold"
                         />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

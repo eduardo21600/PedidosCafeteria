@@ -129,7 +129,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
                 Pedido pedido = controladorBD.consultarPedidoDetalle(mDet.get(position).getIdDetallePedido()).get(0);
                 controladorBD.cerrar();
                 Intent intent = new Intent(mContext, Chat2.class);
-                intent.putExtra("id", pedido.getIdPedido());
+                intent.putExtra("id", String.valueOf (pedido.getIdPedido()));
                 //Toast.makeText(mContext, "IDPEDIDO: "+ pedido.getIdPedido(), Toast.LENGTH_SHORT).show();
                 mContext.startActivity(intent);
             }

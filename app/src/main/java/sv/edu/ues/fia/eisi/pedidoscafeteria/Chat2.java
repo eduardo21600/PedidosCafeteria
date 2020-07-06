@@ -43,7 +43,7 @@ public class Chat2 extends AppCompatActivity {
     String resultado = "oh vaya, no crei que funcionara";
     private List<Chat> chats = new ArrayList<>();
     List<Mensaje> pps = new ArrayList<> ();
-    String usu2 = "Fernando";
+    String usu2 = "";
     SharedPreferences sharedPreferences;
     String usu ="";
     PedidoRealizado pedidoRealizado;
@@ -66,7 +66,7 @@ public class Chat2 extends AppCompatActivity {
         Intent intent = getIntent();
         String i = intent.getStringExtra("id");
         Toast.makeText(this,"es este pedido"+ i, Toast.LENGTH_SHORT).show();
-        idPed = Integer.valueOf(i);
+        idPed = Integer.parseInt(i);
         Toast.makeText(this,usu, Toast.LENGTH_SHORT).show();
         setContentView (R.layout.activity_chat);
         iniciarVista();
@@ -74,10 +74,11 @@ public class Chat2 extends AppCompatActivity {
         tx = (TextView)findViewById(R.id.editText2);
         controladorBD.abrir ();
         usuB =controladorBD.ConsultaUsuario(usu);
+        pedidoRealizado = controladorBD.consultarPedRealU(idPed);
         if(usuB.getIdTipoUsuario() ==2)
         {
             Toast.makeText(this, "todo bien", Toast.LENGTH_SHORT).show();
-            pedidoRealizado = controladorBD.consultarPedRealU(idPed);
+
             if(!(pedidoRealizado == null))
             {
                 usu2 = pedidoRealizado.getIdUsuario();
@@ -89,7 +90,6 @@ public class Chat2 extends AppCompatActivity {
 
         }else
         {
-
             Toast.makeText(this, "eres un cliente", Toast.LENGTH_SHORT).show();
             pedidoAsignado = controladorBD.consultarPedAsig(idPed);
             if(!(pedidoAsignado == null))
@@ -105,7 +105,7 @@ public class Chat2 extends AppCompatActivity {
             }
         }
 
-        
+
        chats = controladorBD.ConsultaChat(new Chat(usu,usu2));
 
 

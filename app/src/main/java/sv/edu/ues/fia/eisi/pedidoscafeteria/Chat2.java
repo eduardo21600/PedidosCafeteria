@@ -103,11 +103,9 @@ public class Chat2 extends AppCompatActivity {
             {
                 Toast.makeText(this, "No tendrías que estar viendo esto ¿no creaste un pedidorealizado?", Toast.LENGTH_SHORT).show();
             }
-
         }
 
-        //
-
+        
        chats = controladorBD.ConsultaChat(new Chat(usu,usu2));
 
 

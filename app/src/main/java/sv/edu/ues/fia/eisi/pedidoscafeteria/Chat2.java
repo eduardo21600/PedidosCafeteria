@@ -58,9 +58,6 @@ public class Chat2 extends AppCompatActivity {
     Usuario usuB;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -106,8 +103,7 @@ public class Chat2 extends AppCompatActivity {
             {
                 Toast.makeText(this, "No tendrías que estar viendo esto ¿no creaste un pedidorealizado?", Toast.LENGTH_SHORT).show();
             }
-
-
+            
         }
 
         //
@@ -150,11 +146,13 @@ public class Chat2 extends AppCompatActivity {
     private void iniciarVista() {
         MessageInput inputView = findViewById(R.id.input);
         ListView messagesList = findViewById (R.id.msm);
+
         inputView.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
                 //validate and send message
               //  adapter.addToStart(mensaje, true);
+                crearMensaje(input.toString ());
                 return true;
             }
         });
@@ -164,15 +162,15 @@ public class Chat2 extends AppCompatActivity {
     }
 
     //con este método creas un mensaje nuevo
-    public void crearMensaje(View v)
+    public void crearMensaje(String text)
     { String m;
         controladorBD.abrir();
         if(usuB.getIdTipoUsuario()==2)
         {
-           m = controladorBD.CrearMensaje(new Mensaje(usu,ichat,"jaja","hoy")); //cambiar texto por el input
+           m = controladorBD.CrearMensaje(new Mensaje(usu,ichat,text,"hoy")); //cambiar texto por el input
         }else
         {
-             m = controladorBD.CrearMensaje(new Mensaje(usu2,ichat,"jaja","hoy")); //cambiar texto por el input
+             m = controladorBD.CrearMensaje(new Mensaje(usu2,ichat,text,"hoy")); //cambiar texto por el input
         }
 
         controladorBD.cerrar();

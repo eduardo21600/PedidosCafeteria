@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shreyaspatil.MaterialDialog.AbstractDialog;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sv.edu.ues.fia.eisi.pedidoscafeteria.callbacks.CallbackWS;
@@ -29,10 +31,12 @@ public class DetallePedidoRep extends AppCompatActivity {
     private Menu menu;
     private PedidoRealizado pediReal;
     private PedidoAsignado pedidoAsignado;
-    private Usuario usuario;
+    private Usuario usuario,usuario2;
     private Ubicacion ubic;
     private Button marcar;
     private DetallePedido detallePedido;
+    List<Chat> chat=new ArrayList<> ();
+    List<Mensaje> mensajes=new ArrayList<> ();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,16 @@ public class DetallePedidoRep extends AppCompatActivity {
         pediReal = bd.consultarPedRealIdP(String.valueOf(ped.getIdPedido()));
         pedidoAsignado = bd.consultarPedAsigID(String.valueOf(ped.getIdPedido()));
         usuario = bd.ConsultaUsuario(pedidoAsignado.getIdUsuario());
+        usuario2=bd.ConsultaUsuario (pediReal.getIdUsuario ());
+        chat= bd.ConsultaChat(new Chat(usuario.getIdUsuario (),usuario2.getIdUsuario ()));
+        if(!(chat==null)){
+            mensajes=bd.ConsultaMensaje(chat.get(0).getIdchat());
+        }
+        else
+        {
+            Toast.makeText(this, "No hay mensajes :c", Toast.LENGTH_SHORT).show();
+        }
+
 
         if(ped == null)
         {
@@ -80,6 +94,7 @@ public class DetallePedidoRep extends AppCompatActivity {
         builder.setTitle("Finalizar pedido");
         builder.setMessage("¿Esta seguro que quiere terminar el pedido? Esta acción no puede cambiarse");
         builder.setCancelable(false);
+        builder.setAnimation(R.raw.confirmar);
         builder.setPositiveButton("Finalizar", new MaterialDialog.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
@@ -95,6 +110,9 @@ public class DetallePedidoRep extends AppCompatActivity {
                     bd.actualizar(ped);
                     bd.actualizarUsuario(usuario);
                     bd.eliminar(pedidoAsignado);
+                    for (int i =0; i<mensajes.size ();i++){
+                        bd.eliminarMensaje(mensajes.get(i));
+                    }
                     bd.cerrar();
                     dialogInterface.dismiss();
                 }
@@ -108,9 +126,9 @@ public class DetallePedidoRep extends AppCompatActivity {
             }
         });
         MaterialDialog mDialog = builder
-                    .build();
+                .build();
 
-            // Show Dialog
-            mDialog.show();
-        }
+        // Show Dialog
+        mDialog.show();
+    }
 }

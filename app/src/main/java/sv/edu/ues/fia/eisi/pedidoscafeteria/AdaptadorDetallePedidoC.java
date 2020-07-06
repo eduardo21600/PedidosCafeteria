@@ -123,9 +123,9 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
             public void onClick(View v) {
                 controladorBD.abrir();
                 Pedido pedido = controladorBD.consultarPedidoDetalle(mDet.get(position).getIdDetallePedido()).get(0);
-                controladorBD.abrir();
+                controladorBD.cerrar();
                 Intent intent = new Intent(mContext, Chat2.class);
-                intent.putExtra("idpedido", pedido.getIdPedido());
+                intent.putExtra("id", pedido.getIdPedido());
                 //Toast.makeText(mContext, "IDPEDIDO: "+ pedido.getIdPedido(), Toast.LENGTH_SHORT).show();
                 mContext.startActivity(intent);
             }
@@ -144,7 +144,8 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         private TextView tv_cantidad;
         private TextView tv_subtotal;
         private ImageView iv_imagen;
-        private ImageButton eleminarPedido, chat;
+        private ImageButton eleminarPedido;
+        private Button chat;
         private int idMenu;
 
         public viewHolder(@NonNull View itemView) {
@@ -155,7 +156,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
             tv_subtotal = (TextView) itemView.findViewById(R.id.subtotal_pedido_c);
             iv_imagen = (ImageView) itemView.findViewById(R.id.imagen_pedido_c);
             eleminarPedido = (ImageButton) itemView.findViewById(R.id.eliminar_pedido_c);
-            chat = (ImageButton) itemView.findViewById(R.id.chat_pedido_c);
+            chat = (Button) itemView.findViewById(R.id.chat_pedido_c);
         }
     }
 

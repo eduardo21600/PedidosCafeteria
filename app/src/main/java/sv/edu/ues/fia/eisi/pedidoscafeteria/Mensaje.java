@@ -1,5 +1,8 @@
 package sv.edu.ues.fia.eisi.pedidoscafeteria;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Mensaje{
     private int idMensaje;
     private String idUsuario;
@@ -20,7 +23,7 @@ public class Mensaje{
         this.idUsuario = idUsuario;
         this.idChat = idChat;
         this.texto = texto;
-        this.fecha = fecha;
+        this.fecha = new SimpleDateFormat("dd/MM/yy-hh:mm").format(new Date());;
     }
 
     public int getIdMensaje() {

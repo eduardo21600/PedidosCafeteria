@@ -5,12 +5,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +36,7 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
             IDpedido=(TextView)itemView.findViewById(R.id.txtIDpedido);
             precio=(TextView)itemView.findViewById(R.id.txtprecio);
             cdP=(CardView)itemView.findViewById(R.id.idCardViewPedidoR);
-            chat=(Button)itemView.findViewById (R.id.chat);
+            chat=(Button)itemView.findViewById (R.id.chat_pedido_c);
 
 
         }
@@ -60,7 +57,7 @@ public class AdaptadorPedido1 extends RecyclerView.Adapter<AdaptadorPedido1.View
                     intentn.putExtra("id",IDpedido.getText());
                     context.startActivity(intentn);
                     break;
-                case R.id.chat:
+                case R.id.chat_pedido_c:
                     Intent intent= new Intent(context, Chat2.class);
                     intent.putExtra("id",IDpedido.getText());
                     context.startActivity(intent);

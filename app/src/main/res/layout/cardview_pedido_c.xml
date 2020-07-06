@@ -49,12 +49,12 @@
 
     </TableLayout>
 
-        <ImageButton
-            android:id="@+id/chat_pedido_c"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/chat"
-            android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/chat_pedido_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Button" />
 
     <ImageButton
         android:id="@+id/eliminar_pedido_c"

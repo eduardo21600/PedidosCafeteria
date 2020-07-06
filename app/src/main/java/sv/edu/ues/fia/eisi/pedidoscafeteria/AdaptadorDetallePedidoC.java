@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.media.Image;
+import android.media.SoundPool;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
     private ControladorBD controladorBD;
     SharedPreferences sharedPreferences;
     String usu;
+    SoundPool sp;
+    int exito;
 
     public AdaptadorDetallePedidoC(Context mContext, List<DetallePedido> mDet) {
         this.mContext = mContext;
@@ -41,6 +45,8 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         controladorBD = new ControladorBD(mContext);
         sharedPreferences = mContext.getSharedPreferences("validacion", 0);
         usu = sharedPreferences.getString("nombreUsuario", "No Name");
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        exito = sp.load(mContext,R.raw.audio_eliminar,1);
     }
 
     @NonNull
@@ -99,10 +105,8 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
                                 if(resultado.equals("Se elimino pedidoRealizado"))
                                 {
                                     resultado = controladorBD.eliminar(pedidoABorrar.get(0));
-                                    if(resultado.equals("Se elimino el pedido: "+pedidoABorrar.get(0).getIdPedido()))
-                                    {
-                                        FancyToast.makeText(mContext, mContext.getResources().getString(R.string.cancelado), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
-                                    }
+                                    FancyToast.makeText(mContext, mContext.getResources().getString(R.string.cancelado), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.exito, false).show();
+                                    sp.play(exito,1,1,1,0,0);
                                 }
                                 controladorBD.cerrar();
                             }

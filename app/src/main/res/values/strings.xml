@@ -184,4 +184,5 @@
     <string name="buscar_menu">Buscar:</string>
     <string name="ingrese_menu">Ingrese búsqueda</string>
     <string name="buscar_menu_btn">Buscar</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

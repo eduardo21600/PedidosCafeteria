@@ -24,34 +24,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.073" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Button"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintStart_toEndOf="@+id/editText2"
-        app:layout_constraintTop_toBottomOf="@+id/msm" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msm" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="411dp"
+        android:layout_marginBottom="603dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="385dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_begin="411dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline18"

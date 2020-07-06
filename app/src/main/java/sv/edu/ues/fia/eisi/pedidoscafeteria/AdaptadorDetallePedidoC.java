@@ -149,7 +149,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
         private TextView tv_subtotal;
         private ImageView iv_imagen;
         private ImageButton eleminarPedido;
-        private Button chat;
+        private ImageButton chat;
         private int idMenu;
 
         public viewHolder(@NonNull View itemView) {
@@ -160,7 +160,7 @@ public class AdaptadorDetallePedidoC extends RecyclerView.Adapter<AdaptadorDetal
             tv_subtotal = (TextView) itemView.findViewById(R.id.subtotal_pedido_c);
             iv_imagen = (ImageView) itemView.findViewById(R.id.imagen_pedido_c);
             eleminarPedido = (ImageButton) itemView.findViewById(R.id.eliminar_pedido_c);
-            chat = (Button) itemView.findViewById(R.id.chat_pedido_c);
+            chat = (ImageButton) itemView.findViewById(R.id.chat_pedido_c);
         }
     }
 
